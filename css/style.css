@@ -320,13 +320,13 @@ body {
 .mobile-header-tag-container #mobile-header-container-tags .color1,
 #sidebar-menu-box-tags .color1,
 #sidebar-menu-box-categories .color1 {
-  background: #0cc;
+  background: #e99;
 }
 .article-footer-tags .color1:before,
 .mobile-header-tag-container #mobile-header-container-tags .color1:before,
 #sidebar-menu-box-tags .color1:before,
 #sidebar-menu-box-categories .color1:before {
-  border-right-color: #0cc;
+  border-right-color: #e99;
 }
 .article-footer-tags .color2,
 .mobile-header-tag-container #mobile-header-container-tags .color2,
@@ -443,7 +443,7 @@ body {
   display: inline-block;
   vertical-align: top;
   font-weight: 600;
-  color: #fff;
+  color: #000;
   line-height: 44px;
   -webkit-transition: all 0.5s;
   transition: all 0.5s;
@@ -459,11 +459,11 @@ body {
   text-decoration: none;
 }
 #header-menu .header-menu-container #header-menu-nav a i {
-  color: #fff;
+  color: #000;
   font-size: 18px;
 }
 #header-menu .header-menu-container #header-menu-nav a span {
-  color: #fff;
+  color: #000;
   font-size: 15px;
   letter-spacing: 1px;
   -webkit-transition: all 0.5s;
@@ -590,13 +590,13 @@ body {
   position: relative;
 }
 .header-nav .social a:hover {
-  color: #0cc;
+  color: #e99;
 }
 .header-nav .social a:hover:after {
   right: -50%;
   top: -41px;
   color: #fff;
-  background: #0cc;
+  background: #e99;
   font-size: 14px;
   content: attr(title);
   display: block;
@@ -612,7 +612,7 @@ body {
   top: -17px;
   right: 8px;
   border: solid;
-  border-color: #0cc transparent;
+  border-color: #e99 transparent;
   border-width: 5px 5px 0 5px;
   content: "";
   display: block;
@@ -915,11 +915,11 @@ body {
   transition: all 0.3s;
 }
 .article-title:hover {
-  color: #0cc;
+  color: #e99;
   padding-left: 8px;
 }
 .article-header .header-cate {
-  background: #0cc;
+  background: #e99;
   position: absolute;
   display: inline-block;
   padding: 8px;
@@ -1037,7 +1037,7 @@ body {
 .article-entry blockquote {
   position: relative;
   padding: 1px 20px;
-  border-left: 4px solid #0cc;
+  border-left: 4px solid #e99;
   color: #6e6e6e;
   background: #f5f5f5;
   font-size: 14px;
@@ -1131,13 +1131,13 @@ body {
   display: inline-block;
   margin-right: 5px;
   padding: 0 5px;
-  border: 1px solid #0cc;
+  border: 1px solid #e99;
   font-size: 12px;
-  color: #0cc;
+  color: #e99;
   cursor: pointer;
 }
 .article-entry .article-tags ul a:hover {
-  background: #0cc;
+  background: #e99;
   color: #fff;
 }
 .article-more-link {
@@ -1145,7 +1145,7 @@ body {
   padding: 8px 20px;
   border: 0;
   border-radius: 0;
-  background: #0cc;
+  background: #e99;
   box-shadow: 0 3px 10px rgba(0,0,0,0.06), 0 3px 10px rgba(0,0,0,0.13);
   -webkit-transition: all 0.1s;
   transition: all 0.1s;
@@ -1286,7 +1286,7 @@ body {
   display: block;
 }
 .article-nav-link-wrap:hover {
-  color: #0cc;
+  color: #e99;
 }
 @media screen and (min-width: 768px) {
   .article-nav-link-wrap {
@@ -1512,7 +1512,7 @@ body {
   height: 7px;
   content: '';
   border-radius: 50%;
-  background-color: #0cc;
+  background-color: #e99;
 }
 .post-toc-child {
   padding-left: 10px;
@@ -1539,7 +1539,7 @@ body {
 }
 .post-toc-link:hover {
   opacity: 0.8;
-  color: #0cc;
+  color: #e99;
 }
 .post-toc-link:before,
 .post-toc-link:after {
@@ -1560,7 +1560,7 @@ body {
   padding: 10px 0 30px 20px;
   word-break: break-all;
   color: #727272;
-  background: #f0ffff;
+  background: #fefafa;
   border-radius: 10px;
 }
 .post-copyright .content p {
@@ -1578,7 +1578,7 @@ body {
   height: 28px;
   line-height: 28px;
   color: #727272;
-  background: #f0ffff;
+  background: #fefafa;
   border-radius: 14px;
 }
 .post-copyright footer a:hover {
@@ -1658,7 +1658,7 @@ body {
   font-size: 18px;
 }
 .archive-article-title:hover {
-  color: #0cc;
+  color: #e99;
 }
 .archive-article-footer {
   margin-top: 1em;
@@ -1705,7 +1705,7 @@ body {
 }
 #page-nav a:hover {
   color: #fff;
-  background: #0cc;
+  background: #e99;
 }
 #page-nav .page-number {
   display: inline-block;
@@ -1718,7 +1718,7 @@ body {
 #page-nav .current {
   font-weight: bold;
   color: #fff;
-  background: #0cc;
+  background: #e99;
 }
 #page-nav .space {
   color: #ddd;
@@ -2260,7 +2260,7 @@ pre .javascript .function {
   text-align: center;
   line-height: 48px;
   border-radius: 50%;
-  background: #0cc;
+  background: #e99;
   color: #fff;
   margin-bottom: 5px;
   -webkit-transition: 0.4s ease-in-out;
@@ -2299,7 +2299,7 @@ pre .javascript .function {
   text-decoration: none !important;
 }
 .sidebar-menu-box .sidebar-menu-box-close:hover {
-  color: #0cc !important;
+  color: #e99 !important;
 }
 #sidebar-menu-box-tags {
   display: inline-block;
@@ -2394,7 +2394,7 @@ pre .javascript .function {
   background: #e8e8e8;
 }
 .search-wrap #search-submit {
-  color: #0cc;
+  color: #e99;
   width: 33px;
   height: 33px;
   position: absolute;
@@ -2421,7 +2421,7 @@ pre .javascript .function {
   cursor: pointer;
 }
 .search-wrap .search-close:hover {
-  background: #0cc;
+  background: #e99;
   color: #fff;
 }
 .search-container {
@@ -2465,7 +2465,7 @@ pre .javascript .function {
   border-bottom: 1px solid #dadada;
 }
 .search-result .search-result-item .search-item-li {
-  color: #0cc;
+  color: #e99;
   text-decoration: none;
   font-size: 16px;
 }
@@ -2508,7 +2508,7 @@ pre .javascript .function {
   color: #999;
 }
 .post-title-bar ul li a:hover {
-  color: #0cc;
+  color: #e99;
 }
 .post-content {
   background: #fff;
@@ -2786,7 +2786,7 @@ pre .javascript .function {
   width: 42px;
   height: 42px;
   line-height: 42px;
-  color: #0cc !important;
+  color: #e99 !important;
   background: #eceef8;
   text-align: center;
   border-radius: 50%;
@@ -2875,7 +2875,7 @@ pre .javascript .function {
   top: -32px;
   right: -2px;
   color: #fff;
-  background: #0cc;
+  background: #e99;
   font-size: 14px;
   content: attr(data-title);
   display: block;
@@ -2891,7 +2891,7 @@ pre .javascript .function {
   top: -7px;
   right: 12px;
   border: solid;
-  border-color: #0cc transparent;
+  border-color: #e99 transparent;
   border-width: 5px 5px 0 5px;
   content: "";
   display: block;
@@ -2992,7 +2992,7 @@ pre .javascript .function {
   text-align: center;
   border-radius: 50%;
   display: inline-block;
-  background: #0cc;
+  background: #e99;
   text-decoration: none;
   box-shadow: 0 2px 5px 0 rgba(0,0,0,0.16), 0 2px 10px 0 rgba(0,0,0,0.12);
   -webkit-transition: 0.3s ease-in-out;
