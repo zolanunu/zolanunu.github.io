@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>mysql必知必会学习笔记一 | zolanunu</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+    <meta name="keywords" content="zolanunu,zolanunu's blog" />
+  
+  <meta name="description" content="mysql 检索数据select 语句12345678910111213141516171819202122232425SELECT * FROM table_name; /*检索所有列*/SELECT column_name FROM table_name;/*检索出来的数据顺序随机*/-- sql关键字大写，对所有表名字和列小写，SQL不区分大小写SELECT DISTINCT column_">
+<meta name="keywords" content="MySQL">
+<meta property="og:type" content="article">
+<meta property="og:title" content="mysql必知必会学习笔记一">
+<meta property="og:url" content="http://zhangbuzola.cn/2017/11/23/mysql_must1/index.html">
+<meta property="og:site_name" content="zolanunu">
+<meta property="og:description" content="mysql 检索数据select 语句12345678910111213141516171819202122232425SELECT * FROM table_name; /*检索所有列*/SELECT column_name FROM table_name;/*检索出来的数据顺序随机*/-- sql关键字大写，对所有表名字和列小写，SQL不区分大小写SELECT DISTINCT column_">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2018-07-12T06:16:51.128Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="mysql必知必会学习笔记一">
+<meta name="twitter:description" content="mysql 检索数据select 语句12345678910111213141516171819202122232425SELECT * FROM table_name; /*检索所有列*/SELECT column_name FROM table_name;/*检索出来的数据顺序随机*/-- sql关键字大写，对所有表名字和列小写，SQL不区分大小写SELECT DISTINCT column_">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="/js/pace.min.js"></script>
+  
+
+  
+	<script>
+	var _hmt = _hmt || [];
+	(function() {
+	  var hm = document.createElement("script");
+	  hm.src = "//hm.baidu.com/hm.js?a651034b7d11a367ae836642b29a3057";
+	  var s = document.getElementsByTagName("script")[0]; 
+	  s.parentNode.insertBefore(hm, s);
+	})();
+	</script>
+
+  
+
+</head>
+
+<body>
+  <div id="container">
+      <header id="header">
+    <div id="banner"></div>
+    <div id="header-outer">
+        <div id="header-menu" class="header-menu-pos animated">
+            <div class="header-menu-container">
+                <a href="/" class="left">
+                    <span class="site-title">zolanunu&#39;s Blog</span>
+                </a>
+                <nav id="header-menu-nav" class="right">
+                    
+                    <a  href="/">
+                        <i class="fa fa-home"></i>
+                        <span>Home</span>
+                    </a>
+                    
+                    <a  href="/archives">
+                        <i class="fa fa-archive"></i>
+                        <span>Archives</span>
+                    </a>
+                    
+                    <a  href="/about">
+                        <i class="fa fa-user"></i>
+                        <span>About</span>
+                    </a>
+                    
+                </nav>
+                <a class="mobile-header-menu-button">
+                    <i class="fa fa-bars"></i>
+                </a>
+            </div>
+        </div>
+        <div id="header-row">
+            <div id="logo">
+                <a href="/">
+                    <img src="/images/pacman.jpg" alt="logo">
+                </a>
+            </div>
+            <div class="header-info">
+                <div id="header-title">
+                    
+                    <h2>
+                        zolanunu&#39;s Blog
+                    </h2>
+                    
+                </div>
+                <div id="header-description">
+                    
+                    <h3>
+                        去努力尝试做一些你觉得你不会做或者不敢做的事情。
+                    </h3>
+                    
+                </div>
+            </div>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a title="zolanunu" target="_blank" href="//zhangbuzola.cn">
+                            <i class="fa fa-home fa-2x"></i></a>
+                    
+                        <a title="Github" target="_blank" href="//github.com/zolanunu">
+                            <i class="fa fa-github fa-2x"></i></a>
+                    
+                        <a title="Weibo" target="_blank" href="//weibo.com/zolanunu">
+                            <i class="fa fa-weibo fa-2x"></i></a>
+                    
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>
+      <div class="outer">
+        <section id="main" class="body-wrap"><article id="post-mysql_must1" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="post-title" itemprop="name">
+      mysql必知必会学习笔记一
+    </h1>
+    <div class="post-title-bar">
+      <ul>
+          
+              <li>
+                  <i class="fa fa-book"></i>
+                  
+                      <a href="/categories/数据库/">数据库</a>
+                  
+              </li>
+          
+        <li>
+          <i class="fa fa-calendar"></i>  2017-11-23
+        </li>
+        <li>
+          <i class="fa fa-eye"></i>
+          <span id="busuanzi_value_page_pv"></span>
+        </li>
+      </ul>
+    </div>
+  
+
+          
+      </header>
+    
+    <div class="article-entry post-content" itemprop="articleBody">
+      
+            
+            <h1 id="mysql-检索数据"><a href="#mysql-检索数据" class="headerlink" title="mysql 检索数据"></a>mysql 检索数据</h1><h2 id="select-语句"><a href="#select-语句" class="headerlink" title="select 语句"></a>select 语句</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">SELECT * FROM table_name; /*检索所有列*/</span><br><span class="line"></span><br><span class="line">SELECT column_name FROM table_name;/*检索出来的数据顺序随机*/</span><br><span class="line">-- sql关键字大写，对所有表名字和列小写，SQL不区分大小写</span><br><span class="line"></span><br><span class="line">SELECT DISTINCT column_name FROM table_name; /*返回不同值，执行mysql返回不多于5行*/</span><br><span class="line">-- 带一个值的LIMIT总是从第一行开始，给出的数为返回的行数</span><br><span class="line"></span><br><span class="line">SELECT column_name FROM table_name LIMIT 5; /*这个语句是用来检索单个列*/</span><br><span class="line"></span><br><span class="line">SELECT column_name FROM table_name LIMIT 5,5; </span><br><span class="line">--限制行数：这里是指：从行5开始的5行，第一个是开始位置，第二个数为要检索的行数</span><br><span class="line">-- 后面mysql5支持LIMIT的另一种替代语法：LIMIT 4 OFFSET 3 从行3开始取4行</span><br><span class="line">-- 接下来将检索出来的数据进行 排序</span><br><span class="line"></span><br><span class="line">SELECT column_name FROM table_name ORDER BY column_name;</span><br><span class="line"></span><br><span class="line">SELECT column_name1,..., column_namen FROM table_name ORDER BY column_namei, column_namej;</span><br><span class="line"></span><br><span class="line">SELECT column_name1,...,column_namen FROM table_name ORDER BY column_namei DESC;</span><br><span class="line">-- 降序排序DESC关键字，默认升序</span><br><span class="line"></span><br><span class="line">SELECT column_name FROM table_name ORDER BY column_name DESC LIMIT 1;</span><br><span class="line">-- LIMIT 1 表示值返回一行，所以返回的是最大值</span><br><span class="line">-- 带一个值的LIMIT总是从第一行开始</span><br></pre></td></tr></table></figure>
+<h2 id="where字句"><a href="#where字句" class="headerlink" title="where字句"></a>where字句</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">SELECT column_name1,...,column_namen FROM table_name WHERE column_namei = valuei;</span><br><span class="line">--- 空值检查</span><br><span class="line">--- 单引号表示字符串</span><br><span class="line">SELECT column_name FROM table_name WHERE column_name IS NULL;</span><br><span class="line"></span><br><span class="line">-- 组合where字句</span><br><span class="line"></span><br><span class="line">/*AND/OR*/ </span><br><span class="line">/*注意运算符的优先级 AND &gt; OR, 可适当加括号*/</span><br><span class="line">SELECT prod_name,prod_price FROM products WHERE (vend_i=1002 OR vend_id=1003) AND prod_price&gt;=10;</span><br><span class="line"></span><br><span class="line">/*IN操作符:指定条件范围*/</span><br><span class="line">SELECT prod_name,prod_price FROM products WHERE vend_i IN(1002, 1003) ORDER BY prod_name;</span><br><span class="line"></span><br><span class="line">/*NOT 操作符*/</span><br><span class="line">SELECT prod_name,prod_price FROM products WHERE vend_i NOT IN(1002, 1003) ORDER BY prod_name;</span><br></pre></td></tr></table></figure>
+<h2 id="通配符"><a href="#通配符" class="headerlink" title="通配符"></a>通配符</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">/*LIKE操作符*/</span><br><span class="line">SELECT  prod_id, prod_name FROM products WHERE prod_name LIKE &apos;jet%&apos;;</span><br><span class="line">--- % 通配符:表示任何字符出现任意次数</span><br><span class="line"></span><br><span class="line">SELECT  prod_id, prod_name FROM products WHERE prod_name LIKE &apos;%anvil%&apos;;</span><br><span class="line">-- 例子：产品名字包含anvil</span><br><span class="line"></span><br><span class="line">-- 下划线(_)通配符:只匹配单个字符而不是多个字符</span><br><span class="line">SELECT  prod_id, prod_name FROM products WHERE prod_name LIKE &apos;_ton anvil%&apos;;</span><br></pre></td></tr></table></figure>
+<h2 id="正则表达式"><a href="#正则表达式" class="headerlink" title="正则表达式"></a>正则表达式</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">/*LIKE ---&gt; REGEXP*/</span><br><span class="line">SELECT prod_name,prod_price FROM products WHERE prod_name LIKE &apos;1000&apos; ORDER BY prod_name;</span><br><span class="line">SELECT prod_name,prod_price FROM products WHERE prod_name REGEXP &apos;1000&apos; ORDER BY prod_name;</span><br><span class="line">SELECT prod_name,prod_price FROM products WHERE prod_name REGEXP &apos;1000|2000&apos; ORDER BY prod_name;</span><br><span class="line">SELECT prod_name,prod_price FROM products WHERE prod_name REGEXP &apos;.000&apos; ORDER BY prod_name;</span><br><span class="line">-- LIKE需要通配符,仔细比较上面语句的区别</span><br><span class="line">/* .匹配任意一个字符,so上一个查询语句返回的结果是：prod_name中后缀是000的，前一个字符任意*/</span><br><span class="line"></span><br><span class="line">-- []:[123]匹配1或者2或者3 [0-9][a-z]匹配人一个范围内的字符</span><br><span class="line"></span><br><span class="line">-- 匹配特殊字符：需要转义字符：\\.匹配.字符</span><br><span class="line"></span><br><span class="line">-- 匹配字符类：</span><br><span class="line"></span><br><span class="line">[:lower:]任意小写字母</span><br><span class="line">[:space:]包括空格在内的任意空白字符</span><br><span class="line">...</span><br><span class="line"></span><br><span class="line">-- 匹配多个实例：</span><br><span class="line"></span><br><span class="line">* 0或者多个匹配</span><br><span class="line">+ 1或者多个匹配&#123;1，&#125;</span><br><span class="line">？ 0或者1个匹配&#123;0,1&#125;</span><br><span class="line">&#123;n&#125;指定数目匹配</span><br><span class="line">&#123;n,&#125;不少于指定数目的匹配</span><br><span class="line">&#123;n,m&#125;匹配数目的范围m&lt;=255</span><br><span class="line">^匹配串的开始</span><br></pre></td></tr></table></figure>
+            <div class="post-copyright">
+    <div class="content">
+        <p>最后更新： 2018年07月12日 14:16</p>
+        <p>原始链接： <a class="post-url" href="/2017/11/23/mysql_must1/" title="mysql必知必会学习笔记一">http://zhangbuzola.cn/2017/11/23/mysql_must1/</a></p>
+        <footer>
+            <a href="http://zhangbuzola.cn">
+                <img src="/images/pacman.jpg" alt="zolanunu">
+                zolanunu
+            </a>
+        </footer>
+    </div>
+</div>
+
+      
+        
+            
+
+        
+    </div>
+    <footer class="article-footer">
+        
+        <ul class="article-footer-menu">
+            
+            
+  <li class="article-footer-tags">
+    <i class="fa fa-tags"></i>
+      
+    <a href="/tags/MySQL/" class="color1">MySQL</a>
+      
+  </li>
+
+        </ul>
+        
+    </footer>
+  </div>
+</article>
+
+
+    <aside class="post-toc-pos post-toc-top" id="post-toc">
+        <nav class="post-toc-wrap">
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#mysql-检索数据"><span class="post-toc-text">mysql 检索数据</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#select-语句"><span class="post-toc-text">select 语句</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#where字句"><span class="post-toc-text">where字句</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#通配符"><span class="post-toc-text">通配符</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#正则表达式"><span class="post-toc-text">正则表达式</span></a></li></ol></li></ol>
+        </nav>
+    </aside>
+    
+
+<nav id="article-nav">
+  
+    <a href="/2017/11/25/seckill/" id="article-nav-newer" class="article-nav-link-wrap">
+
+      <span class="article-nav-title">
+        <i class="fa fa-hand-o-left" aria-hidden="true"></i>
+        
+          java高并发秒杀API_SSM
+        
+      </span>
+    </a>
+  
+  
+    <a href="/2017/11/23/mybatis_strong_2/" id="article-nav-older" class="article-nav-link-wrap">
+      <span class="article-nav-title">Mybatis官方文档学习笔记二</span>
+      <i class="fa fa-hand-o-right" aria-hidden="true"></i>
+    </a>
+  
+</nav>
+
+
+
+    
+        <link rel="stylesheet" href="//unpkg.com/gitment/style/default.css">
+    <script src="//unpkg.com/gitment/dist/gitment.browser.js"></script>
+    <script>
+        var gitment = new Gitment({
+            owner: 'true',
+            repo: 'zolanunu',
+            oauth: {
+                client_id: '1a04e8dee74a4b8634df',
+                client_secret: '9e3078ac89eb72f22abbdd11f7f0d11e2e1d7f7a',
+            },
+        })
+        gitment.render('comments')
+    </script>
+
+    
+</section>
+        
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+      <p>
+        Powered by  <a href="http://hexo.io/" target="_blank">Hexo</a>
+        Theme <a href="//github.com/wongminho/hexo-theme-miho" target="_blank">MiHo</a>
+      &copy; 2018 zolanunu<br>
+      </p>
+    </div>
+  </div>
+</footer>
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script>
+  var mihoConfig = {
+      root: "http://zhangbuzola.cn",
+      animate: true,
+      isHome: false,
+      share: false,
+      reward: 0
+  }
+</script>
+<div class="sidebar">
+    <div id="sidebar-search" title="Search">
+        <i class="fa fa-search"></i>
+    </div>
+    <div id="sidebar-category" title="Categories">
+        <i class="fa fa-book"></i>
+    </div>
+    <div id="sidebar-tag" title="Tags">
+        <i class="fa fa-tags"></i>
+    </div>
+    <div id="sidebar-top">
+        <span class="sidebar-top-icon"><i class="fa fa-angle-up"></i></span>
+    </div>
+</div>
+<div class="sidebar-menu-box" id="sidebar-menu-box">
+    <div class="sidebar-menu-box-container">
+        <div id="sidebar-menu-box-categories">
+            <a class="category-link" href="/categories/Java/">Java</a><a class="category-link" href="/categories/Java后台/">Java后台</a><a class="category-link" href="/categories/Python/">Python</a><a class="category-link" href="/categories/工具/">工具</a><a class="category-link" href="/categories/技术书/">技术书</a><a class="category-link" href="/categories/数据库/">数据库</a><a class="category-link" href="/categories/数据结构/">数据结构</a><a class="category-link" href="/categories/生活轨迹/">生活轨迹</a><a class="category-link" href="/categories/算法/">算法</a>
+        </div>
+        <div id="sidebar-menu-box-tags">
+            <a href="/tags/2018/" style="font-size: 11.43px;">2018</a> <a href="/tags/Collections/" style="font-size: 15.71px;">Collections</a> <a href="/tags/HashMap/" style="font-size: 10px;">HashMap</a> <a href="/tags/LinkedHashMap/" style="font-size: 10px;">LinkedHashMap</a> <a href="/tags/MySQL/" style="font-size: 17.14px;">MySQL</a> <a href="/tags/Mybatis/" style="font-size: 12.86px;">Mybatis</a> <a href="/tags/Object/" style="font-size: 10px;">Object</a> <a href="/tags/SSM/" style="font-size: 12.86px;">SSM</a> <a href="/tags/TreeMap/" style="font-size: 11.43px;">TreeMap</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/java基础/" style="font-size: 20px;">java基础</a> <a href="/tags/java并发编程实战/" style="font-size: 11.43px;">java并发编程实战</a> <a href="/tags/leetcode/" style="font-size: 17.14px;">leetcode</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/剑指offer/" style="font-size: 10px;">剑指offer</a> <a href="/tags/多线程/" style="font-size: 11.43px;">多线程</a> <a href="/tags/并发编程/" style="font-size: 10px;">并发编程</a> <a href="/tags/机器学习/" style="font-size: 12.86px;">机器学习</a> <a href="/tags/构造函数/" style="font-size: 10px;">构造函数</a> <a href="/tags/深入理解java虚拟机/" style="font-size: 10px;">深入理解java虚拟机</a> <a href="/tags/生活/" style="font-size: 10px;">生活</a> <a href="/tags/神经网络/" style="font-size: 10px;">神经网络</a> <a href="/tags/算法与数据结构/" style="font-size: 14.29px;">算法与数据结构</a> <a href="/tags/算法和数据结构/" style="font-size: 18.57px;">算法和数据结构</a> <a href="/tags/观影记/" style="font-size: 10px;">观影记</a> <a href="/tags/读书书单/" style="font-size: 10px;">读书书单</a>
+        </div>
+    </div>
+    <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
+</div>
+<div class="mobile-header-menu-nav" id="mobile-header-menu-nav">
+    <div class="mobile-header-menu-container">
+        <span class="title">Menus</span>
+        <ul class="mobile-header-menu-navbar">
+            
+            <li>
+                <a  href="/">
+                    <i class="fa fa-home"></i><span>Home</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/archives">
+                    <i class="fa fa-archive"></i><span>Archives</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/about">
+                    <i class="fa fa-user"></i><span>About</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    <div class="mobile-header-tag-container">
+        <span class="title">Tags</span>
+        <div id="mobile-header-container-tags">
+            <a href="/tags/2018/" style="font-size: 11.43px;">2018</a> <a href="/tags/Collections/" style="font-size: 15.71px;">Collections</a> <a href="/tags/HashMap/" style="font-size: 10px;">HashMap</a> <a href="/tags/LinkedHashMap/" style="font-size: 10px;">LinkedHashMap</a> <a href="/tags/MySQL/" style="font-size: 17.14px;">MySQL</a> <a href="/tags/Mybatis/" style="font-size: 12.86px;">Mybatis</a> <a href="/tags/Object/" style="font-size: 10px;">Object</a> <a href="/tags/SSM/" style="font-size: 12.86px;">SSM</a> <a href="/tags/TreeMap/" style="font-size: 11.43px;">TreeMap</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/java基础/" style="font-size: 20px;">java基础</a> <a href="/tags/java并发编程实战/" style="font-size: 11.43px;">java并发编程实战</a> <a href="/tags/leetcode/" style="font-size: 17.14px;">leetcode</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/剑指offer/" style="font-size: 10px;">剑指offer</a> <a href="/tags/多线程/" style="font-size: 11.43px;">多线程</a> <a href="/tags/并发编程/" style="font-size: 10px;">并发编程</a> <a href="/tags/机器学习/" style="font-size: 12.86px;">机器学习</a> <a href="/tags/构造函数/" style="font-size: 10px;">构造函数</a> <a href="/tags/深入理解java虚拟机/" style="font-size: 10px;">深入理解java虚拟机</a> <a href="/tags/生活/" style="font-size: 10px;">生活</a> <a href="/tags/神经网络/" style="font-size: 10px;">神经网络</a> <a href="/tags/算法与数据结构/" style="font-size: 14.29px;">算法与数据结构</a> <a href="/tags/算法和数据结构/" style="font-size: 18.57px;">算法和数据结构</a> <a href="/tags/观影记/" style="font-size: 10px;">观影记</a> <a href="/tags/读书书单/" style="font-size: 10px;">读书书单</a>
+        </div>
+    </div>
+</div>
+<div class="search-wrap">
+    <span class="search-close">&times;</span>
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+            <i class="icon icon-lg icon-chevron-left"></i>
+        </a>
+        <input class="search-field" placeholder="Search..." id="keywords">
+        <a id="search-submit" href="javascript:;">
+            <i class="fa fa-search"></i>
+        </a>
+    <div class="search-container" id="search-container">
+        <ul class="search-result" id="search-result">
+        </ul>
+    </div>
+</div>
+
+<div id="search-tpl">
+    <li class="search-result-item">
+        <a href="{url}" class="search-item-li">
+            <span class="search-item-li-title" title="{title}">{title}</span>
+        </a>
+    </li>
+</div>
+<script src="/js/search.js"></script>
+<script src="/js/main.js"></script>
+
+
+  <script src="//cdn.bootcss.com/particles.js/2.0.0/particles.min.js"></script>
+  <div id="particles"></div>
+  <script src="/js/particles.js"></script>
+
+
+
+
+
+
+
+  <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
+  <script src="//cdn.bootcss.com/scrollReveal.js/3.0.5/scrollreveal.js"></script>
+  <script src="/js/animate.js"></script>
+
+
+  <script src="/js/pop-img.js"></script>
+  <script>
+     $(".article-entry p img").popImg();
+  </script>
+
+  </div>
+</body>
+</html>

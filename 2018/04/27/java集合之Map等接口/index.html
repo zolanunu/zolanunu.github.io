@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>java集合之Map等接口 | zolanunu</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+    <meta name="keywords" content="zolanunu,zolanunu's blog" />
+  
+  <meta name="description" content="整体框架图  Iterator接口12345678910111213141516171819public interface Iterator&amp;lt;E&amp;gt; &amp;#123;  boolean hasNext();  E next();  default void remove() &amp;#123;    throw new UnsupportedOperationException(&amp;quot;re">
+<meta name="keywords" content="Collections">
+<meta property="og:type" content="article">
+<meta property="og:title" content="java集合之Map等接口">
+<meta property="og:url" content="http://zhangbuzola.cn/2018/04/27/java集合之Map等接口/index.html">
+<meta property="og:site_name" content="zolanunu">
+<meta property="og:description" content="整体框架图  Iterator接口12345678910111213141516171819public interface Iterator&amp;lt;E&amp;gt; &amp;#123;  boolean hasNext();  E next();  default void remove() &amp;#123;    throw new UnsupportedOperationException(&amp;quot;re">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="http://zhangbuzola.cn/assets/images/javaCollection.png">
+<meta property="og:image" content="http://zhangbuzola.cn/assets/images/javaCollection-Set.png">
+<meta property="og:updated_time" content="2018-07-12T05:59:33.860Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="java集合之Map等接口">
+<meta name="twitter:description" content="整体框架图  Iterator接口12345678910111213141516171819public interface Iterator&amp;lt;E&amp;gt; &amp;#123;  boolean hasNext();  E next();  default void remove() &amp;#123;    throw new UnsupportedOperationException(&amp;quot;re">
+<meta name="twitter:image" content="http://zhangbuzola.cn/assets/images/javaCollection.png">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="/js/pace.min.js"></script>
+  
+
+  
+	<script>
+	var _hmt = _hmt || [];
+	(function() {
+	  var hm = document.createElement("script");
+	  hm.src = "//hm.baidu.com/hm.js?a651034b7d11a367ae836642b29a3057";
+	  var s = document.getElementsByTagName("script")[0]; 
+	  s.parentNode.insertBefore(hm, s);
+	})();
+	</script>
+
+  
+
+</head>
+
+<body>
+  <div id="container">
+      <header id="header">
+    <div id="banner"></div>
+    <div id="header-outer">
+        <div id="header-menu" class="header-menu-pos animated">
+            <div class="header-menu-container">
+                <a href="/" class="left">
+                    <span class="site-title">zolanunu&#39;s Blog</span>
+                </a>
+                <nav id="header-menu-nav" class="right">
+                    
+                    <a  href="/">
+                        <i class="fa fa-home"></i>
+                        <span>Home</span>
+                    </a>
+                    
+                    <a  href="/archives">
+                        <i class="fa fa-archive"></i>
+                        <span>Archives</span>
+                    </a>
+                    
+                    <a  href="/about">
+                        <i class="fa fa-user"></i>
+                        <span>About</span>
+                    </a>
+                    
+                </nav>
+                <a class="mobile-header-menu-button">
+                    <i class="fa fa-bars"></i>
+                </a>
+            </div>
+        </div>
+        <div id="header-row">
+            <div id="logo">
+                <a href="/">
+                    <img src="/images/pacman.jpg" alt="logo">
+                </a>
+            </div>
+            <div class="header-info">
+                <div id="header-title">
+                    
+                    <h2>
+                        zolanunu&#39;s Blog
+                    </h2>
+                    
+                </div>
+                <div id="header-description">
+                    
+                    <h3>
+                        去努力尝试做一些你觉得你不会做或者不敢做的事情。
+                    </h3>
+                    
+                </div>
+            </div>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a title="zolanunu" target="_blank" href="//zhangbuzola.cn">
+                            <i class="fa fa-home fa-2x"></i></a>
+                    
+                        <a title="Github" target="_blank" href="//github.com/zolanunu">
+                            <i class="fa fa-github fa-2x"></i></a>
+                    
+                        <a title="Weibo" target="_blank" href="//weibo.com/zolanunu">
+                            <i class="fa fa-weibo fa-2x"></i></a>
+                    
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>
+      <div class="outer">
+        <section id="main" class="body-wrap"><article id="post-java集合之Map等接口" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="post-title" itemprop="name">
+      java集合之Map等接口
+    </h1>
+    <div class="post-title-bar">
+      <ul>
+          
+              <li>
+                  <i class="fa fa-book"></i>
+                  
+                      <a href="/categories/Java/">Java</a>
+                  
+              </li>
+          
+        <li>
+          <i class="fa fa-calendar"></i>  2018-04-27
+        </li>
+        <li>
+          <i class="fa fa-eye"></i>
+          <span id="busuanzi_value_page_pv"></span>
+        </li>
+      </ul>
+    </div>
+  
+
+          
+      </header>
+    
+    <div class="article-entry post-content" itemprop="articleBody">
+      
+            
+            <p>整体框架图</p>
+<p><img src="/assets/images/javaCollection.png" alt=""></p>
+<h1 id="Iterator接口"><a href="#Iterator接口" class="headerlink" title="Iterator接口"></a>Iterator接口</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">public interface Iterator&lt;E&gt; &#123;</span><br><span class="line">  boolean hasNext();</span><br><span class="line">  E next();</span><br><span class="line">  default void remove() &#123;</span><br><span class="line">    throw new UnsupportedOperationException(&quot;remove&quot;);</span><br><span class="line">  &#125;</span><br><span class="line">  /**</span><br><span class="line">  * 举个简单例子（把集合里的元素每个都输出出来）：</span><br><span class="line">  * List&lt;String&gt; names = new ArrayList&lt;&gt;();</span><br><span class="line">  * names.add(&quot;Joemsu&quot;);</span><br><span class="line">  * names.add(&quot;GodnessY&quot;);</span><br><span class="line">  * names.iterator().forEachRemaining(c -&gt; System.out.println(&quot;hi! &quot; + c));</span><br><span class="line">  */</span><br><span class="line">  default void forEachRemaining(Consumer&lt;? super E&gt; action) &#123;</span><br><span class="line">    Objects.requireNonNull(action);</span><br><span class="line">    while (hasNext())</span><br><span class="line">      action.accept(next());</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="Collection接口"><a href="#Collection接口" class="headerlink" title="Collection接口"></a>Collection接口</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br></pre></td><td class="code"><pre><span class="line">public interface Collection&lt;E&gt; extends Iterable&lt;E&gt; &#123;</span><br><span class="line">  //值得一提的是:如果size超过Integer.MAX_VALUE也只会返回Integer.MAX_VALUE</span><br><span class="line">  int size();</span><br><span class="line">  boolean isEmpty();</span><br><span class="line">  //如果向集合里添加null，使用contains(null)，也可以返回true</span><br><span class="line">  boolean contains(Object o);</span><br><span class="line">  Iterator&lt;E&gt; iterator();</span><br><span class="line">  /**</span><br><span class="line">   * 深层拷贝，修改数组的数据不会对集合里的元素产生影响。</span><br><span class="line">   * 注意：只能返回Object[],不能强制转换其他类型，如需要转型，使用下面带泛型的方法。</span><br><span class="line">   */</span><br><span class="line">  Object[] toArray();</span><br><span class="line">  &lt;T&gt; T[] toArray(T[] a);</span><br><span class="line">  boolean add(E e);</span><br><span class="line">  boolean remove(Object o);</span><br><span class="line">  boolean containsAll(Collection&lt;?&gt; c);</span><br><span class="line">  boolean addAll(Collection&lt;? extends E&gt; c);</span><br><span class="line">  boolean removeAll(Collection&lt;?&gt; c);</span><br><span class="line">  //保留c集合里的元素</span><br><span class="line">  boolean retainAll(Collection&lt;?&gt; c);</span><br><span class="line">  void clear();</span><br><span class="line">  boolean equals(Object o);</span><br><span class="line">  //如过a.equals(b)，则hashCode()肯定相同，反之不一定</span><br><span class="line">  int hashCode();</span><br><span class="line">   </span><br><span class="line">  //针对parallelStream()添加的方法，用于分割集合，进行并行处理</span><br><span class="line">  @Override</span><br><span class="line">  default Spliterator&lt;E&gt; spliterator() &#123;</span><br><span class="line">    return Spliterators.spliterator(this, 0);</span><br><span class="line">  &#125;</span><br><span class="line">   </span><br><span class="line">  /**</span><br><span class="line">  * 如果满足filter，则删除，举个栗子：</span><br><span class="line">  * Collection&lt;String&gt; myHeart = new ArrayList&lt;&gt;();</span><br><span class="line">  * myHeart.add(&quot;Boduolaoshi&quot;);</span><br><span class="line">  * myHeart.add(&quot;GodnessY&quot;);</span><br><span class="line">  * System.out.println(&quot;before: &quot; + myHeart.size());</span><br><span class="line">  * myHeart.removeIf(s -&gt; s.equals(&quot;Boduolaoshi&quot;));</span><br><span class="line">  * System.out.println(&quot;after: &quot; + myHeart.size());</span><br><span class="line">  */</span><br><span class="line">  default boolean removeIf(Predicate&lt;? super E&gt; filter) &#123;</span><br><span class="line">    Objects.requireNonNull(filter);</span><br><span class="line">    boolean removed = false;</span><br><span class="line">    final Iterator&lt;E&gt; each = iterator();</span><br><span class="line">    while (each.hasNext()) &#123;</span><br><span class="line">      if (filter.test(each.next())) &#123;</span><br><span class="line">        each.remove();</span><br><span class="line">        removed = true;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    return removed;</span><br><span class="line">  &#125;</span><br><span class="line">   </span><br><span class="line">  default Stream&lt;E&gt; stream() &#123;</span><br><span class="line">    return StreamSupport.stream(spliterator(), false);</span><br><span class="line">  &#125;</span><br><span class="line">   </span><br><span class="line">  //采用并行处理，使用多核cpu的特性</span><br><span class="line">  default Stream&lt;E&gt; parallelStream() &#123;</span><br><span class="line">    return StreamSupport.stream(spliterator(), true);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="Set接口"><a href="#Set接口" class="headerlink" title="Set接口"></a>Set接口</h1><p><img src="/assets/images/javaCollection-Set.png" alt=""></p>
+<p>Set的各种底层实现都是对应的Map，熟悉了Map里的各种方法，相信对于Set的了解也会更加深入。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">// HashMap就是HashSet里实现具体操作的对象</span><br><span class="line">private transient HashMap&lt;E,Object&gt; map;</span><br><span class="line">// 将对象作为Value存进去</span><br><span class="line">private static final Object PRESENT = new Object();</span><br></pre></td></tr></table></figure>
+<p>set集合储存特点：</p>
+<ul>
+<li><p>不允许元素重复</p>
+</li>
+<li><p>不记录添加顺序</p>
+</li>
+</ul>
+<p>Set判断俩个对象是否相等用equals，而不是使用==。也就是说，俩个对象.equals比较返回true，Set集合是不会接受这俩个对象的。</p>
+<h2 id="Hashset"><a href="#Hashset" class="headerlink" title="Hashset"></a>Hashset</h2><p>HashSet是Set接口最常用的实现类，顾名思义，底层采用了哈希表算法（散列/Hash）。</p>
+<p>其实底层也是一个数组，存在的意义是提供查询速度，插入速度较快，但是适用于少量数据的插入操作。</p>
+<p>在HashSet中如何判断俩个对象是否相等（俩个条件必须同时满足）：</p>
+<ul>
+<li><p>俩个对象的hashcode方法返回值相等。</p>
+</li>
+<li><p>俩个对象的equals比较相等，返回true，则说明是相同对象。</p>
+</li>
+</ul>
+<p>对象的hashCode值决定了在哈希表中的存储位置。</p>
+<p>当我们往HashSet集合添加新的对象的时候，由于Set集合不允许元素重复，所以他会做检查。首先他先会判断新对象的hashCode值：</p>
+<p>如果hashCode值对应的位置没有元素对象，则存放成功。</p>
+<p>如果hashCode值对应的位置有元素对象，他会使用equals方法，二者做比较，若返回true，则视为同一个对象，添加失败。若返回false，则非常麻烦，储存在之前对象同槽位的链表上，我们拒绝这种方法。</p>
+<p>存储在哈希表中的对象，都应该覆盖equals方法和hasCode方法，并且保证equals相等的时候hasCode也相等。</p>
+<h2 id="LinkedHashSet"><a href="#LinkedHashSet" class="headerlink" title="LinkedHashSet"></a>LinkedHashSet</h2><p>list接口：允许元素重复，记录元素的先后顺序。</p>
+<p>Set接口：不允许元素重复，不记录元素的先后顺序。</p>
+<p>需求：不允许元素重复，记录元素的先后添加顺序。</p>
+<p>LinkedHashSet：底层采用hash算法和链表算法。</p>
+<p>hash表来保证唯一性，此时就是HashSet，在哈希表中元素没有先后顺序。</p>
+<p>链表：来记录元素的先后顺序。</p>
+<p>LinkedHashSet类是HashSet的子类。</p>
+<h2 id="TreeSet"><a href="#TreeSet" class="headerlink" title="TreeSet"></a>TreeSet</h2><p>TreeSet集合底层采用红黑树算法，会对储存的元素默认使用自然顺序排序（从小到大）。</p>
+<p>注意：必须保证TreeSet集合中的元素是相同的数据类型，否则报错；（泛型的使用）。</p>
+<p>TreeSet类 实现 NavigableSet接口（可做范围查询集合） 继承 SortedSet接口（可做排序的集合）</p>
+<h2 id="比较"><a href="#比较" class="headerlink" title="比较"></a>比较</h2><p>Set接口三个实现类的共同特点：</p>
+<ul>
+<li><p>不允许元素重复。</p>
+</li>
+<li><p>都不是线程安全的类。</p>
+</li>
+</ul>
+<p>解决方案：Set s = Collection.synchronizedSet(Set对象);</p>
+<h3 id="HashSet"><a href="#HashSet" class="headerlink" title="HashSet"></a>HashSet</h3><p>HashSet：不保证元素的先后顺序。底层采用的是哈希表算法，查询效率极高。</p>
+<p>判断俩个对象相等的规则：</p>
+<ul>
+<li><p>equals比较为true；</p>
+</li>
+<li><p>hashCode值相同；</p>
+</li>
+</ul>
+<p>要求：要求存在哈希表中的元素对象都得覆盖equals和hasCode方法。</p>
+<h3 id="LinkedHashSet-1"><a href="#LinkedHashSet-1" class="headerlink" title="LinkedHashSet"></a>LinkedHashSet</h3><p>HashSet的子类，底层也采用的是哈希算法，但是也使用了链表算法来维持元素 的 先后添加顺序。</p>
+<p>判断俩个对象相等的规则和hashset相同。</p>
+<p>因为需要多使用一个链表来记录元素的顺序，所以性能相对于HashSet较低。</p>
+<p>一般少用没如果要求一个集合既要保证元素不重复，也需要记录先后添加顺序，才选择使用LinkedHashSet。</p>
+<h3 id="TreeSet-1"><a href="#TreeSet-1" class="headerlink" title="TreeSet"></a>TreeSet</h3><p><strong>TreeSet</strong>：不保证元素的先后添加顺序，但是会对集合中的元素做排序操作。</p>
+<p>底层采用红黑树算法（树结构，比较擅长做范围查询）。</p>
+<p>HashSet做等值查询查询效率比较高；TreeSet做范围查询效率高。</p>
+<h1 id="Map接口"><a href="#Map接口" class="headerlink" title="Map接口"></a>Map接口</h1><p>Map接口和Collection接口的不同是它是一种映射关系，是二元的。Map接口中需要存放两种值，key和values。而且key的值都是不可重复的。Map&lt;key,values&gt;中的key和values的值是存放在Map.Entry&lt;key,values&gt;中的。</p>
+<h2 id="继承结构"><a href="#继承结构" class="headerlink" title="继承结构"></a>继承结构</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">Type Parameters:</span><br><span class="line">K - the type of keys maintained by this map</span><br><span class="line">V - the type of mapped values</span><br><span class="line"></span><br><span class="line">All Known Subinterfaces:</span><br><span class="line">Bindings, ConcurrentMap&lt;K,V&gt;, ConcurrentNavigableMap&lt;K,V&gt;, </span><br><span class="line">LogicalMessageContext, MessageContext, NavigableMap&lt;K,V&gt;, SOAPMessageContext, SortedMap&lt;K,V&gt;</span><br><span class="line"></span><br><span class="line">All Known Implementing Classes:</span><br><span class="line">AbstractMap, Attributes, AuthProvider, ConcurrentHashMap,</span><br><span class="line">ConcurrentSkipListMap, EnumMap, HashMap, Hashtable, IdentityHashMap, LinkedHashMap, PrinterStateReasons,</span><br><span class="line">Properties, Provider, RenderingHints, SimpleBindings, </span><br><span class="line">TabularDataSupport, TreeMap, UIDefaults, WeakHashMap</span><br></pre></td></tr></table></figure>
+<h2 id="java8-源码"><a href="#java8-源码" class="headerlink" title="java8 源码"></a>java8 源码</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br></pre></td><td class="code"><pre><span class="line">public interface Map&lt;K,V&gt; &#123;</span><br><span class="line">  //同样的，如果size超过Integer.MAX_VALUE也只会返回Integer.MAX_VALUE</span><br><span class="line">  int size();</span><br><span class="line">  boolean isEmpty();</span><br><span class="line">  boolean containsKey(Object key);</span><br><span class="line">  boolean containsValue(Object value);</span><br><span class="line">  V get(Object key);</span><br><span class="line">  V put(K key, V value);</span><br><span class="line">  V remove(Object key);</span><br><span class="line">  void putAll(Map&lt;? extends K, ? extends V&gt; m);</span><br><span class="line">  void clear();</span><br><span class="line">  //对set的变动会影响到map，反过来也一样</span><br><span class="line">  Set&lt;K&gt; keySet();</span><br><span class="line">  //对Collection的变动会影响到map，反过来也一样</span><br><span class="line">  Collection&lt;V&gt; values();</span><br><span class="line">  //对Set的变动会影响到map，反过来也一样</span><br><span class="line">  Set&lt;Map.Entry&lt;K, V&gt;&gt; entrySet();</span><br><span class="line">  boolean equals(Object o);</span><br><span class="line">  int hashCode();</span><br><span class="line">   </span><br><span class="line">  //Entry start</span><br><span class="line">  interface Entry&lt;K,V&gt; &#123;</span><br><span class="line">    K getKey();</span><br><span class="line">    V getValue();</span><br><span class="line">    V setValue(V value);</span><br><span class="line">    boolean equals(Object o);</span><br><span class="line">    int hashCode();</span><br><span class="line">    //使用默认方法对Key进行比较</span><br><span class="line">    public static &lt;K extends Comparable&lt;? super K&gt;, V&gt; Comparator&lt;Map.Entry&lt;K,V&gt;&gt; comparingByKey()&#123;</span><br><span class="line">      return (Comparator&lt;Map.Entry&lt;K, V&gt;&gt; &amp; Serializable)</span><br><span class="line">        (c1, c2) -&gt; c1.getKey().compareTo(c2.getKey());</span><br><span class="line">    &#125;</span><br><span class="line">    //使用默认方法对Value比较</span><br><span class="line">    public static &lt;K, V extends Comparable&lt;? super V&gt;&gt; Comparator&lt;Map.Entry&lt;K,V&gt;&gt; comparingByValue() &#123;</span><br><span class="line">      return (Comparator&lt;Map.Entry&lt;K, V&gt;&gt; &amp; Serializable)</span><br><span class="line">        (c1, c2) -&gt; c1.getValue().compareTo(c2.getValue());</span><br><span class="line">    &#125;</span><br><span class="line">    /**</span><br><span class="line">    * 自己传比较的方法，举个栗子：</span><br><span class="line">    * Map&lt;String, Integer&gt; map = new HashMap&lt;&gt;();</span><br><span class="line">    * map.put(&quot;sorted&quot;, 2);</span><br><span class="line">    * map.put(&quot;collect&quot;, 1);</span><br><span class="line">    * map.put(&quot;each&quot;, 3);</span><br><span class="line">    * System.out.println(&quot;before sort&quot;);</span><br><span class="line">    * map.entrySet().forEach(System.out::println);</span><br><span class="line">    * System.out.println(&quot;after sort&quot;);</span><br><span class="line">    * map.entrySet()</span><br><span class="line">    *     .stream()</span><br><span class="line">    *     .sorted(Map.Entry.comparingByKey((a, b) -&gt; a.length() - b.length()))</span><br><span class="line">    *     .collect(Collectors.toList()).forEach(System.out::println);</span><br><span class="line">    */</span><br><span class="line">    public static &lt;K, V&gt; Comparator&lt;Map.Entry&lt;K, V&gt;&gt; comparingByKey(Comparator&lt;? super K&gt; cmp) &#123;</span><br><span class="line">      Objects.requireNonNull(cmp);</span><br><span class="line">      return (Comparator&lt;Map.Entry&lt;K, V&gt;&gt; &amp; Serializable)</span><br><span class="line">        (c1, c2) -&gt; cmp.compare(c1.getKey(), c2.getKey());</span><br><span class="line">    &#125;</span><br><span class="line">    public static &lt;K, V&gt; Comparator&lt;Map.Entry&lt;K, V&gt;&gt; comparingByValue(Comparator&lt;? super V&gt; cmp) &#123;</span><br><span class="line">      Objects.requireNonNull(cmp);</span><br><span class="line">      return (Comparator&lt;Map.Entry&lt;K, V&gt;&gt; &amp; Serializable)</span><br><span class="line">        (c1, c2) -&gt; cmp.compare(c1.getValue(), c2.getValue());</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  //Entry end</span><br><span class="line">   </span><br><span class="line">  //获取指定key 的value，没有则返回默认值</span><br><span class="line">  default V getOrDefault(Object key, V defaultValue) &#123;</span><br><span class="line">    V v;</span><br><span class="line">    return (((v = get(key)) != null) || containsKey(key))</span><br><span class="line">      ? v</span><br><span class="line">      : defaultValue;</span><br><span class="line">  &#125;</span><br><span class="line">   </span><br><span class="line">  /**</span><br><span class="line">  * 对每队键值对操作： map.forEach((i, j) -&gt; System.out.println(i + j))</span><br><span class="line">  * 注意这里的(i, j)的类型与你初始化map的键值类型对应，i即K, j即V </span><br><span class="line">  */</span><br><span class="line">  default void forEach(BiConsumer&lt;? super K, ? super V&gt; action) &#123;</span><br><span class="line">    Objects.requireNonNull(action);</span><br><span class="line">    for (Map.Entry&lt;K, V&gt; entry : entrySet()) &#123;</span><br><span class="line">      K k;</span><br><span class="line">      V v;</span><br><span class="line">      try &#123;</span><br><span class="line">        k = entry.getKey();</span><br><span class="line">        v = entry.getValue();</span><br><span class="line">      &#125; catch(IllegalStateException ise) &#123;</span><br><span class="line">        // this usually means the entry is no longer in the map.</span><br><span class="line">        throw new ConcurrentModificationException(ise);</span><br><span class="line">      &#125;</span><br><span class="line">      action.accept(k, v);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">   </span><br><span class="line">  /**</span><br><span class="line">  * 传入BiFunction类型，对每个键值对进行处理，返回类型与V类型相同</span><br><span class="line">  * Map&lt;String, Integer&gt; map = new HashMap&lt;&gt;();</span><br><span class="line">  * map.put(&quot;hi&quot;, 3);</span><br><span class="line">  * map.put(&quot;hello&quot;, 4);</span><br><span class="line">  * BiFunction&lt;String, Integer, Integer&gt; bi = (a, b) -&gt; a.length() + b; //为了容易理解，这么写</span><br><span class="line">  * map.forEach((i, j) -&gt; System.out.println(i + &quot;:&quot; + j));</span><br><span class="line">  * map.replaceAll(bi);</span><br><span class="line">  * map.forEach((i, j) -&gt; System.out.println(i + &quot;:&quot; + j));</span><br><span class="line">  */</span><br><span class="line">  default void replaceAll(BiFunction&lt;? super K, ? super V, ? extends V&gt; function) &#123;</span><br><span class="line">    Objects.requireNonNull(function);</span><br><span class="line">    for (Map.Entry&lt;K, V&gt; entry : entrySet()) &#123;</span><br><span class="line">      K k;</span><br><span class="line">      V v;</span><br><span class="line">      try &#123;</span><br><span class="line">        k = entry.getKey();</span><br><span class="line">        v = entry.getValue();</span><br><span class="line">      &#125; catch(IllegalStateException ise) &#123;</span><br><span class="line">        // this usually means the entry is no longer in the map.</span><br><span class="line">        throw new ConcurrentModificationException(ise);</span><br><span class="line">      &#125;</span><br><span class="line"> </span><br><span class="line">      // ise thrown from function is not a cme.</span><br><span class="line">      v = function.apply(k, v);</span><br><span class="line"> </span><br><span class="line">      try &#123;</span><br><span class="line">        entry.setValue(v);</span><br><span class="line">      &#125; catch(IllegalStateException ise) &#123;</span><br><span class="line">        // this usually means the entry is no longer in the map.</span><br><span class="line">        throw new ConcurrentModificationException(ise);</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">   </span><br><span class="line">  //如果为空的话，插入</span><br><span class="line">  default V putIfAbsent(K key, V value) &#123;</span><br><span class="line">    V v = get(key);</span><br><span class="line">    if (v == null) &#123;</span><br><span class="line">      v = put(key, value);</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    return v;</span><br><span class="line">  &#125;</span><br><span class="line">   </span><br><span class="line">  default boolean remove(Object key, Object value) &#123;</span><br><span class="line">    Object curValue = get(key);</span><br><span class="line">    if (!Objects.equals(curValue, value) ||</span><br><span class="line">        (curValue == null &amp;&amp; !containsKey(key))) &#123;</span><br><span class="line">      return false;</span><br><span class="line">    &#125;</span><br><span class="line">    remove(key);</span><br><span class="line">    return true;</span><br><span class="line">  &#125;</span><br><span class="line">   </span><br><span class="line">  default boolean replace(K key, V oldValue, V newValue) &#123;</span><br><span class="line">    Object curValue = get(key);</span><br><span class="line">    if (!Objects.equals(curValue, oldValue) ||</span><br><span class="line">        (curValue == null &amp;&amp; !containsKey(key))) &#123;</span><br><span class="line">      return false;</span><br><span class="line">    &#125;</span><br><span class="line">    put(key, newValue);</span><br><span class="line">    return true;</span><br><span class="line">  &#125;</span><br><span class="line">   </span><br><span class="line">  default V replace(K key, V value) &#123;</span><br><span class="line">    V curValue;</span><br><span class="line">    if (((curValue = get(key)) != null) || containsKey(key)) &#123;</span><br><span class="line">      curValue = put(key, value);</span><br><span class="line">    &#125;</span><br><span class="line">    return curValue;</span><br><span class="line">  &#125;</span><br><span class="line">   </span><br><span class="line">  //如果key不存在，则通过mappingFunction生成value，并插入</span><br><span class="line">  default V computeIfAbsent(K key,</span><br><span class="line">            Function&lt;? super K, ? extends V&gt; mappingFunction) &#123;</span><br><span class="line">    Objects.requireNonNull(mappingFunction);</span><br><span class="line">    V v;</span><br><span class="line">    if ((v = get(key)) == null) &#123;</span><br><span class="line">      V newValue;</span><br><span class="line">      if ((newValue = mappingFunction.apply(key)) != null) &#123;</span><br><span class="line">        put(key, newValue);</span><br><span class="line">        return newValue;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    return v;</span><br><span class="line">  &#125;</span><br><span class="line">   </span><br><span class="line">  //如果存在key对应的值，则通过remappingFunction来计算新的value，（value不为空）然后更新，为空则删除key</span><br><span class="line">  default V computeIfPresent(K key,</span><br><span class="line">            BiFunction&lt;? super K, ? super V, ? extends V&gt; remappingFunction) &#123;</span><br><span class="line">    Objects.requireNonNull(remappingFunction);</span><br><span class="line">    V oldValue;</span><br><span class="line">    if ((oldValue = get(key)) != null) &#123;</span><br><span class="line">      V newValue = remappingFunction.apply(key, oldValue);</span><br><span class="line">      if (newValue != null) &#123;</span><br><span class="line">        put(key, newValue);</span><br><span class="line">        return newValue;</span><br><span class="line">      &#125; else &#123;</span><br><span class="line">        remove(key);</span><br><span class="line">        return null;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">      return null;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">   </span><br><span class="line">  default V compute(K key,</span><br><span class="line">            BiFunction&lt;? super K, ? super V, ? extends V&gt; remappingFunction) &#123;</span><br><span class="line">        Objects.requireNonNull(remappingFunction);</span><br><span class="line">    V oldValue = get(key);</span><br><span class="line"> </span><br><span class="line">    V newValue = remappingFunction.apply(key, oldValue);</span><br><span class="line">    if (newValue == null) &#123;</span><br><span class="line">      // delete mapping</span><br><span class="line">      if (oldValue != null || containsKey(key)) &#123;</span><br><span class="line">        // something to remove</span><br><span class="line">        remove(key);</span><br><span class="line">        return null;</span><br><span class="line">      &#125; else &#123;</span><br><span class="line">        // nothing to do. Leave things as they were.</span><br><span class="line">        return null;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">      // add or replace old mapping</span><br><span class="line">      put(key, newValue);</span><br><span class="line">      return newValue;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">   </span><br><span class="line">  //将旧的oldValue和新的传进去value通过remappingFunction进行处理，然后更新</span><br><span class="line">  default V merge(K key, V value,</span><br><span class="line">            BiFunction&lt;? super V, ? super V, ? extends V&gt; remappingFunction) &#123;</span><br><span class="line">    Objects.requireNonNull(remappingFunction);</span><br><span class="line">    Objects.requireNonNull(value);</span><br><span class="line">    V oldValue = get(key);</span><br><span class="line">    V newValue = (oldValue == null) ? value :</span><br><span class="line">    remappingFunction.apply(oldValue, value);</span><br><span class="line">    if(newValue == null) &#123;</span><br><span class="line">      remove(key);</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">      put(key, newValue);</span><br><span class="line">    &#125;</span><br><span class="line">    return newValue;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="List接口"><a href="#List接口" class="headerlink" title="List接口"></a>List接口</h1><p>List接口是定义一个允许重复项的有序集合，与set的区别在于List都是线性存放的。下面有三个常用实现类，ArrayList，LinkedList，Vector。</p>
+<h2 id="ArrayList"><a href="#ArrayList" class="headerlink" title="ArrayList"></a>ArrayList</h2><p>ArrayList：是一种会扩充的Array，Array是一个长度确定的数组,Arraylist则是不用实现知道数组长度。比如：在游戏中每隔一段时间生成一队小兵对象，这个数量是未知的且会变化的。它的特点就是能动态增容。但是在内存中的实现依旧是以数组的方式实现的，当数组内存不够时则会自动扩充一小段内存。</p>
+<p>优点：具有直接根据索引下标进行数据查找的功能，直接根据引用和索引确定在内存中的位置直接读取，索引时间复杂度为常数；</p>
+<p>缺点：具有数组的通病，当增加或删除一个数据时，最多可能移动数组长个数据，时间复杂度为N；另若是当添加元素大于初始容器容量时，需要进行扩充，将旧数据复制到新的大数组中,具体实现为，调用了ensureCapacity(size+1)方法，之后将元素的索引赋给elementData[size]，而后size自增。一般每次扩充为原来的1.5倍。</p>
+<p>ArrayList不是线程安全的，因此不适合存在于多线程中，但是在我以往的经验中也用过，需要对这个实例出的对象使用synchronized也可以考虑使用Collections.synchronizedList(List l)函数返回一个线程安全的ArrayList类，但是我还没有用过。</p>
+<p>ArrayList的代码实现的功能包括:set(int index, E element)、add(E e)、add(int index, E element)、addAll(Collection&lt;? extends E&gt; c)、addAll(int index, Collection&lt;? extends E&gt; c)这些添加元素的方法，还有如remove（int index），remove（E element）removeRange(int Fromindex,int toindex )delete（）的删除元素方法。还有如get（int index）等获取方法。</p>
+<h2 id="LinkedList"><a href="#LinkedList" class="headerlink" title="LinkedList"></a>LinkedList</h2><p>LinkedList：上面描述的Arraylist是根据数组Array实现的，而LinkedList就是根据链表实现的，它包括了链表的优点，增减迅速，占内存分散。LinkedList 类还为在列表的开头及结尾 get、remove 和 insert 元素提供了统一的命名方法。由于LinkedList还提供了头节点和尾节点，这些操作允许将链接列表用作堆栈、队列或双端队列 (deque)。</p>
+<p>一般都会将ArrayList和LinkedList作比较，他们的区别最主要也就是数组和链表的区别，需要根据背景来使用，比如一个随机寻找的功能，显然ArrayList更适合，若是一个大批量数据插入问题，则LinkedList更适合。</p>
+<h2 id="Vector"><a href="#Vector" class="headerlink" title="Vector"></a>Vector</h2><p>vector：和ArrayList在实现方式，优缺点很相似，但是它是同步的，也就是说适合于多线程中，每次只能有一个线程对其进行操作，但是实现同步需要很高的花费，因此在访问方面略慢于ArrayList。vector的自我扩充一般是原默认值的两倍。</p>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p><a href="https://docs.oracle.com/javase/8/docs/api/index.html" target="_blank" rel="noopener">https://docs.oracle.com/javase/8/docs/api/index.html</a></p>
+<p><a href="http://www.cnblogs.com/joemsu/p/7667588.html" target="_blank" rel="noopener">http://www.cnblogs.com/joemsu/p/7667588.html</a></p>
+
+            <div class="post-copyright">
+    <div class="content">
+        <p>最后更新： 2018年07月12日 13:59</p>
+        <p>原始链接： <a class="post-url" href="/2018/04/27/java集合之Map等接口/" title="java集合之Map等接口">http://zhangbuzola.cn/2018/04/27/java集合之Map等接口/</a></p>
+        <footer>
+            <a href="http://zhangbuzola.cn">
+                <img src="/images/pacman.jpg" alt="zolanunu">
+                zolanunu
+            </a>
+        </footer>
+    </div>
+</div>
+
+      
+        
+            
+
+        
+    </div>
+    <footer class="article-footer">
+        
+        <ul class="article-footer-menu">
+            
+            
+  <li class="article-footer-tags">
+    <i class="fa fa-tags"></i>
+      
+    <a href="/tags/Collections/" class="color2">Collections</a>
+      
+  </li>
+
+        </ul>
+        
+    </footer>
+  </div>
+</article>
+
+
+    <aside class="post-toc-pos post-toc-top" id="post-toc">
+        <nav class="post-toc-wrap">
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#Iterator接口"><span class="post-toc-text">Iterator接口</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#Collection接口"><span class="post-toc-text">Collection接口</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#Set接口"><span class="post-toc-text">Set接口</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Hashset"><span class="post-toc-text">Hashset</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#LinkedHashSet"><span class="post-toc-text">LinkedHashSet</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#TreeSet"><span class="post-toc-text">TreeSet</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#比较"><span class="post-toc-text">比较</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#HashSet"><span class="post-toc-text">HashSet</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#LinkedHashSet-1"><span class="post-toc-text">LinkedHashSet</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#TreeSet-1"><span class="post-toc-text">TreeSet</span></a></li></ol></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#Map接口"><span class="post-toc-text">Map接口</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#继承结构"><span class="post-toc-text">继承结构</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#java8-源码"><span class="post-toc-text">java8 源码</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#List接口"><span class="post-toc-text">List接口</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#ArrayList"><span class="post-toc-text">ArrayList</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#LinkedList"><span class="post-toc-text">LinkedList</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Vector"><span class="post-toc-text">Vector</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#参考"><span class="post-toc-text">参考</span></a></li></ol>
+        </nav>
+    </aside>
+    
+
+<nav id="article-nav">
+  
+    <a href="/2018/04/27/java集合之TreeMap/" id="article-nav-newer" class="article-nav-link-wrap">
+
+      <span class="article-nav-title">
+        <i class="fa fa-hand-o-left" aria-hidden="true"></i>
+        
+          java集合之TreeMap(二)
+        
+      </span>
+    </a>
+  
+  
+    <a href="/2018/04/12/java集合之LinkedHashMap/" id="article-nav-older" class="article-nav-link-wrap">
+      <span class="article-nav-title">Java集合之LinkedHashMap</span>
+      <i class="fa fa-hand-o-right" aria-hidden="true"></i>
+    </a>
+  
+</nav>
+
+
+
+    
+        <link rel="stylesheet" href="//unpkg.com/gitment/style/default.css">
+    <script src="//unpkg.com/gitment/dist/gitment.browser.js"></script>
+    <script>
+        var gitment = new Gitment({
+            owner: 'true',
+            repo: 'zolanunu',
+            oauth: {
+                client_id: '1a04e8dee74a4b8634df',
+                client_secret: '9e3078ac89eb72f22abbdd11f7f0d11e2e1d7f7a',
+            },
+        })
+        gitment.render('comments')
+    </script>
+
+    
+</section>
+        
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+      <p>
+        Powered by  <a href="http://hexo.io/" target="_blank">Hexo</a>
+        Theme <a href="//github.com/wongminho/hexo-theme-miho" target="_blank">MiHo</a>
+      &copy; 2018 zolanunu<br>
+      </p>
+    </div>
+  </div>
+</footer>
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script>
+  var mihoConfig = {
+      root: "http://zhangbuzola.cn",
+      animate: true,
+      isHome: false,
+      share: false,
+      reward: 0
+  }
+</script>
+<div class="sidebar">
+    <div id="sidebar-search" title="Search">
+        <i class="fa fa-search"></i>
+    </div>
+    <div id="sidebar-category" title="Categories">
+        <i class="fa fa-book"></i>
+    </div>
+    <div id="sidebar-tag" title="Tags">
+        <i class="fa fa-tags"></i>
+    </div>
+    <div id="sidebar-top">
+        <span class="sidebar-top-icon"><i class="fa fa-angle-up"></i></span>
+    </div>
+</div>
+<div class="sidebar-menu-box" id="sidebar-menu-box">
+    <div class="sidebar-menu-box-container">
+        <div id="sidebar-menu-box-categories">
+            <a class="category-link" href="/categories/Java/">Java</a><a class="category-link" href="/categories/Java后台/">Java后台</a><a class="category-link" href="/categories/Python/">Python</a><a class="category-link" href="/categories/工具/">工具</a><a class="category-link" href="/categories/技术书/">技术书</a><a class="category-link" href="/categories/数据库/">数据库</a><a class="category-link" href="/categories/数据结构/">数据结构</a><a class="category-link" href="/categories/生活轨迹/">生活轨迹</a><a class="category-link" href="/categories/算法/">算法</a>
+        </div>
+        <div id="sidebar-menu-box-tags">
+            <a href="/tags/2018/" style="font-size: 11.43px;">2018</a> <a href="/tags/Collections/" style="font-size: 15.71px;">Collections</a> <a href="/tags/HashMap/" style="font-size: 10px;">HashMap</a> <a href="/tags/LinkedHashMap/" style="font-size: 10px;">LinkedHashMap</a> <a href="/tags/MySQL/" style="font-size: 17.14px;">MySQL</a> <a href="/tags/Mybatis/" style="font-size: 12.86px;">Mybatis</a> <a href="/tags/Object/" style="font-size: 10px;">Object</a> <a href="/tags/SSM/" style="font-size: 12.86px;">SSM</a> <a href="/tags/TreeMap/" style="font-size: 11.43px;">TreeMap</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/java基础/" style="font-size: 20px;">java基础</a> <a href="/tags/java并发编程实战/" style="font-size: 11.43px;">java并发编程实战</a> <a href="/tags/leetcode/" style="font-size: 17.14px;">leetcode</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/剑指offer/" style="font-size: 10px;">剑指offer</a> <a href="/tags/多线程/" style="font-size: 11.43px;">多线程</a> <a href="/tags/并发编程/" style="font-size: 10px;">并发编程</a> <a href="/tags/机器学习/" style="font-size: 12.86px;">机器学习</a> <a href="/tags/构造函数/" style="font-size: 10px;">构造函数</a> <a href="/tags/深入理解java虚拟机/" style="font-size: 10px;">深入理解java虚拟机</a> <a href="/tags/生活/" style="font-size: 10px;">生活</a> <a href="/tags/神经网络/" style="font-size: 10px;">神经网络</a> <a href="/tags/算法与数据结构/" style="font-size: 14.29px;">算法与数据结构</a> <a href="/tags/算法和数据结构/" style="font-size: 18.57px;">算法和数据结构</a> <a href="/tags/观影记/" style="font-size: 10px;">观影记</a> <a href="/tags/读书书单/" style="font-size: 10px;">读书书单</a>
+        </div>
+    </div>
+    <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
+</div>
+<div class="mobile-header-menu-nav" id="mobile-header-menu-nav">
+    <div class="mobile-header-menu-container">
+        <span class="title">Menus</span>
+        <ul class="mobile-header-menu-navbar">
+            
+            <li>
+                <a  href="/">
+                    <i class="fa fa-home"></i><span>Home</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/archives">
+                    <i class="fa fa-archive"></i><span>Archives</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/about">
+                    <i class="fa fa-user"></i><span>About</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    <div class="mobile-header-tag-container">
+        <span class="title">Tags</span>
+        <div id="mobile-header-container-tags">
+            <a href="/tags/2018/" style="font-size: 11.43px;">2018</a> <a href="/tags/Collections/" style="font-size: 15.71px;">Collections</a> <a href="/tags/HashMap/" style="font-size: 10px;">HashMap</a> <a href="/tags/LinkedHashMap/" style="font-size: 10px;">LinkedHashMap</a> <a href="/tags/MySQL/" style="font-size: 17.14px;">MySQL</a> <a href="/tags/Mybatis/" style="font-size: 12.86px;">Mybatis</a> <a href="/tags/Object/" style="font-size: 10px;">Object</a> <a href="/tags/SSM/" style="font-size: 12.86px;">SSM</a> <a href="/tags/TreeMap/" style="font-size: 11.43px;">TreeMap</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/java基础/" style="font-size: 20px;">java基础</a> <a href="/tags/java并发编程实战/" style="font-size: 11.43px;">java并发编程实战</a> <a href="/tags/leetcode/" style="font-size: 17.14px;">leetcode</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/剑指offer/" style="font-size: 10px;">剑指offer</a> <a href="/tags/多线程/" style="font-size: 11.43px;">多线程</a> <a href="/tags/并发编程/" style="font-size: 10px;">并发编程</a> <a href="/tags/机器学习/" style="font-size: 12.86px;">机器学习</a> <a href="/tags/构造函数/" style="font-size: 10px;">构造函数</a> <a href="/tags/深入理解java虚拟机/" style="font-size: 10px;">深入理解java虚拟机</a> <a href="/tags/生活/" style="font-size: 10px;">生活</a> <a href="/tags/神经网络/" style="font-size: 10px;">神经网络</a> <a href="/tags/算法与数据结构/" style="font-size: 14.29px;">算法与数据结构</a> <a href="/tags/算法和数据结构/" style="font-size: 18.57px;">算法和数据结构</a> <a href="/tags/观影记/" style="font-size: 10px;">观影记</a> <a href="/tags/读书书单/" style="font-size: 10px;">读书书单</a>
+        </div>
+    </div>
+</div>
+<div class="search-wrap">
+    <span class="search-close">&times;</span>
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+            <i class="icon icon-lg icon-chevron-left"></i>
+        </a>
+        <input class="search-field" placeholder="Search..." id="keywords">
+        <a id="search-submit" href="javascript:;">
+            <i class="fa fa-search"></i>
+        </a>
+    <div class="search-container" id="search-container">
+        <ul class="search-result" id="search-result">
+        </ul>
+    </div>
+</div>
+
+<div id="search-tpl">
+    <li class="search-result-item">
+        <a href="{url}" class="search-item-li">
+            <span class="search-item-li-title" title="{title}">{title}</span>
+        </a>
+    </li>
+</div>
+<script src="/js/search.js"></script>
+<script src="/js/main.js"></script>
+
+
+  <script src="//cdn.bootcss.com/particles.js/2.0.0/particles.min.js"></script>
+  <div id="particles"></div>
+  <script src="/js/particles.js"></script>
+
+
+
+
+
+
+
+  <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
+  <script src="//cdn.bootcss.com/scrollReveal.js/3.0.5/scrollreveal.js"></script>
+  <script src="/js/animate.js"></script>
+
+
+  <script src="/js/pop-img.js"></script>
+  <script>
+     $(".article-entry p img").popImg();
+  </script>
+
+  </div>
+</body>
+</html>

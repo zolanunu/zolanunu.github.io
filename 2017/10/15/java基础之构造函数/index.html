@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>java基础学习之构造函数 | zolanunu</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+    <meta name="keywords" content="zolanunu,zolanunu's blog" />
+  
+  <meta name="description" content="本篇博文主要是为新手、对java语言感兴趣的人和那些没有系统学习过java基础知识的人进行一个总结，在文章中对构造函数进行了较为详细的说明和讨论，也包含了我个人对于java面向对象中构造函数的一些看法。希望走在java学习道路上的同行者可以有一个较为清晰的认知和理解。当然仅为个人观点，水平有限，不足之处，还请大家多多指出，互相交流学习。 构造函数的概念很多java新手谈到构造函数就会犯晕，我们先来">
+<meta name="keywords" content="java基础,构造函数">
+<meta property="og:type" content="article">
+<meta property="og:title" content="java基础学习之构造函数">
+<meta property="og:url" content="http://zhangbuzola.cn/2017/10/15/java基础之构造函数/index.html">
+<meta property="og:site_name" content="zolanunu">
+<meta property="og:description" content="本篇博文主要是为新手、对java语言感兴趣的人和那些没有系统学习过java基础知识的人进行一个总结，在文章中对构造函数进行了较为详细的说明和讨论，也包含了我个人对于java面向对象中构造函数的一些看法。希望走在java学习道路上的同行者可以有一个较为清晰的认知和理解。当然仅为个人观点，水平有限，不足之处，还请大家多多指出，互相交流学习。 构造函数的概念很多java新手谈到构造函数就会犯晕，我们先来">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2018-07-12T05:56:03.816Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="java基础学习之构造函数">
+<meta name="twitter:description" content="本篇博文主要是为新手、对java语言感兴趣的人和那些没有系统学习过java基础知识的人进行一个总结，在文章中对构造函数进行了较为详细的说明和讨论，也包含了我个人对于java面向对象中构造函数的一些看法。希望走在java学习道路上的同行者可以有一个较为清晰的认知和理解。当然仅为个人观点，水平有限，不足之处，还请大家多多指出，互相交流学习。 构造函数的概念很多java新手谈到构造函数就会犯晕，我们先来">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="/js/pace.min.js"></script>
+  
+
+  
+	<script>
+	var _hmt = _hmt || [];
+	(function() {
+	  var hm = document.createElement("script");
+	  hm.src = "//hm.baidu.com/hm.js?a651034b7d11a367ae836642b29a3057";
+	  var s = document.getElementsByTagName("script")[0]; 
+	  s.parentNode.insertBefore(hm, s);
+	})();
+	</script>
+
+  
+
+</head>
+
+<body>
+  <div id="container">
+      <header id="header">
+    <div id="banner"></div>
+    <div id="header-outer">
+        <div id="header-menu" class="header-menu-pos animated">
+            <div class="header-menu-container">
+                <a href="/" class="left">
+                    <span class="site-title">zolanunu&#39;s Blog</span>
+                </a>
+                <nav id="header-menu-nav" class="right">
+                    
+                    <a  href="/">
+                        <i class="fa fa-home"></i>
+                        <span>Home</span>
+                    </a>
+                    
+                    <a  href="/archives">
+                        <i class="fa fa-archive"></i>
+                        <span>Archives</span>
+                    </a>
+                    
+                    <a  href="/about">
+                        <i class="fa fa-user"></i>
+                        <span>About</span>
+                    </a>
+                    
+                </nav>
+                <a class="mobile-header-menu-button">
+                    <i class="fa fa-bars"></i>
+                </a>
+            </div>
+        </div>
+        <div id="header-row">
+            <div id="logo">
+                <a href="/">
+                    <img src="/images/pacman.jpg" alt="logo">
+                </a>
+            </div>
+            <div class="header-info">
+                <div id="header-title">
+                    
+                    <h2>
+                        zolanunu&#39;s Blog
+                    </h2>
+                    
+                </div>
+                <div id="header-description">
+                    
+                    <h3>
+                        去努力尝试做一些你觉得你不会做或者不敢做的事情。
+                    </h3>
+                    
+                </div>
+            </div>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a title="zolanunu" target="_blank" href="//zhangbuzola.cn">
+                            <i class="fa fa-home fa-2x"></i></a>
+                    
+                        <a title="Github" target="_blank" href="//github.com/zolanunu">
+                            <i class="fa fa-github fa-2x"></i></a>
+                    
+                        <a title="Weibo" target="_blank" href="//weibo.com/zolanunu">
+                            <i class="fa fa-weibo fa-2x"></i></a>
+                    
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>
+      <div class="outer">
+        <section id="main" class="body-wrap"><article id="post-java基础之构造函数" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="post-title" itemprop="name">
+      java基础学习之构造函数
+    </h1>
+    <div class="post-title-bar">
+      <ul>
+          
+              <li>
+                  <i class="fa fa-book"></i>
+                  
+                      <a href="/categories/Java/">Java</a>
+                  
+              </li>
+          
+        <li>
+          <i class="fa fa-calendar"></i>  2017-10-15
+        </li>
+        <li>
+          <i class="fa fa-eye"></i>
+          <span id="busuanzi_value_page_pv"></span>
+        </li>
+      </ul>
+    </div>
+  
+
+          
+      </header>
+    
+    <div class="article-entry post-content" itemprop="articleBody">
+      
+            
+            <p>本篇博文主要是为新手、对java语言感兴趣的人和那些没有系统学习过java基础知识的人进行一个总结，在文章中对构造函数进行了较为详细的说明和讨论，也包含了我个人对于java面向对象中构造函数的一些看法。希望走在java学习道路上的同行者可以有一个较为清晰的认知和理解。当然仅为个人观点，水平有限，不足之处，还请大家多多指出，互相交流学习。</p>
+<h1 id="构造函数的概念"><a href="#构造函数的概念" class="headerlink" title="构造函数的概念"></a>构造函数的概念</h1><p>很多java新手谈到构造函数就会犯晕，我们先来看看什么是构造函数。</p>
+<p>首先，构造函数是函数的一种特殊形式，特殊在哪里？构造函数中不需要定义返回类型（void是无需返回值的意思，请注意区分两者），且构造函数的名称与所在的类名完全一致，其余的与函数的特性相同，可以带有参数列表，可以存在函数的重载现象。</p>
+<h1 id="构造函数的格式"><a href="#构造函数的格式" class="headerlink" title="构造函数的格式"></a>构造函数的格式</h1><p>了解了构造函数的基本概念，现在来写一个构造函数，希望大家可以了解、记忆其格式，通过实例发现其与普通函数的不同之处。</p>
+<p><code>`</code><br>public class Demo{</p>
+<pre><code>private int num=0;
+//无参构造函数
+Demo() {
+    System.out.println(&quot;constractor_run&quot;);
+}
+//有参构造函数
+Demo(int num) {
+    System.out.println(&quot;constractor_args_run&quot;);
+}
+//普通成员函数
+public void demoFunction() {
+    System.out.println(&quot;function_run&quot;);
+}
+</code></pre><p>}</p>
+<p>在这里要说明一点，如果在类中我们不声明构造函数，JVM会帮我们默认生成一个空参数的构造函数；如果在类中我们声明了带参数列表的构造函数，JVM就不会帮我们默认生成一个空参数的构造函数，我们想要使用空参数的构造函数就必须自己去显式的声明一个空参的构造函数。</p>
+<h1 id="构造函数的作用"><a href="#构造函数的作用" class="headerlink" title="构造函数的作用"></a>构造函数的作用</h1><p>通过开头的介绍，构造函数的轮廓已经渐渐清晰，那么为什么会有构造函数呢？构造函数有什么作用？构造函数是面向对象编程思想所需求的，它的主要作用有以下两个：</p>
+<ul>
+<li><p>创建对象。任何一个对象创建时，都需要初始化才能使用，所以任何类想要创建实例对象就必须具有构造函数。</p>
+</li>
+<li><p>对象初始化。构造函数可以对对象进行初始化，并且是给与之格式（参数列表）相符合的对象初始化，是具有一定针对性的初始化函数。</p>
+</li>
+</ul>
+<h1 id="构造函数与普通函数的区别"><a href="#构造函数与普通函数的区别" class="headerlink" title="构造函数与普通函数的区别"></a>构造函数与普通函数的区别</h1><p>下面来详细的分析下构造函数与普通函数的区别，通过两者的一个对比，希望可以加深对构造函数的概念的理解。</p>
+<ul>
+<li>格式不同：</li>
+</ul>
+<p>构造函数不存在返回类型，函数名与所在类的类名一致；</p>
+<p>普通函数有返回类型，函数名可以根据需求进行命名。</p>
+<ul>
+<li>调用时期不同</li>
+</ul>
+<p>构造函数在类的对象创建时就运行；</p>
+<p>普通函数在对象调用时才会执行。</p>
+<ul>
+<li>执行次数不同</li>
+</ul>
+<p>一个对象创建后，其构造函数只执行一次，就是创建时执行；</p>
+<p>一个对象创建后，其普通函数可以执行多次，取决于对象的调用次数。</p>
+<h1 id="构造函数的使用场景"><a href="#构造函数的使用场景" class="headerlink" title="构造函数的使用场景"></a>构造函数的使用场景</h1><p>分析了那么多构造函数的信息，那么什么时候使用构造函数呢？既然构造函数是对新对象进行初始化，那么当开发中分析事物的时候，发现事物一出现就具备了某些特征时，就可以将其定义在构造函数中，这样方便快捷，也符合面向对象的编程思想。</p>
+<h1 id="构造函数在继承中的特点"><a href="#构造函数在继承中的特点" class="headerlink" title="构造函数在继承中的特点"></a>构造函数在继承中的特点</h1><p>在继承中，子类创建的对象可以调用父类的公共方法和属性，那么子类会不会调用父类的构造函数呢？子类的构造函数与父类的构造函数有什么关系？子类的构造函数需要注意些什么问题呢？下面来解答这三个问题。</p>
+<ul>
+<li>子类会不会调用父类的函数？</li>
+</ul>
+<p>子类继承父类，子类对象初始化时父类的构造函数也会执行，因为子类需要使用父类中的属性，子类需要知道是如何初始化的，所以子类初始化必然会调用父类的构造函数（除非父类没有属性，那么这个类的描述也太差了点，或者没有必要去创建这个类了）。</p>
+<ul>
+<li>子类的构造函数与父类的构造函数有什么关系？</li>
+</ul>
+<p>子类的构造函数中默认的第一行有一条隐式语句super()，该语句会访问父类中的空参数构造函数，除非父类中没有空参数的构造函数，那么子类构造函数的第一行必须显式调用父类的构造函数，即super(int x,…) 。</p>
+<p>子类的构造函数需要注意些什么问题呢？</p>
+<p>子类的构造函数中，super()语句代表调用了父类的构造函数；this()语句代表调用了子类自身的构造函数。需要注意的是，如果这两条语句显式写出来必须放在构造方法的第一行，而且这两条语句不能共存，一个构造函数中的第一行要么是this()要么是super()。</p>
+<ul>
+<li>为什么在第一行？因为需要首先进行初始化。</li>
+</ul>
+<p>为什么不能共存？因为this()代表的本类的其他构造函数，也会去调用super()，出现了this()就没有必要再出现super()了，重复调用没有意义。换言之，子类中至少有一个构造函数的开头为super()，当然可以隐式存在；也就是说至少有一个构造函数的开头不是this()。</p>
+<h1 id="构造函数的扩展"><a href="#构造函数的扩展" class="headerlink" title="构造函数的扩展"></a>构造函数的扩展</h1><p>以上的六条已经讲构造函数的概念、特点、使用等问题介绍的比较清楚，下面来介绍几点与构造函数相关的扩展性的小知识。</p>
+<ul>
+<li>所有的类都有构造函数么？构造函数可以被私有化么？</li>
+</ul>
+<p>既然构造函数用于创建对象并且初始化对象，那么当一个类不需要创建对象时，就不需要定义构造函数，但是在java中，所有的类都拥有构造函数，只是有些类的构造函数对开发人员来说是隐藏不可见的，这一点与我们的预期并不相同，不过换个角度这也很好理解，因为java是面向对象的，我们创建类的目的就是为了创建对象或者创建其子类对象，所以没有构造函数的类（无法创建对象的类）并没有什么意义。</p>
+<p>而对于第二个问题，一个类不想要外界创建其对象时，就可以将其构造函数私有化，本类中提供返回对象的方法，并且多数情况下提供的对象是唯一的，单例设计模式就是一个很好的例子，而当我们开发中需要保证对象唯一性的时候，往往就采取这种做法。</p>
+<h1 id="构造代码块与构造函数有什么相似和不同？"><a href="#构造代码块与构造函数有什么相似和不同？" class="headerlink" title="构造代码块与构造函数有什么相似和不同？"></a>构造代码块与构造函数有什么相似和不同？</h1><p>构造代码块用一对“{}”表示，代码块位置没有具体的要求，但必须与类的成员同等级别，在括号的区域内，可以对所有该类的对象进行初始化，也就是说该类对象创建时都会执行到该代码块，并且其优先于构造函数执行。构造函数如前面提到的是具有针对性的，而构造代码块是作用于所有本类对象的。</p>
+
+            <div class="post-copyright">
+    <div class="content">
+        <p>最后更新： 2018年07月12日 13:56</p>
+        <p>原始链接： <a class="post-url" href="/2017/10/15/java基础之构造函数/" title="java基础学习之构造函数">http://zhangbuzola.cn/2017/10/15/java基础之构造函数/</a></p>
+        <footer>
+            <a href="http://zhangbuzola.cn">
+                <img src="/images/pacman.jpg" alt="zolanunu">
+                zolanunu
+            </a>
+        </footer>
+    </div>
+</div>
+
+      
+        
+            
+
+        
+    </div>
+    <footer class="article-footer">
+        
+        <ul class="article-footer-menu">
+            
+            
+  <li class="article-footer-tags">
+    <i class="fa fa-tags"></i>
+      
+    <a href="/tags/java基础/" class="color2">java基础</a>
+      
+    <a href="/tags/构造函数/" class="color5">构造函数</a>
+      
+  </li>
+
+        </ul>
+        
+    </footer>
+  </div>
+</article>
+
+
+    <aside class="post-toc-pos post-toc-top" id="post-toc">
+        <nav class="post-toc-wrap">
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#构造函数的概念"><span class="post-toc-text">构造函数的概念</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#构造函数的格式"><span class="post-toc-text">构造函数的格式</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#构造函数的作用"><span class="post-toc-text">构造函数的作用</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#构造函数与普通函数的区别"><span class="post-toc-text">构造函数与普通函数的区别</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#构造函数的使用场景"><span class="post-toc-text">构造函数的使用场景</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#构造函数在继承中的特点"><span class="post-toc-text">构造函数在继承中的特点</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#构造函数的扩展"><span class="post-toc-text">构造函数的扩展</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#构造代码块与构造函数有什么相似和不同？"><span class="post-toc-text">构造代码块与构造函数有什么相似和不同？</span></a></li></ol>
+        </nav>
+    </aside>
+    
+
+<nav id="article-nav">
+  
+    <a href="/2017/10/15/mysql_practice/" id="article-nav-newer" class="article-nav-link-wrap">
+
+      <span class="article-nav-title">
+        <i class="fa fa-hand-o-left" aria-hidden="true"></i>
+        
+          mysql实战part1
+        
+      </span>
+    </a>
+  
+  
+    <a href="/2017/10/14/python_thread/" id="article-nav-older" class="article-nav-link-wrap">
+      <span class="article-nav-title">python之多线程学习</span>
+      <i class="fa fa-hand-o-right" aria-hidden="true"></i>
+    </a>
+  
+</nav>
+
+
+
+    
+        <link rel="stylesheet" href="//unpkg.com/gitment/style/default.css">
+    <script src="//unpkg.com/gitment/dist/gitment.browser.js"></script>
+    <script>
+        var gitment = new Gitment({
+            owner: 'true',
+            repo: 'zolanunu',
+            oauth: {
+                client_id: '1a04e8dee74a4b8634df',
+                client_secret: '9e3078ac89eb72f22abbdd11f7f0d11e2e1d7f7a',
+            },
+        })
+        gitment.render('comments')
+    </script>
+
+    
+</section>
+        
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+      <p>
+        Powered by  <a href="http://hexo.io/" target="_blank">Hexo</a>
+        Theme <a href="//github.com/wongminho/hexo-theme-miho" target="_blank">MiHo</a>
+      &copy; 2018 zolanunu<br>
+      </p>
+    </div>
+  </div>
+</footer>
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script>
+  var mihoConfig = {
+      root: "http://zhangbuzola.cn",
+      animate: true,
+      isHome: false,
+      share: false,
+      reward: 0
+  }
+</script>
+<div class="sidebar">
+    <div id="sidebar-search" title="Search">
+        <i class="fa fa-search"></i>
+    </div>
+    <div id="sidebar-category" title="Categories">
+        <i class="fa fa-book"></i>
+    </div>
+    <div id="sidebar-tag" title="Tags">
+        <i class="fa fa-tags"></i>
+    </div>
+    <div id="sidebar-top">
+        <span class="sidebar-top-icon"><i class="fa fa-angle-up"></i></span>
+    </div>
+</div>
+<div class="sidebar-menu-box" id="sidebar-menu-box">
+    <div class="sidebar-menu-box-container">
+        <div id="sidebar-menu-box-categories">
+            <a class="category-link" href="/categories/Java/">Java</a><a class="category-link" href="/categories/Java后台/">Java后台</a><a class="category-link" href="/categories/Python/">Python</a><a class="category-link" href="/categories/工具/">工具</a><a class="category-link" href="/categories/技术书/">技术书</a><a class="category-link" href="/categories/数据库/">数据库</a><a class="category-link" href="/categories/数据结构/">数据结构</a><a class="category-link" href="/categories/生活轨迹/">生活轨迹</a><a class="category-link" href="/categories/算法/">算法</a>
+        </div>
+        <div id="sidebar-menu-box-tags">
+            <a href="/tags/2018/" style="font-size: 11.43px;">2018</a> <a href="/tags/Collections/" style="font-size: 15.71px;">Collections</a> <a href="/tags/HashMap/" style="font-size: 10px;">HashMap</a> <a href="/tags/LinkedHashMap/" style="font-size: 10px;">LinkedHashMap</a> <a href="/tags/MySQL/" style="font-size: 17.14px;">MySQL</a> <a href="/tags/Mybatis/" style="font-size: 12.86px;">Mybatis</a> <a href="/tags/Object/" style="font-size: 10px;">Object</a> <a href="/tags/SSM/" style="font-size: 12.86px;">SSM</a> <a href="/tags/TreeMap/" style="font-size: 11.43px;">TreeMap</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/java基础/" style="font-size: 20px;">java基础</a> <a href="/tags/java并发编程实战/" style="font-size: 11.43px;">java并发编程实战</a> <a href="/tags/leetcode/" style="font-size: 17.14px;">leetcode</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/剑指offer/" style="font-size: 10px;">剑指offer</a> <a href="/tags/多线程/" style="font-size: 11.43px;">多线程</a> <a href="/tags/并发编程/" style="font-size: 10px;">并发编程</a> <a href="/tags/机器学习/" style="font-size: 12.86px;">机器学习</a> <a href="/tags/构造函数/" style="font-size: 10px;">构造函数</a> <a href="/tags/深入理解java虚拟机/" style="font-size: 10px;">深入理解java虚拟机</a> <a href="/tags/生活/" style="font-size: 10px;">生活</a> <a href="/tags/神经网络/" style="font-size: 10px;">神经网络</a> <a href="/tags/算法与数据结构/" style="font-size: 14.29px;">算法与数据结构</a> <a href="/tags/算法和数据结构/" style="font-size: 18.57px;">算法和数据结构</a> <a href="/tags/观影记/" style="font-size: 10px;">观影记</a> <a href="/tags/读书书单/" style="font-size: 10px;">读书书单</a>
+        </div>
+    </div>
+    <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
+</div>
+<div class="mobile-header-menu-nav" id="mobile-header-menu-nav">
+    <div class="mobile-header-menu-container">
+        <span class="title">Menus</span>
+        <ul class="mobile-header-menu-navbar">
+            
+            <li>
+                <a  href="/">
+                    <i class="fa fa-home"></i><span>Home</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/archives">
+                    <i class="fa fa-archive"></i><span>Archives</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/about">
+                    <i class="fa fa-user"></i><span>About</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    <div class="mobile-header-tag-container">
+        <span class="title">Tags</span>
+        <div id="mobile-header-container-tags">
+            <a href="/tags/2018/" style="font-size: 11.43px;">2018</a> <a href="/tags/Collections/" style="font-size: 15.71px;">Collections</a> <a href="/tags/HashMap/" style="font-size: 10px;">HashMap</a> <a href="/tags/LinkedHashMap/" style="font-size: 10px;">LinkedHashMap</a> <a href="/tags/MySQL/" style="font-size: 17.14px;">MySQL</a> <a href="/tags/Mybatis/" style="font-size: 12.86px;">Mybatis</a> <a href="/tags/Object/" style="font-size: 10px;">Object</a> <a href="/tags/SSM/" style="font-size: 12.86px;">SSM</a> <a href="/tags/TreeMap/" style="font-size: 11.43px;">TreeMap</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/java基础/" style="font-size: 20px;">java基础</a> <a href="/tags/java并发编程实战/" style="font-size: 11.43px;">java并发编程实战</a> <a href="/tags/leetcode/" style="font-size: 17.14px;">leetcode</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/剑指offer/" style="font-size: 10px;">剑指offer</a> <a href="/tags/多线程/" style="font-size: 11.43px;">多线程</a> <a href="/tags/并发编程/" style="font-size: 10px;">并发编程</a> <a href="/tags/机器学习/" style="font-size: 12.86px;">机器学习</a> <a href="/tags/构造函数/" style="font-size: 10px;">构造函数</a> <a href="/tags/深入理解java虚拟机/" style="font-size: 10px;">深入理解java虚拟机</a> <a href="/tags/生活/" style="font-size: 10px;">生活</a> <a href="/tags/神经网络/" style="font-size: 10px;">神经网络</a> <a href="/tags/算法与数据结构/" style="font-size: 14.29px;">算法与数据结构</a> <a href="/tags/算法和数据结构/" style="font-size: 18.57px;">算法和数据结构</a> <a href="/tags/观影记/" style="font-size: 10px;">观影记</a> <a href="/tags/读书书单/" style="font-size: 10px;">读书书单</a>
+        </div>
+    </div>
+</div>
+<div class="search-wrap">
+    <span class="search-close">&times;</span>
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+            <i class="icon icon-lg icon-chevron-left"></i>
+        </a>
+        <input class="search-field" placeholder="Search..." id="keywords">
+        <a id="search-submit" href="javascript:;">
+            <i class="fa fa-search"></i>
+        </a>
+    <div class="search-container" id="search-container">
+        <ul class="search-result" id="search-result">
+        </ul>
+    </div>
+</div>
+
+<div id="search-tpl">
+    <li class="search-result-item">
+        <a href="{url}" class="search-item-li">
+            <span class="search-item-li-title" title="{title}">{title}</span>
+        </a>
+    </li>
+</div>
+<script src="/js/search.js"></script>
+<script src="/js/main.js"></script>
+
+
+  <script src="//cdn.bootcss.com/particles.js/2.0.0/particles.min.js"></script>
+  <div id="particles"></div>
+  <script src="/js/particles.js"></script>
+
+
+
+
+
+
+
+  <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
+  <script src="//cdn.bootcss.com/scrollReveal.js/3.0.5/scrollreveal.js"></script>
+  <script src="/js/animate.js"></script>
+
+
+  <script src="/js/pop-img.js"></script>
+  <script>
+     $(".article-entry p img").popImg();
+  </script>
+
+  </div>
+</body>
+</html>

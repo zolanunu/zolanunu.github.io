@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>java基础学习之引用 | zolanunu</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+    <meta name="keywords" content="zolanunu,zolanunu's blog" />
+  
+  <meta name="description" content="对象和对象引用其实就是一个地址：这个地址里面存的内容是真正内容的地址 123Int a = 1;A a = new A(); A a: 可以指向A类任何一个对象的引用， a并不是一个对象。 123Person person;person = new Person(&amp;quot;张三&amp;quot;);person = new Person(&amp;quot;李四&amp;quot;); 这里让person先指向了“张">
+<meta name="keywords" content="java基础">
+<meta property="og:type" content="article">
+<meta property="og:title" content="java基础学习之引用">
+<meta property="og:url" content="http://zhangbuzola.cn/2017/11/22/java基础之引用/index.html">
+<meta property="og:site_name" content="zolanunu">
+<meta property="og:description" content="对象和对象引用其实就是一个地址：这个地址里面存的内容是真正内容的地址 123Int a = 1;A a = new A(); A a: 可以指向A类任何一个对象的引用， a并不是一个对象。 123Person person;person = new Person(&amp;quot;张三&amp;quot;);person = new Person(&amp;quot;李四&amp;quot;); 这里让person先指向了“张">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2018-07-12T05:55:09.322Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="java基础学习之引用">
+<meta name="twitter:description" content="对象和对象引用其实就是一个地址：这个地址里面存的内容是真正内容的地址 123Int a = 1;A a = new A(); A a: 可以指向A类任何一个对象的引用， a并不是一个对象。 123Person person;person = new Person(&amp;quot;张三&amp;quot;);person = new Person(&amp;quot;李四&amp;quot;); 这里让person先指向了“张">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="/js/pace.min.js"></script>
+  
+
+  
+	<script>
+	var _hmt = _hmt || [];
+	(function() {
+	  var hm = document.createElement("script");
+	  hm.src = "//hm.baidu.com/hm.js?a651034b7d11a367ae836642b29a3057";
+	  var s = document.getElementsByTagName("script")[0]; 
+	  s.parentNode.insertBefore(hm, s);
+	})();
+	</script>
+
+  
+
+</head>
+
+<body>
+  <div id="container">
+      <header id="header">
+    <div id="banner"></div>
+    <div id="header-outer">
+        <div id="header-menu" class="header-menu-pos animated">
+            <div class="header-menu-container">
+                <a href="/" class="left">
+                    <span class="site-title">zolanunu&#39;s Blog</span>
+                </a>
+                <nav id="header-menu-nav" class="right">
+                    
+                    <a  href="/">
+                        <i class="fa fa-home"></i>
+                        <span>Home</span>
+                    </a>
+                    
+                    <a  href="/archives">
+                        <i class="fa fa-archive"></i>
+                        <span>Archives</span>
+                    </a>
+                    
+                    <a  href="/about">
+                        <i class="fa fa-user"></i>
+                        <span>About</span>
+                    </a>
+                    
+                </nav>
+                <a class="mobile-header-menu-button">
+                    <i class="fa fa-bars"></i>
+                </a>
+            </div>
+        </div>
+        <div id="header-row">
+            <div id="logo">
+                <a href="/">
+                    <img src="/images/pacman.jpg" alt="logo">
+                </a>
+            </div>
+            <div class="header-info">
+                <div id="header-title">
+                    
+                    <h2>
+                        zolanunu&#39;s Blog
+                    </h2>
+                    
+                </div>
+                <div id="header-description">
+                    
+                    <h3>
+                        去努力尝试做一些你觉得你不会做或者不敢做的事情。
+                    </h3>
+                    
+                </div>
+            </div>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a title="zolanunu" target="_blank" href="//zhangbuzola.cn">
+                            <i class="fa fa-home fa-2x"></i></a>
+                    
+                        <a title="Github" target="_blank" href="//github.com/zolanunu">
+                            <i class="fa fa-github fa-2x"></i></a>
+                    
+                        <a title="Weibo" target="_blank" href="//weibo.com/zolanunu">
+                            <i class="fa fa-weibo fa-2x"></i></a>
+                    
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>
+      <div class="outer">
+        <section id="main" class="body-wrap"><article id="post-java基础之引用" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="post-title" itemprop="name">
+      java基础学习之引用
+    </h1>
+    <div class="post-title-bar">
+      <ul>
+          
+              <li>
+                  <i class="fa fa-book"></i>
+                  
+                      <a href="/categories/Java/">Java</a>
+                  
+              </li>
+          
+        <li>
+          <i class="fa fa-calendar"></i>  2017-11-22
+        </li>
+        <li>
+          <i class="fa fa-eye"></i>
+          <span id="busuanzi_value_page_pv"></span>
+        </li>
+      </ul>
+    </div>
+  
+
+          
+      </header>
+    
+    <div class="article-entry post-content" itemprop="articleBody">
+      
+            
+            <h1 id="对象和对象引用"><a href="#对象和对象引用" class="headerlink" title="对象和对象引用"></a>对象和对象引用</h1><p>其实就是一个地址：这个地址里面存的内容是真正内容的地址</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Int a = 1;</span><br><span class="line"></span><br><span class="line">A a = new A();</span><br></pre></td></tr></table></figure>
+<p>A a: 可以指向A类任何一个对象的引用， a并不是一个对象。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Person person;</span><br><span class="line">person = new Person(&quot;张三&quot;);</span><br><span class="line">person = new Person(&quot;李四&quot;);</span><br></pre></td></tr></table></figure>
+<p>这里让person先指向了“张三”这个对象，然后又指向了“李四”这个对象。也就是说，Person person，这句话只是声明了一个Person类的引用，它可以指向任何Person类的实例。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">int a;</span><br><span class="line">a=2;</span><br><span class="line">a=3;</span><br></pre></td></tr></table></figure>
+<p>这里先声明了一个int类型的变量a，先对a赋值为2，后面又赋值为3.也就是说int类型的变量a，可以让它的值为2，也可以为3，只要是合法的int类型的数值即可。</p>
+<h1 id="四种引用方式"><a href="#四种引用方式" class="headerlink" title="四种引用方式"></a>四种引用方式</h1><p>为什么会有四种引用方式</p>
+<p>第一是可以让程序员通过代码的方式决定某些对象的生命周期；        第二是有利于JVM进行垃圾回收。</p>
+<h2 id="强引用"><a href="#强引用" class="headerlink" title="强引用"></a>强引用</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">A a = new A();</span><br><span class="line">String s = &quot;hello&quot;;</span><br></pre></td></tr></table></figure>
+<p>强引用有引用变量指向时永远不会被垃圾回收，JVM宁愿抛出OutOfMemory错误也不会回收这种对象。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">public class Main &#123;  </span><br><span class="line">    public static void main(String[] args) &#123;  </span><br><span class="line">        new Main().fun1();  </span><br><span class="line">    &#125;  </span><br><span class="line">       </span><br><span class="line">    public void fun1() &#123;  </span><br><span class="line">        Object object = new Object();  </span><br><span class="line">        Object[] objArr = new Object[1000];  </span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+<p>当运行至Object[] objArr = new Object[1000];这句时，如果内存不足，JVM会抛出OOM错误也不会回收object指向的对象。不过要注意的是，当fun1运行完之后，object和objArr都已经不存在了，所以它们指向的对象都会被JVM回收。<br>如果想中断强引用和某个对象之间的关联，可以显示地将引用赋值为null，这样一来的话，JVM在合适的时间就会回收该对象。</p>
+<p>比如： Vector类的clear方法中就是将引用赋值给null来实现清理工作。</p>
+<h2 id="软引用-SoftReference"><a href="#软引用-SoftReference" class="headerlink" title="软引用 SoftReference"></a>软引用 SoftReference</h2><p>如果一个对象具有软引用，内存空间足够，垃圾回收器就不会回收它；</p>
+<p>如果内存空间不足了，就会回收这些对象的内存。只要垃圾回收器没有回收它，该对象就可以被程序使用。</p>
+<p>软引用可用来实现内存敏感的高速缓存,比如网页缓存、图片缓存等。使用软引用能防止内存泄露，增强程序的健壮性。</p>
+<p>SoftReference的特点是它的一个实例保存对一个Java对象的软引用， 该软引用的存在不妨碍垃圾收集线程对该Java对象的回收。</p>
+<p>也就是说，一旦SoftReference保存了对一个Java对象的软引用后，在垃圾线程对 这个Java对象回收前，SoftReference类所提供的get()方法返回Java对象的强引用。</p>
+<p>另外，一旦垃圾线程回收该Java对象之 后，get()方法将返回null。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">MyObject aRef = new  MyObject();  </span><br><span class="line">SoftReference aSoftRef=new SoftReference(aRef);</span><br></pre></td></tr></table></figure>
+<p>对于这个MyObject对象，有两个引用路径，一个是来自SoftReference对象的软引用，一个来自变量aReference的强引用，所以这个MyObject对象是强可及对象。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">aRef = null;</span><br></pre></td></tr></table></figure>
+<p>此后，这个MyObject对象成为了软引用对象。如果垃圾收集线程进行内存垃圾收集，并不会因为有一个SoftReference对该对象的引用而始终保留该对象。</p>
+<p>Java虚拟机的垃圾收集线程对软可及对象和其他一般Java对象进行了区别对待:软可及对象的清理是由垃圾收集线程根据其特定算法按照内存需求决定的。<br>也就是说，垃圾收集线程会在虚拟机抛出OutOfMemoryError之前回收软可及对象，而且虚拟机会尽可能优先回收长时间闲置不用的软可及对象，对那些刚刚构建的或刚刚使用过的“新”软可反对象会被虚拟机尽可能保留。在回收这些对象之前，我们可以通过:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">MyObject anotherRef=(MyObject)aSoftRef.get();</span><br></pre></td></tr></table></figure>
+<p>重新获得对该实例的强引用。而回收之后，调用get()方法就只能得到null了。<br>使用ReferenceQueue清除失去了软引用对象的SoftReference：<br>作为一个Java对象，SoftReference对象除了具有保存软引用的特殊性之外，也具有Java对象的一般性。所以，当软可及对象被回收之后，虽然这个SoftReference对象的get()方法返回null,但这个SoftReference对象已经不再具有存在的价值，需要一个适当的清除机制，避免大量SoftReference对象带来的内存泄漏。在java.lang.ref包里还提供了ReferenceQueue。如果在创建SoftReference对象的时候，使用了一个ReferenceQueue对象作为参数提供给SoftReference的构造方法，如:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ReferenceQueue queue = new  ReferenceQueue();  </span><br><span class="line">SoftReference  ref=new  SoftReference(aMyObject, queue);</span><br></pre></td></tr></table></figure>
+<p>那么当这个SoftReference所软引用的aMyOhject被垃圾收集器回收的同时，ref所强引用的SoftReference对象被列入ReferenceQueue。也就是说，ReferenceQueue中保存的对象是Reference对象，而且是已经失去了它所软引用的对象的Reference对象。另外从ReferenceQueue这个名字也可以看出，它是一个队列，当我们调用它的poll()方法的时候，如果这个队列中不是空队列，那么将返回队列前面的那个Reference对象。</p>
+<p>在任何时候，我们都可以调用ReferenceQueue的poll()方法来检查是否有它所关心的非强可及对象被回收。如果队列为空，将返回一个null,否则该方法返回队列中前面的一个Reference对象。利用这个方法，我们可以检查哪个SoftReference所软引用的对象已经被回收。于是我们可以把这些失去所软引用的对象的SoftReference对象清除掉。常用的方式为:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">SoftReference ref = null;  </span><br><span class="line">while ((ref = (EmployeeRef) q.poll()) != null) &#123;  </span><br><span class="line">    // 清除ref  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>软引用是我要细说的一个部分，先说一下软引用的一个引用目的，软引用的使用是与内存挂钩的一个引用类，主要应用于内存敏感的高速缓存，其实在Android中是经常使用的到的，由于Android的虚拟机是基于寄存器的Dalvik，它的堆大小只有16M，我们都清楚无论是Android应用程序，还是Java引用程序，在实例化对象的时候都是在堆中完成的…因此在Android中这个堆的大小要求确实是很苛刻的，一旦我们读取的资源数据过大，或者是内存里的对象由于声明的周期太长，没有被及时的释放，那么就很有可能造成OOM的发生…我们都知道GC的回收机制在正常的情况下并不是时时刻刻都在工作的，它的工作时间是不定期的，因此如果在GC不工作的期间我们的内存已经爆表，那就必定导致程序终止…OOM在Android是经常见到的一种情况，对象的不及时释放，static关键字的使用，线程不可控，还有最常见的就是在读取Bitmap的时候导致这种情况的发生…</p>
+<p>那么OOM是一个非常严重的问题，但是如果内存得不到充分的使用，这个其实也是一个潜在的问题，SoftReference（软引用），其实给我的感觉就是为了解决这样的问题，每一个对象通过软引用进行实例化，那么这个对象的数据也就会被保存起来，当需要再次调用这个对象中的数据的时候，只需要通过对象的get()方法就可以获取到该对象所保存的数据信息，其实也会是我们所说的cache，当内存快要不足的时候，GC会迅速的把所有的软引用清除掉，释放内存空间…这样不仅结合了对象的cache，同时还解决了OOM的发生，一举两得…虽然说是一举两得的东西，保证了内存能够安全的被使用，那么相反就要牺牲效率，在每一个软引用对象被实例化的时候，其实还是需要耗费许多的时间的…因此到底如何运用，取决于我们遇到的问题.</p>
+<h2 id="弱引用-WeakReference"><a href="#弱引用-WeakReference" class="headerlink" title="弱引用 WeakReference"></a>弱引用 WeakReference</h2><p>弱引用也是用来描述非必需对象的，当JVM进行垃圾回收时，无论内存是否充足，都会回收被弱引用关联的对象。在java中，用java.lang.ref.WeakReference类来表示。下面是使用示例：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">public class test &#123;  </span><br><span class="line">    public static void main(String[] args) &#123;  </span><br><span class="line">        WeakReference&lt;People&gt;reference=new WeakReference&lt;People&gt;(new People(&quot;zhouqian&quot;,20));  </span><br><span class="line">        System.out.println(reference.get());  </span><br><span class="line">        System.gc();//通知GVM回收资源  </span><br><span class="line">        System.out.println(reference.get());  </span><br><span class="line">    &#125;  </span><br><span class="line">&#125;  </span><br><span class="line">class People&#123;  </span><br><span class="line">    public String name;  </span><br><span class="line">    public int age;  </span><br><span class="line">    public People(String name,int age) &#123;  </span><br><span class="line">        this.name=name;  </span><br><span class="line">        this.age=age;  </span><br><span class="line">    &#125;  </span><br><span class="line">    @Override  </span><br><span class="line">    public String toString() &#123;  </span><br><span class="line">        return &quot;[name:&quot;+name+&quot;,age:&quot;+age+&quot;]&quot;;  </span><br><span class="line">    &#125;  </span><br><span class="line">&#125;  </span><br><span class="line">[name:zhouqian,age:20]</span><br><span class="line">null</span><br></pre></td></tr></table></figure>
+<p>第二个输出结果是null，这说明只要JVM进行垃圾回收，被弱引用关联的对象必定会被回收掉。不过要注意的是，这里所说的被弱引用关联的对象是指只有弱引用与之关联，如果存在强引用同时与之关联，则进行垃圾回收时也不会回收该对象（软引用也是如此）。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">import java.lang.ref.WeakReference;  </span><br><span class="line">  </span><br><span class="line">public class test &#123;  </span><br><span class="line">    public static void main(String[] args) &#123;  </span><br><span class="line">        People people=new People(&quot;zhouqian&quot;,20);  </span><br><span class="line">        WeakReference&lt;People&gt;reference=new WeakReference&lt;People&gt;(people);//&lt;span style=&quot;color:#FF0000;&quot;&gt;关联强引用&lt;/span&gt;  </span><br><span class="line">        System.out.println(reference.get());  </span><br><span class="line">        System.gc();  </span><br><span class="line">        System.out.println(reference.get());  </span><br><span class="line">    &#125;  </span><br><span class="line">&#125;  </span><br><span class="line">class People&#123;  </span><br><span class="line">    public String name;  </span><br><span class="line">    public int age;  </span><br><span class="line">    public People(String name,int age) &#123;  </span><br><span class="line">        this.name=name;  </span><br><span class="line">        this.age=age;  </span><br><span class="line">    &#125;  </span><br><span class="line">    @Override  </span><br><span class="line">    public String toString() &#123;  </span><br><span class="line">        return &quot;[name:&quot;+name+&quot;,age:&quot;+age+&quot;]&quot;;  </span><br><span class="line">    &#125;  </span><br><span class="line">&#125;//结果发生了很大的变化  </span><br><span class="line">[name:zhouqian,age:20]  </span><br><span class="line">[name:zhouqian,age:20]</span><br></pre></td></tr></table></figure>
+<p>弱引用可以和一个引用队列（ReferenceQueue）联合使用，如果弱引用所引用的对象被JVM回收，这个软引用就会被加入到与之关联的引用队列中。</p>
+<h2 id="虚引用-PhantomReference"><a href="#虚引用-PhantomReference" class="headerlink" title="虚引用 PhantomReference"></a>虚引用 PhantomReference</h2><p>虚引用和前面的软引用、弱引用不同，它并不影响对象的生命周期。在java中用java.lang.ref.PhantomReference类表示。如果一个对象与虚引用关联，则跟没有引用与之关联一样，在任何时候都可能被垃圾回收器回收。</p>
+<p>要注意的是，虚引用必须和引用队列关联使用，当垃圾回收器准备回收一个对象时，如果发现它还有虚引用，就会把这个虚引用加入到与之 关联的引用队列中。程序可以通过判断引用队列中是否已经加入了虚引用，来了解被引用的对象是否将要被垃圾回收。如果程序发现某个虚引用已经被加入到引用队列，那么就可以在所引用的对象的内存被回收之前采取必要的行动。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">import java.lang.ref.PhantomReference;  </span><br><span class="line">import java.lang.ref.ReferenceQueue;  </span><br><span class="line">public class Main &#123;  </span><br><span class="line">    public static void main(String[] args) &#123;  </span><br><span class="line">        ReferenceQueue&lt;String&gt; queue = new ReferenceQueue&lt;String&gt;();  </span><br><span class="line">        PhantomReference&lt;String&gt; pr = new PhantomReference&lt;String&gt;(new String(&quot;hello&quot;), queue);  </span><br><span class="line">        System.out.println(pr.get());  </span><br><span class="line">    &#125;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="软引用和弱引用"><a href="#软引用和弱引用" class="headerlink" title="软引用和弱引用"></a>软引用和弱引用</h2><p>对于强引用，我们平时在编写代码时经常会用到。而对于其他三种类型的引用，使用得最多的就是软引用和弱引用，这2种既有相似之处又有区别。它们都是用来描述非必需对象的，但是被软引用关联的对象只有在内存不足时才会被回收，而被弱引用关联的对象在JVM进行垃圾回收时总会被回收。</p>
+<p>在SoftReference类中，有三个方法，两个构造方法和一个get方法（WekReference类似）：</p>
+<p>两个构造方法：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">public SoftReference(T referent) &#123;  </span><br><span class="line">    super(referent);  </span><br><span class="line">    this.timestamp = clock;  </span><br><span class="line">    &#125;  </span><br><span class="line">public SoftReference(T referent, ReferenceQueue&lt;? super T&gt; q) &#123;  </span><br><span class="line">    super(referent, q);  </span><br><span class="line">    this.timestamp = clock;  </span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>get方法用来获取与软引用关联的对象的引用，如果该对象被回收了，则返回null。</p>
+<p>在使用软引用和弱引用的时候，我们可以显示地通过System.gc()来通知JVM进行垃圾回收，但是要注意的是，虽然发出了通知，JVM不一定会立刻执行，也就是说这句是无法确保此时JVM一定会进行垃圾回收的。</p>
+<h2 id="使用软引用构建敏感数据的缓存"><a href="#使用软引用构建敏感数据的缓存" class="headerlink" title="使用软引用构建敏感数据的缓存"></a>使用软引用构建敏感数据的缓存</h2><ul>
+<li>为什么需要使用软引用</li>
+</ul>
+<p>首先，我们看一个雇员信息查询系统的实例。我们将使用一个Java语言实现的雇员信息查询系统查询存储在磁盘文件或者数据库中的雇员人事档案信息。作为一个用户，我们完全有可能需要回头去查看几分钟甚至几秒钟前查看过的雇员档案信息(同样，我们在浏览WEB页面的时候也经常会使用“后退”按钮)。这时我们通常会有两种程序实现方式:一种是把过去查看过的雇员信息保存在内存中，每一个存储了雇员档案信息的Java对象的生命周期贯穿整个应用程序始终;另一种是当用户开始查看其他雇员的档案信息的时候，把存储了当前所查看的雇员档案信息的Java对象结束引用，使得垃圾收集线程可以回收其所占用的内存空间，当用户再次需要浏览该雇员的档案信息的时候，重新构建该雇员的信息。很显然，第一种实现方法将造成大量的内存浪费，而第二种实现的缺陷在于即使垃圾收集线程还没有进行垃圾收集，包含雇员档案信息的对象仍然完好地保存在内存中，应用程序也要重新构建一个对象。我们知道，访问磁盘文件、访问网络资源、查询数据库等操作都是影响应用程序执行性能的重要因素，如果能重新获取那些尚未被回收的Java对象的引用，必将减少不必要的访问，大大提高程序的运行速度。</p>
+<ul>
+<li>如果使用软引用</li>
+</ul>
+<p>SoftReference的特点是它的一个实例保存对一个Java对象的软引用，该软引用的存在不妨碍垃圾收集线程对该Java对象的回收。也就是说，一旦SoftReference保存了对一个Java对象的软引用后，在垃圾线程对这个Java对象回收前，SoftReference类所提供的get()方法返回Java对象的强引用。另外，一旦垃圾线程回收该Java对象之后，get()方法将返回null。<br>看下面代码:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">MyObject aRef = new  MyObject();</span><br><span class="line">SoftReference aSoftRef=new SoftReference(aRef);</span><br></pre></td></tr></table></figure>
+<p>此时，对于这个MyObject对象，有两个引用路径，一个是来自SoftReference对象的软引用，一个来自变量aReference的强引用，所以这个MyObject对象是强可及对象。<br>随即，我们可以结束aReference对这个MyObject实例的强引用:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">aRef = null;</span><br></pre></td></tr></table></figure>
+<p>此后，这个MyObject对象成为了软可及对象。如果垃圾收集线程进行内存垃圾收集，并不会因为有一个SoftReference对该对象的引用而始终保留该对象。Java虚拟机的垃圾收集线程对软可及对象和其他一般Java对象进行了区别对待:软可及对象的清理是由垃圾收集线程根据其特定算法按照内存需求决定的。也就是说，垃圾收集线程会在虚拟机抛出OutOfMemoryError之前回收软可及对象，而且虚拟机会尽可能优先回收长时间闲置不用的软可及对象，对那些刚刚构建的或刚刚使用过的“新”软可反对象会被虚拟机尽可能保留。在回收这些对象之前，我们可以通过:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">MyObject anotherRef=(MyObject)aSoftRef.get();</span><br></pre></td></tr></table></figure>
+<p>重新获得对该实例的强引用。而回收之后，调用get()方法就只能得到null了。</p>
+<ul>
+<li>使用ReferenceQueue清除失去了软引用对象的SoftReference</li>
+</ul>
+<p>作为一个Java对象，SoftReference对象除了具有保存软引用的特殊性之外，也具有Java对象的一般性。所以，当软可及对象被回收之后，虽然这个SoftReference对象的get()方法返回null,但这个SoftReference对象已经不再具有存在的价值，需要一个适当的清除机制，避免大量SoftReference对象带来的内存泄漏。在java.lang.ref包里还提供了ReferenceQueue。如果在创建SoftReference对象的时候，使用了一个ReferenceQueue对象作为参数提供给SoftReference的构造方法，如:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ReferenceQueue queue = new  ReferenceQueue();</span><br><span class="line">SoftReference  ref=new  SoftReference(aMyObject, queue);</span><br></pre></td></tr></table></figure>
+<p>那么当这个SoftReference所软引用的aMyOhject被垃圾收集器回收的同时，ref所强引用的SoftReference对象被列入ReferenceQueue。也就是说，ReferenceQueue中保存的对象是Reference对象，而且是已经失去了它所软引用的对象的Reference对象。另外从ReferenceQueue这个名字也可以看出，它是一个队列，当我们调用它的poll()方法的时候，如果这个队列中不是空队列，那么将返回队列前面的那个Reference对象。<br>在任何时候，我们都可以调用ReferenceQueue的poll()方法来检查是否有它所关心的非强可及对象被回收。如果队列为空，将返回一个null,否则该方法返回队列中前面的一个Reference对象。利用这个方法，我们可以检查哪个SoftReference所软引用的对象已经被回收。于是我们可以把这些失去所软引用的对象的SoftReference对象清除掉。常用的方式为：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">SoftReference ref = null;</span><br><span class="line">while ((ref = (EmployeeRef) q.poll()) != null) &#123;</span><br><span class="line">    // 清除ref</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>理解了ReferenceQueue的工作机制之后，我们就可以开始构造一个Java对象的高速缓存器了。</p>
+<ul>
+<li>通过软可及对象重获方法实现Java对象的高速缓存</li>
+</ul>
+<p>利用Java2平台垃圾收集机制的特性以及前述的垃圾对象重获方法，我们通过一个雇员信息查询系统的小例子来说明如何构建一种高速缓存器来避免重复构建同一个对象带来的性能损失。我们将一个雇员的档案信息定义为一个Employee类:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">publicclass Employee &#123;</span><br><span class="line">    private String id;// 雇员的标识号码</span><br><span class="line">    private String name;// 雇员姓名</span><br><span class="line">    private String department;// 该雇员所在部门</span><br><span class="line">    private String Phone;// 该雇员联系电话</span><br><span class="line">    privateintsalary;// 该雇员薪资</span><br><span class="line">    private String origin;// 该雇员信息的来源</span><br><span class="line"> </span><br><span class="line">    // 构造方法</span><br><span class="line">    public Employee(String id) &#123;</span><br><span class="line">       this.id = id;</span><br><span class="line">       getDataFromlnfoCenter();</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    // 到数据库中取得雇员信息</span><br><span class="line">    privatevoid getDataFromlnfoCenter() &#123;</span><br><span class="line">       // 和数据库建立连接井查询该雇员的信息，将查询结果赋值</span><br><span class="line">       // 给name，department，plone，salary等变量</span><br><span class="line">       // 同时将origin赋值为&quot;From DataBase&quot;</span><br><span class="line">    &#125;</span><br><span class="line">…...</span><br></pre></td></tr></table></figure>
+<p>这个Employee类的构造方法中我们可以预见，如果每次需要查询一个雇员的信息。哪怕是几秒中之前刚刚查询过的，都要重新构建一个实例，这是需要消耗很多时间的。下面是一个对Employee对象进行缓存的缓存器的定义:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line">import java.lang.ref.ReferenceQueue;</span><br><span class="line">import java.lang.ref.SoftReference;</span><br><span class="line">import java.util.Hashtable;</span><br><span class="line">publicclass EmployeeCache &#123;</span><br><span class="line">    staticprivate EmployeeCache cache;// 一个Cache实例</span><br><span class="line">    private Hashtable&lt;String,EmployeeRef&gt; employeeRefs;// 用于Chche内容的存储</span><br><span class="line">    private ReferenceQueue&lt;Employee&gt; q;// 垃圾Reference的队列</span><br><span class="line"> </span><br><span class="line">    // 继承SoftReference，使得每一个实例都具有可识别的标识。</span><br><span class="line">    // 并且该标识与其在HashMap内的key相同。</span><br><span class="line">    privateclass EmployeeRef extends SoftReference&lt;Employee&gt; &#123;</span><br><span class="line">       private String _key = &quot;&quot;;</span><br><span class="line"> </span><br><span class="line">       public EmployeeRef(Employee em, ReferenceQueue&lt;Employee&gt; q) &#123;</span><br><span class="line">           super(em, q);</span><br><span class="line">           _key = em.getID();</span><br><span class="line">       &#125;</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    // 构建一个缓存器实例</span><br><span class="line">    private EmployeeCache() &#123;</span><br><span class="line">       employeeRefs = new Hashtable&lt;String,EmployeeRef&gt;();</span><br><span class="line">       q = new ReferenceQueue&lt;Employee&gt;();</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    // 取得缓存器实例</span><br><span class="line">    publicstatic EmployeeCache getInstance() &#123;</span><br><span class="line">       if (cache == null) &#123;</span><br><span class="line">           cache = new EmployeeCache();</span><br><span class="line">       &#125;</span><br><span class="line">       returncache;</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    // 以软引用的方式对一个Employee对象的实例进行引用并保存该引用</span><br><span class="line">    privatevoid cacheEmployee(Employee em) &#123;</span><br><span class="line">       cleanCache();// 清除垃圾引用</span><br><span class="line">       EmployeeRef ref = new EmployeeRef(em, q);</span><br><span class="line">       employeeRefs.put(em.getID(), ref);</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    // 依据所指定的ID号，重新获取相应Employee对象的实例</span><br><span class="line">    public Employee getEmployee(String ID) &#123;</span><br><span class="line">       Employee em = null;</span><br></pre></td></tr></table></figure>
+            <div class="post-copyright">
+    <div class="content">
+        <p>最后更新： 2018年07月12日 13:55</p>
+        <p>原始链接： <a class="post-url" href="/2017/11/22/java基础之引用/" title="java基础学习之引用">http://zhangbuzola.cn/2017/11/22/java基础之引用/</a></p>
+        <footer>
+            <a href="http://zhangbuzola.cn">
+                <img src="/images/pacman.jpg" alt="zolanunu">
+                zolanunu
+            </a>
+        </footer>
+    </div>
+</div>
+
+      
+        
+            
+
+        
+    </div>
+    <footer class="article-footer">
+        
+        <ul class="article-footer-menu">
+            
+            
+  <li class="article-footer-tags">
+    <i class="fa fa-tags"></i>
+      
+    <a href="/tags/java基础/" class="color2">java基础</a>
+      
+  </li>
+
+        </ul>
+        
+    </footer>
+  </div>
+</article>
+
+
+    <aside class="post-toc-pos post-toc-top" id="post-toc">
+        <nav class="post-toc-wrap">
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#对象和对象引用"><span class="post-toc-text">对象和对象引用</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#四种引用方式"><span class="post-toc-text">四种引用方式</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#强引用"><span class="post-toc-text">强引用</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#软引用-SoftReference"><span class="post-toc-text">软引用 SoftReference</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#弱引用-WeakReference"><span class="post-toc-text">弱引用 WeakReference</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#虚引用-PhantomReference"><span class="post-toc-text">虚引用 PhantomReference</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#软引用和弱引用"><span class="post-toc-text">软引用和弱引用</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#使用软引用构建敏感数据的缓存"><span class="post-toc-text">使用软引用构建敏感数据的缓存</span></a></li></ol></li></ol>
+        </nav>
+    </aside>
+    
+
+<nav id="article-nav">
+  
+    <a href="/2017/11/22/java 排序算法四/" id="article-nav-newer" class="article-nav-link-wrap">
+
+      <span class="article-nav-title">
+        <i class="fa fa-hand-o-left" aria-hidden="true"></i>
+        
+          排序算法二
+        
+      </span>
+    </a>
+  
+  
+    <a href="/2017/11/21/java 排序算法二/" id="article-nav-older" class="article-nav-link-wrap">
+      <span class="article-nav-title">排序算法二</span>
+      <i class="fa fa-hand-o-right" aria-hidden="true"></i>
+    </a>
+  
+</nav>
+
+
+
+    
+        <link rel="stylesheet" href="//unpkg.com/gitment/style/default.css">
+    <script src="//unpkg.com/gitment/dist/gitment.browser.js"></script>
+    <script>
+        var gitment = new Gitment({
+            owner: 'true',
+            repo: 'zolanunu',
+            oauth: {
+                client_id: '1a04e8dee74a4b8634df',
+                client_secret: '9e3078ac89eb72f22abbdd11f7f0d11e2e1d7f7a',
+            },
+        })
+        gitment.render('comments')
+    </script>
+
+    
+</section>
+        
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+      <p>
+        Powered by  <a href="http://hexo.io/" target="_blank">Hexo</a>
+        Theme <a href="//github.com/wongminho/hexo-theme-miho" target="_blank">MiHo</a>
+      &copy; 2018 zolanunu<br>
+      </p>
+    </div>
+  </div>
+</footer>
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script>
+  var mihoConfig = {
+      root: "http://zhangbuzola.cn",
+      animate: true,
+      isHome: false,
+      share: false,
+      reward: 0
+  }
+</script>
+<div class="sidebar">
+    <div id="sidebar-search" title="Search">
+        <i class="fa fa-search"></i>
+    </div>
+    <div id="sidebar-category" title="Categories">
+        <i class="fa fa-book"></i>
+    </div>
+    <div id="sidebar-tag" title="Tags">
+        <i class="fa fa-tags"></i>
+    </div>
+    <div id="sidebar-top">
+        <span class="sidebar-top-icon"><i class="fa fa-angle-up"></i></span>
+    </div>
+</div>
+<div class="sidebar-menu-box" id="sidebar-menu-box">
+    <div class="sidebar-menu-box-container">
+        <div id="sidebar-menu-box-categories">
+            <a class="category-link" href="/categories/Java/">Java</a><a class="category-link" href="/categories/Java后台/">Java后台</a><a class="category-link" href="/categories/Python/">Python</a><a class="category-link" href="/categories/工具/">工具</a><a class="category-link" href="/categories/技术书/">技术书</a><a class="category-link" href="/categories/数据库/">数据库</a><a class="category-link" href="/categories/数据结构/">数据结构</a><a class="category-link" href="/categories/生活轨迹/">生活轨迹</a><a class="category-link" href="/categories/算法/">算法</a>
+        </div>
+        <div id="sidebar-menu-box-tags">
+            <a href="/tags/2018/" style="font-size: 11.43px;">2018</a> <a href="/tags/Collections/" style="font-size: 15.71px;">Collections</a> <a href="/tags/HashMap/" style="font-size: 10px;">HashMap</a> <a href="/tags/LinkedHashMap/" style="font-size: 10px;">LinkedHashMap</a> <a href="/tags/MySQL/" style="font-size: 17.14px;">MySQL</a> <a href="/tags/Mybatis/" style="font-size: 12.86px;">Mybatis</a> <a href="/tags/Object/" style="font-size: 10px;">Object</a> <a href="/tags/SSM/" style="font-size: 12.86px;">SSM</a> <a href="/tags/TreeMap/" style="font-size: 11.43px;">TreeMap</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/java基础/" style="font-size: 20px;">java基础</a> <a href="/tags/java并发编程实战/" style="font-size: 11.43px;">java并发编程实战</a> <a href="/tags/leetcode/" style="font-size: 17.14px;">leetcode</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/剑指offer/" style="font-size: 10px;">剑指offer</a> <a href="/tags/多线程/" style="font-size: 11.43px;">多线程</a> <a href="/tags/并发编程/" style="font-size: 10px;">并发编程</a> <a href="/tags/机器学习/" style="font-size: 12.86px;">机器学习</a> <a href="/tags/构造函数/" style="font-size: 10px;">构造函数</a> <a href="/tags/深入理解java虚拟机/" style="font-size: 10px;">深入理解java虚拟机</a> <a href="/tags/生活/" style="font-size: 10px;">生活</a> <a href="/tags/神经网络/" style="font-size: 10px;">神经网络</a> <a href="/tags/算法与数据结构/" style="font-size: 14.29px;">算法与数据结构</a> <a href="/tags/算法和数据结构/" style="font-size: 18.57px;">算法和数据结构</a> <a href="/tags/观影记/" style="font-size: 10px;">观影记</a> <a href="/tags/读书书单/" style="font-size: 10px;">读书书单</a>
+        </div>
+    </div>
+    <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
+</div>
+<div class="mobile-header-menu-nav" id="mobile-header-menu-nav">
+    <div class="mobile-header-menu-container">
+        <span class="title">Menus</span>
+        <ul class="mobile-header-menu-navbar">
+            
+            <li>
+                <a  href="/">
+                    <i class="fa fa-home"></i><span>Home</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/archives">
+                    <i class="fa fa-archive"></i><span>Archives</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/about">
+                    <i class="fa fa-user"></i><span>About</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    <div class="mobile-header-tag-container">
+        <span class="title">Tags</span>
+        <div id="mobile-header-container-tags">
+            <a href="/tags/2018/" style="font-size: 11.43px;">2018</a> <a href="/tags/Collections/" style="font-size: 15.71px;">Collections</a> <a href="/tags/HashMap/" style="font-size: 10px;">HashMap</a> <a href="/tags/LinkedHashMap/" style="font-size: 10px;">LinkedHashMap</a> <a href="/tags/MySQL/" style="font-size: 17.14px;">MySQL</a> <a href="/tags/Mybatis/" style="font-size: 12.86px;">Mybatis</a> <a href="/tags/Object/" style="font-size: 10px;">Object</a> <a href="/tags/SSM/" style="font-size: 12.86px;">SSM</a> <a href="/tags/TreeMap/" style="font-size: 11.43px;">TreeMap</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/java基础/" style="font-size: 20px;">java基础</a> <a href="/tags/java并发编程实战/" style="font-size: 11.43px;">java并发编程实战</a> <a href="/tags/leetcode/" style="font-size: 17.14px;">leetcode</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/剑指offer/" style="font-size: 10px;">剑指offer</a> <a href="/tags/多线程/" style="font-size: 11.43px;">多线程</a> <a href="/tags/并发编程/" style="font-size: 10px;">并发编程</a> <a href="/tags/机器学习/" style="font-size: 12.86px;">机器学习</a> <a href="/tags/构造函数/" style="font-size: 10px;">构造函数</a> <a href="/tags/深入理解java虚拟机/" style="font-size: 10px;">深入理解java虚拟机</a> <a href="/tags/生活/" style="font-size: 10px;">生活</a> <a href="/tags/神经网络/" style="font-size: 10px;">神经网络</a> <a href="/tags/算法与数据结构/" style="font-size: 14.29px;">算法与数据结构</a> <a href="/tags/算法和数据结构/" style="font-size: 18.57px;">算法和数据结构</a> <a href="/tags/观影记/" style="font-size: 10px;">观影记</a> <a href="/tags/读书书单/" style="font-size: 10px;">读书书单</a>
+        </div>
+    </div>
+</div>
+<div class="search-wrap">
+    <span class="search-close">&times;</span>
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+            <i class="icon icon-lg icon-chevron-left"></i>
+        </a>
+        <input class="search-field" placeholder="Search..." id="keywords">
+        <a id="search-submit" href="javascript:;">
+            <i class="fa fa-search"></i>
+        </a>
+    <div class="search-container" id="search-container">
+        <ul class="search-result" id="search-result">
+        </ul>
+    </div>
+</div>
+
+<div id="search-tpl">
+    <li class="search-result-item">
+        <a href="{url}" class="search-item-li">
+            <span class="search-item-li-title" title="{title}">{title}</span>
+        </a>
+    </li>
+</div>
+<script src="/js/search.js"></script>
+<script src="/js/main.js"></script>
+
+
+  <script src="//cdn.bootcss.com/particles.js/2.0.0/particles.min.js"></script>
+  <div id="particles"></div>
+  <script src="/js/particles.js"></script>
+
+
+
+
+
+
+
+  <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
+  <script src="//cdn.bootcss.com/scrollReveal.js/3.0.5/scrollreveal.js"></script>
+  <script src="/js/animate.js"></script>
+
+
+  <script src="/js/pop-img.js"></script>
+  <script>
+     $(".article-entry p img").popImg();
+  </script>
+
+  </div>
+</body>
+</html>

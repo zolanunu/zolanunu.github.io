@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>java基础学习之基本类型 | zolanunu</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+    <meta name="keywords" content="zolanunu,zolanunu's blog" />
+  
+  <meta name="description" content="基本类型 所占的字节数：  1234567byte： 1个字节；char： 2个字节；short： 2个字节；int： 4个字节；long： 8个字节；float： 4个字节；（6位小数，指数是：10^-38~10^38; 范围：）double： 8个字节  基本类型的后缀：  123long ： l 或 Lfloat： f 或 F；double： d 或 D Java中，如果对整数不指定类型，默">
+<meta name="keywords" content="java基础">
+<meta property="og:type" content="article">
+<meta property="og:title" content="java基础学习之基本类型">
+<meta property="og:url" content="http://zhangbuzola.cn/2017/10/20/java基础之基本类型/index.html">
+<meta property="og:site_name" content="zolanunu">
+<meta property="og:description" content="基本类型 所占的字节数：  1234567byte： 1个字节；char： 2个字节；short： 2个字节；int： 4个字节；long： 8个字节；float： 4个字节；（6位小数，指数是：10^-38~10^38; 范围：）double： 8个字节  基本类型的后缀：  123long ： l 或 Lfloat： f 或 F；double： d 或 D Java中，如果对整数不指定类型，默">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2018-07-12T05:55:41.818Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="java基础学习之基本类型">
+<meta name="twitter:description" content="基本类型 所占的字节数：  1234567byte： 1个字节；char： 2个字节；short： 2个字节；int： 4个字节；long： 8个字节；float： 4个字节；（6位小数，指数是：10^-38~10^38; 范围：）double： 8个字节  基本类型的后缀：  123long ： l 或 Lfloat： f 或 F；double： d 或 D Java中，如果对整数不指定类型，默">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="/js/pace.min.js"></script>
+  
+
+  
+	<script>
+	var _hmt = _hmt || [];
+	(function() {
+	  var hm = document.createElement("script");
+	  hm.src = "//hm.baidu.com/hm.js?a651034b7d11a367ae836642b29a3057";
+	  var s = document.getElementsByTagName("script")[0]; 
+	  s.parentNode.insertBefore(hm, s);
+	})();
+	</script>
+
+  
+
+</head>
+
+<body>
+  <div id="container">
+      <header id="header">
+    <div id="banner"></div>
+    <div id="header-outer">
+        <div id="header-menu" class="header-menu-pos animated">
+            <div class="header-menu-container">
+                <a href="/" class="left">
+                    <span class="site-title">zolanunu&#39;s Blog</span>
+                </a>
+                <nav id="header-menu-nav" class="right">
+                    
+                    <a  href="/">
+                        <i class="fa fa-home"></i>
+                        <span>Home</span>
+                    </a>
+                    
+                    <a  href="/archives">
+                        <i class="fa fa-archive"></i>
+                        <span>Archives</span>
+                    </a>
+                    
+                    <a  href="/about">
+                        <i class="fa fa-user"></i>
+                        <span>About</span>
+                    </a>
+                    
+                </nav>
+                <a class="mobile-header-menu-button">
+                    <i class="fa fa-bars"></i>
+                </a>
+            </div>
+        </div>
+        <div id="header-row">
+            <div id="logo">
+                <a href="/">
+                    <img src="/images/pacman.jpg" alt="logo">
+                </a>
+            </div>
+            <div class="header-info">
+                <div id="header-title">
+                    
+                    <h2>
+                        zolanunu&#39;s Blog
+                    </h2>
+                    
+                </div>
+                <div id="header-description">
+                    
+                    <h3>
+                        去努力尝试做一些你觉得你不会做或者不敢做的事情。
+                    </h3>
+                    
+                </div>
+            </div>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a title="zolanunu" target="_blank" href="//zhangbuzola.cn">
+                            <i class="fa fa-home fa-2x"></i></a>
+                    
+                        <a title="Github" target="_blank" href="//github.com/zolanunu">
+                            <i class="fa fa-github fa-2x"></i></a>
+                    
+                        <a title="Weibo" target="_blank" href="//weibo.com/zolanunu">
+                            <i class="fa fa-weibo fa-2x"></i></a>
+                    
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>
+      <div class="outer">
+        <section id="main" class="body-wrap"><article id="post-java基础之基本类型" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="post-title" itemprop="name">
+      java基础学习之基本类型
+    </h1>
+    <div class="post-title-bar">
+      <ul>
+          
+              <li>
+                  <i class="fa fa-book"></i>
+                  
+                      <a href="/categories/Java/">Java</a>
+                  
+              </li>
+          
+        <li>
+          <i class="fa fa-calendar"></i>  2017-10-20
+        </li>
+        <li>
+          <i class="fa fa-eye"></i>
+          <span id="busuanzi_value_page_pv"></span>
+        </li>
+      </ul>
+    </div>
+  
+
+          
+      </header>
+    
+    <div class="article-entry post-content" itemprop="articleBody">
+      
+            
+            <h1 id="基本类型"><a href="#基本类型" class="headerlink" title="基本类型"></a>基本类型</h1><ul>
+<li>所占的字节数：</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">byte： 1个字节；</span><br><span class="line">char： 2个字节；</span><br><span class="line">short： 2个字节；</span><br><span class="line">int： 4个字节；</span><br><span class="line">long： 8个字节；</span><br><span class="line">float： 4个字节；（6位小数，指数是：10^-38~10^38; 范围：）</span><br><span class="line">double： 8个字节</span><br></pre></td></tr></table></figure>
+<ul>
+<li>基本类型的后缀：</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">long ： l 或 L</span><br><span class="line">float： f 或 F；</span><br><span class="line">double： d 或 D</span><br></pre></td></tr></table></figure>
+<p>Java中，如果对整数不指定类型，默认时int类型，对小数不指定类型，默认是double类型。<br>基本类型由小到大，可以自动转换，但是由大到小，则需要强制类型转换。</p>
+<h1 id="大小范围"><a href="#大小范围" class="headerlink" title="大小范围"></a>大小范围</h1><ul>
+<li>byte</li>
+</ul>
+<p>byte 数据类型是8位、有符号的，以二进制补码表示的整数；</p>
+<p>最小值是 -128（-2^7）；</p>
+<p>最大值是 127（2^7-1）；</p>
+<p>默认值是 0；</p>
+<p>byte 类型用在大型数组中节约空间，主要代替整数，因为 byte 变量占用的空间只有 int 类型的四分之一；</p>
+<p>例子</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">byte a = 100</span><br><span class="line">byte b = -50。</span><br></pre></td></tr></table></figure>
+<ul>
+<li>short</li>
+</ul>
+<p>short 数据类型是 16 位、有符号的以二进制补码表示的整数</p>
+<p>最小值是 -32768（-2^15）；</p>
+<p>最大值是 32767（2^15 - 1）；</p>
+<p>Short 数据类型也可以像 byte 那样节省空间。一个short变量是int型变量所占空间的二分之一；</p>
+<p>默认值是 0；</p>
+<p>例子</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">short s = 1000</span><br><span class="line">short r = -20000</span><br></pre></td></tr></table></figure>
+<ul>
+<li>int</li>
+</ul>
+<p>int 数据类型是32位、有符号的以二进制补码表示的整数；</p>
+<p>最小值是 -2,147,483,648（-2^31）；</p>
+<p>最大值是 2,147,483,647（2^31 - 1）；</p>
+<p>一般地整型变量默认为 int 类型；</p>
+<p>默认值是 0 ；</p>
+<p>例子</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">int a = 100000</span><br><span class="line">int b = -200000</span><br></pre></td></tr></table></figure>
+<ul>
+<li>long</li>
+</ul>
+<p>long 数据类型是 64 位、有符号的以二进制补码表示的整数；</p>
+<p>最小值是 -9,223,372,036,854,775,808（-2^63）；</p>
+<p>最大值是 9,223,372,036,854,775,807（2^63 -1）；</p>
+<p>这种类型主要使用在需要比较大整数的系统上；</p>
+<p>默认值是 0L；</p>
+<p>例子</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">long a = 100000L</span><br><span class="line">Long b = -200000L</span><br></pre></td></tr></table></figure>
+<p>“L”理论上不分大小写，但是若写成”l”容易与数字”1”混淆，不容易分辩。所以最好大写。</p>
+<ul>
+<li>float</li>
+</ul>
+<p>float 数据类型是单精度、32位、符合IEEE 754标准的浮点数；</p>
+<p>float 在储存大型浮点数组的时候可节省内存空间；</p>
+<p>默认值是 0.0f；</p>
+<p>浮点数不能用来表示精确的值，如货币；</p>
+<p>例子</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">float f1 = 234.5f</span><br></pre></td></tr></table></figure>
+<ul>
+<li>double</li>
+</ul>
+<p>double 数据类型是双精度、64 位、符合IEEE 754标准的浮点数；</p>
+<p>浮点数的默认类型为double类型；</p>
+<p>double类型同样不能表示精确的值，如货币；</p>
+<p>默认值是 0.0d；</p>
+<p>例子</p>
+<p><code></code><br>double d1 = 123.4<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">- boolean</span><br><span class="line"></span><br><span class="line">boolean数据类型表示一位的信息；</span><br><span class="line"></span><br><span class="line">只有两个取值：true 和 false；</span><br><span class="line"></span><br><span class="line">这种类型只作为一种标志来记录 true/false 情况；</span><br><span class="line"></span><br><span class="line">默认值是 false；</span><br><span class="line"></span><br><span class="line">例子</span><br></pre></td></tr></table></figure></p>
+<p>boolean one = true<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">- char</span><br><span class="line"></span><br><span class="line">char类型是一个单一的 16 位 Unicode 字符；</span><br><span class="line"></span><br><span class="line">最小值是 \u0000（即为0）；</span><br><span class="line"></span><br><span class="line">最大值是 \uffff（即为65,535）；</span><br><span class="line">char 数据类型可以储存任何字符；</span><br><span class="line"></span><br><span class="line">例子</span><br></pre></td></tr></table></figure></p>
+<p>char letter = ‘A’;。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"># 运算类型转换</span><br><span class="line"></span><br><span class="line">Int后面的字面量转换为比int类型低的类型变量</span><br><span class="line"></span><br><span class="line">```	</span><br><span class="line">	public static void main(String[] args) &#123;</span><br><span class="line">	    int a = 8;  //8是字面常量</span><br><span class="line">	    byte b = 9;  //9是字面常量</span><br><span class="line">	    char c = 9+5;//常量表达式</span><br><span class="line">	    short s = (short) (c+10); //变量表达式，需要显式强制转换</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure></p>
+<p>上面的代码是经过编译的，是正确的。b是byte类型，但b=9不需要显式地手动强制转换，这是因为9是字面常量，是由JVM自动完成。</p>
+<p>我们再来看一下c=9+5，c是char类型，9+5得到结果是int类型，但也不需要显式地手动强制转换。这是因为 9+5是常量表达式，所以在编译期间已经由编译器计算出结果了，即经过编译后，相当于 c=14，也是字面常量，所以可以隐式转换。同理，short s = (short) (c+10); 子所以不能隐式转换，就是因为表达式不是常量表达式，包含了变量，只能在运行期间完成，所以就要手动强制转换。</p>
+<p>整形字面常量的大小超出目标类型所能表示的范围时，要手动强制类型转换。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">byte b = 128;//编译错误，128超出byte类型所能表示的范围</span><br><span class="line">byte c = (byte)128;//编译通过</span><br></pre></td></tr></table></figure>
+<p>对于传参数时，必须要显式地进行强制类型转换，明确转换的类型<br>    编译器子所以这样要求，其实为了避免 方法重载出现的隐式转换 与 小类型自动转大类型 发生冲突。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">public static void main(String[] args) &#123;</span><br><span class="line">    shortMethod(8);//编译错误</span><br><span class="line">    shortMethod((short)8); //编译通过</span><br><span class="line">    longMethod(8);//编译通过，因为这是小类型变成大类型，是不需要强制类型转换的</span><br><span class="line">&#125;</span><br><span class="line">public static void shortMethod(short c)&#123;</span><br><span class="line">    System.out.println(c);</span><br><span class="line">&#125;</span><br><span class="line">public static void longMethod(short l)&#123;</span><br><span class="line">    System.out.println(l);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>char类型的特殊情况 ：下面再细讲</p>
+<p>复合运算符（+=、-=、*=、/=、%=）是可以将右边表达式的类型自动强制转换成左边的类型</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">public static void main(String[] args) &#123;</span><br><span class="line">	    int a = 8;  </span><br><span class="line">	    short s = 5; </span><br><span class="line">	    s += a;</span><br><span class="line">	    s += a+5;   </span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
+<p>s+=a、s+=a+5;的表达式计算结果都是int类型，但都不需要手动强制转换。其实，如果是反编译这段代码的class文件，你会发现s+=a;，其实是被编译器处理成了</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">s=(short)(s+a)</span><br></pre></td></tr></table></figure>
+<p>也就是说对于所有的复合运算的隐式类型转换，其实是编译器自动添加类型转换的代码。</p>
+<p>所以，相对于整形字面常量的隐式转换，复合运算符的隐式转换则没有任何限制因为前者只能在编译器期间发生，后者则是编译器实实在在的补全了类型转换的代码。</p>
+<h1 id="特殊的char类型"><a href="#特殊的char类型" class="headerlink" title="特殊的char类型"></a>特殊的char类型</h1><p>char类型在基本类中是一个比较特殊的存在。这种特殊性在于char类型是一个无符号类型，所以char类型与其他基本类型不是子集与父集间的关系（其他类型都是有符号的类型）。也就是说，char类型与byte、short之间的转换都需要显式的强制类型转换（小类型自动转换成大类型失败）。</p>
+<p>同时，由于char类型是一个无符号类型，所以对于整形字面常量的隐式转换的限制，不仅包括字面常量数值的大小不能超出2个字节，还包括字面常量数值不能为负数</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">byte b = 2;</span><br><span class="line">char c = 2;//编译通过</span><br><span class="line">c = 100000000000;//编译不通过，超出char类型的范围</span><br><span class="line">char d = -2//字面常量为负数，编译不通过</span><br><span class="line">d = (char)-100;//编译通过</span><br><span class="line">char f = (char)b; //编译通过，必须显式的强制类型转换</span><br><span class="line">f = b;//编译不通过，不能隐式转换</span><br><span class="line">int  i = c;//编译通过，可以不需要强制类型转换</span><br><span class="line">short s = (short) c;//编译通过，必须显式地强制类型转换</span><br></pre></td></tr></table></figure>
+<p>char类型是无符号的类型，这种无符号也体现在在其转换成int类型时，也就是说，char类型在扩展时，也是按无符号的方式扩展，扩展位填0。我们来看一个例子：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">public static void main(String[] args) &#123;</span><br><span class="line">	    short s = -5;</span><br><span class="line">	    char c = (char)s; </span><br><span class="line">	    System.out.println(c==s);  //false</span><br><span class="line">	    System.out.println(&quot;(int)c = &quot;+(int)c); //转换成int类型，值为65531</span><br><span class="line">	    System.out.println(&quot;(short)c = &quot;+(short)c); //-5</span><br><span class="line">	    System.out.println(&quot;(int)s = &quot;+(int)s);//-5</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
+<p>从上面的结果发现，char类型的c 与 short类s其实存储字节码内容是一样的，但由于前者是无符号，所以扩展成int类型的结果是 65531，而不是 -5。运算符==比较的就是他们扩展成int类型的值，所以为fasle。</p>
+<p>对char类型的类型转换，可以总结成以下几点：</p>
+<ul>
+<li><p>char类型与byte、short的相互转换，都需要显式地强类型制转换。</p>
+</li>
+<li><p>对于数值是负数的，都需要进行显式地强制类型转换，特别是在整形字面常量的隐式转换中。</p>
+</li>
+<li><p>char类型转换成int、long类型是符合 小类型转大类型的规则，即无需要强制类型转换。</p>
+</li>
+</ul>
+<p>在Java中，一个运算结果的类型是与表达式中类型最高的相等，如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">char cc = 5;</span><br><span class="line">float dd = 0.6f+cc;//最高类型是float，运算结果是float</span><br><span class="line">float ee = (float) (0.6d+cc);//最高类型是double，运算结果也是double</span><br><span class="line">int aa = 5+cc;//最高类型是int，运算结果也为int</span><br></pre></td></tr></table></figure>
+<p>但是，对于最高类型是byte、short、char的运算来说，则运行结果却不是最高类型，而是int类型。看下面的例子，c、d运算的最高类型都是char，但运算结果却是int，所以需要强制类型转换。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">byte b = 2;</span><br><span class="line">char a = 5;</span><br><span class="line">char c = (char) (a+b);//byte+char，运算结果的类型为int，需要强制类型转换</span><br><span class="line">int  e = a+b;//编译通过，不需要强制类型转换，可以证明是int</span><br><span class="line">char d = (char) (a+c);//char+char，</span><br><span class="line">short s1 = 5;</span><br><span class="line">short s2 = 6;</span><br><span class="line">short s3 =(short)s1+s2;</span><br></pre></td></tr></table></figure>
+<p>综上所述，java的运算结果的类型有两个性质：</p>
+<ul>
+<li><p>运算结果的类型必须是int类型或int类型以上。</p>
+</li>
+<li><p>最高类型低于int类型的，运算结果都为int类型。否则，运算结果与表达式中最高类型一致。</p>
+</li>
+</ul>
+<h1 id="浮点数类型"><a href="#浮点数类型" class="headerlink" title="浮点数类型"></a>浮点数类型</h1><h2 id="浮点类型的介绍"><a href="#浮点类型的介绍" class="headerlink" title="浮点类型的介绍"></a>浮点类型的介绍</h2><p>我们都知道，long类型转换成float类型是不需要强制类型转换的，也就是说相对于flaot类型，long类型是小类型，存储的范围要更小。然而flaot只占了4个字节，而long却占了8个字节，long类型的存储空间要比float类型大。这究竟是怎么一回事，我们接下来将细细分析。</p>
+<p>浮点数使用 IEEE（电气和电子工程师协会）格式。 浮点数类型使用 符号位、指数、有效位数（尾数）来表示。要注意一下，尾数的最高</p>
+<p>在java中，float 和 double 的结构如下：</p>
+<table>
+<thead>
+<tr>
+<th>类型</th>
+<th>符号位</th>
+<th>指数域</th>
+<th>有效位域</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>float</td>
+<td>1位</td>
+<td>8位</td>
+<td>23位</td>
+</tr>
+<tr>
+<td>double</td>
+<td>1位</td>
+<td>11位</td>
+<td>52位</td>
+</tr>
+</tbody>
+</table>
+<p>符号位： 0为正，1为负；</p>
+<p>指数域： 无符号的，float的偏移量为127（即float的指数范围是-126~127，），double</p>
+<p>有效位域： 无符号的；</p>
+<h2 id="浮点类型的两个需要注意的地方"><a href="#浮点类型的两个需要注意的地方" class="headerlink" title="浮点类型的两个需要注意的地方"></a>浮点类型的两个需要注意的地方</h2><ul>
+<li>存储的小数的数值可能是模糊值</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">public static void main(String[] args) &#123;</span><br><span class="line">    double d1 = 0.1;</span><br><span class="line">    double d2 = 0.2;</span><br><span class="line">    System.out.println(d1+d2 == 0.3);</span><br><span class="line">    System.out.println(d1+d2);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>运行结果：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">false</span><br><span class="line"> 0.30000000000000004</span><br></pre></td></tr></table></figure>
+<p>上述的运算结果并不是错误。这是因为无法用二进制来准确地存储的0.3，这是一个无限循环的值，与10进制的1/3很相似。不只是0.3，很多小数都是无法准确地用浮点型表示，其实这是由 小数的十进制转成二进制的算法所决定的，十进制的小数要不断乘2，知道最后的结果为整数才是最后的二进制值，但这有可能怎么也得不到整数，所以最后得到的结果可能是一个 无限值 ，浮点型就无法表示了</p>
+<p>但是对于 整数 来说，在浮点数的有效范围内，则都是精确的。同样，也是由于转换算法：十进制的整数转成二进制的算法是不断对2求余数，所以 不会存在无限值的情况；</p>
+<ul>
+<li>浮点数的有效位及精度</li>
+</ul>
+<p>浮点型所能表示的有效位是有限的，所以哪怕是整数，只要超出有效位数，也只能存储相似值，也就是该数值的最低有效位将会丢失,从而造精度丢失。<br>float类型的二进制有效位是24位，对应十进制的7 ~ 8位数字；double类型的二进制53位，对应十进制的10 ~ 11位数字。</p>
+<p>double、float类型 所能表示的范围比int、long类型表示的范围要广，也浮点类型属于大类型。但是，并不能完美地表整形，浮点类型的精度丢失会造成一些问题。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">public static void main(String[] args) &#123;</span><br><span class="line">    int a = 3000000;</span><br><span class="line">    int b = 30000000;</span><br><span class="line">    float f1 = a;</span><br><span class="line">    float f2 = b;</span><br><span class="line">    System.out.println(&quot;3000000==3000001 &quot;+(f1==f1+1));</span><br><span class="line">    System.out.println(&quot;30000000==30000001 &quot;+(f2==f2+1));</span><br><span class="line">    System.out.println(&quot;3000000的有效二进制位数：&quot;+ Integer.toBinaryString(a).length());</span><br><span class="line">    System.out.println(&quot;30000000的有效二进制位数：&quot;+ Integer.toBinaryString(b).length());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>运行结果：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">3000000 == 3000001  false</span><br><span class="line">30000000 == 30000001  true</span><br><span class="line">3000000的有效二进制位数： 22</span><br><span class="line">30000000的有效二进制位数： 25</span><br></pre></td></tr></table></figure>
+<p>上面的例子很好体现了精度丢失所带来的后果：30000000==30000001 的比较居然为true了。而造成这种结果的原因就是 30000000的有效二进制位数是25位，超出了float所能表示的有效位24位，最后一位就被舍去，所以就造成在刚加的1也被舍去，因此30000000的加一操作前后的浮点型表示是一样的。</p>
+<p>当然，并不是超出浮点型的有效位就不能精确表示，其实，主要看的是最高有效位与最低非0有效位之间的 “间隙”，如果间隙的在浮点型的有效位数内，自然可以精确表示，因为舍去的低有效位都是0，自然就无所谓了。如果上面的例子的浮点型用的是double就不会丢失精度了，因为double的精度是52位。</p>
+<ul>
+<li>解决浮点型精度丢失的问题</li>
+</ul>
+<p>浮点型带来精度丢失的问题是很让人头痛的，所以一般情况下，在程序中是不会使用float、double来存储比较大的数据。而商业计算往往要求结果精确。《Effactive Java》书中有一句话：</p>
+<p>float和double类型的主要设计目标是为了科学计算和工程计算<br>JDK为此提供了两个高精度的大数操作类给我们：BigInteger、BigDecimal。</p>
+
+            <div class="post-copyright">
+    <div class="content">
+        <p>最后更新： 2018年07月12日 13:55</p>
+        <p>原始链接： <a class="post-url" href="/2017/10/20/java基础之基本类型/" title="java基础学习之基本类型">http://zhangbuzola.cn/2017/10/20/java基础之基本类型/</a></p>
+        <footer>
+            <a href="http://zhangbuzola.cn">
+                <img src="/images/pacman.jpg" alt="zolanunu">
+                zolanunu
+            </a>
+        </footer>
+    </div>
+</div>
+
+      
+        
+            
+
+        
+    </div>
+    <footer class="article-footer">
+        
+        <ul class="article-footer-menu">
+            
+            
+  <li class="article-footer-tags">
+    <i class="fa fa-tags"></i>
+      
+    <a href="/tags/java基础/" class="color2">java基础</a>
+      
+  </li>
+
+        </ul>
+        
+    </footer>
+  </div>
+</article>
+
+
+    <aside class="post-toc-pos post-toc-top" id="post-toc">
+        <nav class="post-toc-wrap">
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#基本类型"><span class="post-toc-text">基本类型</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#大小范围"><span class="post-toc-text">大小范围</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#特殊的char类型"><span class="post-toc-text">特殊的char类型</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#浮点数类型"><span class="post-toc-text">浮点数类型</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#浮点类型的介绍"><span class="post-toc-text">浮点类型的介绍</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#浮点类型的两个需要注意的地方"><span class="post-toc-text">浮点类型的两个需要注意的地方</span></a></li></ol></li></ol>
+        </nav>
+    </aside>
+    
+
+<nav id="article-nav">
+  
+    <a href="/2017/10/21/java基础之static/" id="article-nav-newer" class="article-nav-link-wrap">
+
+      <span class="article-nav-title">
+        <i class="fa fa-hand-o-left" aria-hidden="true"></i>
+        
+          java基础学习之static关键字
+        
+      </span>
+    </a>
+  
+  
+    <a href="/2017/10/20/2018-04-10 mysql_3/" id="article-nav-older" class="article-nav-link-wrap">
+      <span class="article-nav-title">mysql实战part3</span>
+      <i class="fa fa-hand-o-right" aria-hidden="true"></i>
+    </a>
+  
+</nav>
+
+
+
+    
+        <link rel="stylesheet" href="//unpkg.com/gitment/style/default.css">
+    <script src="//unpkg.com/gitment/dist/gitment.browser.js"></script>
+    <script>
+        var gitment = new Gitment({
+            owner: 'true',
+            repo: 'zolanunu',
+            oauth: {
+                client_id: '1a04e8dee74a4b8634df',
+                client_secret: '9e3078ac89eb72f22abbdd11f7f0d11e2e1d7f7a',
+            },
+        })
+        gitment.render('comments')
+    </script>
+
+    
+</section>
+        
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+      <p>
+        Powered by  <a href="http://hexo.io/" target="_blank">Hexo</a>
+        Theme <a href="//github.com/wongminho/hexo-theme-miho" target="_blank">MiHo</a>
+      &copy; 2018 zolanunu<br>
+      </p>
+    </div>
+  </div>
+</footer>
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script>
+  var mihoConfig = {
+      root: "http://zhangbuzola.cn",
+      animate: true,
+      isHome: false,
+      share: false,
+      reward: 0
+  }
+</script>
+<div class="sidebar">
+    <div id="sidebar-search" title="Search">
+        <i class="fa fa-search"></i>
+    </div>
+    <div id="sidebar-category" title="Categories">
+        <i class="fa fa-book"></i>
+    </div>
+    <div id="sidebar-tag" title="Tags">
+        <i class="fa fa-tags"></i>
+    </div>
+    <div id="sidebar-top">
+        <span class="sidebar-top-icon"><i class="fa fa-angle-up"></i></span>
+    </div>
+</div>
+<div class="sidebar-menu-box" id="sidebar-menu-box">
+    <div class="sidebar-menu-box-container">
+        <div id="sidebar-menu-box-categories">
+            <a class="category-link" href="/categories/Java/">Java</a><a class="category-link" href="/categories/Java后台/">Java后台</a><a class="category-link" href="/categories/Python/">Python</a><a class="category-link" href="/categories/工具/">工具</a><a class="category-link" href="/categories/技术书/">技术书</a><a class="category-link" href="/categories/数据库/">数据库</a><a class="category-link" href="/categories/数据结构/">数据结构</a><a class="category-link" href="/categories/生活轨迹/">生活轨迹</a><a class="category-link" href="/categories/算法/">算法</a>
+        </div>
+        <div id="sidebar-menu-box-tags">
+            <a href="/tags/2018/" style="font-size: 11.43px;">2018</a> <a href="/tags/Collections/" style="font-size: 15.71px;">Collections</a> <a href="/tags/HashMap/" style="font-size: 10px;">HashMap</a> <a href="/tags/LinkedHashMap/" style="font-size: 10px;">LinkedHashMap</a> <a href="/tags/MySQL/" style="font-size: 17.14px;">MySQL</a> <a href="/tags/Mybatis/" style="font-size: 12.86px;">Mybatis</a> <a href="/tags/Object/" style="font-size: 10px;">Object</a> <a href="/tags/SSM/" style="font-size: 12.86px;">SSM</a> <a href="/tags/TreeMap/" style="font-size: 11.43px;">TreeMap</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/java基础/" style="font-size: 20px;">java基础</a> <a href="/tags/java并发编程实战/" style="font-size: 11.43px;">java并发编程实战</a> <a href="/tags/leetcode/" style="font-size: 17.14px;">leetcode</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/剑指offer/" style="font-size: 10px;">剑指offer</a> <a href="/tags/多线程/" style="font-size: 11.43px;">多线程</a> <a href="/tags/并发编程/" style="font-size: 10px;">并发编程</a> <a href="/tags/机器学习/" style="font-size: 12.86px;">机器学习</a> <a href="/tags/构造函数/" style="font-size: 10px;">构造函数</a> <a href="/tags/深入理解java虚拟机/" style="font-size: 10px;">深入理解java虚拟机</a> <a href="/tags/生活/" style="font-size: 10px;">生活</a> <a href="/tags/神经网络/" style="font-size: 10px;">神经网络</a> <a href="/tags/算法与数据结构/" style="font-size: 14.29px;">算法与数据结构</a> <a href="/tags/算法和数据结构/" style="font-size: 18.57px;">算法和数据结构</a> <a href="/tags/观影记/" style="font-size: 10px;">观影记</a> <a href="/tags/读书书单/" style="font-size: 10px;">读书书单</a>
+        </div>
+    </div>
+    <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
+</div>
+<div class="mobile-header-menu-nav" id="mobile-header-menu-nav">
+    <div class="mobile-header-menu-container">
+        <span class="title">Menus</span>
+        <ul class="mobile-header-menu-navbar">
+            
+            <li>
+                <a  href="/">
+                    <i class="fa fa-home"></i><span>Home</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/archives">
+                    <i class="fa fa-archive"></i><span>Archives</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/about">
+                    <i class="fa fa-user"></i><span>About</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    <div class="mobile-header-tag-container">
+        <span class="title">Tags</span>
+        <div id="mobile-header-container-tags">
+            <a href="/tags/2018/" style="font-size: 11.43px;">2018</a> <a href="/tags/Collections/" style="font-size: 15.71px;">Collections</a> <a href="/tags/HashMap/" style="font-size: 10px;">HashMap</a> <a href="/tags/LinkedHashMap/" style="font-size: 10px;">LinkedHashMap</a> <a href="/tags/MySQL/" style="font-size: 17.14px;">MySQL</a> <a href="/tags/Mybatis/" style="font-size: 12.86px;">Mybatis</a> <a href="/tags/Object/" style="font-size: 10px;">Object</a> <a href="/tags/SSM/" style="font-size: 12.86px;">SSM</a> <a href="/tags/TreeMap/" style="font-size: 11.43px;">TreeMap</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/java基础/" style="font-size: 20px;">java基础</a> <a href="/tags/java并发编程实战/" style="font-size: 11.43px;">java并发编程实战</a> <a href="/tags/leetcode/" style="font-size: 17.14px;">leetcode</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/剑指offer/" style="font-size: 10px;">剑指offer</a> <a href="/tags/多线程/" style="font-size: 11.43px;">多线程</a> <a href="/tags/并发编程/" style="font-size: 10px;">并发编程</a> <a href="/tags/机器学习/" style="font-size: 12.86px;">机器学习</a> <a href="/tags/构造函数/" style="font-size: 10px;">构造函数</a> <a href="/tags/深入理解java虚拟机/" style="font-size: 10px;">深入理解java虚拟机</a> <a href="/tags/生活/" style="font-size: 10px;">生活</a> <a href="/tags/神经网络/" style="font-size: 10px;">神经网络</a> <a href="/tags/算法与数据结构/" style="font-size: 14.29px;">算法与数据结构</a> <a href="/tags/算法和数据结构/" style="font-size: 18.57px;">算法和数据结构</a> <a href="/tags/观影记/" style="font-size: 10px;">观影记</a> <a href="/tags/读书书单/" style="font-size: 10px;">读书书单</a>
+        </div>
+    </div>
+</div>
+<div class="search-wrap">
+    <span class="search-close">&times;</span>
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+            <i class="icon icon-lg icon-chevron-left"></i>
+        </a>
+        <input class="search-field" placeholder="Search..." id="keywords">
+        <a id="search-submit" href="javascript:;">
+            <i class="fa fa-search"></i>
+        </a>
+    <div class="search-container" id="search-container">
+        <ul class="search-result" id="search-result">
+        </ul>
+    </div>
+</div>
+
+<div id="search-tpl">
+    <li class="search-result-item">
+        <a href="{url}" class="search-item-li">
+            <span class="search-item-li-title" title="{title}">{title}</span>
+        </a>
+    </li>
+</div>
+<script src="/js/search.js"></script>
+<script src="/js/main.js"></script>
+
+
+  <script src="//cdn.bootcss.com/particles.js/2.0.0/particles.min.js"></script>
+  <div id="particles"></div>
+  <script src="/js/particles.js"></script>
+
+
+
+
+
+
+
+  <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
+  <script src="//cdn.bootcss.com/scrollReveal.js/3.0.5/scrollreveal.js"></script>
+  <script src="/js/animate.js"></script>
+
+
+  <script src="/js/pop-img.js"></script>
+  <script>
+     $(".article-entry p img").popImg();
+  </script>
+
+  </div>
+</body>
+</html>

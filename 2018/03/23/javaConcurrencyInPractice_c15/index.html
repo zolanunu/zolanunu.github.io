@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Java并发编程实战之原子变量与非阻塞同步 | zolanunu</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+    <meta name="keywords" content="zolanunu,zolanunu's blog" />
+  
+  <meta name="description" content="前言java.util.concurrent包的许多类中，比如ConcurrentLinkedQueue和Semaphore，都提供了比synchronized机制更高的性能和可伸缩性。这种性能的提升主要来源于：原子变量和非阻塞的同步机制。 非阻塞算法在并发算法领域很重要，这种算法用底层的原子机器指令，比如比较并交换指令，代替锁来确保数据在并发访问中的一致性。非阻塞算法被广泛应用在操作系统和JVM">
+<meta name="keywords" content="java并发编程实战">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java并发编程实战之原子变量与非阻塞同步">
+<meta property="og:url" content="http://zhangbuzola.cn/2018/03/23/javaConcurrencyInPractice_c15/index.html">
+<meta property="og:site_name" content="zolanunu">
+<meta property="og:description" content="前言java.util.concurrent包的许多类中，比如ConcurrentLinkedQueue和Semaphore，都提供了比synchronized机制更高的性能和可伸缩性。这种性能的提升主要来源于：原子变量和非阻塞的同步机制。 非阻塞算法在并发算法领域很重要，这种算法用底层的原子机器指令，比如比较并交换指令，代替锁来确保数据在并发访问中的一致性。非阻塞算法被广泛应用在操作系统和JVM">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="http://zhangbuzola.cn/assets/images/javaConcurrencyInPracticec15_ABA.jpg">
+<meta property="og:updated_time" content="2018-07-12T06:01:04.603Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Java并发编程实战之原子变量与非阻塞同步">
+<meta name="twitter:description" content="前言java.util.concurrent包的许多类中，比如ConcurrentLinkedQueue和Semaphore，都提供了比synchronized机制更高的性能和可伸缩性。这种性能的提升主要来源于：原子变量和非阻塞的同步机制。 非阻塞算法在并发算法领域很重要，这种算法用底层的原子机器指令，比如比较并交换指令，代替锁来确保数据在并发访问中的一致性。非阻塞算法被广泛应用在操作系统和JVM">
+<meta name="twitter:image" content="http://zhangbuzola.cn/assets/images/javaConcurrencyInPracticec15_ABA.jpg">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="/js/pace.min.js"></script>
+  
+
+  
+	<script>
+	var _hmt = _hmt || [];
+	(function() {
+	  var hm = document.createElement("script");
+	  hm.src = "//hm.baidu.com/hm.js?a651034b7d11a367ae836642b29a3057";
+	  var s = document.getElementsByTagName("script")[0]; 
+	  s.parentNode.insertBefore(hm, s);
+	})();
+	</script>
+
+  
+
+</head>
+
+<body>
+  <div id="container">
+      <header id="header">
+    <div id="banner"></div>
+    <div id="header-outer">
+        <div id="header-menu" class="header-menu-pos animated">
+            <div class="header-menu-container">
+                <a href="/" class="left">
+                    <span class="site-title">zolanunu&#39;s Blog</span>
+                </a>
+                <nav id="header-menu-nav" class="right">
+                    
+                    <a  href="/">
+                        <i class="fa fa-home"></i>
+                        <span>Home</span>
+                    </a>
+                    
+                    <a  href="/archives">
+                        <i class="fa fa-archive"></i>
+                        <span>Archives</span>
+                    </a>
+                    
+                    <a  href="/about">
+                        <i class="fa fa-user"></i>
+                        <span>About</span>
+                    </a>
+                    
+                </nav>
+                <a class="mobile-header-menu-button">
+                    <i class="fa fa-bars"></i>
+                </a>
+            </div>
+        </div>
+        <div id="header-row">
+            <div id="logo">
+                <a href="/">
+                    <img src="/images/pacman.jpg" alt="logo">
+                </a>
+            </div>
+            <div class="header-info">
+                <div id="header-title">
+                    
+                    <h2>
+                        zolanunu&#39;s Blog
+                    </h2>
+                    
+                </div>
+                <div id="header-description">
+                    
+                    <h3>
+                        去努力尝试做一些你觉得你不会做或者不敢做的事情。
+                    </h3>
+                    
+                </div>
+            </div>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a title="zolanunu" target="_blank" href="//zhangbuzola.cn">
+                            <i class="fa fa-home fa-2x"></i></a>
+                    
+                        <a title="Github" target="_blank" href="//github.com/zolanunu">
+                            <i class="fa fa-github fa-2x"></i></a>
+                    
+                        <a title="Weibo" target="_blank" href="//weibo.com/zolanunu">
+                            <i class="fa fa-weibo fa-2x"></i></a>
+                    
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>
+      <div class="outer">
+        <section id="main" class="body-wrap"><article id="post-javaConcurrencyInPractice_c15" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="post-title" itemprop="name">
+      Java并发编程实战之原子变量与非阻塞同步
+    </h1>
+    <div class="post-title-bar">
+      <ul>
+          
+              <li>
+                  <i class="fa fa-book"></i>
+                  
+                      <a href="/categories/技术书/">技术书</a>
+                  
+              </li>
+          
+        <li>
+          <i class="fa fa-calendar"></i>  2018-03-23
+        </li>
+        <li>
+          <i class="fa fa-eye"></i>
+          <span id="busuanzi_value_page_pv"></span>
+        </li>
+      </ul>
+    </div>
+  
+
+          
+      </header>
+    
+    <div class="article-entry post-content" itemprop="articleBody">
+      
+            
+            <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>java.util.concurrent包的许多类中，比如ConcurrentLinkedQueue和Semaphore，都提供了比synchronized机制更高的性能和可伸缩性。这种性能的提升主要来源于：原子变量和非阻塞的同步机制。</p>
+<p>非阻塞算法在并发算法领域很重要，这种算法用底层的原子机器指令，比如比较并交换指令，代替锁来确保数据在并发访问中的一致性。非阻塞算法被广泛应用在操作系统和JVM中实现线程/进程调度机制、垃圾回收机制以及锁和其他并发数据结构。</p>
+<p>非阻塞算法可以使多个线程在竞争相同的数据时不会发生阻塞，因此它能在粒度更细的层次上进行协调，并且极大地减少调度开销。而且非阻塞算法不存在死锁和其他活跃性问题。在基于锁的算法中，如果一个线程在休眠或者自旋的同时拥有一个锁，那么其他线程将无法继续执行下去，而非阻塞算法不会受到单个线程失败的影响。从java5.0开始，就可以使用原子变量类（AtomicInteger/AtomicReference）来构建高效的非阻塞算法。</p>
+<p>原子变量不仅用于那么非阻塞算法的开发，而且可以用作一种“更好的volatile类型变量”。原子变量提供了与volatile类型变量相同的内存语义，此外还支持原子的更新操作，更加适用于实现计数器，序列发生器和统计数据收集等，同时还能比基于锁的方法提供更高的可伸缩性。</p>
+<h1 id="锁的劣势"><a href="#锁的劣势" class="headerlink" title="锁的劣势"></a>锁的劣势</h1><p>通过锁协议来协调对共享变量的访问，可以确保无论哪个线程持有守护变量的锁，都能采用独占方式来访问这些变量，并且对变量的任何修改对随后获得这个锁的其他线程也是可见的。</p>
+<p>现在的许多JVM都对非竞争锁获取和锁释放等操作进行极大地优化，但是如果有多个线程同时请求锁，那么JVM就需要借助操作的功能。如果出现了这种情况，那么一些线程将被挂起并且在稍后恢复运行（当线程在锁上发生竞争，智能的JVM不一定会挂起线程，而是会根据之前获取操作中对锁的持有时间长短来判断使线程挂起还是自旋等待）。当线程恢复执行的时候，必须等待其他线程执行完他们的时间片以后，才能被调度执行。</p>
+<p>再挂起和恢复线程等过程中存在着很大的开销，并且通常存在着较长时间的中断。如果基于锁的类中包含有细粒度的操作（比如同步容器类），那么当在锁上存在着激烈的竞争时，调度开销与工作开销的比值会很高。</p>
+<p>线程安全的类，没有竞争的情况下会运行的很好，但是在竞争的情况下，其性能可能会由于上下文切换的开销和调度延迟而降低。如果锁的持有时间非常短，那么当在不恰当的时间请求锁的时候，使线程休眠将付出很高的代价。</p>
+<h2 id="volatile"><a href="#volatile" class="headerlink" title="volatile"></a>volatile</h2><p>与锁相比，volatile变量是一种更轻量级的同步机制，因为在使用这些变量的时候不会发生上下文切换或者线程调度等操作。</p>
+<p>volatile的缺陷：虽然提供了相似的可见性保证，但是不能用于构建原子的复合操作。因此，当一个变量依赖于其他变量的时候，或者当变量的新值依赖于旧值时，就不能使用volatile变量。这些都限制了volatile变量的使用，因此他们不能用来实现一些常见的工具，比如：计数器或者互斥体。</p>
+<h2 id="i-不是原子操作"><a href="#i-不是原子操作" class="headerlink" title="++i 不是原子操作"></a>++i 不是原子操作</h2><p>例如，虽然自增操作++i，看起来像一个原子操作，但是事实上它包含了3个独立的操作–获取变量的当前值，将这个值加1，然后再写入新值。为了确保更新操作不被丢失，整个读-改-写操作必需是原子的。目前为止，锁方法可以实现这种原子操作。</p>
+<p>i++这一条语句，它实际上会被编译为两条CPU指令，因此若一些线程在运行时被从中打断，就会造成不确定的后果，如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">public class IplusplusExam &#123;</span><br><span class="line">    private volatile static int i = 0;</span><br><span class="line"></span><br><span class="line">    public static void main(String[] args) throws InterruptedException &#123;</span><br><span class="line">        ExecutorService service = Executors.newCachedThreadPool();</span><br><span class="line">        for (int j = 0; j &lt; 10; j++) &#123;</span><br><span class="line">            service.execute(new Runnable() &#123;</span><br><span class="line">                @Override</span><br><span class="line">                public void run() &#123;</span><br><span class="line">                    for (int k = 0; k &lt; 10000; k++) &#123;</span><br><span class="line">                        i++;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;);</span><br><span class="line">        &#125;</span><br><span class="line">        service.shutdown();</span><br><span class="line">        service.awaitTermination(1, TimeUnit.DAYS);</span><br><span class="line">        System.out.println(i);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>十个线程分别对i变量进行10000次i++操作，若i++是线程安全的，则最终i应该等于100000，但是你会发现每次结果都不一样。</p>
+<p>锁还有其他缺点：一个线程在等待锁的时候，他不能做其他任何事情。如果一个线程在持有锁的情况下被延迟执行（比如发生了缺页错误，调度延迟，或者其他类似情况），那么所有需要这个锁的线程都无法执行下去。</p>
+<p>如果阻塞线程的优先级更高，而尺有所的线程优先级更低，那么这也是一个问题–优先级反转。就算优先级高线程可以抢占执行，但是也需要等待锁被释放，从而导致他的优先级会降低至低优先级线程的级别。如果持有锁的线程被永久的阻塞（比如出现了无限循环，死锁，活锁或者其他活跃性障碍），所有等待这个锁的线程都永远没办法执行下去。</p>
+<p>还有，锁定方式对于细粒度的操作（比如递增计数器）来说仍然是一个高开销的机制。在管理线程之间的竞争时应该有一种粒度更细的技术，类似于volatile变量的机制，同时又支持原子性操作。</p>
+<h1 id="硬件对并发的支持"><a href="#硬件对并发的支持" class="headerlink" title="硬件对并发的支持"></a>硬件对并发的支持</h1><p>独占锁是悲观锁的一种。CAS是乐观锁机制（某种形式和的原子读-改-写指令）。</p>
+<h2 id="悲观锁"><a href="#悲观锁" class="headerlink" title="悲观锁"></a>悲观锁</h2><p>总是假设最坏的情况，每次去拿数据的时候都认为别人会修改，所以每次在拿数据的时候都会上锁，这样别人想拿这个数据就会阻塞直到它拿到锁。传统的关系型数据库里边就用到了很多这种锁机制，比如行锁，表锁等，读锁，写锁等，都是在做操作之前先上锁。再比如Java里面的同步原语synchronized关键字的实现也是悲观锁。</p>
+<p>悲观锁机制存在以下问题：</p>
+<ol>
+<li><p>在多线程竞争下，加锁、释放锁会导致比较多的上下文切换和调度延时，引起性能问题。</p>
+</li>
+<li><p>一个线程持有锁会导致其它所有需要此锁的线程挂起。</p>
+</li>
+<li><p>如果一个优先级高的线程等待一个优先级低的线程释放锁会导致优先级倒置，引起性能风险。</p>
+</li>
+</ol>
+<p>对比于悲观锁的这些问题，另一个更加有效的锁就是乐观锁。其实乐观锁就是：每次不加锁而是假设没有并发冲突而去完成某项操作，如果因为并发冲突失败就重试，直到成功为止。</p>
+<h2 id="乐观锁"><a href="#乐观锁" class="headerlink" title="乐观锁"></a>乐观锁</h2><p>顾名思义，就是很乐观，每次去拿数据的时候都认为别人不会修改，所以不会上锁，但是在更新的时候会判断一下在此期间别人有没有去更新这个数据，可以使用版本号等机制。乐观锁适用于多读的应用类型，这样可以提高吞吐量，像数据库提供的类似于write_condition机制，其实都是提供的乐观锁。在Java中java.util.concurrent.atomic包下面的原子变量类就是使用了乐观锁的一种实现方式CAS实现的。</p>
+<h1 id="原子变量"><a href="#原子变量" class="headerlink" title="原子变量"></a>原子变量</h1><p>非阻塞并发的基础是CAS（CompareAndSwap，比较并替换，后面会详细介绍），而CAS的基础是Unsafe类，所以下面系统性的介绍一下Unsafe和CAS。</p>
+<h2 id="Unsafe类"><a href="#Unsafe类" class="headerlink" title="Unsafe类"></a>Unsafe类</h2><ul>
+<li>Java的指针Unsafe类</li>
+</ul>
+<p>Java放弃了指针，获得了更高的安全性和内存自动清理的能力。但是，它还是在一个角落里提供了类似于指针的功能，那就是sun.misc.Unsafe类，利用这个类，可以完成许多需要指针才能提供的功能，例如构造一个对象，但是不调用构造函数；找到对象中一个变量的地址，然后直接给它赋值，无视其final属性；通过地址直接操作数组；或者是进行CAS操作。例子如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br></pre></td><td class="code"><pre><span class="line">public class UnSafeExam &#123;</span><br><span class="line">    public static void main(String[] args) throws InstantiationException, NoSuchFieldException &#123;</span><br><span class="line">        //获得一个UnSafe实例</span><br><span class="line">        Unsafe unsafe = null;</span><br><span class="line">        try &#123;</span><br><span class="line">            Field f = Unsafe.class.getDeclaredField(&quot;theUnsafe&quot;);</span><br><span class="line">            f.setAccessible(true);</span><br><span class="line">            unsafe = (Unsafe) f.get(null);</span><br><span class="line">        &#125; catch (NoSuchFieldException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125; catch (IllegalAccessException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        if (unsafe != null) &#123;</span><br><span class="line">            try &#123;</span><br><span class="line">                //构造一个对象，且不调用其构造函数</span><br><span class="line">                Test test = (Test) unsafe.allocateInstance(Test.class);</span><br><span class="line">                //得到一个对象内部属性的地址</span><br><span class="line">                long x_addr = unsafe.objectFieldOffset(Test.class.getDeclaredField(&quot;x&quot;));</span><br><span class="line">                //直接给此属性赋值</span><br><span class="line">                unsafe.getAndSetInt(test, x_addr, 47);</span><br><span class="line">                System.out.println(test.getX());</span><br><span class="line">            &#125; catch (InstantiationException e) &#123;</span><br><span class="line">                e.printStackTrace();</span><br><span class="line">            &#125; catch (NoSuchFieldException e) &#123;</span><br><span class="line">                e.printStackTrace();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        //通过地址操作数组</span><br><span class="line">        if (unsafe != null) &#123;</span><br><span class="line">            final int INT_BYTES = 4;</span><br><span class="line">            int[] data = new int[10];</span><br><span class="line">            System.out.println(Arrays.toString(data));</span><br><span class="line">            long arrayBaseOffset = unsafe.arrayBaseOffset(int[].class);</span><br><span class="line">            System.out.println(&quot;Array address is :&quot; + arrayBaseOffset);</span><br><span class="line">            unsafe.putInt(data, arrayBaseOffset, 47);</span><br><span class="line">            unsafe.putInt(data, arrayBaseOffset + INT_BYTES * 8, 43);</span><br><span class="line">            System.out.println(Arrays.toString(data));</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        //CAS</span><br><span class="line">        if (unsafe != null) &#123;</span><br><span class="line">            Test test = (Test) unsafe.allocateInstance(Test.class);</span><br><span class="line">            long x_addr = unsafe.objectFieldOffset(Test.class.getDeclaredField(&quot;x&quot;));</span><br><span class="line">            unsafe.getAndSetInt(test, x_addr, 47);</span><br><span class="line">            unsafe.compareAndSwapInt(test, x_addr, 47, 78);</span><br><span class="line">            System.out.println(&quot;After CAS:&quot; + test.getX());</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    static class Test &#123;</span><br><span class="line">        private final int x;</span><br><span class="line"></span><br><span class="line">        Test(int x) &#123;</span><br><span class="line">            this.x = x;</span><br><span class="line">            System.out.println(&quot;Test ctor&quot;);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        int getX() &#123;</span><br><span class="line">            return x;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>熟悉反射的人应该很快能够理解上面的代码，下面重点说说CAS这个操作。CAS即CompareAndSwap操作，在Unsafe中它有如下形式：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">public final native boolean compareAndSwapObject(Object var1, long var2, Object var4, Object var5);</span><br><span class="line">public final native boolean compareAndSwapInt(Object var1, long var2, int var4, int var5);</span><br><span class="line">public final native boolean compareAndSwapLong(Object var1, long var2, long var4, long var6);</span><br></pre></td></tr></table></figure>
+<p>这三个方法都有四个参数，其中第一和第二个参数代表对象的实例以及地址，第三个参数代表期望值，第四个参数代表更新值。CAS的语义是，若期望值等于对象地址存储的值，则用更新值来替换对象地址存储的值，并返回true，否则不进行替换，返回false。 </p>
+<p>后面我们会看到诸多的原子变量，例如AtomicInteger、AtomicLong、AtomicReference等等都提供了CAS操作，其底层都是调用了Unsafe的CAS，它们的参数往往是三个，对象值、期望值和更新值，其语义也与Unsafe中的一致。<br>CAS是所有原子变量的原子性的基础，为什么一个看起来如此不自然的操作却如此重要呢？其原因就在于这个native操作会最终演化为一条CPU指令cmpxchg，而不是多条CPU指令。由于CAS仅仅是一条指令，因此它不会被多线程的调度所打断，所以能够保证CAS操作是一个原子操作。补充一点，当代的很多CPU种类都支持cmpxchg操作，但不是所有CPU都支持，对于不支持的CPU，会自动加锁来保证其操作不会被打断。 </p>
+<p>由此可知，原子变量提供的原子性来自CAS操作，CAS来自Unsafe，然后由CPU的cmpxchg指令来保证。</p>
+<h2 id="保持原子性的AtomicInteger"><a href="#保持原子性的AtomicInteger" class="headerlink" title="保持原子性的AtomicInteger"></a>保持原子性的AtomicInteger</h2><p>若要保持一个变量改变数值时的原子性，目前Java最简单的方法就是使用相应的原子变量，例如AtomicInteger、AtomicBoolean和AtomicLong。再来看一个例子：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">public class AtomicIntegerExam &#123;</span><br><span class="line">    public static void main(String[] args) throws InterruptedException &#123;</span><br><span class="line">        AtomicInteger atomicInteger = new AtomicInteger(0);</span><br><span class="line">        ExecutorService service = Executors.newCachedThreadPool();</span><br><span class="line">        for (int j = 0; j &lt; 10; j++) &#123;</span><br><span class="line">            service.execute(new Runnable() &#123;</span><br><span class="line">                @Override</span><br><span class="line">                public void run() &#123;</span><br><span class="line">                    for (int k = 0; k &lt; 10000; k++) &#123;</span><br><span class="line">                        atomicInteger.incrementAndGet();</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;);</span><br><span class="line">        &#125;</span><br><span class="line">        service.shutdown();</span><br><span class="line">        service.awaitTermination(1, TimeUnit.DAYS);</span><br><span class="line">        System.out.println(atomicInteger.get());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这次的结果为保持为100000了。因为AtomicInteger的incrementAndGet()操作是原子性的。观察其内部代码，它使用了Unsafe的compareAndSwapInt()方法。<br>那么现在整形有AtomicInteger，长整型有AtomicLong，布尔型有AtomicBoolean，那么浮点型怎么办？JDK的说法是程序员可以利用AtomicInteger以及Float.floatToRawIntBits和Float.intBitsToFloat来自己实现一个AtomicFloat；利用AtomicLong以及Double.doubleToRawLongBits和Double.longBitsToDouble来自己实现一个AtomicDouble。在网上可以搜索到相应的实现实现JDK没有提供的AtomicFloat - 杨尚川的个人页面，这里就不再赘述了。</p>
+<h1 id="原子引用AtomicReference"><a href="#原子引用AtomicReference" class="headerlink" title="原子引用AtomicReference"></a>原子引用AtomicReference</h1><p>Java的变量有两种类型，原始类型和引用类型。上一章讲了原始类型对应的原子变量，这一章讲的便是原子引用AtomicReference，它的作用就是能够实现对引用类型的原子化更改。例子如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">public class AtomReferenceExam &#123;</span><br><span class="line">    public static void main(String[] args) throws InterruptedException &#123;</span><br><span class="line">        AtomicReference&lt;Element&gt; reference = new AtomicReference&lt;&gt;(new Element(0, 0));</span><br><span class="line"></span><br><span class="line">        ExecutorService service = Executors.newCachedThreadPool();</span><br><span class="line">        for (int i = 0; i &lt; 10; i++) &#123;</span><br><span class="line">            service.execute(new Runnable() &#123;</span><br><span class="line">                @Override</span><br><span class="line">                public void run() &#123;</span><br><span class="line">                    for (int j = 0; j &lt; 10000; j++) &#123;</span><br><span class="line">                        boolean flag = false;</span><br><span class="line">                        while (!flag) &#123;</span><br><span class="line">                            Element storedElement = reference.get();</span><br><span class="line">                            Element newElement = new Element(storedElement.x + 1, storedElement.y + 1);</span><br><span class="line">                            flag = reference.compareAndSet(storedElement, newElement);</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;);</span><br><span class="line">        &#125;</span><br><span class="line">        service.shutdown();</span><br><span class="line">        service.awaitTermination(1, TimeUnit.DAYS);</span><br><span class="line">        System.out.println(&quot;element.x=&quot; + reference.get().x + &quot;,element.y=&quot; + reference.get().y);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private static class Element &#123;</span><br><span class="line">        int x;</span><br><span class="line">        int y;</span><br><span class="line"></span><br><span class="line">        public Element(int x, int y) &#123;</span><br><span class="line">            this.x = x;</span><br><span class="line">            this.y = y;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>值得注意的有两点，一是如果有好几个变量要同时进行原子化的改变，那么可以把这几个变量放到一个Java类中，做成一个所谓的POJO（Plain Ordinary Java Object）类，然后使用AtomicReference来操作这个类。 </p>
+<p>第二点是以下这段代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">boolean flag = false;</span><br><span class="line">while (!flag) &#123;</span><br><span class="line">  Element storedElement = reference.get();</span><br><span class="line">  Element newElement = new Element(storedElement.x + 1, storedElement.y + 1);</span><br><span class="line">  flag = reference.compareAndSet(storedElement, newElement);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这是一种很通用的写法，在很多情况下，这种类似的写法都被称之为自旋锁（spinLock，我们会在后续的章节中介绍）。在使用AtomicReference的时候，会常常使用这种写法。</p>
+<h1 id="AtomicIntegerFieldUpdater"><a href="#AtomicIntegerFieldUpdater" class="headerlink" title="AtomicIntegerFieldUpdater"></a>AtomicIntegerFieldUpdater</h1><p>AtomicIntegerFieldUpdater、AtomicLongFieldUpdater和AtomicReferenceFieldUpdater都被称为原子属性更新器。这些类的应用场景是：如果已经有一个写好的类，但是随着业务场景的变化，其中某些属性在写入的时候需要保持原子性，那么就可以使用以上的类来实现这种原子性，并保持类的原有接口不变。 </p>
+<p>例子如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">public class AtomicIntegerFieldUpdaterExam &#123;</span><br><span class="line">    public static void main(String[] args) throws InterruptedException &#123;</span><br><span class="line">        Student student = new Student(0, &quot;Alex Wang&quot;);</span><br><span class="line">        AtomicIntegerFieldUpdater&lt;Student&gt; updater = AtomicIntegerFieldUpdater.newUpdater(Student.class, &quot;id&quot;);</span><br><span class="line">        ExecutorService service = Executors.newCachedThreadPool();</span><br><span class="line">        for (int i = 0; i &lt; 10; i++) &#123;</span><br><span class="line">            service.execute(new Runnable() &#123;</span><br><span class="line">                @Override</span><br><span class="line">                public void run() &#123;</span><br><span class="line">                    for (int j = 0; j &lt; 10000; j++) &#123;</span><br><span class="line">                        updater.getAndIncrement(student);</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;);</span><br><span class="line">        &#125;</span><br><span class="line">        service.shutdown();</span><br><span class="line">        service.awaitTermination(1, TimeUnit.DAYS);</span><br><span class="line">        System.out.println(student);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private static class Student &#123;</span><br><span class="line">        volatile int id;</span><br><span class="line">        String name;</span><br><span class="line"></span><br><span class="line">        public Student(int id, String name) &#123;</span><br><span class="line">            this.id = id;</span><br><span class="line">            this.name = name;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        @Override</span><br><span class="line">        public String toString() &#123;</span><br><span class="line">            return &quot;Student id = &quot; + id + &quot;,name = &quot; + name;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上面的例子中给出了一个原有的类Student，其中属性id是volatile int（注意，要应用原子属性更新器的属性必须是volatile的），为了使这个属性能够被原子化的改变，我们创建了一个AtomicIntegerFieldUpdater，其构造方法为AtomicIntegerFieldUpdater.newUpdater(Student.class, “id”)，注意第一个参数是一个class，而第二个参数是属性名字的字符串值（这里显然用到了反射）。接下来就可以使用这个Updater来更新属性值了，其用法类似于AtomicInteger。10个线程分别对这个属性进行了10000次加1操作，结果为100000。</p>
+<h1 id="AtomicIntegerArray原子数组"><a href="#AtomicIntegerArray原子数组" class="headerlink" title="AtomicIntegerArray原子数组"></a>AtomicIntegerArray原子数组</h1><p>AtomicIntegerArray、AtomicLongArray和AtomicReferenceArray是原子数组，数组中每个元素在改变时都可以保持原子性。例子如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">public class AtomicIntegerArrayExam &#123;</span><br><span class="line">    public static void main(String[] args) throws InterruptedException &#123;</span><br><span class="line">        AtomicIntegerArray array = new AtomicIntegerArray(5);</span><br><span class="line">        array.set(0, 0);</span><br><span class="line">        array.set(1, 0);</span><br><span class="line">        ExecutorService service = Executors.newCachedThreadPool();</span><br><span class="line">        for (int i = 0; i &lt; 10; i++) &#123;</span><br><span class="line">            service.execute(new Runnable() &#123;</span><br><span class="line">                @Override</span><br><span class="line">                public void run() &#123;</span><br><span class="line">                    for (int j = 0; j &lt; 10000; j++) &#123;</span><br><span class="line">                        array.getAndIncrement(0);</span><br><span class="line">                    &#125;</span><br><span class="line">                    for (int j = 0; j &lt; 10000; j++) &#123;</span><br><span class="line">                        array.getAndIncrement(1);</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;);</span><br><span class="line">        &#125;</span><br><span class="line">        service.shutdown();</span><br><span class="line">        service.awaitTermination(1, TimeUnit.DAYS);</span><br><span class="line">        System.out.println(&quot;array[0] = &quot;+array.get(0)+&quot;, array[1] = &quot;+array.get(1));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>10个线程分别对array[0]和array[1]进行了10000次加1操作，结果符合原子性。还有一点值得注意的是，为了性能考虑，应该尽量使用AtomicIntegerArray[n]，而不是AtomicInteger[n]，因为后者需要创建n个原子变量实例，而前者只需要创建一个原子变量数组实例，而完成的功能是一样的。</p>
+<h1 id="AtomicStampedReference带有版本号的原子引用"><a href="#AtomicStampedReference带有版本号的原子引用" class="headerlink" title="AtomicStampedReference带有版本号的原子引用"></a>AtomicStampedReference带有版本号的原子引用</h1><p>AtomicStampedReference和AtomicMarkableReference是atomic包中两个比较难以理解的类，它们都是为了解决ABA问题而创建出来的。</p>
+<h2 id="ABA问题"><a href="#ABA问题" class="headerlink" title="ABA问题"></a>ABA问题</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">在介绍AtomicReference的时候已经说过，为了实现原子引用的原子性改变，需要用一种类似于自旋锁的代码写法，如下：</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">boolean flag = false;</span><br><span class="line">while (!flag) &#123;</span><br><span class="line">  Element oldValue = reference.get();</span><br><span class="line">  Element newValue = new Element(…);</span><br><span class="line">//如果有其他线程在这里将oldValue从A改为B，做了一些事情，然后又将oldValue改为A，则下面的语句依然能够返回true</span><br><span class="line">  flag = reference.compareAndSet(oldValue, newValue);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>以上情况下，oldValue从A改为B，又从B改为A，不会影响compareAndSet的返回值。但是在某些情况下，会造成不确定的结果，因此影响了线程安全性，这种问题就叫做自旋锁的ABA问题，例如： </p>
+<p><img src="/assets/images/javaConcurrencyInPracticec15_ABA.jpg" alt=""></p>
+<p>ABA问题一般存在于链表、栈这类的并发数据结构中。从上面的例子中可以看出，由于ABA问题，最后的结果是，在特定的条件下，一个ACD栈（三个元素），经过一个pop操作（线程1）变成了B（一个元素），这显然不是线程安全的。<br>下面的代码中，我模拟了这个例子（其中很多地方并未充分考虑并发的正确性，主要是为了展示ABA问题）：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br></pre></td><td class="code"><pre><span class="line">public class ABAProblem &#123;</span><br><span class="line">    public static void main(String[] args) throws InterruptedException &#123;</span><br><span class="line">        MyStack&lt;String&gt; stack = new MyStack&lt;&gt;();</span><br><span class="line">        stack.push(&quot;B&quot;);</span><br><span class="line">        stack.push(&quot;A&quot;);</span><br><span class="line">        System.out.println(&quot;Stack init:&quot; + stack);</span><br><span class="line"></span><br><span class="line">        ExecutorService service = Executors.newCachedThreadPool();</span><br><span class="line">        service.execute(new Runnable() &#123;</span><br><span class="line">            @Override</span><br><span class="line">            public void run() &#123;</span><br><span class="line">                Thread.currentThread().setName(&quot;Thread1&quot;);</span><br><span class="line">                stack.pop();</span><br><span class="line">                System.out.println(&quot;Thread1 pop :&quot; + stack);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">        service.execute(new Runnable() &#123;</span><br><span class="line">            @Override</span><br><span class="line">            public void run() &#123;</span><br><span class="line">                Thread.currentThread().setName(&quot;Thread2&quot;);</span><br><span class="line">                Node&lt;String&gt; A = stack.pop();</span><br><span class="line">                System.out.println(&quot;Thread2 pop :&quot; + stack);</span><br><span class="line">                stack.pop();</span><br><span class="line">                System.out.println(&quot;Thread2 pop :&quot; + stack);</span><br><span class="line">                stack.push(&quot;D&quot;);</span><br><span class="line">                System.out.println(&quot;Thread2 push D:&quot; + stack);</span><br><span class="line">                stack.push(&quot;C&quot;);</span><br><span class="line">                System.out.println(&quot;Thread2 push C:&quot; + stack);</span><br><span class="line">                stack.push(A);</span><br><span class="line">                System.out.println(&quot;Thread2 push A:&quot; + stack);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">        service.shutdown();</span><br><span class="line">        service.awaitTermination(1, TimeUnit.DAYS);</span><br><span class="line">        System.out.println(&quot;Stack result:&quot; + stack);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    static class MyStack&lt;T&gt; &#123;</span><br><span class="line">        AtomicReference&lt;Node&lt;T&gt;&gt; head = new AtomicReference&lt;&gt;(null);</span><br><span class="line"></span><br><span class="line">        public void push(T value) &#123;</span><br><span class="line">            Node&lt;T&gt; node = new Node&lt;&gt;(value);</span><br><span class="line">            push(node);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        public void push(Node&lt;T&gt; node) &#123;</span><br><span class="line">            for (; ; ) &#123;</span><br><span class="line">                Node&lt;T&gt; tmpHead = head.get();</span><br><span class="line">                if (head.compareAndSet(tmpHead, node)) &#123;</span><br><span class="line">                    node.setNext(tmpHead);</span><br><span class="line">                    return;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        public Node&lt;T&gt; pop() &#123;</span><br><span class="line">            for (; ; ) &#123;</span><br><span class="line">                Node&lt;T&gt; node = head.get();</span><br><span class="line">                if (node == null) &#123;</span><br><span class="line">                    return null;</span><br><span class="line">                &#125;</span><br><span class="line">                Node&lt;T&gt; nextNode = node.getNext();</span><br><span class="line">                // add this sleep to cause ABA problem</span><br><span class="line">                if (Thread.currentThread().getName().equals(&quot;Thread1&quot;)) &#123;</span><br><span class="line">                    try &#123;</span><br><span class="line">                        TimeUnit.SECONDS.sleep(1);</span><br><span class="line">                    &#125; catch (InterruptedException e) &#123;</span><br><span class="line">                        e.printStackTrace();</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">                if (head.compareAndSet(node, nextNode)) &#123;</span><br><span class="line">                    return node;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        @Override</span><br><span class="line">        public String toString() &#123;</span><br><span class="line">            StringBuilder sb = new StringBuilder(&quot;[&quot;);</span><br><span class="line">            Node&lt;T&gt; node = head.get();</span><br><span class="line">            while (node != null) &#123;</span><br><span class="line">                sb.append(node.getValue());</span><br><span class="line">                if (node.getNext() != null) &#123;</span><br><span class="line">                    sb.append(&quot;,&quot;);</span><br><span class="line">                &#125;</span><br><span class="line">                node = node.getNext();</span><br><span class="line">            &#125;</span><br><span class="line">            sb.append(&quot;]&quot;);</span><br><span class="line">            return sb.toString();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private static class Node&lt;T&gt; &#123;</span><br><span class="line">        private T value;</span><br><span class="line">        private Node&lt;T&gt; next;</span><br><span class="line"></span><br><span class="line">        public Node(T value) &#123;</span><br><span class="line">            this.value = value;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        public Node&lt;T&gt; getNext() &#123;</span><br><span class="line">            return next;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        public void setNext(Node&lt;T&gt; next) &#123;</span><br><span class="line">            this.next = next;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        public T getValue() &#123;</span><br><span class="line">            return value;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        public void setValue(T value) &#123;</span><br><span class="line">            this.value = value;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>运行结果是：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Stack init:[A,B]</span><br><span class="line">Thread2 pop :[B]</span><br><span class="line">Thread2 pop :[]</span><br><span class="line">Thread2 push D:[D]</span><br><span class="line">Thread2 push C:[C,D]</span><br><span class="line">Thread2 push A:[A,C,D]</span><br><span class="line">Thread1 pop :[B]</span><br><span class="line">Stack result:[B]</span><br></pre></td></tr></table></figure>
+<p>代码中的push和pop方法都用无限循环的for语句实现，这也是并发中的常见写法，与前面类似自旋锁的while语句实现类似的功能，但由于不需要定义一个boolean变量，因此更加简洁。为了保证ABA问题一定出现，我特意插入了一个针对特定线程的sleep语句。在现实中，出现ABA的几率其实是很小的。 </p>
+<h3 id="用AtomicStampedReference解决ABA问题"><a href="#用AtomicStampedReference解决ABA问题" class="headerlink" title="用AtomicStampedReference解决ABA问题"></a>用AtomicStampedReference解决ABA问题</h3><p>ABA问题的实质是：在并发编程中，仅靠检查变量的值是无法知道这个变量是否被改动过的，还要加上一个版本号（当变量改变就改变其版本号）才能确定变量保持不变。AtomicStampedReference实现了此功能，它保存变量引用的同时，还赋予此变量一个版本号。每当变量改动时（这个改动是程序员自定义的，例如存储的数值改变，或者是变量在内存中的位置移动了，或者是变量在某一个数据结构中被移动了），AtomicStampedReference可以同时改动版本号；因此在进行CAS操作时，同时检查引用和版本号，只有同时符合才能成功。如此变可以确保ABA问题不会发生了。<br>代码进行如下改动（仅改动MyStack）：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><span class="line">static class MyStack&lt;T&gt; &#123;</span><br><span class="line">    //initialStamp = 0</span><br><span class="line">    AtomicStampedReference&lt;Node&lt;T&gt;&gt; head = new AtomicStampedReference&lt;&gt;(null, 0);</span><br><span class="line"></span><br><span class="line">    public void push(T value) &#123;</span><br><span class="line">        Node&lt;T&gt; node = new Node&lt;&gt;(value);</span><br><span class="line">        push(node);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void push(Node&lt;T&gt; node) &#123;</span><br><span class="line">        for (; ; ) &#123;</span><br><span class="line">            Node&lt;T&gt; tmpHead = head.getReference();</span><br><span class="line">            int stamp = head.getStamp();</span><br><span class="line">            if (head.compareAndSet(tmpHead, node, stamp, stamp + 1)) &#123;</span><br><span class="line">                node.setNext(tmpHead);</span><br><span class="line">                return;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public Node&lt;T&gt; pop() &#123;</span><br><span class="line">        for (; ; ) &#123;</span><br><span class="line">            Node&lt;T&gt; node = head.getReference();</span><br><span class="line">            int stamp = head.getStamp();</span><br><span class="line">            if (node == null) &#123;</span><br><span class="line">                return null;</span><br><span class="line">            &#125;</span><br><span class="line">            Node&lt;T&gt; nextNode = node.getNext();</span><br><span class="line"></span><br><span class="line">            // add this sleep to cause ABA problem</span><br><span class="line">            if (Thread.currentThread().getName().equals(&quot;Thread1&quot;)) &#123;</span><br><span class="line">                try &#123;</span><br><span class="line">                    TimeUnit.SECONDS.sleep(1);</span><br><span class="line">                &#125; catch (InterruptedException e) &#123;</span><br><span class="line">                    e.printStackTrace();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            if (head.compareAndSet(node, nextNode, stamp, stamp + 1)) &#123;</span><br><span class="line">                return node;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public String toString() &#123;</span><br><span class="line">        StringBuilder sb = new StringBuilder(&quot;[&quot;);</span><br><span class="line">        Node&lt;T&gt; node = head.getReference();</span><br><span class="line">        while (node != null) &#123;</span><br><span class="line">            sb.append(node.getValue());</span><br><span class="line">            if (node.getNext() != null) &#123;</span><br><span class="line">                sb.append(&quot;,&quot;);</span><br><span class="line">            &#125;</span><br><span class="line">            node = node.getNext();</span><br><span class="line">        &#125;</span><br><span class="line">        sb.append(&quot;]&quot;);</span><br><span class="line">        return sb.toString();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在每次改动head保存的变量时，都同时给版本号加1，这样就避免了ABA问题的发生，运行结果如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Stack init:[A,B]</span><br><span class="line">Thread2 pop :[B]</span><br><span class="line">Thread2 pop :[]</span><br><span class="line">Thread2 push D:[D]</span><br><span class="line">Thread2 push C:[C,D]</span><br><span class="line">Thread2 push A:[A,C,D]</span><br><span class="line">Thread1 pop :[C,D]</span><br><span class="line">Stack result:[C,D]</span><br></pre></td></tr></table></figure>
+<p>另外值得一提的是，AtomicStampedReference还有一个简化版AtomicMarkableReference，它保存的版本号是一个boolean值，适用于某些简化的情景下。</p>
+<h1 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h1><p>所谓“线程安全的”，就是在并发环境下能够保持运行结果不变。除了原始的synchronize阻塞方法外，使用原子性的语句能够在保持线程安全的前提下提供更好的性能。原子性的基础是CAS语句，而它则是由Unsafe类提供的。有了此利器，JDK提供了AtomicInteger、AtomicBoolean和AtomicLong等类来实现整形、布尔型和长整型变量的原子增减操作；提供了AtomicReference来实现引用类型的原子操作；提供了AtomicIntegerFieldUpdater、AtomicLongFieldUpdater和AtomicReferenceFieldUpdater来实现原有类中某个属性的原子更新操作；提供了AtomicIntegerArray、AtomicLongArray和AtomicReferenceArray等原子数组，数组中每个元素在改变时都可以保持原子性。为了避免ABA问题，提供了AtomicStampedReference和AtomicMarkableReference。</p>
+
+            <div class="post-copyright">
+    <div class="content">
+        <p>最后更新： 2018年07月12日 14:01</p>
+        <p>原始链接： <a class="post-url" href="/2018/03/23/javaConcurrencyInPractice_c15/" title="Java并发编程实战之原子变量与非阻塞同步">http://zhangbuzola.cn/2018/03/23/javaConcurrencyInPractice_c15/</a></p>
+        <footer>
+            <a href="http://zhangbuzola.cn">
+                <img src="/images/pacman.jpg" alt="zolanunu">
+                zolanunu
+            </a>
+        </footer>
+    </div>
+</div>
+
+      
+        
+            
+
+        
+    </div>
+    <footer class="article-footer">
+        
+        <ul class="article-footer-menu">
+            
+            
+  <li class="article-footer-tags">
+    <i class="fa fa-tags"></i>
+      
+    <a href="/tags/java并发编程实战/" class="color1">java并发编程实战</a>
+      
+  </li>
+
+        </ul>
+        
+    </footer>
+  </div>
+</article>
+
+
+    <aside class="post-toc-pos post-toc-top" id="post-toc">
+        <nav class="post-toc-wrap">
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#前言"><span class="post-toc-text">前言</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#锁的劣势"><span class="post-toc-text">锁的劣势</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#volatile"><span class="post-toc-text">volatile</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#i-不是原子操作"><span class="post-toc-text">++i 不是原子操作</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#硬件对并发的支持"><span class="post-toc-text">硬件对并发的支持</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#悲观锁"><span class="post-toc-text">悲观锁</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#乐观锁"><span class="post-toc-text">乐观锁</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#原子变量"><span class="post-toc-text">原子变量</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Unsafe类"><span class="post-toc-text">Unsafe类</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#保持原子性的AtomicInteger"><span class="post-toc-text">保持原子性的AtomicInteger</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#原子引用AtomicReference"><span class="post-toc-text">原子引用AtomicReference</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#AtomicIntegerFieldUpdater"><span class="post-toc-text">AtomicIntegerFieldUpdater</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#AtomicIntegerArray原子数组"><span class="post-toc-text">AtomicIntegerArray原子数组</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#AtomicStampedReference带有版本号的原子引用"><span class="post-toc-text">AtomicStampedReference带有版本号的原子引用</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#ABA问题"><span class="post-toc-text">ABA问题</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#用AtomicStampedReference解决ABA问题"><span class="post-toc-text">用AtomicStampedReference解决ABA问题</span></a></li></ol></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#小结"><span class="post-toc-text">小结</span></a></li></ol>
+        </nav>
+    </aside>
+    
+
+<nav id="article-nav">
+  
+    <a href="/2018/04/11/java_treemap/" id="article-nav-newer" class="article-nav-link-wrap">
+
+      <span class="article-nav-title">
+        <i class="fa fa-hand-o-left" aria-hidden="true"></i>
+        
+          java集合之TreeMap
+        
+      </span>
+    </a>
+  
+  
+    <a href="/2018/03/23/javaConcurrencyInPractice_c16/" id="article-nav-older" class="article-nav-link-wrap">
+      <span class="article-nav-title">Java并发编程实战之java内存模型</span>
+      <i class="fa fa-hand-o-right" aria-hidden="true"></i>
+    </a>
+  
+</nav>
+
+
+
+    
+        <link rel="stylesheet" href="//unpkg.com/gitment/style/default.css">
+    <script src="//unpkg.com/gitment/dist/gitment.browser.js"></script>
+    <script>
+        var gitment = new Gitment({
+            owner: 'true',
+            repo: 'zolanunu',
+            oauth: {
+                client_id: '1a04e8dee74a4b8634df',
+                client_secret: '9e3078ac89eb72f22abbdd11f7f0d11e2e1d7f7a',
+            },
+        })
+        gitment.render('comments')
+    </script>
+
+    
+</section>
+        
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+      <p>
+        Powered by  <a href="http://hexo.io/" target="_blank">Hexo</a>
+        Theme <a href="//github.com/wongminho/hexo-theme-miho" target="_blank">MiHo</a>
+      &copy; 2018 zolanunu<br>
+      </p>
+    </div>
+  </div>
+</footer>
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script>
+  var mihoConfig = {
+      root: "http://zhangbuzola.cn",
+      animate: true,
+      isHome: false,
+      share: false,
+      reward: 0
+  }
+</script>
+<div class="sidebar">
+    <div id="sidebar-search" title="Search">
+        <i class="fa fa-search"></i>
+    </div>
+    <div id="sidebar-category" title="Categories">
+        <i class="fa fa-book"></i>
+    </div>
+    <div id="sidebar-tag" title="Tags">
+        <i class="fa fa-tags"></i>
+    </div>
+    <div id="sidebar-top">
+        <span class="sidebar-top-icon"><i class="fa fa-angle-up"></i></span>
+    </div>
+</div>
+<div class="sidebar-menu-box" id="sidebar-menu-box">
+    <div class="sidebar-menu-box-container">
+        <div id="sidebar-menu-box-categories">
+            <a class="category-link" href="/categories/Java/">Java</a><a class="category-link" href="/categories/Java后台/">Java后台</a><a class="category-link" href="/categories/Python/">Python</a><a class="category-link" href="/categories/工具/">工具</a><a class="category-link" href="/categories/技术书/">技术书</a><a class="category-link" href="/categories/数据库/">数据库</a><a class="category-link" href="/categories/数据结构/">数据结构</a><a class="category-link" href="/categories/生活轨迹/">生活轨迹</a><a class="category-link" href="/categories/算法/">算法</a>
+        </div>
+        <div id="sidebar-menu-box-tags">
+            <a href="/tags/2018/" style="font-size: 11.43px;">2018</a> <a href="/tags/Collections/" style="font-size: 15.71px;">Collections</a> <a href="/tags/HashMap/" style="font-size: 10px;">HashMap</a> <a href="/tags/LinkedHashMap/" style="font-size: 10px;">LinkedHashMap</a> <a href="/tags/MySQL/" style="font-size: 17.14px;">MySQL</a> <a href="/tags/Mybatis/" style="font-size: 12.86px;">Mybatis</a> <a href="/tags/Object/" style="font-size: 10px;">Object</a> <a href="/tags/SSM/" style="font-size: 12.86px;">SSM</a> <a href="/tags/TreeMap/" style="font-size: 11.43px;">TreeMap</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/java基础/" style="font-size: 20px;">java基础</a> <a href="/tags/java并发编程实战/" style="font-size: 11.43px;">java并发编程实战</a> <a href="/tags/leetcode/" style="font-size: 17.14px;">leetcode</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/剑指offer/" style="font-size: 10px;">剑指offer</a> <a href="/tags/多线程/" style="font-size: 11.43px;">多线程</a> <a href="/tags/并发编程/" style="font-size: 10px;">并发编程</a> <a href="/tags/机器学习/" style="font-size: 12.86px;">机器学习</a> <a href="/tags/构造函数/" style="font-size: 10px;">构造函数</a> <a href="/tags/深入理解java虚拟机/" style="font-size: 10px;">深入理解java虚拟机</a> <a href="/tags/生活/" style="font-size: 10px;">生活</a> <a href="/tags/神经网络/" style="font-size: 10px;">神经网络</a> <a href="/tags/算法与数据结构/" style="font-size: 14.29px;">算法与数据结构</a> <a href="/tags/算法和数据结构/" style="font-size: 18.57px;">算法和数据结构</a> <a href="/tags/观影记/" style="font-size: 10px;">观影记</a> <a href="/tags/读书书单/" style="font-size: 10px;">读书书单</a>
+        </div>
+    </div>
+    <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
+</div>
+<div class="mobile-header-menu-nav" id="mobile-header-menu-nav">
+    <div class="mobile-header-menu-container">
+        <span class="title">Menus</span>
+        <ul class="mobile-header-menu-navbar">
+            
+            <li>
+                <a  href="/">
+                    <i class="fa fa-home"></i><span>Home</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/archives">
+                    <i class="fa fa-archive"></i><span>Archives</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/about">
+                    <i class="fa fa-user"></i><span>About</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    <div class="mobile-header-tag-container">
+        <span class="title">Tags</span>
+        <div id="mobile-header-container-tags">
+            <a href="/tags/2018/" style="font-size: 11.43px;">2018</a> <a href="/tags/Collections/" style="font-size: 15.71px;">Collections</a> <a href="/tags/HashMap/" style="font-size: 10px;">HashMap</a> <a href="/tags/LinkedHashMap/" style="font-size: 10px;">LinkedHashMap</a> <a href="/tags/MySQL/" style="font-size: 17.14px;">MySQL</a> <a href="/tags/Mybatis/" style="font-size: 12.86px;">Mybatis</a> <a href="/tags/Object/" style="font-size: 10px;">Object</a> <a href="/tags/SSM/" style="font-size: 12.86px;">SSM</a> <a href="/tags/TreeMap/" style="font-size: 11.43px;">TreeMap</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/java基础/" style="font-size: 20px;">java基础</a> <a href="/tags/java并发编程实战/" style="font-size: 11.43px;">java并发编程实战</a> <a href="/tags/leetcode/" style="font-size: 17.14px;">leetcode</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/剑指offer/" style="font-size: 10px;">剑指offer</a> <a href="/tags/多线程/" style="font-size: 11.43px;">多线程</a> <a href="/tags/并发编程/" style="font-size: 10px;">并发编程</a> <a href="/tags/机器学习/" style="font-size: 12.86px;">机器学习</a> <a href="/tags/构造函数/" style="font-size: 10px;">构造函数</a> <a href="/tags/深入理解java虚拟机/" style="font-size: 10px;">深入理解java虚拟机</a> <a href="/tags/生活/" style="font-size: 10px;">生活</a> <a href="/tags/神经网络/" style="font-size: 10px;">神经网络</a> <a href="/tags/算法与数据结构/" style="font-size: 14.29px;">算法与数据结构</a> <a href="/tags/算法和数据结构/" style="font-size: 18.57px;">算法和数据结构</a> <a href="/tags/观影记/" style="font-size: 10px;">观影记</a> <a href="/tags/读书书单/" style="font-size: 10px;">读书书单</a>
+        </div>
+    </div>
+</div>
+<div class="search-wrap">
+    <span class="search-close">&times;</span>
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+            <i class="icon icon-lg icon-chevron-left"></i>
+        </a>
+        <input class="search-field" placeholder="Search..." id="keywords">
+        <a id="search-submit" href="javascript:;">
+            <i class="fa fa-search"></i>
+        </a>
+    <div class="search-container" id="search-container">
+        <ul class="search-result" id="search-result">
+        </ul>
+    </div>
+</div>
+
+<div id="search-tpl">
+    <li class="search-result-item">
+        <a href="{url}" class="search-item-li">
+            <span class="search-item-li-title" title="{title}">{title}</span>
+        </a>
+    </li>
+</div>
+<script src="/js/search.js"></script>
+<script src="/js/main.js"></script>
+
+
+  <script src="//cdn.bootcss.com/particles.js/2.0.0/particles.min.js"></script>
+  <div id="particles"></div>
+  <script src="/js/particles.js"></script>
+
+
+
+
+
+
+
+  <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
+  <script src="//cdn.bootcss.com/scrollReveal.js/3.0.5/scrollreveal.js"></script>
+  <script src="/js/animate.js"></script>
+
+
+  <script src="/js/pop-img.js"></script>
+  <script>
+     $(".article-entry p img").popImg();
+  </script>
+
+  </div>
+</body>
+</html>

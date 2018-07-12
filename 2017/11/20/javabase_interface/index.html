@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>java基础学习之接口 | zolanunu</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+    <meta name="keywords" content="zolanunu,zolanunu's blog" />
+  
+  <meta name="description" content="接口接口概念interface: 抽象方法的集合，一个类通过实现接口的方式，来继承接口的抽象方法。 接口并不是类，类描述对象的属性和方法。接口则是包含类要实现的方法。 除非实现接口的类是抽象类，否则该类要定义接口中所有方法。 接口无法被实例化，但是可以被实现。一个实现接口的类，必须实现接口内所描述的所有方法，否则必须声明为抽象类。另外java中，接口类型可以用来声明一个变量，他们可以成为一个空指针">
+<meta name="keywords" content="java基础">
+<meta property="og:type" content="article">
+<meta property="og:title" content="java基础学习之接口">
+<meta property="og:url" content="http://zhangbuzola.cn/2017/11/20/javabase_interface/index.html">
+<meta property="og:site_name" content="zolanunu">
+<meta property="og:description" content="接口接口概念interface: 抽象方法的集合，一个类通过实现接口的方式，来继承接口的抽象方法。 接口并不是类，类描述对象的属性和方法。接口则是包含类要实现的方法。 除非实现接口的类是抽象类，否则该类要定义接口中所有方法。 接口无法被实例化，但是可以被实现。一个实现接口的类，必须实现接口内所描述的所有方法，否则必须声明为抽象类。另外java中，接口类型可以用来声明一个变量，他们可以成为一个空指针">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2018-07-12T05:52:56.207Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="java基础学习之接口">
+<meta name="twitter:description" content="接口接口概念interface: 抽象方法的集合，一个类通过实现接口的方式，来继承接口的抽象方法。 接口并不是类，类描述对象的属性和方法。接口则是包含类要实现的方法。 除非实现接口的类是抽象类，否则该类要定义接口中所有方法。 接口无法被实例化，但是可以被实现。一个实现接口的类，必须实现接口内所描述的所有方法，否则必须声明为抽象类。另外java中，接口类型可以用来声明一个变量，他们可以成为一个空指针">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="/js/pace.min.js"></script>
+  
+
+  
+	<script>
+	var _hmt = _hmt || [];
+	(function() {
+	  var hm = document.createElement("script");
+	  hm.src = "//hm.baidu.com/hm.js?a651034b7d11a367ae836642b29a3057";
+	  var s = document.getElementsByTagName("script")[0]; 
+	  s.parentNode.insertBefore(hm, s);
+	})();
+	</script>
+
+  
+
+</head>
+
+<body>
+  <div id="container">
+      <header id="header">
+    <div id="banner"></div>
+    <div id="header-outer">
+        <div id="header-menu" class="header-menu-pos animated">
+            <div class="header-menu-container">
+                <a href="/" class="left">
+                    <span class="site-title">zolanunu&#39;s Blog</span>
+                </a>
+                <nav id="header-menu-nav" class="right">
+                    
+                    <a  href="/">
+                        <i class="fa fa-home"></i>
+                        <span>Home</span>
+                    </a>
+                    
+                    <a  href="/archives">
+                        <i class="fa fa-archive"></i>
+                        <span>Archives</span>
+                    </a>
+                    
+                    <a  href="/about">
+                        <i class="fa fa-user"></i>
+                        <span>About</span>
+                    </a>
+                    
+                </nav>
+                <a class="mobile-header-menu-button">
+                    <i class="fa fa-bars"></i>
+                </a>
+            </div>
+        </div>
+        <div id="header-row">
+            <div id="logo">
+                <a href="/">
+                    <img src="/images/pacman.jpg" alt="logo">
+                </a>
+            </div>
+            <div class="header-info">
+                <div id="header-title">
+                    
+                    <h2>
+                        zolanunu&#39;s Blog
+                    </h2>
+                    
+                </div>
+                <div id="header-description">
+                    
+                    <h3>
+                        去努力尝试做一些你觉得你不会做或者不敢做的事情。
+                    </h3>
+                    
+                </div>
+            </div>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a title="zolanunu" target="_blank" href="//zhangbuzola.cn">
+                            <i class="fa fa-home fa-2x"></i></a>
+                    
+                        <a title="Github" target="_blank" href="//github.com/zolanunu">
+                            <i class="fa fa-github fa-2x"></i></a>
+                    
+                        <a title="Weibo" target="_blank" href="//weibo.com/zolanunu">
+                            <i class="fa fa-weibo fa-2x"></i></a>
+                    
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>
+      <div class="outer">
+        <section id="main" class="body-wrap"><article id="post-javabase_interface" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="post-title" itemprop="name">
+      java基础学习之接口
+    </h1>
+    <div class="post-title-bar">
+      <ul>
+          
+              <li>
+                  <i class="fa fa-book"></i>
+                  
+                      <a href="/categories/Java/">Java</a>
+                  
+              </li>
+          
+        <li>
+          <i class="fa fa-calendar"></i>  2017-11-20
+        </li>
+        <li>
+          <i class="fa fa-eye"></i>
+          <span id="busuanzi_value_page_pv"></span>
+        </li>
+      </ul>
+    </div>
+  
+
+          
+      </header>
+    
+    <div class="article-entry post-content" itemprop="articleBody">
+      
+            
+            <h1 id="接口"><a href="#接口" class="headerlink" title="接口"></a>接口</h1><h2 id="接口概念"><a href="#接口概念" class="headerlink" title="接口概念"></a>接口概念</h2><p><code>interface</code>: 抽象方法的集合，一个类通过实现接口的方式，来继承接口的抽象方法。</p>
+<p>接口并不是类，类描述对象的属性和方法。接口则是包含类要实现的方法。</p>
+<p>除非实现接口的类是抽象类，否则该类要定义接口中所有方法。</p>
+<p>接口无法被实例化，但是可以被实现。一个实现接口的类，必须实现接口内所描述的所有方法，否则必须声明为抽象类。另外java中，接口类型可以用来声明一个变量，他们可以成为一个空指针，或是被绑定在一个以此接口实现的对象。</p>
+<h2 id="接口实现"><a href="#接口实现" class="headerlink" title="接口实现"></a>接口实现</h2><ul>
+<li><p>接口中每一个方法也是隐式抽象的,接口中的方法会被隐式的指定为 public abstract（只能是 public abstract，其他修饰符都会报错）。</p>
+</li>
+<li><p>接口中可以含有变量，但是接口中的变量会被隐式的指定为 public static final 变量（并且只能是 public，用 private 修饰会报编译错误）。</p>
+</li>
+<li><p>接口中的方法是不能在接口中实现的，只能由实现接口的类来实现接口中的方法。</p>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">[可见度] interface 接口名称 [extends 其他的类名] &#123;</span><br><span class="line">        // 声明变量</span><br><span class="line">        // 抽象方法</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">(public) interface Animal &#123;</span><br><span class="line">   public void eat();</span><br><span class="line">   public void travel();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>重写接口中声明的方法时，需要注意以下规则：</p>
+<p>类在实现接口的方法时，不能抛出强制性异常，只能在接口中，或者继承接口的抽象类中抛出该强制性异常。</p>
+<p>类在重写方法时要保持一致的方法名，并且应该保持相同或者相兼容的返回值类型。</p>
+<p>如果实现接口的类是抽象类，那么就没必要实现该接口的方法。s</p>
+<p>在实现接口的时候，也要注意一些规则：</p>
+<ul>
+<li><p>一个类可以同时实现多个接口。</p>
+</li>
+<li><p>一个类只能继承一个类，但是能实现多个接口。</p>
+</li>
+<li><p>一个接口能继承另一个接口，这和类之间的继承比较相似。</p>
+</li>
+</ul>
+<h2 id="继承"><a href="#继承" class="headerlink" title="继承"></a>继承</h2><p>一个接口能继承另一个接口，和类之间的继承方式比较相似。接口的继承使用extends关键字，子接口继承父接口的方法。</p>
+<p>下面的Sports接口被Hockey和Football接口继承：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">// 文件名: Sports.java</span><br><span class="line">public interface Sports</span><br><span class="line">&#123;</span><br><span class="line">   public void setHomeTeam(String name);</span><br><span class="line">   public void setVisitingTeam(String name);</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line">// 文件名: Football.java</span><br><span class="line">public interface Football extends Sports</span><br><span class="line">&#123;</span><br><span class="line">   public void homeTeamScored(int points);</span><br><span class="line">   public void visitingTeamScored(int points);</span><br><span class="line">   public void endOfQuarter(int quarter);</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line">// 文件名: Hockey.java</span><br><span class="line">public interface Hockey extends Sports</span><br><span class="line">&#123;</span><br><span class="line">   public void homeGoalScored();</span><br><span class="line">   public void visitingGoalScored();</span><br><span class="line">   public void endOfPeriod(int period);</span><br><span class="line">   public void overtimePeriod(int ot);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>支持接口之间多继承，类不能继承接口，而是要实现接口，允许一个类同时实现多个接口。</li>
+</ul>
+<h2 id="接口与类"><a href="#接口与类" class="headerlink" title="接口与类"></a>接口与类</h2><h3 id="相同点"><a href="#相同点" class="headerlink" title="相同点"></a>相同点</h3><ul>
+<li><p>一个接口可以有多个方法。</p>
+</li>
+<li><p>接口文件保存在 .java 结尾的文件中，文件名使用接口名。</p>
+</li>
+<li><p>接口的字节码文件保存在 .class 结尾的文件中。</p>
+</li>
+<li><p>接口相应的字节码文件必须在与包名称相匹配的目录结构中。</p>
+</li>
+</ul>
+<h3 id="区别"><a href="#区别" class="headerlink" title="区别"></a>区别</h3><ul>
+<li><p>接口不能用于实例化对象。</p>
+</li>
+<li><p>接口没有构造方法。</p>
+</li>
+<li><p>接口中所有的方法必须是抽象方法。</p>
+</li>
+<li><p>接口不能包含成员变量，除了 static 和 final 变量。</p>
+</li>
+<li><p>接口不是被类继承了，而是要被类实现。</p>
+</li>
+<li><p>接口支持多继承。（接口之间多继承）</p>
+</li>
+</ul>
+<h3 id="接口和普通类"><a href="#接口和普通类" class="headerlink" title="接口和普通类"></a>接口和普通类</h3><h3 id="接口和抽象类"><a href="#接口和抽象类" class="headerlink" title="接口和抽象类"></a>接口和抽象类</h3><ol>
+<li><p>抽象类中的方法可以有方法体，就是能实现方法的具体功能，但是接口中的方法不行。</p>
+</li>
+<li><p>抽象类中的成员变量可以是各种类型的，而接口中的成员变量只能是 public static final 类型的。</p>
+</li>
+<li><p>接口中不能含有静态代码块以及静态方法(用 static 修饰的方法)，而抽象类是可以有静态代码块和静态方法。</p>
+</li>
+<li><p>一个类只能继承一个抽象类，而一个类却可以实现多个接口。</p>
+</li>
+</ol>
+<h2 id="接口的作用"><a href="#接口的作用" class="headerlink" title="接口的作用"></a>接口的作用</h2><ul>
+<li><p>接口只是一个规范</p>
+</li>
+<li><p>不如直接在类中实现接口中的抽象方法，那不是更方便吗？这个是有问题的。因为当多个类拥有同样的一些方法的时候，相当于百姓遇到法律问题的时候，都需要律师这个角色去帮他们完成一些事情一样。你不可能要求所有人都要有律师的功能。</p>
+</li>
+<li><p>“接口+实现”最常见的优势就是实现类和接口分离，在更换实现类的时候，不用更换接口功能。</p>
+</li>
+<li><p>定义接口对于做单元测试也非常有帮助。</p>
+</li>
+<li><p>对于不需要频繁更变实现类的方法，是不是就可以不用写接口了？</p>
+</li>
+</ul>
+<p>答案是No。整个系统架构的代码可以单纯认为有四部分构成。Model+Interface+Service+UtilModel是纯粹的Pojo，贫血模型，Inteface和Service是接口和实现分开的，Util是全项目通用，或者是跨项目通用的，跟业务逻辑没有任何关系的。</p>
+<p>写接口最大的好处就是在你写的Controller代码，或者是Service里的主要业务逻辑代码的时候，屏蔽掉细节。写一个业务逻辑的时候，比如说修真院的加入班级。第一步，做校验，用户是否为空，班级是否不存在，是否已经加入了班级等等。第二步，更新班级和用户的关系表，更新班级总人数，更新职业总人数，更新用户的最新班级ID。第三步，发送系统通知，告知用户加入班级成功。如果说不用接口，只用实现类的话，第一种方式就是把所有的代码都写在这个Controller里去，代码会非常非常繁琐，一个函数突破几千行轻轻松松，而且改动起来很麻烦。第二种方式就是抽象出来函数。这种方式在某种程度上能够解决代码块大的问题，但是你必须要New一个实现类出来，想想在上述逻辑中，需要new几个实现类？这些实现类就会被New的各处都是，甚至改个名字都很蛋疼。</p>
+<p>但是如果你使用接口的话，你会发现，接口是强制于你去将复杂的业务逻辑抽象成具体做的事儿。比如说：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">if(user==null)&#123;   // to do something&#125;就变成了CheckUser（uid）</span><br></pre></td></tr></table></figure>
+<p>实现类也明确了自已要做的事情。从某种程度上来说，抽象成一个私有方法也能解决这个问题，但是一般都会推荐，如果你发现你写了很多私有方法，要么是他们可以继续演化成一个util，要么是可以成为一个Service。</p>
+<ul>
+<li><p>一是实现多重继承，因为java是单根语言。</p>
+</li>
+<li><p>二是便于实现各种框架，java 的各种框架中，都是拿接口调来调去。一旦你实现了这个接口，你的代码就嵌入了框架。</p>
+</li>
+<li><p>三是为了实现前面各位说的规范。</p>
+</li>
+</ul>
+
+            <div class="post-copyright">
+    <div class="content">
+        <p>最后更新： 2018年07月12日 13:52</p>
+        <p>原始链接： <a class="post-url" href="/2017/11/20/javabase_interface/" title="java基础学习之接口">http://zhangbuzola.cn/2017/11/20/javabase_interface/</a></p>
+        <footer>
+            <a href="http://zhangbuzola.cn">
+                <img src="/images/pacman.jpg" alt="zolanunu">
+                zolanunu
+            </a>
+        </footer>
+    </div>
+</div>
+
+      
+        
+            
+
+        
+    </div>
+    <footer class="article-footer">
+        
+        <ul class="article-footer-menu">
+            
+            
+  <li class="article-footer-tags">
+    <i class="fa fa-tags"></i>
+      
+    <a href="/tags/java基础/" class="color2">java基础</a>
+      
+  </li>
+
+        </ul>
+        
+    </footer>
+  </div>
+</article>
+
+
+    <aside class="post-toc-pos post-toc-top" id="post-toc">
+        <nav class="post-toc-wrap">
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#接口"><span class="post-toc-text">接口</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#接口概念"><span class="post-toc-text">接口概念</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#接口实现"><span class="post-toc-text">接口实现</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#继承"><span class="post-toc-text">继承</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#接口与类"><span class="post-toc-text">接口与类</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#相同点"><span class="post-toc-text">相同点</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#区别"><span class="post-toc-text">区别</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#接口和普通类"><span class="post-toc-text">接口和普通类</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#接口和抽象类"><span class="post-toc-text">接口和抽象类</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#接口的作用"><span class="post-toc-text">接口的作用</span></a></li></ol></li></ol>
+        </nav>
+    </aside>
+    
+
+<nav id="article-nav">
+  
+    <a href="/2017/11/20/值传递引用传递/" id="article-nav-newer" class="article-nav-link-wrap">
+
+      <span class="article-nav-title">
+        <i class="fa fa-hand-o-left" aria-hidden="true"></i>
+        
+          理解值传递/引用传递
+        
+      </span>
+    </a>
+  
+  
+    <a href="/2017/11/19/Java基础之ThisSuper/" id="article-nav-older" class="article-nav-link-wrap">
+      <span class="article-nav-title">java基础学习之this和super关键字</span>
+      <i class="fa fa-hand-o-right" aria-hidden="true"></i>
+    </a>
+  
+</nav>
+
+
+
+    
+        <link rel="stylesheet" href="//unpkg.com/gitment/style/default.css">
+    <script src="//unpkg.com/gitment/dist/gitment.browser.js"></script>
+    <script>
+        var gitment = new Gitment({
+            owner: 'true',
+            repo: 'zolanunu',
+            oauth: {
+                client_id: '1a04e8dee74a4b8634df',
+                client_secret: '9e3078ac89eb72f22abbdd11f7f0d11e2e1d7f7a',
+            },
+        })
+        gitment.render('comments')
+    </script>
+
+    
+</section>
+        
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+      <p>
+        Powered by  <a href="http://hexo.io/" target="_blank">Hexo</a>
+        Theme <a href="//github.com/wongminho/hexo-theme-miho" target="_blank">MiHo</a>
+      &copy; 2018 zolanunu<br>
+      </p>
+    </div>
+  </div>
+</footer>
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script>
+  var mihoConfig = {
+      root: "http://zhangbuzola.cn",
+      animate: true,
+      isHome: false,
+      share: false,
+      reward: 0
+  }
+</script>
+<div class="sidebar">
+    <div id="sidebar-search" title="Search">
+        <i class="fa fa-search"></i>
+    </div>
+    <div id="sidebar-category" title="Categories">
+        <i class="fa fa-book"></i>
+    </div>
+    <div id="sidebar-tag" title="Tags">
+        <i class="fa fa-tags"></i>
+    </div>
+    <div id="sidebar-top">
+        <span class="sidebar-top-icon"><i class="fa fa-angle-up"></i></span>
+    </div>
+</div>
+<div class="sidebar-menu-box" id="sidebar-menu-box">
+    <div class="sidebar-menu-box-container">
+        <div id="sidebar-menu-box-categories">
+            <a class="category-link" href="/categories/Java/">Java</a><a class="category-link" href="/categories/Java后台/">Java后台</a><a class="category-link" href="/categories/Python/">Python</a><a class="category-link" href="/categories/工具/">工具</a><a class="category-link" href="/categories/技术书/">技术书</a><a class="category-link" href="/categories/数据库/">数据库</a><a class="category-link" href="/categories/数据结构/">数据结构</a><a class="category-link" href="/categories/生活轨迹/">生活轨迹</a><a class="category-link" href="/categories/算法/">算法</a>
+        </div>
+        <div id="sidebar-menu-box-tags">
+            <a href="/tags/2018/" style="font-size: 11.43px;">2018</a> <a href="/tags/Collections/" style="font-size: 15.71px;">Collections</a> <a href="/tags/HashMap/" style="font-size: 10px;">HashMap</a> <a href="/tags/LinkedHashMap/" style="font-size: 10px;">LinkedHashMap</a> <a href="/tags/MySQL/" style="font-size: 17.14px;">MySQL</a> <a href="/tags/Mybatis/" style="font-size: 12.86px;">Mybatis</a> <a href="/tags/Object/" style="font-size: 10px;">Object</a> <a href="/tags/SSM/" style="font-size: 12.86px;">SSM</a> <a href="/tags/TreeMap/" style="font-size: 11.43px;">TreeMap</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/java基础/" style="font-size: 20px;">java基础</a> <a href="/tags/java并发编程实战/" style="font-size: 11.43px;">java并发编程实战</a> <a href="/tags/leetcode/" style="font-size: 17.14px;">leetcode</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/剑指offer/" style="font-size: 10px;">剑指offer</a> <a href="/tags/多线程/" style="font-size: 11.43px;">多线程</a> <a href="/tags/并发编程/" style="font-size: 10px;">并发编程</a> <a href="/tags/机器学习/" style="font-size: 12.86px;">机器学习</a> <a href="/tags/构造函数/" style="font-size: 10px;">构造函数</a> <a href="/tags/深入理解java虚拟机/" style="font-size: 10px;">深入理解java虚拟机</a> <a href="/tags/生活/" style="font-size: 10px;">生活</a> <a href="/tags/神经网络/" style="font-size: 10px;">神经网络</a> <a href="/tags/算法与数据结构/" style="font-size: 14.29px;">算法与数据结构</a> <a href="/tags/算法和数据结构/" style="font-size: 18.57px;">算法和数据结构</a> <a href="/tags/观影记/" style="font-size: 10px;">观影记</a> <a href="/tags/读书书单/" style="font-size: 10px;">读书书单</a>
+        </div>
+    </div>
+    <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
+</div>
+<div class="mobile-header-menu-nav" id="mobile-header-menu-nav">
+    <div class="mobile-header-menu-container">
+        <span class="title">Menus</span>
+        <ul class="mobile-header-menu-navbar">
+            
+            <li>
+                <a  href="/">
+                    <i class="fa fa-home"></i><span>Home</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/archives">
+                    <i class="fa fa-archive"></i><span>Archives</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/about">
+                    <i class="fa fa-user"></i><span>About</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    <div class="mobile-header-tag-container">
+        <span class="title">Tags</span>
+        <div id="mobile-header-container-tags">
+            <a href="/tags/2018/" style="font-size: 11.43px;">2018</a> <a href="/tags/Collections/" style="font-size: 15.71px;">Collections</a> <a href="/tags/HashMap/" style="font-size: 10px;">HashMap</a> <a href="/tags/LinkedHashMap/" style="font-size: 10px;">LinkedHashMap</a> <a href="/tags/MySQL/" style="font-size: 17.14px;">MySQL</a> <a href="/tags/Mybatis/" style="font-size: 12.86px;">Mybatis</a> <a href="/tags/Object/" style="font-size: 10px;">Object</a> <a href="/tags/SSM/" style="font-size: 12.86px;">SSM</a> <a href="/tags/TreeMap/" style="font-size: 11.43px;">TreeMap</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/java基础/" style="font-size: 20px;">java基础</a> <a href="/tags/java并发编程实战/" style="font-size: 11.43px;">java并发编程实战</a> <a href="/tags/leetcode/" style="font-size: 17.14px;">leetcode</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/剑指offer/" style="font-size: 10px;">剑指offer</a> <a href="/tags/多线程/" style="font-size: 11.43px;">多线程</a> <a href="/tags/并发编程/" style="font-size: 10px;">并发编程</a> <a href="/tags/机器学习/" style="font-size: 12.86px;">机器学习</a> <a href="/tags/构造函数/" style="font-size: 10px;">构造函数</a> <a href="/tags/深入理解java虚拟机/" style="font-size: 10px;">深入理解java虚拟机</a> <a href="/tags/生活/" style="font-size: 10px;">生活</a> <a href="/tags/神经网络/" style="font-size: 10px;">神经网络</a> <a href="/tags/算法与数据结构/" style="font-size: 14.29px;">算法与数据结构</a> <a href="/tags/算法和数据结构/" style="font-size: 18.57px;">算法和数据结构</a> <a href="/tags/观影记/" style="font-size: 10px;">观影记</a> <a href="/tags/读书书单/" style="font-size: 10px;">读书书单</a>
+        </div>
+    </div>
+</div>
+<div class="search-wrap">
+    <span class="search-close">&times;</span>
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+            <i class="icon icon-lg icon-chevron-left"></i>
+        </a>
+        <input class="search-field" placeholder="Search..." id="keywords">
+        <a id="search-submit" href="javascript:;">
+            <i class="fa fa-search"></i>
+        </a>
+    <div class="search-container" id="search-container">
+        <ul class="search-result" id="search-result">
+        </ul>
+    </div>
+</div>
+
+<div id="search-tpl">
+    <li class="search-result-item">
+        <a href="{url}" class="search-item-li">
+            <span class="search-item-li-title" title="{title}">{title}</span>
+        </a>
+    </li>
+</div>
+<script src="/js/search.js"></script>
+<script src="/js/main.js"></script>
+
+
+  <script src="//cdn.bootcss.com/particles.js/2.0.0/particles.min.js"></script>
+  <div id="particles"></div>
+  <script src="/js/particles.js"></script>
+
+
+
+
+
+
+
+  <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
+  <script src="//cdn.bootcss.com/scrollReveal.js/3.0.5/scrollreveal.js"></script>
+  <script src="/js/animate.js"></script>
+
+
+  <script src="/js/pop-img.js"></script>
+  <script>
+     $(".article-entry p img").popImg();
+  </script>
+
+  </div>
+</body>
+</html>

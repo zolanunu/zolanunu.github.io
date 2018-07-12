@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>java基础学习之多线程二 | zolanunu</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+    <meta name="keywords" content="zolanunu,zolanunu's blog" />
+  
+  <meta name="description" content="先来实例多线程写日志，涉及到单例模式，异步写 123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869707172737475767778798081828384858687888990919293">
+<meta name="keywords" content="java基础">
+<meta property="og:type" content="article">
+<meta property="og:title" content="java基础学习之多线程二">
+<meta property="og:url" content="http://zhangbuzola.cn/2017/11/28/java基础之多线程二/index.html">
+<meta property="og:site_name" content="zolanunu">
+<meta property="og:description" content="先来实例多线程写日志，涉及到单例模式，异步写 123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869707172737475767778798081828384858687888990919293">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="http://zhangbuzola.cn/assets/images/javabase-thread.png">
+<meta property="og:image" content="http://zhangbuzola.cn/assets/images/javabase-thread1.png">
+<meta property="og:updated_time" content="2018-07-12T06:20:45.785Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="java基础学习之多线程二">
+<meta name="twitter:description" content="先来实例多线程写日志，涉及到单例模式，异步写 123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869707172737475767778798081828384858687888990919293">
+<meta name="twitter:image" content="http://zhangbuzola.cn/assets/images/javabase-thread.png">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="/js/pace.min.js"></script>
+  
+
+  
+	<script>
+	var _hmt = _hmt || [];
+	(function() {
+	  var hm = document.createElement("script");
+	  hm.src = "//hm.baidu.com/hm.js?a651034b7d11a367ae836642b29a3057";
+	  var s = document.getElementsByTagName("script")[0]; 
+	  s.parentNode.insertBefore(hm, s);
+	})();
+	</script>
+
+  
+
+</head>
+
+<body>
+  <div id="container">
+      <header id="header">
+    <div id="banner"></div>
+    <div id="header-outer">
+        <div id="header-menu" class="header-menu-pos animated">
+            <div class="header-menu-container">
+                <a href="/" class="left">
+                    <span class="site-title">zolanunu&#39;s Blog</span>
+                </a>
+                <nav id="header-menu-nav" class="right">
+                    
+                    <a  href="/">
+                        <i class="fa fa-home"></i>
+                        <span>Home</span>
+                    </a>
+                    
+                    <a  href="/archives">
+                        <i class="fa fa-archive"></i>
+                        <span>Archives</span>
+                    </a>
+                    
+                    <a  href="/about">
+                        <i class="fa fa-user"></i>
+                        <span>About</span>
+                    </a>
+                    
+                </nav>
+                <a class="mobile-header-menu-button">
+                    <i class="fa fa-bars"></i>
+                </a>
+            </div>
+        </div>
+        <div id="header-row">
+            <div id="logo">
+                <a href="/">
+                    <img src="/images/pacman.jpg" alt="logo">
+                </a>
+            </div>
+            <div class="header-info">
+                <div id="header-title">
+                    
+                    <h2>
+                        zolanunu&#39;s Blog
+                    </h2>
+                    
+                </div>
+                <div id="header-description">
+                    
+                    <h3>
+                        去努力尝试做一些你觉得你不会做或者不敢做的事情。
+                    </h3>
+                    
+                </div>
+            </div>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a title="zolanunu" target="_blank" href="//zhangbuzola.cn">
+                            <i class="fa fa-home fa-2x"></i></a>
+                    
+                        <a title="Github" target="_blank" href="//github.com/zolanunu">
+                            <i class="fa fa-github fa-2x"></i></a>
+                    
+                        <a title="Weibo" target="_blank" href="//weibo.com/zolanunu">
+                            <i class="fa fa-weibo fa-2x"></i></a>
+                    
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>
+      <div class="outer">
+        <section id="main" class="body-wrap"><article id="post-java基础之多线程二" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="post-title" itemprop="name">
+      java基础学习之多线程二
+    </h1>
+    <div class="post-title-bar">
+      <ul>
+          
+              <li>
+                  <i class="fa fa-book"></i>
+                  
+                      <a href="/categories/Java/">Java</a>
+                  
+              </li>
+          
+        <li>
+          <i class="fa fa-calendar"></i>  2017-11-28
+        </li>
+        <li>
+          <i class="fa fa-eye"></i>
+          <span id="busuanzi_value_page_pv"></span>
+        </li>
+      </ul>
+    </div>
+  
+
+          
+      </header>
+    
+    <div class="article-entry post-content" itemprop="articleBody">
+      
+            
+            <h1 id="先来实例"><a href="#先来实例" class="headerlink" title="先来实例"></a>先来实例</h1><p>多线程写日志，涉及到单例模式，异步写</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br></pre></td><td class="code"><pre><span class="line">using System;</span><br><span class="line">using System.Collections.Generic;</span><br><span class="line">using System.IO;</span><br><span class="line">using System.Linq;</span><br><span class="line">using System.Text;</span><br><span class="line">using System.Threading;</span><br><span class="line">using System.Threading.Tasks;</span><br><span class="line"></span><br><span class="line">namespace ConsoleApplication1</span><br><span class="line">&#123;</span><br><span class="line">    class Program</span><br><span class="line">    &#123;</span><br><span class="line">    </span><br><span class="line">        static void Main(string[] args)</span><br><span class="line">        &#123;</span><br><span class="line">            Thread t1 = new Thread(Working);</span><br><span class="line">            t1.Name = &quot;Thread1&quot;;</span><br><span class="line">            Thread t2 = new Thread(Working);</span><br><span class="line">            t2.Name = &quot;Thread2&quot;;</span><br><span class="line">            Thread t3 = new Thread(Working);</span><br><span class="line">            t3.Name = &quot;Thread3&quot;;</span><br><span class="line">            // 依次启动3个线程。</span><br><span class="line">            t1.Start();</span><br><span class="line">            t2.Start();</span><br><span class="line">            t3.Start();</span><br><span class="line"></span><br><span class="line">            Console.ReadKey();</span><br><span class="line">        &#125;</span><br><span class="line">        // 每个线程都同时在工作</span><br><span class="line">        static void Working()</span><br><span class="line">        &#123;</span><br><span class="line">            // 模拟1000次写日志操作</span><br><span class="line">            for (int i = 0; i &lt; 1000; i++)</span><br><span class="line">            &#123;</span><br><span class="line">                //  异步写文件</span><br><span class="line">                logger.Write(Thread.CurrentThread.Name + &quot; writes a log: &quot; + i + &quot;, on &quot; + DateTime.Now.ToString() + &quot;.\n&quot;);</span><br><span class="line">            &#125;// 做一些其它的事件</span><br><span class="line">            for (int i = 0; i &lt; 100; i++) &#123; &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    public  class logger</span><br><span class="line">    &#123;</span><br><span class="line">        private Queue&lt;Action&gt; _queue;</span><br><span class="line">        //写日志线程</span><br><span class="line">        private Thread _loggingThread;</span><br><span class="line">        //信号器</span><br><span class="line">        private ManualResetEvent _hasNew;</span><br><span class="line">        // 使用单例模式，保持一个Logger对象</span><br><span class="line">        private static readonly logger _logger = new logger();</span><br><span class="line">        private static logger GetInstance()</span><br><span class="line">        &#123;</span><br><span class="line">            /* 不安全代码</span><br><span class="line">            lock (locker) &#123;</span><br><span class="line">                if (_logger == null) &#123;</span><br><span class="line">                    _logger = new Logger();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;*/</span><br><span class="line">            return _logger;</span><br><span class="line">        &#125;</span><br><span class="line">        private logger()</span><br><span class="line">        &#123;</span><br><span class="line">            _queue = new Queue&lt;Action&gt;();</span><br><span class="line">            _hasNew = new ManualResetEvent(false);</span><br><span class="line">            _loggingThread = new Thread(Process);</span><br><span class="line">            _loggingThread.IsBackground = true;</span><br><span class="line">            _loggingThread.Start();</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">        private void Process()</span><br><span class="line">        &#123;</span><br><span class="line">            while (true)</span><br><span class="line">            &#123;</span><br><span class="line">                //等待信号,阻塞线程</span><br><span class="line">                _hasNew.WaitOne();</span><br><span class="line">                //接收到信号，信号关闭，重置</span><br><span class="line">                _hasNew.Reset();</span><br><span class="line">                Thread.Sleep(100);</span><br><span class="line">                Queue&lt;Action&gt; queueCopy;</span><br><span class="line">                lock (_queue)</span><br><span class="line">                &#123;</span><br><span class="line">                    queueCopy = new Queue&lt;Action&gt;(_queue);</span><br><span class="line">                    _queue.Clear();</span><br><span class="line">                &#125;</span><br><span class="line">                foreach (var action in queueCopy)</span><br><span class="line">                &#123;</span><br><span class="line">                    action();</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        private void WeiteLog(string content)</span><br><span class="line">        &#123;</span><br><span class="line">            lock (_queue)</span><br><span class="line">            &#123;</span><br><span class="line">                _queue.Enqueue(() =&gt; File.AppendAllText(&quot;log.txt&quot;, content));</span><br><span class="line">            &#125;</span><br><span class="line">            _hasNew.Set();</span><br><span class="line">        &#125;</span><br><span class="line">        public static void Write(string content)</span><br><span class="line">        &#123;</span><br><span class="line">            Task.Run(() =&gt; GetInstance().WeiteLog(content));</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="并发和并行"><a href="#并发和并行" class="headerlink" title="并发和并行"></a>并发和并行</h1><p><strong>并行</strong>：多个cpu实例或者多台机器同时执行一段处理逻辑，是真正的同时。</p>
+<p><strong>并发</strong>：通过cpu调度算法，让用户看上去同时执行，实际上从cpu操作层面不是真正的同时。并发往往在场景中有公用的资源，那么针对这个公用的资源往往产生瓶颈，我们会用TPS或者QPS来反应这个系统的处理能力。</p>
+<h1 id="线程安全"><a href="#线程安全" class="headerlink" title="线程安全"></a>线程安全</h1><p>线程安全：经常用来描绘一段代码。指在并发的情况之下，该代码经过多线程使用，线程的调度顺序不影响任何结果。这个时候使用多线程，我们只需要关注系统的内存，cpu是不是够用即可。反过来，线程不安全就意味着线程的调度顺序会影响最终结果，如不加事务的转账代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">void transferMoney(User from, User to, float amount)&#123;</span><br><span class="line">  to.setMoney(to.getBalance() + amount);</span><br><span class="line">  from.setMoney(from.getBalance() - amount);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="同步"><a href="#同步" class="headerlink" title="同步"></a>同步</h1><p><strong>同步</strong>：Java中的同步指的是通过人为的控制和调度，保证共享资源的多线程访问成为线程安全，来保证结果的准确。如上面的代码简单加入@synchronized关键字。在保证结果准确的同时，提高性能，才是优秀的程序。线程安全的优先级高于性能。</p>
+<h1 id="线程状态"><a href="#线程状态" class="headerlink" title="线程状态"></a>线程状态</h1><p><img src="/assets/images/javabase-thread.png" alt=""></p>
+<p>各种状态一目了然，值得一提的是”blocked”这个状态：线程在Running的过程中可能会遇到阻塞(Blocked)情况</p>
+<ul>
+<li><p>调用join()和sleep()方法，sleep()时间结束或被打断，join()中断,IO完成都会回到Runnable状态，等待JVM的调度。</p>
+</li>
+<li><p>调用wait()，使该线程处于等待池(wait blocked pool),直到notify()/notifyAll()，线程被唤醒被放到锁定池(lock blocked pool )，释放同步锁使线程回到可运行状态（Runnable）</p>
+</li>
+<li><p>对Running状态的线程加同步锁(Synchronized)使其进入(lock blocked pool ),同步锁被释放进入可运行状态(Runnable)。<br>此外，在runnable状态的线程是处于被调度的线程，此时的调度顺序是不一定的。Thread类中的yield方法可以让一个running状态的线程转入runnable。</p>
+</li>
+</ul>
+<p>synchronized, wait, notify 是任何对象都具有的同步工具。让我们先来了解他们</p>
+<p><img src="/assets/images/javabase-thread1.png" alt=""></p>
+<h1 id="monitor"><a href="#monitor" class="headerlink" title="monitor"></a>monitor</h1><p>他们是应用于同步问题的人工线程调度工具。讲其本质，首先就要明确monitor的概念，Java中的每个对象都有一个监视器，来监测并发代码的重入。在非多线程编码时该监视器不发挥作用，反之如果在synchronized 范围内，监视器发挥作用。</p>
+<p>wait/notify必须存在于synchronized块中。并且，这三个关键字针对的是同一个监视器（某对象的监视器）。这意味着wait之后，其他线程可以进入同步块执行。</p>
+<p>当某代码并不持有监视器的使用权时（如图中5的状态，即脱离同步块）去wait或notify，会抛出java.lang.IllegalMonitorStateException。也包括在synchronized块中去调用另一个对象的wait/notify，因为不同对象的监视器不同，同样会抛出此异常。</p>
+<h2 id="synchronized"><a href="#synchronized" class="headerlink" title="synchronized"></a>synchronized</h2><p>代码块：如下，在多线程环境下，synchronized块中的方法获取了lock实例的monitor，如果实例相同，那么只有一个线程能执行该块内容</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">public class Thread1 implements Runnable &#123;</span><br><span class="line">   Object lock;</span><br><span class="line">   public void run() &#123;  </span><br><span class="line">       synchronized(lock)&#123;</span><br><span class="line">         ..do something</span><br><span class="line">       &#125;</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>直接用于方法： 相当于上面代码中用lock来锁定的效果，实际获取的是Thread1类的monitor。更进一步，如果修饰的是static方法，则锁定该类所有实例。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">public class Thread1 implements Runnable &#123;</span><br><span class="line">   public synchronized void run() &#123;  </span><br><span class="line">        ..do something</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>synchronized, wait, notify结合:典型场景生产者消费者问题</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line">   * 生产者生产出来的产品交给店员</span><br><span class="line">   */</span><br><span class="line">  public synchronized void produce()</span><br><span class="line">  &#123;</span><br><span class="line">      if(this.product &gt;= MAX_PRODUCT)</span><br><span class="line">      &#123;</span><br><span class="line">          try</span><br><span class="line">          &#123;</span><br><span class="line">              wait();  </span><br><span class="line">              System.out.println(&quot;产品已满,请稍候再生产&quot;);</span><br><span class="line">          &#125;</span><br><span class="line">          catch(InterruptedException e)</span><br><span class="line">          &#123;</span><br><span class="line">              e.printStackTrace();</span><br><span class="line">          &#125;</span><br><span class="line">          return;</span><br><span class="line">      &#125;</span><br><span class="line"> </span><br><span class="line">      this.product++;</span><br><span class="line">      System.out.println(&quot;生产者生产第&quot; + this.product + &quot;个产品.&quot;);</span><br><span class="line">      notifyAll();   //通知等待区的消费者可以取出产品了</span><br><span class="line">  &#125;</span><br><span class="line"> </span><br><span class="line">  /**</span><br><span class="line">   * 消费者从店员取产品</span><br><span class="line">   */</span><br><span class="line">  public synchronized void consume()</span><br><span class="line">  &#123;</span><br><span class="line">      if(this.product &lt;= MIN_PRODUCT)</span><br><span class="line">      &#123;</span><br><span class="line">          try</span><br><span class="line">          &#123;</span><br><span class="line">              wait(); </span><br><span class="line">              System.out.println(&quot;缺货,稍候再取&quot;);</span><br><span class="line">          &#125; </span><br><span class="line">          catch (InterruptedException e) </span><br><span class="line">          &#123;</span><br><span class="line">              e.printStackTrace();</span><br><span class="line">          &#125;</span><br><span class="line">          return;</span><br><span class="line">      &#125;</span><br><span class="line"> </span><br><span class="line">      System.out.println(&quot;消费者取走了第&quot; + this.product + &quot;个产品.&quot;);</span><br><span class="line">      this.product--;</span><br><span class="line">      notifyAll();   //通知等待去的生产者可以生产产品了</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+<h2 id="volatile"><a href="#volatile" class="headerlink" title="volatile"></a>volatile</h2><p>多线程的内存模型：main memory（主存）、working memory（线程栈），在处理数据时，线程会把值从主存load到本地栈，完成操作后再save回去(volatile关键词的作用：每次针对该变量的操作都激发一次load and save)。</p>
+<p>基本线程类指的是Thread类，Runnable接口，Callable接口</p>
+<p>Thread 类实现了Runnable接口，启动一个线程的方法：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">MyThread my = new MyThread();</span><br><span class="line">　　my.start();</span><br><span class="line">//当前线程可转让cpu控制权，让别的就绪状态线程运行（切换）</span><br><span class="line">public static Thread.yield() </span><br><span class="line">//暂停一段时间</span><br><span class="line">public static Thread.sleep()  </span><br><span class="line">//在一个线程中调用other.join(),将等待other执行完后才继续本线程。　　　　</span><br><span class="line">public join()</span><br><span class="line">//后两个函数皆可以被打断</span><br><span class="line">public interrupte()</span><br><span class="line">关于中断：它并不像stop方法那样会中断一个正在运行的线程。线程会不时地检测中断标识位，以判断线程是否应该被中断（中断标识值是否为true）。终端只会影响到wait状态、sleep状态和join状态。被打断的线程会抛出InterruptedException。</span><br><span class="line">Thread.interrupted()检查当前线程是否发生中断，返回boolean</span><br></pre></td></tr></table></figure>
+<p>synchronized在获锁的过程中是不能被中断的。</p>
+<p><strong>中断</strong>是一个状态！interrupt()方法只是将这个状态置为true而已。所以说正常运行的程序不去检测状态，就不会终止，而wait等阻塞方法会去检查并抛出异常。如果在正常运行的程序中添加while(!Thread.interrupted()) ，则同样可以在中断后离开代码体</p>
+<h2 id="Thread类最佳实践"><a href="#Thread类最佳实践" class="headerlink" title="Thread类最佳实践"></a>Thread类最佳实践</h2><p>写的时候最好要设置线程名称 Thread.name，并设置线程组 ThreadGroup，目的是方便管理。在出现问题的时候，打印线程栈 (jstack -pid) 一眼就可以看出是哪个线程出的问题，这个线程是干什么的。</p>
+<p>如何获取线程中的异常</p>
+<p>不能用try,catch来获取线程中的异常<br>Runnable与Thread类似Callable</p>
+<h1 id="实践开发中"><a href="#实践开发中" class="headerlink" title="实践开发中"></a>实践开发中</h1><p>以上都属于内功心法，接下来是实际项目中常用到的工具了，Java1.5提供了一个非常高效实用的多线程包:java.util.concurrent, 提供了大量高级工具,可以帮助开发者编写高效、易维护、结构清晰的Java多线程程序。</p>
+<h2 id="ThreadLocal类"><a href="#ThreadLocal类" class="headerlink" title="ThreadLocal类"></a>ThreadLocal类</h2><p>用处：保存线程的独立变量。对一个线程类（继承自Thread)当使用ThreadLocal维护变量时，ThreadLocal为每个使用该变量的线程提供独立的变量副本，所以每一个线程都可以独立地改变自己的副本，而不会影响其它线程所对应的副本。常用于用户登录控制，如记录session信息。</p>
+<p>实现：每个Thread都持有一个TreadLocalMap类型的变量（该类是一个轻量级的Map，功能与map一样，区别是桶里放的是entry而不是entry的链表。功能还是一个map。）以本身为key，以目标为value。</p>
+<p>主要方法是get()和set(T a)，set之后在map里维护一个threadLocal -&gt; a，get时将a返回。ThreadLocal是一个特殊的容器。</p>
+<h2 id="原子类（AtomicInteger、AtomicBoolean……）"><a href="#原子类（AtomicInteger、AtomicBoolean……）" class="headerlink" title="原子类（AtomicInteger、AtomicBoolean……）"></a>原子类（AtomicInteger、AtomicBoolean……）</h2><p>如果使用atomic wrapper class如atomicInteger，或者使用自己保证原子的操作，则等同于synchronized</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">//返回值为boolean</span><br><span class="line">AtomicInteger.compareAndSet(int expect,int update)</span><br></pre></td></tr></table></figure>
+<p>该方法可用于实现乐观锁，考虑文中最初提到的如下场景：a给b付款10元，a扣了10元，b要加10元。此时c给b2元，但是b的加十元代码约为：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">if(b.value.compareAndSet(old, value))&#123;</span><br><span class="line">   return ;</span><br><span class="line">&#125;else&#123;</span><br><span class="line">   //try again</span><br><span class="line">   // if that fails, rollback and log</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="AtomicReference"><a href="#AtomicReference" class="headerlink" title="AtomicReference"></a>AtomicReference</h3><p>对于AtomicReference 来讲，也许对象会出现，属性丢失的情况，即oldObject == current，但是oldObject.getPropertyA != current.getPropertyA。<br>这时候，AtomicStampedReference就派上用场了。这也是一个很常用的思路，即加上版本号</p>
+<h2 id="Lock类"><a href="#Lock类" class="headerlink" title="Lock类"></a>Lock类</h2><p>lock: 在java.util.concurrent包内。共有三个实现：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ReentrantLock</span><br><span class="line">ReentrantReadWriteLock.ReadLock</span><br><span class="line">ReentrantReadWriteLock.WriteLock</span><br></pre></td></tr></table></figure>
+<p>主要目的是和synchronized一样， 两者都是为了解决同步问题，处理资源争端而产生的技术。功能类似但有一些区别。</p>
+<p>区别如下：</p>
+<ul>
+<li><p>lock更灵活，可以自由定义多把锁的枷锁解锁顺序（synchronized要按照先加的后解顺序）</p>
+</li>
+<li><p>提供多种加锁方案，lock 阻塞式, trylock 无阻塞式, lockInterruptily 可打断式， 还有trylock的带超时时间版本。</p>
+</li>
+<li><p>本质上和监视器锁（即synchronized是一样的）能力越大，责任越大，必须控制好加锁和解锁，否则会导致灾难。</p>
+</li>
+</ul>
+<p>和Condition类的结合。性能更高。synchronized和Lock性能对比</p>
+<h2 id="ReentrantLock"><a href="#ReentrantLock" class="headerlink" title="ReentrantLock"></a>ReentrantLock</h2><p>可重入的意义在于持有锁的线程可以继续持有，并且要释放对等的次数后才真正释放该锁。</p>
+<p>使用方法是：</p>
+<ul>
+<li>先new一个实例</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">static ReentrantLock r=new ReentrantLock();</span><br></pre></td></tr></table></figure>
+<ul>
+<li>加锁</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">r.lock()或r.lockInterruptibly();</span><br></pre></td></tr></table></figure>
+<p>此处也是个不同，后者可被打断。当a线程lock后，b线程阻塞，此时如果是lockInterruptibly，那么在调用b.interrupt()之后，b线程退出阻塞，并放弃对资源的争抢，进入catch块。（如果使用后者，必须throw interruptable exception 或catch）</p>
+<ul>
+<li>释放锁</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">r.unlock()</span><br></pre></td></tr></table></figure>
+<p>必须做！何为必须做呢，要放在finally里面。以防止异常跳出了正常流程，导致灾难。这里补充一个小知识点，finally是可以信任的：经过测试，哪怕是发生了OutofMemoryError，finally块中的语句执行也能够得到保证。</p>
+<h2 id="ReentrantReadWriteLock"><a href="#ReentrantReadWriteLock" class="headerlink" title="ReentrantReadWriteLock"></a>ReentrantReadWriteLock</h2><p>可重入读写锁（读写锁的一个实现）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ReentrantReadWriteLock lock = new ReentrantReadWriteLock()</span><br><span class="line">　　ReadLock r = lock.readLock();</span><br><span class="line">　　WriteLock w = lock.writeLock();</span><br></pre></td></tr></table></figure>
+<p>两者都有lock,unlock方法。写写，写读互斥；读读不互斥。可以实现并发读的高效线程安全代码</p>
+<h2 id="容器类"><a href="#容器类" class="headerlink" title="容器类"></a>容器类</h2><p>这里就讨论比较常用的两个：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">BlockingQueue</span><br><span class="line">ConcurrentHashMap</span><br><span class="line">BlockingQueue</span><br></pre></td></tr></table></figure>
+<p><strong>阻塞队列</strong>。该类是java.util.concurrent包下的重要类，通过对Queue的学习可- 以得知，这个queue是单向队列，可以在队列头添加元素和在队尾删除或取出元素。类似于一个管　　道，特别适用于先进先出策略的一些应用场景。普通的queue接口主要实现有PriorityQueue（优先队列），有兴趣可以研究</p>
+<p>BlockingQueue在队列的基础上添加了多线程协作的功能：BlockingQueue除了传统的queue功能（表格左边的两列）之外，还提供了阻塞接口put和take，带超时功能的阻塞接口offer和poll。put会在队列满的时候阻塞，直到有空间时被唤醒；take在队　列空的时候阻塞，直到有东西拿的时候才被唤醒。用于生产者-消费者模型尤其好用，堪称神器。</p>
+<p>常见的阻塞队列有：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">ArrayListBlockingQueue</span><br><span class="line">LinkedListBlockingQueue</span><br><span class="line">DelayQueue</span><br><span class="line">SynchronousQueue</span><br><span class="line">ConcurrentHashMap</span><br></pre></td></tr></table></figure>
+<p>高效的线程安全哈希map。请对比hashTable , concurrentHashMap, HashMap</p>
+<h2 id="管理类"><a href="#管理类" class="headerlink" title="管理类"></a>管理类</h2><p>管理类的概念比较泛，用于管理线程，本身不是多线程的，但提供了一些机制来利用上述的工具做一些封装。</p>
+<p>了解到的值得一提的管理类：ThreadPoolExecutor和 JMX框架下的系统级管理类 </p>
+
+            <div class="post-copyright">
+    <div class="content">
+        <p>最后更新： 2018年07月12日 14:20</p>
+        <p>原始链接： <a class="post-url" href="/2017/11/28/java基础之多线程二/" title="java基础学习之多线程二">http://zhangbuzola.cn/2017/11/28/java基础之多线程二/</a></p>
+        <footer>
+            <a href="http://zhangbuzola.cn">
+                <img src="/images/pacman.jpg" alt="zolanunu">
+                zolanunu
+            </a>
+        </footer>
+    </div>
+</div>
+
+      
+        
+            
+
+        
+    </div>
+    <footer class="article-footer">
+        
+        <ul class="article-footer-menu">
+            
+            
+  <li class="article-footer-tags">
+    <i class="fa fa-tags"></i>
+      
+    <a href="/tags/java基础/" class="color2">java基础</a>
+      
+  </li>
+
+        </ul>
+        
+    </footer>
+  </div>
+</article>
+
+
+    <aside class="post-toc-pos post-toc-top" id="post-toc">
+        <nav class="post-toc-wrap">
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#先来实例"><span class="post-toc-text">先来实例</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#并发和并行"><span class="post-toc-text">并发和并行</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#线程安全"><span class="post-toc-text">线程安全</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#同步"><span class="post-toc-text">同步</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#线程状态"><span class="post-toc-text">线程状态</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#monitor"><span class="post-toc-text">monitor</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#synchronized"><span class="post-toc-text">synchronized</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#volatile"><span class="post-toc-text">volatile</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Thread类最佳实践"><span class="post-toc-text">Thread类最佳实践</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#实践开发中"><span class="post-toc-text">实践开发中</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#ThreadLocal类"><span class="post-toc-text">ThreadLocal类</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#原子类（AtomicInteger、AtomicBoolean……）"><span class="post-toc-text">原子类（AtomicInteger、AtomicBoolean……）</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#AtomicReference"><span class="post-toc-text">AtomicReference</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Lock类"><span class="post-toc-text">Lock类</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#ReentrantLock"><span class="post-toc-text">ReentrantLock</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#ReentrantReadWriteLock"><span class="post-toc-text">ReentrantReadWriteLock</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#容器类"><span class="post-toc-text">容器类</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#管理类"><span class="post-toc-text">管理类</span></a></li></ol></li></ol>
+        </nav>
+    </aside>
+    
+
+<nav id="article-nav">
+  
+    <a href="/2017/11/28/java基础之synchronized/" id="article-nav-newer" class="article-nav-link-wrap">
+
+      <span class="article-nav-title">
+        <i class="fa fa-hand-o-left" aria-hidden="true"></i>
+        
+          java基础之synchronized关键字
+        
+      </span>
+    </a>
+  
+  
+    <a href="/2017/11/28/java基础之字符串常量池/" id="article-nav-older" class="article-nav-link-wrap">
+      <span class="article-nav-title">java基础学习之字符串常量池</span>
+      <i class="fa fa-hand-o-right" aria-hidden="true"></i>
+    </a>
+  
+</nav>
+
+
+
+    
+        <link rel="stylesheet" href="//unpkg.com/gitment/style/default.css">
+    <script src="//unpkg.com/gitment/dist/gitment.browser.js"></script>
+    <script>
+        var gitment = new Gitment({
+            owner: 'true',
+            repo: 'zolanunu',
+            oauth: {
+                client_id: '1a04e8dee74a4b8634df',
+                client_secret: '9e3078ac89eb72f22abbdd11f7f0d11e2e1d7f7a',
+            },
+        })
+        gitment.render('comments')
+    </script>
+
+    
+</section>
+        
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+      <p>
+        Powered by  <a href="http://hexo.io/" target="_blank">Hexo</a>
+        Theme <a href="//github.com/wongminho/hexo-theme-miho" target="_blank">MiHo</a>
+      &copy; 2018 zolanunu<br>
+      </p>
+    </div>
+  </div>
+</footer>
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script>
+  var mihoConfig = {
+      root: "http://zhangbuzola.cn",
+      animate: true,
+      isHome: false,
+      share: false,
+      reward: 0
+  }
+</script>
+<div class="sidebar">
+    <div id="sidebar-search" title="Search">
+        <i class="fa fa-search"></i>
+    </div>
+    <div id="sidebar-category" title="Categories">
+        <i class="fa fa-book"></i>
+    </div>
+    <div id="sidebar-tag" title="Tags">
+        <i class="fa fa-tags"></i>
+    </div>
+    <div id="sidebar-top">
+        <span class="sidebar-top-icon"><i class="fa fa-angle-up"></i></span>
+    </div>
+</div>
+<div class="sidebar-menu-box" id="sidebar-menu-box">
+    <div class="sidebar-menu-box-container">
+        <div id="sidebar-menu-box-categories">
+            <a class="category-link" href="/categories/Java/">Java</a><a class="category-link" href="/categories/Java后台/">Java后台</a><a class="category-link" href="/categories/Python/">Python</a><a class="category-link" href="/categories/工具/">工具</a><a class="category-link" href="/categories/技术书/">技术书</a><a class="category-link" href="/categories/数据库/">数据库</a><a class="category-link" href="/categories/数据结构/">数据结构</a><a class="category-link" href="/categories/生活轨迹/">生活轨迹</a><a class="category-link" href="/categories/算法/">算法</a>
+        </div>
+        <div id="sidebar-menu-box-tags">
+            <a href="/tags/2018/" style="font-size: 11.43px;">2018</a> <a href="/tags/Collections/" style="font-size: 15.71px;">Collections</a> <a href="/tags/HashMap/" style="font-size: 10px;">HashMap</a> <a href="/tags/LinkedHashMap/" style="font-size: 10px;">LinkedHashMap</a> <a href="/tags/MySQL/" style="font-size: 17.14px;">MySQL</a> <a href="/tags/Mybatis/" style="font-size: 12.86px;">Mybatis</a> <a href="/tags/Object/" style="font-size: 10px;">Object</a> <a href="/tags/SSM/" style="font-size: 12.86px;">SSM</a> <a href="/tags/TreeMap/" style="font-size: 11.43px;">TreeMap</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/java基础/" style="font-size: 20px;">java基础</a> <a href="/tags/java并发编程实战/" style="font-size: 11.43px;">java并发编程实战</a> <a href="/tags/leetcode/" style="font-size: 17.14px;">leetcode</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/剑指offer/" style="font-size: 10px;">剑指offer</a> <a href="/tags/多线程/" style="font-size: 11.43px;">多线程</a> <a href="/tags/并发编程/" style="font-size: 10px;">并发编程</a> <a href="/tags/机器学习/" style="font-size: 12.86px;">机器学习</a> <a href="/tags/构造函数/" style="font-size: 10px;">构造函数</a> <a href="/tags/深入理解java虚拟机/" style="font-size: 10px;">深入理解java虚拟机</a> <a href="/tags/生活/" style="font-size: 10px;">生活</a> <a href="/tags/神经网络/" style="font-size: 10px;">神经网络</a> <a href="/tags/算法与数据结构/" style="font-size: 14.29px;">算法与数据结构</a> <a href="/tags/算法和数据结构/" style="font-size: 18.57px;">算法和数据结构</a> <a href="/tags/观影记/" style="font-size: 10px;">观影记</a> <a href="/tags/读书书单/" style="font-size: 10px;">读书书单</a>
+        </div>
+    </div>
+    <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
+</div>
+<div class="mobile-header-menu-nav" id="mobile-header-menu-nav">
+    <div class="mobile-header-menu-container">
+        <span class="title">Menus</span>
+        <ul class="mobile-header-menu-navbar">
+            
+            <li>
+                <a  href="/">
+                    <i class="fa fa-home"></i><span>Home</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/archives">
+                    <i class="fa fa-archive"></i><span>Archives</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/about">
+                    <i class="fa fa-user"></i><span>About</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    <div class="mobile-header-tag-container">
+        <span class="title">Tags</span>
+        <div id="mobile-header-container-tags">
+            <a href="/tags/2018/" style="font-size: 11.43px;">2018</a> <a href="/tags/Collections/" style="font-size: 15.71px;">Collections</a> <a href="/tags/HashMap/" style="font-size: 10px;">HashMap</a> <a href="/tags/LinkedHashMap/" style="font-size: 10px;">LinkedHashMap</a> <a href="/tags/MySQL/" style="font-size: 17.14px;">MySQL</a> <a href="/tags/Mybatis/" style="font-size: 12.86px;">Mybatis</a> <a href="/tags/Object/" style="font-size: 10px;">Object</a> <a href="/tags/SSM/" style="font-size: 12.86px;">SSM</a> <a href="/tags/TreeMap/" style="font-size: 11.43px;">TreeMap</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/java基础/" style="font-size: 20px;">java基础</a> <a href="/tags/java并发编程实战/" style="font-size: 11.43px;">java并发编程实战</a> <a href="/tags/leetcode/" style="font-size: 17.14px;">leetcode</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/剑指offer/" style="font-size: 10px;">剑指offer</a> <a href="/tags/多线程/" style="font-size: 11.43px;">多线程</a> <a href="/tags/并发编程/" style="font-size: 10px;">并发编程</a> <a href="/tags/机器学习/" style="font-size: 12.86px;">机器学习</a> <a href="/tags/构造函数/" style="font-size: 10px;">构造函数</a> <a href="/tags/深入理解java虚拟机/" style="font-size: 10px;">深入理解java虚拟机</a> <a href="/tags/生活/" style="font-size: 10px;">生活</a> <a href="/tags/神经网络/" style="font-size: 10px;">神经网络</a> <a href="/tags/算法与数据结构/" style="font-size: 14.29px;">算法与数据结构</a> <a href="/tags/算法和数据结构/" style="font-size: 18.57px;">算法和数据结构</a> <a href="/tags/观影记/" style="font-size: 10px;">观影记</a> <a href="/tags/读书书单/" style="font-size: 10px;">读书书单</a>
+        </div>
+    </div>
+</div>
+<div class="search-wrap">
+    <span class="search-close">&times;</span>
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+            <i class="icon icon-lg icon-chevron-left"></i>
+        </a>
+        <input class="search-field" placeholder="Search..." id="keywords">
+        <a id="search-submit" href="javascript:;">
+            <i class="fa fa-search"></i>
+        </a>
+    <div class="search-container" id="search-container">
+        <ul class="search-result" id="search-result">
+        </ul>
+    </div>
+</div>
+
+<div id="search-tpl">
+    <li class="search-result-item">
+        <a href="{url}" class="search-item-li">
+            <span class="search-item-li-title" title="{title}">{title}</span>
+        </a>
+    </li>
+</div>
+<script src="/js/search.js"></script>
+<script src="/js/main.js"></script>
+
+
+  <script src="//cdn.bootcss.com/particles.js/2.0.0/particles.min.js"></script>
+  <div id="particles"></div>
+  <script src="/js/particles.js"></script>
+
+
+
+
+
+
+
+  <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
+  <script src="//cdn.bootcss.com/scrollReveal.js/3.0.5/scrollreveal.js"></script>
+  <script src="/js/animate.js"></script>
+
+
+  <script src="/js/pop-img.js"></script>
+  <script>
+     $(".article-entry p img").popImg();
+  </script>
+
+  </div>
+</body>
+</html>

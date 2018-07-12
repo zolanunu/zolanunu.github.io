@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>排序算法一 | zolanunu</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+    <meta name="keywords" content="zolanunu,zolanunu's blog" />
+  
+  <meta name="description" content="写在排序之前又是一轮开始复习算法，从来没坚持下来过 这次又是从头来过，希望自己忘掉之前的不努力，好好加油准备工作和论文的事情。。。现在的主线也就是这两个了 工作多刷牛客了，既可以打鸡血又可以多知道自己和别人的差距到底有多大，sad 论文毕业好好看论文，写代码，设计算法 下面进入正文，排序，排序主要有内部排序和外部排序两种，大学期间的算法课上接触的基本上都是内部排序 内部排序内部排序主要有： 插入排">
+<meta name="keywords" content="算法和数据结构">
+<meta property="og:type" content="article">
+<meta property="og:title" content="排序算法一">
+<meta property="og:url" content="http://zhangbuzola.cn/2017/11/21/java 排序算法一/index.html">
+<meta property="og:site_name" content="zolanunu">
+<meta property="og:description" content="写在排序之前又是一轮开始复习算法，从来没坚持下来过 这次又是从头来过，希望自己忘掉之前的不努力，好好加油准备工作和论文的事情。。。现在的主线也就是这两个了 工作多刷牛客了，既可以打鸡血又可以多知道自己和别人的差距到底有多大，sad 论文毕业好好看论文，写代码，设计算法 下面进入正文，排序，排序主要有内部排序和外部排序两种，大学期间的算法课上接触的基本上都是内部排序 内部排序内部排序主要有： 插入排">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="http://zhangbuzola.cn/assets/images/directinsertsort.jpg">
+<meta property="og:image" content="http://zhangbuzola.cn/assets/images/shellsort.jpg">
+<meta property="og:updated_time" content="2018-07-12T06:17:11.693Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="排序算法一">
+<meta name="twitter:description" content="写在排序之前又是一轮开始复习算法，从来没坚持下来过 这次又是从头来过，希望自己忘掉之前的不努力，好好加油准备工作和论文的事情。。。现在的主线也就是这两个了 工作多刷牛客了，既可以打鸡血又可以多知道自己和别人的差距到底有多大，sad 论文毕业好好看论文，写代码，设计算法 下面进入正文，排序，排序主要有内部排序和外部排序两种，大学期间的算法课上接触的基本上都是内部排序 内部排序内部排序主要有： 插入排">
+<meta name="twitter:image" content="http://zhangbuzola.cn/assets/images/directinsertsort.jpg">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="/js/pace.min.js"></script>
+  
+
+  
+	<script>
+	var _hmt = _hmt || [];
+	(function() {
+	  var hm = document.createElement("script");
+	  hm.src = "//hm.baidu.com/hm.js?a651034b7d11a367ae836642b29a3057";
+	  var s = document.getElementsByTagName("script")[0]; 
+	  s.parentNode.insertBefore(hm, s);
+	})();
+	</script>
+
+  
+
+</head>
+
+<body>
+  <div id="container">
+      <header id="header">
+    <div id="banner"></div>
+    <div id="header-outer">
+        <div id="header-menu" class="header-menu-pos animated">
+            <div class="header-menu-container">
+                <a href="/" class="left">
+                    <span class="site-title">zolanunu&#39;s Blog</span>
+                </a>
+                <nav id="header-menu-nav" class="right">
+                    
+                    <a  href="/">
+                        <i class="fa fa-home"></i>
+                        <span>Home</span>
+                    </a>
+                    
+                    <a  href="/archives">
+                        <i class="fa fa-archive"></i>
+                        <span>Archives</span>
+                    </a>
+                    
+                    <a  href="/about">
+                        <i class="fa fa-user"></i>
+                        <span>About</span>
+                    </a>
+                    
+                </nav>
+                <a class="mobile-header-menu-button">
+                    <i class="fa fa-bars"></i>
+                </a>
+            </div>
+        </div>
+        <div id="header-row">
+            <div id="logo">
+                <a href="/">
+                    <img src="/images/pacman.jpg" alt="logo">
+                </a>
+            </div>
+            <div class="header-info">
+                <div id="header-title">
+                    
+                    <h2>
+                        zolanunu&#39;s Blog
+                    </h2>
+                    
+                </div>
+                <div id="header-description">
+                    
+                    <h3>
+                        去努力尝试做一些你觉得你不会做或者不敢做的事情。
+                    </h3>
+                    
+                </div>
+            </div>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a title="zolanunu" target="_blank" href="//zhangbuzola.cn">
+                            <i class="fa fa-home fa-2x"></i></a>
+                    
+                        <a title="Github" target="_blank" href="//github.com/zolanunu">
+                            <i class="fa fa-github fa-2x"></i></a>
+                    
+                        <a title="Weibo" target="_blank" href="//weibo.com/zolanunu">
+                            <i class="fa fa-weibo fa-2x"></i></a>
+                    
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>
+      <div class="outer">
+        <section id="main" class="body-wrap"><article id="post-java 排序算法一" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="post-title" itemprop="name">
+      排序算法一
+    </h1>
+    <div class="post-title-bar">
+      <ul>
+          
+              <li>
+                  <i class="fa fa-book"></i>
+                  
+                      <a href="/categories/算法/">算法</a>
+                  
+              </li>
+          
+        <li>
+          <i class="fa fa-calendar"></i>  2017-11-21
+        </li>
+        <li>
+          <i class="fa fa-eye"></i>
+          <span id="busuanzi_value_page_pv"></span>
+        </li>
+      </ul>
+    </div>
+  
+
+          
+      </header>
+    
+    <div class="article-entry post-content" itemprop="articleBody">
+      
+            
+            <h1 id="写在排序之前"><a href="#写在排序之前" class="headerlink" title="写在排序之前"></a>写在排序之前</h1><p>又是一轮开始复习算法，从来没坚持下来过</p>
+<p>这次又是从头来过，希望自己忘掉之前的不努力，好好加油准备工作和论文的事情。。。现在的主线也就是这两个了</p>
+<h2 id="工作"><a href="#工作" class="headerlink" title="工作"></a>工作</h2><p>多刷牛客了，既可以打鸡血又可以多知道自己和别人的差距到底有多大，sad</p>
+<h2 id="论文毕业"><a href="#论文毕业" class="headerlink" title="论文毕业"></a>论文毕业</h2><p>好好看论文，写代码，设计算法</p>
+<p>下面进入正文，排序，排序主要有内部排序和外部排序两种，大学期间的算法课上接触的基本上都是内部排序</p>
+<h1 id="内部排序"><a href="#内部排序" class="headerlink" title="内部排序"></a>内部排序</h1><p>内部排序主要有：</p>
+<p>插入排序（直接插入，希尔排序），选择排序（simple select、 堆排序），交换（bubble、quick sort）， 归并排序， 基数排序</p>
+<p>下面先解释插入排序吧</p>
+<h1 id="直接插入排序"><a href="#直接插入排序" class="headerlink" title="直接插入排序"></a>直接插入排序</h1><h2 id="贴图"><a href="#贴图" class="headerlink" title="贴图"></a>贴图</h2><p><img src="/assets/images/directinsertsort.jpg" alt=""></p>
+<h2 id="复杂度分析"><a href="#复杂度分析" class="headerlink" title="复杂度分析"></a>复杂度分析</h2><h2 id="贴代码"><a href="#贴代码" class="headerlink" title="贴代码"></a>贴代码</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">public static int[] directInsertSort(int[] arr, int n) &#123;</span><br><span class="line">	/**</span><br><span class="line">	 * 基本思想:</span><br><span class="line">     * 将一个记录插入到已排序好的有序表中，从而得到一个新，记录数增1的有序表。</span><br><span class="line">     * 即：先将序列的第1个记录看成是一个有序的子序列，然后从第2个记录逐个进行插入，直至整个序列有序为止。</span><br><span class="line">	 * 要点：设立哨兵，作为临时存储和判断数组边界之用。</span><br><span class="line">	 * 平均O(n^2),最好O(n),最坏O(n^2);空间复杂度O(1);稳定;简单</span><br><span class="line">	 * */</span><br><span class="line">	for(int i = 1; i &lt; n; i++) &#123;</span><br><span class="line">		for(int j = i; j &gt; 0; j--) &#123;</span><br><span class="line">			if(arr[j] &lt; arr[j-1]) &#123;</span><br><span class="line">				int temp = arr[j];</span><br><span class="line">					arr[j] = arr[j-1];</span><br><span class="line">					arr[j-1] = temp;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	return arr;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="希尔排序"><a href="#希尔排序" class="headerlink" title="希尔排序"></a>希尔排序</h1><h2 id="贴图-1"><a href="#贴图-1" class="headerlink" title="贴图"></a>贴图</h2><p><img src="/assets/images/shellsort.jpg" alt=""></p>
+<h2 id="复杂度分析-1"><a href="#复杂度分析-1" class="headerlink" title="复杂度分析"></a>复杂度分析</h2><p>最好和平均复杂度 nlogn  最坏： n^2</p>
+<h2 id="贴代码-1"><a href="#贴代码-1" class="headerlink" title="贴代码"></a>贴代码</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line">public class ShellSort &#123;</span><br><span class="line">	/**</span><br><span class="line">	 * 希尔排序也成为“缩小增量排序”，其基本原理是，现将待排序的数组元素分成多个子序列</span><br><span class="line">	 * 使得每个子序列的元素个数相对较少，然后对各个子序列分别进行直接插入排序</span><br><span class="line">	 * 待整个待排序列“基本有序”后，最后在对所有元素进行一次直接插入排序</span><br><span class="line">	 * 因此，我们要采用跳跃分割的策略：将相距某个“增量”的记录组成一个子序列</span><br><span class="line">	 * 这样才能保证在子序列内分别进行直接插入排序后得到的结果是基本有序</span><br><span class="line">	 * 而不是局部有序。希尔排序是对直接插入排序算法的优化和升级。 </span><br><span class="line">	 * 所谓的基本有序，就是小的关键字基本在前面，大的基本在后面，不大不小的基本在中间</span><br><span class="line">	 * 例如｛2,1,3,6,4,7,5,8,9,｝就可以称为基本有序了。</span><br><span class="line">	 * 但像｛1,5,9,3,7,8,2,4,6｝这样，9在第三位，2在倒数第三位就谈不上基本有序。</span><br><span class="line">	 * </span><br><span class="line">	 * 最好和平均复杂度 nlogn  最坏： n^2</span><br><span class="line">	 * **/</span><br><span class="line">	public static int[] shellSort(int[] a) &#123;</span><br><span class="line">		int j = 0;</span><br><span class="line">		int temp = 0;</span><br><span class="line">		for(int increment = a.length / 2; increment &gt; 0; increment /= 2) &#123;</span><br><span class="line">			System.out.println(&quot;increment: &quot; + increment);</span><br><span class="line">			for(int i = increment; i &lt; a.length; i++) &#123;</span><br><span class="line">				temp = a[i];</span><br><span class="line">				for(j = i - increment; j &gt;= 0; j -= increment) &#123;</span><br><span class="line">					if(temp &lt; a[j]) &#123;</span><br><span class="line">						a[j+increment] = a[j];</span><br><span class="line">					&#125; else &#123;</span><br><span class="line">						break;</span><br><span class="line">					&#125;</span><br><span class="line">				&#125;</span><br><span class="line">				a[j+increment] = temp;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		return a;</span><br><span class="line">	&#125;</span><br><span class="line">	public static void main(String[] args) &#123;</span><br><span class="line">		int[] a = &#123;26, 53, 67, 48, 57, 13, 48, 32, 60, 50&#125;;</span><br><span class="line">		a = shellSort(a);</span><br><span class="line">		for(int i = 0; i &lt; a.length; i++) &#123;</span><br><span class="line">			System.out.print(a[i] + &quot; &quot;);</span><br><span class="line">		&#125;</span><br><span class="line">		</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+            <div class="post-copyright">
+    <div class="content">
+        <p>最后更新： 2018年07月12日 14:17</p>
+        <p>原始链接： <a class="post-url" href="/2017/11/21/java 排序算法一/" title="排序算法一">http://zhangbuzola.cn/2017/11/21/java 排序算法一/</a></p>
+        <footer>
+            <a href="http://zhangbuzola.cn">
+                <img src="/images/pacman.jpg" alt="zolanunu">
+                zolanunu
+            </a>
+        </footer>
+    </div>
+</div>
+
+      
+        
+            
+
+        
+    </div>
+    <footer class="article-footer">
+        
+        <ul class="article-footer-menu">
+            
+            
+  <li class="article-footer-tags">
+    <i class="fa fa-tags"></i>
+      
+    <a href="/tags/算法和数据结构/" class="color3">算法和数据结构</a>
+      
+  </li>
+
+        </ul>
+        
+    </footer>
+  </div>
+</article>
+
+
+    <aside class="post-toc-pos post-toc-top" id="post-toc">
+        <nav class="post-toc-wrap">
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#写在排序之前"><span class="post-toc-text">写在排序之前</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#工作"><span class="post-toc-text">工作</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#论文毕业"><span class="post-toc-text">论文毕业</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#内部排序"><span class="post-toc-text">内部排序</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#直接插入排序"><span class="post-toc-text">直接插入排序</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#贴图"><span class="post-toc-text">贴图</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#复杂度分析"><span class="post-toc-text">复杂度分析</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#贴代码"><span class="post-toc-text">贴代码</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#希尔排序"><span class="post-toc-text">希尔排序</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#贴图-1"><span class="post-toc-text">贴图</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#复杂度分析-1"><span class="post-toc-text">复杂度分析</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#贴代码-1"><span class="post-toc-text">贴代码</span></a></li></ol></li></ol>
+        </nav>
+    </aside>
+    
+
+<nav id="article-nav">
+  
+    <a href="/2017/11/21/java_SSM环境框架按键与配置详解/" id="article-nav-newer" class="article-nav-link-wrap">
+
+      <span class="article-nav-title">
+        <i class="fa fa-hand-o-left" aria-hidden="true"></i>
+        
+          SSM框架搭建实践篇
+        
+      </span>
+    </a>
+  
+  
+    <a href="/2017/11/20/值传递引用传递/" id="article-nav-older" class="article-nav-link-wrap">
+      <span class="article-nav-title">理解值传递/引用传递</span>
+      <i class="fa fa-hand-o-right" aria-hidden="true"></i>
+    </a>
+  
+</nav>
+
+
+
+    
+        <link rel="stylesheet" href="//unpkg.com/gitment/style/default.css">
+    <script src="//unpkg.com/gitment/dist/gitment.browser.js"></script>
+    <script>
+        var gitment = new Gitment({
+            owner: 'true',
+            repo: 'zolanunu',
+            oauth: {
+                client_id: '1a04e8dee74a4b8634df',
+                client_secret: '9e3078ac89eb72f22abbdd11f7f0d11e2e1d7f7a',
+            },
+        })
+        gitment.render('comments')
+    </script>
+
+    
+</section>
+        
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+      <p>
+        Powered by  <a href="http://hexo.io/" target="_blank">Hexo</a>
+        Theme <a href="//github.com/wongminho/hexo-theme-miho" target="_blank">MiHo</a>
+      &copy; 2018 zolanunu<br>
+      </p>
+    </div>
+  </div>
+</footer>
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script>
+  var mihoConfig = {
+      root: "http://zhangbuzola.cn",
+      animate: true,
+      isHome: false,
+      share: false,
+      reward: 0
+  }
+</script>
+<div class="sidebar">
+    <div id="sidebar-search" title="Search">
+        <i class="fa fa-search"></i>
+    </div>
+    <div id="sidebar-category" title="Categories">
+        <i class="fa fa-book"></i>
+    </div>
+    <div id="sidebar-tag" title="Tags">
+        <i class="fa fa-tags"></i>
+    </div>
+    <div id="sidebar-top">
+        <span class="sidebar-top-icon"><i class="fa fa-angle-up"></i></span>
+    </div>
+</div>
+<div class="sidebar-menu-box" id="sidebar-menu-box">
+    <div class="sidebar-menu-box-container">
+        <div id="sidebar-menu-box-categories">
+            <a class="category-link" href="/categories/Java/">Java</a><a class="category-link" href="/categories/Java后台/">Java后台</a><a class="category-link" href="/categories/Python/">Python</a><a class="category-link" href="/categories/工具/">工具</a><a class="category-link" href="/categories/技术书/">技术书</a><a class="category-link" href="/categories/数据库/">数据库</a><a class="category-link" href="/categories/数据结构/">数据结构</a><a class="category-link" href="/categories/生活轨迹/">生活轨迹</a><a class="category-link" href="/categories/算法/">算法</a>
+        </div>
+        <div id="sidebar-menu-box-tags">
+            <a href="/tags/2018/" style="font-size: 11.43px;">2018</a> <a href="/tags/Collections/" style="font-size: 15.71px;">Collections</a> <a href="/tags/HashMap/" style="font-size: 10px;">HashMap</a> <a href="/tags/LinkedHashMap/" style="font-size: 10px;">LinkedHashMap</a> <a href="/tags/MySQL/" style="font-size: 17.14px;">MySQL</a> <a href="/tags/Mybatis/" style="font-size: 12.86px;">Mybatis</a> <a href="/tags/Object/" style="font-size: 10px;">Object</a> <a href="/tags/SSM/" style="font-size: 12.86px;">SSM</a> <a href="/tags/TreeMap/" style="font-size: 11.43px;">TreeMap</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/java基础/" style="font-size: 20px;">java基础</a> <a href="/tags/java并发编程实战/" style="font-size: 11.43px;">java并发编程实战</a> <a href="/tags/leetcode/" style="font-size: 17.14px;">leetcode</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/剑指offer/" style="font-size: 10px;">剑指offer</a> <a href="/tags/多线程/" style="font-size: 11.43px;">多线程</a> <a href="/tags/并发编程/" style="font-size: 10px;">并发编程</a> <a href="/tags/机器学习/" style="font-size: 12.86px;">机器学习</a> <a href="/tags/构造函数/" style="font-size: 10px;">构造函数</a> <a href="/tags/深入理解java虚拟机/" style="font-size: 10px;">深入理解java虚拟机</a> <a href="/tags/生活/" style="font-size: 10px;">生活</a> <a href="/tags/神经网络/" style="font-size: 10px;">神经网络</a> <a href="/tags/算法与数据结构/" style="font-size: 14.29px;">算法与数据结构</a> <a href="/tags/算法和数据结构/" style="font-size: 18.57px;">算法和数据结构</a> <a href="/tags/观影记/" style="font-size: 10px;">观影记</a> <a href="/tags/读书书单/" style="font-size: 10px;">读书书单</a>
+        </div>
+    </div>
+    <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
+</div>
+<div class="mobile-header-menu-nav" id="mobile-header-menu-nav">
+    <div class="mobile-header-menu-container">
+        <span class="title">Menus</span>
+        <ul class="mobile-header-menu-navbar">
+            
+            <li>
+                <a  href="/">
+                    <i class="fa fa-home"></i><span>Home</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/archives">
+                    <i class="fa fa-archive"></i><span>Archives</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/about">
+                    <i class="fa fa-user"></i><span>About</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    <div class="mobile-header-tag-container">
+        <span class="title">Tags</span>
+        <div id="mobile-header-container-tags">
+            <a href="/tags/2018/" style="font-size: 11.43px;">2018</a> <a href="/tags/Collections/" style="font-size: 15.71px;">Collections</a> <a href="/tags/HashMap/" style="font-size: 10px;">HashMap</a> <a href="/tags/LinkedHashMap/" style="font-size: 10px;">LinkedHashMap</a> <a href="/tags/MySQL/" style="font-size: 17.14px;">MySQL</a> <a href="/tags/Mybatis/" style="font-size: 12.86px;">Mybatis</a> <a href="/tags/Object/" style="font-size: 10px;">Object</a> <a href="/tags/SSM/" style="font-size: 12.86px;">SSM</a> <a href="/tags/TreeMap/" style="font-size: 11.43px;">TreeMap</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/java基础/" style="font-size: 20px;">java基础</a> <a href="/tags/java并发编程实战/" style="font-size: 11.43px;">java并发编程实战</a> <a href="/tags/leetcode/" style="font-size: 17.14px;">leetcode</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/剑指offer/" style="font-size: 10px;">剑指offer</a> <a href="/tags/多线程/" style="font-size: 11.43px;">多线程</a> <a href="/tags/并发编程/" style="font-size: 10px;">并发编程</a> <a href="/tags/机器学习/" style="font-size: 12.86px;">机器学习</a> <a href="/tags/构造函数/" style="font-size: 10px;">构造函数</a> <a href="/tags/深入理解java虚拟机/" style="font-size: 10px;">深入理解java虚拟机</a> <a href="/tags/生活/" style="font-size: 10px;">生活</a> <a href="/tags/神经网络/" style="font-size: 10px;">神经网络</a> <a href="/tags/算法与数据结构/" style="font-size: 14.29px;">算法与数据结构</a> <a href="/tags/算法和数据结构/" style="font-size: 18.57px;">算法和数据结构</a> <a href="/tags/观影记/" style="font-size: 10px;">观影记</a> <a href="/tags/读书书单/" style="font-size: 10px;">读书书单</a>
+        </div>
+    </div>
+</div>
+<div class="search-wrap">
+    <span class="search-close">&times;</span>
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+            <i class="icon icon-lg icon-chevron-left"></i>
+        </a>
+        <input class="search-field" placeholder="Search..." id="keywords">
+        <a id="search-submit" href="javascript:;">
+            <i class="fa fa-search"></i>
+        </a>
+    <div class="search-container" id="search-container">
+        <ul class="search-result" id="search-result">
+        </ul>
+    </div>
+</div>
+
+<div id="search-tpl">
+    <li class="search-result-item">
+        <a href="{url}" class="search-item-li">
+            <span class="search-item-li-title" title="{title}">{title}</span>
+        </a>
+    </li>
+</div>
+<script src="/js/search.js"></script>
+<script src="/js/main.js"></script>
+
+
+  <script src="//cdn.bootcss.com/particles.js/2.0.0/particles.min.js"></script>
+  <div id="particles"></div>
+  <script src="/js/particles.js"></script>
+
+
+
+
+
+
+
+  <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
+  <script src="//cdn.bootcss.com/scrollReveal.js/3.0.5/scrollreveal.js"></script>
+  <script src="/js/animate.js"></script>
+
+
+  <script src="/js/pop-img.js"></script>
+  <script>
+     $(".article-entry p img").popImg();
+  </script>
+
+  </div>
+</body>
+</html>

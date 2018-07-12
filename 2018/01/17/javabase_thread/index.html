@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>java基础学习之多线程 | zolanunu</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+    <meta name="keywords" content="zolanunu,zolanunu's blog" />
+  
+  <meta name="description" content="多线程线程和进程一个进程是一个独立(self contained)的运行环境，它可以被看作一个程序或者一个应用。而线程是在进程中执行的一个任务。线程是进程的子集，一个进程可以有很多线程，每条线程并行执行不同的任务。不同的进程使用不同的内存空间，而所有的线程共享一片相同的内存空间。别把它和栈内存搞混，每个线程都拥有单独的栈内存用来存储本地数据。 开了一个QQ，开了一个进程；开了微信，开了一个进程。">
+<meta name="keywords" content="java基础,多线程">
+<meta property="og:type" content="article">
+<meta property="og:title" content="java基础学习之多线程">
+<meta property="og:url" content="http://zhangbuzola.cn/2018/01/17/javabase_thread/index.html">
+<meta property="og:site_name" content="zolanunu">
+<meta property="og:description" content="多线程线程和进程一个进程是一个独立(self contained)的运行环境，它可以被看作一个程序或者一个应用。而线程是在进程中执行的一个任务。线程是进程的子集，一个进程可以有很多线程，每条线程并行执行不同的任务。不同的进程使用不同的内存空间，而所有的线程共享一片相同的内存空间。别把它和栈内存搞混，每个线程都拥有单独的栈内存用来存储本地数据。 开了一个QQ，开了一个进程；开了微信，开了一个进程。">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="http://zhangbuzola.cn/assets/images/javabase_thread1.jpg">
+<meta property="og:updated_time" content="2018-07-12T06:00:19.258Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="java基础学习之多线程">
+<meta name="twitter:description" content="多线程线程和进程一个进程是一个独立(self contained)的运行环境，它可以被看作一个程序或者一个应用。而线程是在进程中执行的一个任务。线程是进程的子集，一个进程可以有很多线程，每条线程并行执行不同的任务。不同的进程使用不同的内存空间，而所有的线程共享一片相同的内存空间。别把它和栈内存搞混，每个线程都拥有单独的栈内存用来存储本地数据。 开了一个QQ，开了一个进程；开了微信，开了一个进程。">
+<meta name="twitter:image" content="http://zhangbuzola.cn/assets/images/javabase_thread1.jpg">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="/js/pace.min.js"></script>
+  
+
+  
+	<script>
+	var _hmt = _hmt || [];
+	(function() {
+	  var hm = document.createElement("script");
+	  hm.src = "//hm.baidu.com/hm.js?a651034b7d11a367ae836642b29a3057";
+	  var s = document.getElementsByTagName("script")[0]; 
+	  s.parentNode.insertBefore(hm, s);
+	})();
+	</script>
+
+  
+
+</head>
+
+<body>
+  <div id="container">
+      <header id="header">
+    <div id="banner"></div>
+    <div id="header-outer">
+        <div id="header-menu" class="header-menu-pos animated">
+            <div class="header-menu-container">
+                <a href="/" class="left">
+                    <span class="site-title">zolanunu&#39;s Blog</span>
+                </a>
+                <nav id="header-menu-nav" class="right">
+                    
+                    <a  href="/">
+                        <i class="fa fa-home"></i>
+                        <span>Home</span>
+                    </a>
+                    
+                    <a  href="/archives">
+                        <i class="fa fa-archive"></i>
+                        <span>Archives</span>
+                    </a>
+                    
+                    <a  href="/about">
+                        <i class="fa fa-user"></i>
+                        <span>About</span>
+                    </a>
+                    
+                </nav>
+                <a class="mobile-header-menu-button">
+                    <i class="fa fa-bars"></i>
+                </a>
+            </div>
+        </div>
+        <div id="header-row">
+            <div id="logo">
+                <a href="/">
+                    <img src="/images/pacman.jpg" alt="logo">
+                </a>
+            </div>
+            <div class="header-info">
+                <div id="header-title">
+                    
+                    <h2>
+                        zolanunu&#39;s Blog
+                    </h2>
+                    
+                </div>
+                <div id="header-description">
+                    
+                    <h3>
+                        去努力尝试做一些你觉得你不会做或者不敢做的事情。
+                    </h3>
+                    
+                </div>
+            </div>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a title="zolanunu" target="_blank" href="//zhangbuzola.cn">
+                            <i class="fa fa-home fa-2x"></i></a>
+                    
+                        <a title="Github" target="_blank" href="//github.com/zolanunu">
+                            <i class="fa fa-github fa-2x"></i></a>
+                    
+                        <a title="Weibo" target="_blank" href="//weibo.com/zolanunu">
+                            <i class="fa fa-weibo fa-2x"></i></a>
+                    
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>
+      <div class="outer">
+        <section id="main" class="body-wrap"><article id="post-javabase_thread" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="post-title" itemprop="name">
+      java基础学习之多线程
+    </h1>
+    <div class="post-title-bar">
+      <ul>
+          
+              <li>
+                  <i class="fa fa-book"></i>
+                  
+                      <a href="/categories/Java/">Java</a>
+                  
+              </li>
+          
+        <li>
+          <i class="fa fa-calendar"></i>  2018-01-17
+        </li>
+        <li>
+          <i class="fa fa-eye"></i>
+          <span id="busuanzi_value_page_pv"></span>
+        </li>
+      </ul>
+    </div>
+  
+
+          
+      </header>
+    
+    <div class="article-entry post-content" itemprop="articleBody">
+      
+            
+            <h1 id="多线程"><a href="#多线程" class="headerlink" title="多线程"></a>多线程</h1><h2 id="线程和进程"><a href="#线程和进程" class="headerlink" title="线程和进程"></a>线程和进程</h2><p>一个进程是一个独立(self contained)的运行环境，它可以被看作一个程序或者一个应用。而线程是在进程中执行的一个任务。线程是进程的子集，一个进程可以有很多线程，每条线程并行执行不同的任务。不同的进程使用不同的内存空间，而所有的线程共享一片相同的内存空间。别把它和栈内存搞混，每个线程都拥有单独的栈内存用来存储本地数据。</p>
+<p>开了一个QQ，开了一个进程；开了微信，开了一个进程。</p>
+<p>单进程单线程：一个人在一个桌子上吃菜。</p>
+<p>单进程多线程：多个人在同一个桌子上一起吃菜。</p>
+<p>多进程单线程：多个人每个人在自己的桌子上吃菜</p>
+<p>进程是CPU资源分配的最小单元，线程是CPU调度的最小单位。</p>
+<p>参考了知乎上大神的讲解。首先先说明几点基础概念或者背景知识吧。发现自己看东西总是喜欢刨根问底，纠结于小细节。</p>
+<p>电脑构成：CPU+RAM+显卡+光驱等外设</p>
+<p>基础秒懂的：CPU运行速度很快，太快了，只有寄存器才能勉强和CPU的执行速度同步。RAM都不行。所以，要执行多个任务的时候，需要按照一定的优先级策略轮流执行任务。</p>
+<p>执行代码过程：得到CPU时候，相关资源（GPS，显卡）必须到位，然后CPU执行。执行完毕或者分配给他的CPU执行时间用完，需要切换，切换之前需要做的最后一步工作是保存程序上下文（这个是下次被CPU调度执行的执行环境，所以需要保存起来）。</p>
+<p>程序上下文：除了CPU以外所有构成这个程序的执行环境</p>
+<p>前面讲过在CPU看来所有的任务都是一个一个的轮流执行的，具体的轮流方法就是：先加载程序A的上下文，然后开始执行A，保存程序A的上下文，调入下一个要执行的程序B的程序上下文，然后开始执行B,保存程序B的上下文。</p>
+<p>进程：CPU加载上下文+CPU执行+CPU保存上下文</p>
+<p>但是由于进程描述的颗粒度太大，每次有上下文的掉进调出，保存，但是一个软件的执行不可能是一条逻辑执行的，必定有多个分支和多个程序段，就好比要实现程序A，实际是分成a,b,c等多个小组合。</p>
+<p>所以程序A的执行过程变成了：</p>
+<p>A得到CPU-&gt;加载A的上下文，执行a小段，执行b小段，执行c小段，保存A的上下文。</p>
+<p>abc就是线程，共享A的上下文。</p>
+<p>进程和线程都是一个时间段的描述，是CPU工作时间段的描述，只是颗粒大小不同。</p>
+<h2 id="多线程问题"><a href="#多线程问题" class="headerlink" title="多线程问题"></a>多线程问题</h2><h3 id="多线程有什么用"><a href="#多线程有什么用" class="headerlink" title="多线程有什么用"></a>多线程有什么用</h3><ul>
+<li><p>发挥多核CPU的优势</p>
+</li>
+<li><p>防止阻塞</p>
+</li>
+</ul>
+<p>从程序运行效率的角度来看，单核CPU不但不会发挥出多线程的优势，反而会因为在单核CPU上运行多线程导致线程上下文的切换，而降低程序整体的效率。但是单核CPU我们还是要应用多线程，就是为了防止阻塞。试想，如果单核CPU使用单线程，那么只要这个线程阻塞了，比方说远程读取某个数据吧，对端迟迟未返回又没有设置超时时间，那么你的整个程序在数据返回回来之前就停止运行了。多线程可以防止这个问题，多条线程同时运行，哪怕一条线程的代码执行读取数据阻塞，也不会影响其它任务的执行。</p>
+<ul>
+<li>便于建模</li>
+</ul>
+<p>假设有一个大的任务A，单线程编程，那么就要考虑很多，建立整个程序模型比较麻烦。但是如果把这个大的任务A分解成几个小任务，任务B、任务C、任务D，分别建立程序模型，并通过多线程分别运行这几个任务，那就简单很多了。</p>
+<h3 id="创建线程的方式"><a href="#创建线程的方式" class="headerlink" title="创建线程的方式"></a>创建线程的方式</h3><ul>
+<li><p>继承Thread类</p>
+</li>
+<li><p>实现Runnable接口</p>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">// 第一种方法</span><br><span class="line"></span><br><span class="line">public class ThreadDemo1() &#123;</span><br><span class="line">	public static void main(String[] args) &#123;</span><br><span class="line">	Demo d = new Demo();</span><br><span class="line">	d.start();</span><br><span class="line">	for(int i=0;i&lt;60;i++)&#123;</span><br><span class="line">		System.out.println(Thread.currentThread().getName()+i);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class Demo extends Thread&#123;</span><br><span class="line">public void run()&#123;</span><br><span class="line">for(int i=0;i&lt;60;i++)&#123;</span><br><span class="line">             System.out.println(Thread.currentThread().getName()+i);</span><br><span class="line">         &#125;</span><br><span class="line">     &#125;</span><br><span class="line"> &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 第二种方法</span><br><span class="line"></span><br><span class="line">public class ThreadDemo2 &#123;</span><br><span class="line">public static void main(String[] args)&#123;</span><br><span class="line">        Demo2 d =new Demo2();</span><br><span class="line">        Thread t = new Thread(d);</span><br><span class="line">        t.start();</span><br><span class="line">for(int x=0;x&lt;60;x++)&#123;</span><br><span class="line">            System.out.println(Thread.currentThread().getName()+x);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">class Demo2 implements Runnable&#123;</span><br><span class="line">public void run()&#123;</span><br><span class="line">for(int x=0;x&lt;60;x++)&#123;</span><br><span class="line">            System.out.println(Thread.currentThread().getName()+x);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>哪个好，不用说肯定是后者好，因为实现接口的方式比继承类的方式更灵活，也能减少程序之间的耦合度，面向接口编程也是设计模式6大原则的核心。</p>
+<p>这2种方式都可以用来创建线程去执行子任务，具体选择哪一种方式要看自己的需求。直接继承Thread类的话，可能比实现Runnable接口看起来更加简洁，但是由于Java只允许单继承，所以如果自定义类需要继承其他类，则只能选择实现Runnable接口。</p>
+<h3 id="start和run方法"><a href="#start和run方法" class="headerlink" title="start和run方法"></a>start和run方法</h3><p>调用了start方法，才会表现多线程的特性，不同线程的run方法里面的代码交替执行。如果只是run方法被调用，那么代码是同步执行的，必须等待一个线程的run方法里面的代码全部执行完毕之后，另一个线程才可以执行其run方法里面的代码。</p>
+<h3 id="Runnable和Callable接口"><a href="#Runnable和Callable接口" class="headerlink" title="Runnable和Callable接口"></a>Runnable和Callable接口</h3><p>Runnable接口中的run()方法的返回值是void，它做的事情只是纯粹地去执行run()方法中的代码而已；Callable接口中的call()方法是有返回值的，是一个泛型，和Future、FutureTask配合可以用来获取异步执行的结果。</p>
+<p>这其实是很有用的一个特性，因为多线程相比单线程更难、更复杂的一个重要原因就是因为多线程充满着未知性，某条线程是否执行了？某条线程执行了多久？某条线程执行的时候我们期望的数据是否已经赋值完毕？无法得知，我们能做的只是等待这条多线程的任务执行完毕而已。而Callable+Future/FutureTask却可以获取多线程运行的结果，可以在等待时间太长没获取到需要的数据的情况下取消该线程的任务，真的是非常有用。</p>
+<h3 id="CyclicBarrier和CountDownLatch的区别"><a href="#CyclicBarrier和CountDownLatch的区别" class="headerlink" title="CyclicBarrier和CountDownLatch的区别"></a>CyclicBarrier和CountDownLatch的区别</h3><p>两个看上去有点像的类，都在java.util.concurrent下，都可以用来表示代码运行到某个点上，二者的区别在于：</p>
+<p>（1）CyclicBarrier的某个线程运行到某个点上之后，该线程即停止运行，直到所有的线程都到达了这个点，所有线程才重新运行；CountDownLatch则不是，某线程运行到某个点上之后，只是给某个数值-1而已，该线程继续运行</p>
+<p>（2）CyclicBarrier只能唤起一个任务，CountDownLatch可以唤起多个任务</p>
+<p>（3）CyclicBarrier可重用，CountDownLatch不可重用，计数值为0该CountDownLatch就不可再用了。</p>
+<h3 id="Volatile关键字"><a href="#Volatile关键字" class="headerlink" title="Volatile关键字"></a>Volatile关键字</h3><p>理解Volatile关键字的重要前提是理解java内存模式。</p>
+<ul>
+<li><p>多线程主要围绕可见性和原子性两个特性而展开，使用volatile关键字修饰的变量，保证了其在多线程之间的可见性，即每次读取到volatile变量，一定是最新的数据。</p>
+</li>
+<li><p>代码底层执行不像我们看到的高级语言—-Java程序这么简单，它的执行是Java代码–&gt;字节码–&gt;根据字节码执行对应的C/C++代码–&gt;C/C++代码被编译成汇编语言–&gt;和硬件电路交互，现实中，为了获取更好的性能JVM可能会对指令进行重排序，多线程下可能会出现一些意想不到的问题。使用volatile则会对禁止语义重排序，当然这也一定程度上降低了代码执行效率。</p>
+</li>
+<li><p>从实践角度而言，volatile的一个重要作用就是和CAS结合，保证了原子性，详细的可以参见java.util.concurrent.atomic包下的类，比如AtomicInteger。</p>
+</li>
+</ul>
+<h3 id="线程安全"><a href="#线程安全" class="headerlink" title="线程安全"></a>线程安全</h3><p>如果你的代码在多线程下执行和在单线程下执行永远都能获得一样的结果，那么你的代码就是线程安全的。</p>
+<h4 id="不安全原因"><a href="#不安全原因" class="headerlink" title="不安全原因"></a>不安全原因</h4><p>问题原因:当多条语句在操作同一个线程共享数据的时候，一个线程对多条语句只执行了一部分，还没有完全执行完，另一个线程参与进来执行，导致共享数据的错误。</p>
+<p>解决办法：</p>
+<p>对多条操作共享数据的语句，只能让一个线程都执行完，执行过程中，其他线程不能执行。</p>
+<h4 id="安全级别"><a href="#安全级别" class="headerlink" title="安全级别"></a>安全级别</h4><ul>
+<li>不可变</li>
+</ul>
+<p>像String、Integer、Long这些，都是final类型的类，任何一个线程都改变不了它们的值，要改变除非新创建一个，因此这些不可变对象不需要任何同步手段就可以直接在多线程环境下使用</p>
+<ul>
+<li>绝对线程安全</li>
+</ul>
+<p>不管运行时环境如何，调用者都不需要额外的同步措施。要做到这一点通常需要付出许多额外的代价，Java中标注自己是线程安全的类，实际上绝大多数都不是线程安全的，不过绝对线程安全的类，Java中也有，比方说CopyOnWriteArrayList、CopyOnWriteArraySet</p>
+<ul>
+<li>相对线程安全</li>
+</ul>
+<p>相对线程安全也就是我们通常意义上所说的线程安全，像Vector这种，add、remove方法都是原子操作，不会被打断，但也仅限于此，如果有个线程在遍历某个Vector、有个线程同时在add这个Vector，99%的情况下都会出现ConcurrentModificationException，也就是fail-fast机制。</p>
+<ul>
+<li>线程非安全</li>
+</ul>
+<p>这个就没什么好说的了，ArrayList、LinkedList、HashMap等都是线程非安全的类。</p>
+<p>相对线程安全也就是我们通常意义上所说的线程安全，像Vector这种，add、remove方法都是原子操作，不会被打断，但也仅限于此，如果有个线程在遍历某个Vector、有个线程同时在add这个Vector，99%的情况下都会出现ConcurrentModificationException，也就是fail-fast机制。</p>
+<ul>
+<li>线程非安全</li>
+</ul>
+<p>这个就没什么好说的了，ArrayList、LinkedList、HashMap等都是线程非安全的类。</p>
+<h3 id="线程运行异常"><a href="#线程运行异常" class="headerlink" title="线程运行异常"></a>线程运行异常</h3><p>异常如果没有被捕获的话，线程会被停止执行。如果某个线程持有某个对象的监视器，这个监视器会被立即释放。</p>
+<h3 id="线程间共享数据？？"><a href="#线程间共享数据？？" class="headerlink" title="线程间共享数据？？"></a>线程间共享数据？？</h3><h3 id="生产者和消费者模型作用"><a href="#生产者和消费者模型作用" class="headerlink" title="生产者和消费者模型作用"></a>生产者和消费者模型作用</h3><ul>
+<li><p>平衡，提升整个系统的运行效率；</p>
+</li>
+<li><p>解耦，附带作用。意味着生产者和消费者之间的联系少，联系越少越可以独立发展而不需要收到相互的制约。</p>
+</li>
+</ul>
+<h3 id="ThreadLocal有什么用"><a href="#ThreadLocal有什么用" class="headerlink" title="ThreadLocal有什么用"></a>ThreadLocal有什么用</h3><p>简单说ThreadLocal就是一种以空间换时间的做法，在每个Thread里面维护了一个以开地址法实现的。</p>
+<p>ThreadLocal.ThreadLocalMap，把数据进行隔离，数据不共享，自然就没有线程安全方面的问题了</p>
+<h3 id="为什么wait-方法和notify-notifyAll-方法要在同步块中被调用"><a href="#为什么wait-方法和notify-notifyAll-方法要在同步块中被调用" class="headerlink" title="为什么wait()方法和notify()/notifyAll()方法要在同步块中被调用"></a>为什么wait()方法和notify()/notifyAll()方法要在同步块中被调用</h3><p>这是JDK强制的，wait()方法和notify()/notifyAll()方法在调用前都必须先获得对象的锁。</p>
+<h3 id="怎么检测一个线程是否持有对象监视器"><a href="#怎么检测一个线程是否持有对象监视器" class="headerlink" title="怎么检测一个线程是否持有对象监视器"></a>怎么检测一个线程是否持有对象监视器</h3><p>我也是在网上看到一道多线程面试题才知道有方法可以判断某个线程是否持有对象监视器：Thread类提供了一个holdsLock(Object obj)方法，当且仅当对象obj的监视器被某条线程持有的时候才会返回true，注意这是一个static方法，这意味着“某条线程”指的是当前线程。</p>
+<h3 id="synchronized和ReentrantLock的区别"><a href="#synchronized和ReentrantLock的区别" class="headerlink" title="synchronized和ReentrantLock的区别"></a>synchronized和ReentrantLock的区别</h3><p>synchronized是和if、else、for、while一样的关键字，ReentrantLock是类，这是二者的本质区别。既然ReentrantLock是类，那么它就提供了比synchronized更多更灵活的特性，可以被继承、可以有方法、可以有各种各样的类变量，ReentrantLock比synchronized的扩展性体现在几点上：</p>
+<ul>
+<li><p>ReentrantLock可以对获取锁的等待时间进行设置，这样就避免了死锁</p>
+</li>
+<li><p>ReentrantLock可以获取各种锁的信息</p>
+</li>
+<li><p>ReentrantLock可以灵活地实现多路通知</p>
+</li>
+</ul>
+<p>另外，二者的锁机制其实也是不一样的。ReentrantLock底层调用的是Unsafe的park方法加锁，synchronized操作的应该是对象头中mark word，这点我不能确定。</p>
+<h3 id="什么是多线程的上下文切换"><a href="#什么是多线程的上下文切换" class="headerlink" title="什么是多线程的上下文切换"></a>什么是多线程的上下文切换</h3><p>CPU控制权有一个已经正在执行的线程切换到另外一个就绪并等待获取CPU执行权的线程的过程。</p>
+<p>对于单核CPU来说（对于多核CPU，此处就理解为一个核），CPU在一个时刻只能运行一个线程，当在运行一个线程的过程中转去运行另外一个线程，这个叫做线程上下文切换（对于进程也是类似）。</p>
+<p>由于可能当前线程的任务并没有执行完毕，所以在切换时需要保存线程的运行状态，以便下次重新切换回来时能够继续切换之前的状态运行。举个简单的例子：比如一个线程A正在读取一个文件的内容，正读到文件的一半，此时需要暂停线程A，转去执行线程B，当再次切换回来执行线程A的时候，我们不希望线程A又从文件的开头来读取。</p>
+<p>因此需要记录线程A的运行状态，那么会记录哪些数据呢？因为下次恢复时需要知道在这之前当前线程已经执行到哪条指令了，所以需要记录程序计数器的值，另外比如说线程正在进行某个计算的时候被挂起了，那么下次继续执行的时候需要知道之前挂起时变量的值时多少，因此需要记录CPU寄存器的状态。所以一般来说，线程上下文切换过程中会记录程序计数器、CPU寄存器状态等数据。</p>
+<p>说简单点的：对于线程的上下文切换实际上就是: <strong>存储和恢复CPU状态的过程，它使得线程执行能够从中断点恢复执行。</strong></p>
+<p>虽然多线程可以使得任务执行的效率得到提升，但是由于在线程切换时同样会带来一定的开销代价，并且多个线程会导致系统资源占用的增加，所以在进行多线程编程时要注意这些因素。</p>
+<h3 id="如果提交任务的时候，线程池队列已经满了，会发生什么"><a href="#如果提交任务的时候，线程池队列已经满了，会发生什么" class="headerlink" title="如果提交任务的时候，线程池队列已经满了，会发生什么"></a>如果提交任务的时候，线程池队列已经满了，会发生什么</h3><p>如果你使用的LinkedBlockingQueue，也就是无界队列的话，没关系，继续添加任务到阻塞队列中等待执行，因为LinkedBlockingQueue可以近乎认为是一个无穷大的队列，可以无限存放任务；如果你使用的是有界队列比方说ArrayBlockingQueue的话，任务首先会被添加到ArrayBlockingQueue中，ArrayBlockingQueue满了，则会使用拒绝策略RejectedExecutionHandler处理满了的任务，默认是AbortPolicy。</p>
+<h3 id="java内存模型"><a href="#java内存模型" class="headerlink" title="java内存模型"></a>java内存模型</h3><ul>
+<li><p>Java内存模型将内存分为了主内存和工作内存。类的状态，也就是类之间共享的变量，是存储在主内存中的，每次Java线程用到这些主内存中的变量的时候，会读一次主内存中的变量，并让这些内存在自己的工作内存中有一份拷贝，运行自己线程代码的时候，用到这些变量，操作的都是自己工作内存中的那一份。在线程代码执行完毕之后，会将最新的值更新到主内存中去</p>
+</li>
+<li><p>定义了几个原子操作，用于操作主内存和工作内存中的变量</p>
+</li>
+<li><p>定义了volatile变量的使用规则</p>
+</li>
+<li><p>happens-before，即先行发生原则，定义了操作A必然先行发生于操作B的一些规则，比如在同一个线程内控制流前面的代码一定先行发生于控制流后面的代码、一个释放锁unlock的动作一定先行发生于后面对于同一个锁进行锁定lock的动作等等，只要符合这些规则，则不需要额外做同步措施，如果某段代码不符合所有的happens-before规则，则这段代码一定是线程非安全的。</p>
+</li>
+</ul>
+<h3 id="什么是CAS"><a href="#什么是CAS" class="headerlink" title="什么是CAS"></a>什么是CAS</h3><p>CAS，全称为Compare and Set，即比较-设置。假设有三个操作数：内存值V、旧的预期值A、要修改的值B，当且仅当预期值A和内存值V相同时，才会将内存值修改为B并返回true，否则什么都不做并返回false。当然CAS一定要volatile变量配合，这样才能保证每次拿到的变量是主内存中最新的那个值，否则旧的预期值A对某条线程来说，永远是一个不会变的值A，只要某次CAS操作失败，永远都不可能成功。</p>
+<h3 id="什么是乐观锁和悲观锁"><a href="#什么是乐观锁和悲观锁" class="headerlink" title="什么是乐观锁和悲观锁"></a>什么是乐观锁和悲观锁</h3><ul>
+<li><p>乐观锁：就像它的名字一样，对于并发间操作产生的线程安全问题持乐观状态，乐观锁认为竞争不总是会发生，因此它不需要持有锁，将比较-设置这两个动作作为一个原子操作尝试去修改内存中的变量，如果失败则表示发生冲突，那么就应该有相应的重试逻辑。</p>
+</li>
+<li><p>悲观锁：还是像它的名字一样，对于并发间操作产生的线程安全问题持悲观状态，悲观锁认为竞争总是会发生，因此每次对某资源进行操作时，都会持有一个独占的锁，就像synchronized，不管三七二十一，直接上了锁就操作资源了。</p>
+</li>
+</ul>
+<h3 id="单例模式的线程安全性"><a href="#单例模式的线程安全性" class="headerlink" title="单例模式的线程安全性"></a>单例模式的线程安全性</h3><p>老生常谈的问题了，首先要说的是单例模式的线程安全意味着：某个类的实例在多线程环境下只会被创建一次出来。单例模式有很多种的写法，我总结一下：</p>
+<ul>
+<li><p>饿汉式单例模式的写法：线程安全</p>
+</li>
+<li><p>懒汉式单例模式的写法：非线程安全</p>
+</li>
+<li><p>双检锁单例模式的写法：线程安全</p>
+</li>
+</ul>
+<h2 id="线程状态"><a href="#线程状态" class="headerlink" title="线程状态"></a>线程状态</h2><p>在正式学习Thread类中的具体方法之前，我们先来了解一下线程有哪些状态，这个将会有助于后面对Thread类中的方法的理解。</p>
+<ul>
+<li><p>创建（new）状态: 准备好了一个多线程的对象</p>
+</li>
+<li><p>就绪（runnable）状态: 调用了start()方法, 等待CPU进行调度</p>
+</li>
+<li><p>运行（running）状态: 执行run()方法</p>
+</li>
+<li><p>阻塞（blocked）状态: 暂时停止执行, 可能将资源交给其它线程使用</p>
+</li>
+<li><p>终止（dead）状态: 线程销毁</p>
+</li>
+</ul>
+<p>当需要新起一个线程来执行某个子任务时，就创建了一个线程。但是线程创建之后，不会立即进入就绪状态，因为线程的运行需要一些条件（比如内存资源，在前面的JVM内存区域划分一篇博文中知道程序计数器、Java栈、本地方法栈都是线程私有的，所以需要为线程分配一定的内存空间），只有线程运行需要的所有条件满足了，才进入就绪状态。</p>
+<p>当线程进入就绪状态后，不代表立刻就能获取CPU执行时间，也许此时CPU正在执行其他的事情，因此它要等待。当得到CPU执行时间之后，线程便真正进入运行状态。</p>
+<p>线程在运行状态过程中，可能有多个原因导致当前线程不继续运行下去，比如用户主动让线程睡眠（睡眠一定的时间之后再重新执行）、用户主动让线程等待，或者被同步块给阻塞，此时就对应着多个状态：time waiting（睡眠或等待一定的事件）、waiting（等待被唤醒）、blocked（阻塞）。</p>
+<p>当由于突然中断或者子任务执行完毕，线程就会被消亡。</p>
+<p>下面这副图描述了线程从创建到消亡之间的状态：</p>
+<p><img src="/assets/images/javabase_thread1.jpg" alt=""></p>
+<h3 id="sleep和wait方法"><a href="#sleep和wait方法" class="headerlink" title="sleep和wait方法"></a>sleep和wait方法</h3><ul>
+<li><p>sleep是Thread类的方法,wait是Object类中定义的方法.</p>
+</li>
+<li><p>Thread.sleep不会导致锁行为的改变, 如果当前线程是拥有锁的, 那么Thread.sleep不会让线程释放锁.</p>
+</li>
+<li><p>Thread.sleep和Object.wait都会暂停当前的线程. OS会将执行时间分配给其它线程. 区别是, 调用wait后, 需要别的线程执行notify/notifyAll才能够重新获得CPU执行时间.</p>
+</li>
+</ul>
+<p>sleep方法和wait方法都可以用来放弃CPU一定的时间，不同点在于如果线程持有某个对象的监视器，sleep方法不会放弃这个对象的监视器，但是wait方法会放弃。</p>
+<h3 id="sleep方法注意事项"><a href="#sleep方法注意事项" class="headerlink" title="sleep方法注意事项"></a>sleep方法注意事项</h3><p>调用yield方法会让当前线程交出CPU权限，让CPU去执行其他的线程。它跟sleep方法类似，同样不会释放锁。但是yield不能控制具体的交出CPU的时间，另外，yield方法只能让拥有相同优先级的线程有获取CPU执行时间的机会。</p>
+<h3 id="终止线程"><a href="#终止线程" class="headerlink" title="终止线程"></a>终止线程</h3><ul>
+<li><p>退出标志，使线程正常退出，run方法完成以后</p>
+</li>
+<li><p>使用stop方法强行终止（不推荐），因为可能会有无法预料的结果</p>
+</li>
+<li><p>使用interrupt方法中断线程</p>
+</li>
+</ul>
+<h3 id="join方法"><a href="#join方法" class="headerlink" title="join方法"></a>join方法</h3><p>在很多情况下，主线程创建并启动了线程，如果子线程中药进行大量耗时运算，主线程往往将早于子线程结束之前结束。这时，如果主线程想等待子线程执行完成之后再结束，比如子线程处理一个数据，主线程要取得这个数据中的值，就要用到join()方法了。方法join()的作用是等待线程对象销毁。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">public class Thread4 extends Thread&#123;</span><br><span class="line">    public Thread4(String name) &#123;</span><br><span class="line">        super(name);</span><br><span class="line">    &#125;</span><br><span class="line">    public void run() &#123;</span><br><span class="line">        for (int i = 0; i &lt; 5; i++) &#123;</span><br><span class="line">            System.out.println(getName() + &quot;  &quot; + i);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    public static void main(String[] args) throws InterruptedException &#123;</span><br><span class="line">        // 启动子进程</span><br><span class="line">        new Thread4(&quot;new thread&quot;).start();</span><br><span class="line">        for (int i = 0; i &lt; 10; i++) &#123;</span><br><span class="line">            if (i == 5) &#123;</span><br><span class="line">                Thread4 th = new Thread4(&quot;joined thread&quot;);</span><br><span class="line">                th.start();</span><br><span class="line">                th.join();</span><br><span class="line">            &#125;</span><br><span class="line">            System.out.println(Thread.currentThread().getName() + &quot;  &quot; + i);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>执行结果</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">main  0</span><br><span class="line">main  1</span><br><span class="line">main  2</span><br><span class="line">main  3</span><br><span class="line">main  4</span><br><span class="line">new thread  0</span><br><span class="line">new thread  1</span><br><span class="line">new thread  2</span><br><span class="line">new thread  3</span><br><span class="line">new thread  4</span><br><span class="line">joined thread  0</span><br><span class="line">joined thread  1</span><br><span class="line">joined thread  2</span><br><span class="line">joined thread  3</span><br><span class="line">joined thread  4</span><br><span class="line">main  5</span><br><span class="line">main  6</span><br><span class="line">main  7</span><br><span class="line">main  8</span><br><span class="line">main  9</span><br></pre></td></tr></table></figure>
+<h2 id="线程常用方法"><a href="#线程常用方法" class="headerlink" title="线程常用方法"></a>线程常用方法</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">public void start()</span><br><span class="line"></span><br><span class="line">public void run()</span><br><span class="line"></span><br><span class="line">public final void setName(String name)</span><br><span class="line">public final void setPriority(int priority)</span><br><span class="line">public final void setDaemon(boolean on) // 将该线程标记为守护线程或者用户线程</span><br><span class="line"></span><br><span class="line">public final void join(long millisec) // 等待该线程终止的时间最长是millisec毫秒</span><br><span class="line"></span><br><span class="line">public void interrupt()</span><br><span class="line">public final boolean isAlive()</span><br><span class="line">public static void yield()</span><br><span class="line">public static void sleep(long millisec)</span><br><span class="line">public static thread currentThread()</span><br></pre></td></tr></table></figure>
+<h2 id="同步和死锁"><a href="#同步和死锁" class="headerlink" title="同步和死锁"></a>同步和死锁</h2><h2 id="About-more"><a href="#About-more" class="headerlink" title="About more"></a>About more</h2><p>阅读《java多线程编程核心技术》 《java并发编程》</p>
+
+            <div class="post-copyright">
+    <div class="content">
+        <p>最后更新： 2018年07月12日 14:00</p>
+        <p>原始链接： <a class="post-url" href="/2018/01/17/javabase_thread/" title="java基础学习之多线程">http://zhangbuzola.cn/2018/01/17/javabase_thread/</a></p>
+        <footer>
+            <a href="http://zhangbuzola.cn">
+                <img src="/images/pacman.jpg" alt="zolanunu">
+                zolanunu
+            </a>
+        </footer>
+    </div>
+</div>
+
+      
+        
+            
+
+        
+    </div>
+    <footer class="article-footer">
+        
+        <ul class="article-footer-menu">
+            
+            
+  <li class="article-footer-tags">
+    <i class="fa fa-tags"></i>
+      
+    <a href="/tags/java基础/" class="color2">java基础</a>
+      
+    <a href="/tags/多线程/" class="color4">多线程</a>
+      
+  </li>
+
+        </ul>
+        
+    </footer>
+  </div>
+</article>
+
+
+    <aside class="post-toc-pos post-toc-top" id="post-toc">
+        <nav class="post-toc-wrap">
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#多线程"><span class="post-toc-text">多线程</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#线程和进程"><span class="post-toc-text">线程和进程</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#多线程问题"><span class="post-toc-text">多线程问题</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#多线程有什么用"><span class="post-toc-text">多线程有什么用</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#创建线程的方式"><span class="post-toc-text">创建线程的方式</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#start和run方法"><span class="post-toc-text">start和run方法</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Runnable和Callable接口"><span class="post-toc-text">Runnable和Callable接口</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#CyclicBarrier和CountDownLatch的区别"><span class="post-toc-text">CyclicBarrier和CountDownLatch的区别</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Volatile关键字"><span class="post-toc-text">Volatile关键字</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#线程安全"><span class="post-toc-text">线程安全</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#不安全原因"><span class="post-toc-text">不安全原因</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#安全级别"><span class="post-toc-text">安全级别</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#线程运行异常"><span class="post-toc-text">线程运行异常</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#线程间共享数据？？"><span class="post-toc-text">线程间共享数据？？</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#生产者和消费者模型作用"><span class="post-toc-text">生产者和消费者模型作用</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#ThreadLocal有什么用"><span class="post-toc-text">ThreadLocal有什么用</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#为什么wait-方法和notify-notifyAll-方法要在同步块中被调用"><span class="post-toc-text">为什么wait()方法和notify()/notifyAll()方法要在同步块中被调用</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#怎么检测一个线程是否持有对象监视器"><span class="post-toc-text">怎么检测一个线程是否持有对象监视器</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#synchronized和ReentrantLock的区别"><span class="post-toc-text">synchronized和ReentrantLock的区别</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#什么是多线程的上下文切换"><span class="post-toc-text">什么是多线程的上下文切换</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#如果提交任务的时候，线程池队列已经满了，会发生什么"><span class="post-toc-text">如果提交任务的时候，线程池队列已经满了，会发生什么</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#java内存模型"><span class="post-toc-text">java内存模型</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#什么是CAS"><span class="post-toc-text">什么是CAS</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#什么是乐观锁和悲观锁"><span class="post-toc-text">什么是乐观锁和悲观锁</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#单例模式的线程安全性"><span class="post-toc-text">单例模式的线程安全性</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#线程状态"><span class="post-toc-text">线程状态</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#sleep和wait方法"><span class="post-toc-text">sleep和wait方法</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#sleep方法注意事项"><span class="post-toc-text">sleep方法注意事项</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#终止线程"><span class="post-toc-text">终止线程</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#join方法"><span class="post-toc-text">join方法</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#线程常用方法"><span class="post-toc-text">线程常用方法</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#同步和死锁"><span class="post-toc-text">同步和死锁</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#About-more"><span class="post-toc-text">About more</span></a></li></ol></li></ol>
+        </nav>
+    </aside>
+    
+
+<nav id="article-nav">
+  
+    <a href="/2018/01/17/leetcode-Array-5/" id="article-nav-newer" class="article-nav-link-wrap">
+
+      <span class="article-nav-title">
+        <i class="fa fa-hand-o-left" aria-hidden="true"></i>
+        
+          leetcode刷题5
+        
+      </span>
+    </a>
+  
+  
+    <a href="/2018/01/01/Boyer-Moore-Algorithm/" id="article-nav-older" class="article-nav-link-wrap">
+      <span class="article-nav-title">Moore Voting Algorithm</span>
+      <i class="fa fa-hand-o-right" aria-hidden="true"></i>
+    </a>
+  
+</nav>
+
+
+
+    
+        <link rel="stylesheet" href="//unpkg.com/gitment/style/default.css">
+    <script src="//unpkg.com/gitment/dist/gitment.browser.js"></script>
+    <script>
+        var gitment = new Gitment({
+            owner: 'true',
+            repo: 'zolanunu',
+            oauth: {
+                client_id: '1a04e8dee74a4b8634df',
+                client_secret: '9e3078ac89eb72f22abbdd11f7f0d11e2e1d7f7a',
+            },
+        })
+        gitment.render('comments')
+    </script>
+
+    
+</section>
+        
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+      <p>
+        Powered by  <a href="http://hexo.io/" target="_blank">Hexo</a>
+        Theme <a href="//github.com/wongminho/hexo-theme-miho" target="_blank">MiHo</a>
+      &copy; 2018 zolanunu<br>
+      </p>
+    </div>
+  </div>
+</footer>
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script>
+  var mihoConfig = {
+      root: "http://zhangbuzola.cn",
+      animate: true,
+      isHome: false,
+      share: false,
+      reward: 0
+  }
+</script>
+<div class="sidebar">
+    <div id="sidebar-search" title="Search">
+        <i class="fa fa-search"></i>
+    </div>
+    <div id="sidebar-category" title="Categories">
+        <i class="fa fa-book"></i>
+    </div>
+    <div id="sidebar-tag" title="Tags">
+        <i class="fa fa-tags"></i>
+    </div>
+    <div id="sidebar-top">
+        <span class="sidebar-top-icon"><i class="fa fa-angle-up"></i></span>
+    </div>
+</div>
+<div class="sidebar-menu-box" id="sidebar-menu-box">
+    <div class="sidebar-menu-box-container">
+        <div id="sidebar-menu-box-categories">
+            <a class="category-link" href="/categories/Java/">Java</a><a class="category-link" href="/categories/Java后台/">Java后台</a><a class="category-link" href="/categories/Python/">Python</a><a class="category-link" href="/categories/工具/">工具</a><a class="category-link" href="/categories/技术书/">技术书</a><a class="category-link" href="/categories/数据库/">数据库</a><a class="category-link" href="/categories/数据结构/">数据结构</a><a class="category-link" href="/categories/生活轨迹/">生活轨迹</a><a class="category-link" href="/categories/算法/">算法</a>
+        </div>
+        <div id="sidebar-menu-box-tags">
+            <a href="/tags/2018/" style="font-size: 11.43px;">2018</a> <a href="/tags/Collections/" style="font-size: 15.71px;">Collections</a> <a href="/tags/HashMap/" style="font-size: 10px;">HashMap</a> <a href="/tags/LinkedHashMap/" style="font-size: 10px;">LinkedHashMap</a> <a href="/tags/MySQL/" style="font-size: 17.14px;">MySQL</a> <a href="/tags/Mybatis/" style="font-size: 12.86px;">Mybatis</a> <a href="/tags/Object/" style="font-size: 10px;">Object</a> <a href="/tags/SSM/" style="font-size: 12.86px;">SSM</a> <a href="/tags/TreeMap/" style="font-size: 11.43px;">TreeMap</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/java基础/" style="font-size: 20px;">java基础</a> <a href="/tags/java并发编程实战/" style="font-size: 11.43px;">java并发编程实战</a> <a href="/tags/leetcode/" style="font-size: 17.14px;">leetcode</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/剑指offer/" style="font-size: 10px;">剑指offer</a> <a href="/tags/多线程/" style="font-size: 11.43px;">多线程</a> <a href="/tags/并发编程/" style="font-size: 10px;">并发编程</a> <a href="/tags/机器学习/" style="font-size: 12.86px;">机器学习</a> <a href="/tags/构造函数/" style="font-size: 10px;">构造函数</a> <a href="/tags/深入理解java虚拟机/" style="font-size: 10px;">深入理解java虚拟机</a> <a href="/tags/生活/" style="font-size: 10px;">生活</a> <a href="/tags/神经网络/" style="font-size: 10px;">神经网络</a> <a href="/tags/算法与数据结构/" style="font-size: 14.29px;">算法与数据结构</a> <a href="/tags/算法和数据结构/" style="font-size: 18.57px;">算法和数据结构</a> <a href="/tags/观影记/" style="font-size: 10px;">观影记</a> <a href="/tags/读书书单/" style="font-size: 10px;">读书书单</a>
+        </div>
+    </div>
+    <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
+</div>
+<div class="mobile-header-menu-nav" id="mobile-header-menu-nav">
+    <div class="mobile-header-menu-container">
+        <span class="title">Menus</span>
+        <ul class="mobile-header-menu-navbar">
+            
+            <li>
+                <a  href="/">
+                    <i class="fa fa-home"></i><span>Home</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/archives">
+                    <i class="fa fa-archive"></i><span>Archives</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/about">
+                    <i class="fa fa-user"></i><span>About</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    <div class="mobile-header-tag-container">
+        <span class="title">Tags</span>
+        <div id="mobile-header-container-tags">
+            <a href="/tags/2018/" style="font-size: 11.43px;">2018</a> <a href="/tags/Collections/" style="font-size: 15.71px;">Collections</a> <a href="/tags/HashMap/" style="font-size: 10px;">HashMap</a> <a href="/tags/LinkedHashMap/" style="font-size: 10px;">LinkedHashMap</a> <a href="/tags/MySQL/" style="font-size: 17.14px;">MySQL</a> <a href="/tags/Mybatis/" style="font-size: 12.86px;">Mybatis</a> <a href="/tags/Object/" style="font-size: 10px;">Object</a> <a href="/tags/SSM/" style="font-size: 12.86px;">SSM</a> <a href="/tags/TreeMap/" style="font-size: 11.43px;">TreeMap</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/java基础/" style="font-size: 20px;">java基础</a> <a href="/tags/java并发编程实战/" style="font-size: 11.43px;">java并发编程实战</a> <a href="/tags/leetcode/" style="font-size: 17.14px;">leetcode</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/剑指offer/" style="font-size: 10px;">剑指offer</a> <a href="/tags/多线程/" style="font-size: 11.43px;">多线程</a> <a href="/tags/并发编程/" style="font-size: 10px;">并发编程</a> <a href="/tags/机器学习/" style="font-size: 12.86px;">机器学习</a> <a href="/tags/构造函数/" style="font-size: 10px;">构造函数</a> <a href="/tags/深入理解java虚拟机/" style="font-size: 10px;">深入理解java虚拟机</a> <a href="/tags/生活/" style="font-size: 10px;">生活</a> <a href="/tags/神经网络/" style="font-size: 10px;">神经网络</a> <a href="/tags/算法与数据结构/" style="font-size: 14.29px;">算法与数据结构</a> <a href="/tags/算法和数据结构/" style="font-size: 18.57px;">算法和数据结构</a> <a href="/tags/观影记/" style="font-size: 10px;">观影记</a> <a href="/tags/读书书单/" style="font-size: 10px;">读书书单</a>
+        </div>
+    </div>
+</div>
+<div class="search-wrap">
+    <span class="search-close">&times;</span>
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+            <i class="icon icon-lg icon-chevron-left"></i>
+        </a>
+        <input class="search-field" placeholder="Search..." id="keywords">
+        <a id="search-submit" href="javascript:;">
+            <i class="fa fa-search"></i>
+        </a>
+    <div class="search-container" id="search-container">
+        <ul class="search-result" id="search-result">
+        </ul>
+    </div>
+</div>
+
+<div id="search-tpl">
+    <li class="search-result-item">
+        <a href="{url}" class="search-item-li">
+            <span class="search-item-li-title" title="{title}">{title}</span>
+        </a>
+    </li>
+</div>
+<script src="/js/search.js"></script>
+<script src="/js/main.js"></script>
+
+
+  <script src="//cdn.bootcss.com/particles.js/2.0.0/particles.min.js"></script>
+  <div id="particles"></div>
+  <script src="/js/particles.js"></script>
+
+
+
+
+
+
+
+  <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
+  <script src="//cdn.bootcss.com/scrollReveal.js/3.0.5/scrollreveal.js"></script>
+  <script src="/js/animate.js"></script>
+
+
+  <script src="/js/pop-img.js"></script>
+  <script>
+     $(".article-entry p img").popImg();
+  </script>
+
+  </div>
+</body>
+</html>

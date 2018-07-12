@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>java基础学习之this和super关键字 | zolanunu</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+    <meta name="keywords" content="zolanunu,zolanunu's blog" />
+  
+  <meta name="description" content="this 关键字关键字解释首先你要知道在一个类中无论是写入方法还是属性等，肯定是要被外界引用到的(private 等被保护的除外)，要是想在类的外部调用方法或是属性，需要一个引用类型指向一个new的对象，如HelloWorld h=new HelloWorld()；中的“h”，但是如果你要想再一个类的内部使用该类的方法、属性、构造器等，java提供了一个简单的方法–this关键字。写入一个例子看了">
+<meta name="keywords" content="java基础">
+<meta property="og:type" content="article">
+<meta property="og:title" content="java基础学习之this和super关键字">
+<meta property="og:url" content="http://zhangbuzola.cn/2017/11/19/Java基础之ThisSuper/index.html">
+<meta property="og:site_name" content="zolanunu">
+<meta property="og:description" content="this 关键字关键字解释首先你要知道在一个类中无论是写入方法还是属性等，肯定是要被外界引用到的(private 等被保护的除外)，要是想在类的外部调用方法或是属性，需要一个引用类型指向一个new的对象，如HelloWorld h=new HelloWorld()；中的“h”，但是如果你要想再一个类的内部使用该类的方法、属性、构造器等，java提供了一个简单的方法–this关键字。写入一个例子看了">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2018-07-12T05:55:52.242Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="java基础学习之this和super关键字">
+<meta name="twitter:description" content="this 关键字关键字解释首先你要知道在一个类中无论是写入方法还是属性等，肯定是要被外界引用到的(private 等被保护的除外)，要是想在类的外部调用方法或是属性，需要一个引用类型指向一个new的对象，如HelloWorld h=new HelloWorld()；中的“h”，但是如果你要想再一个类的内部使用该类的方法、属性、构造器等，java提供了一个简单的方法–this关键字。写入一个例子看了">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="/js/pace.min.js"></script>
+  
+
+  
+	<script>
+	var _hmt = _hmt || [];
+	(function() {
+	  var hm = document.createElement("script");
+	  hm.src = "//hm.baidu.com/hm.js?a651034b7d11a367ae836642b29a3057";
+	  var s = document.getElementsByTagName("script")[0]; 
+	  s.parentNode.insertBefore(hm, s);
+	})();
+	</script>
+
+  
+
+</head>
+
+<body>
+  <div id="container">
+      <header id="header">
+    <div id="banner"></div>
+    <div id="header-outer">
+        <div id="header-menu" class="header-menu-pos animated">
+            <div class="header-menu-container">
+                <a href="/" class="left">
+                    <span class="site-title">zolanunu&#39;s Blog</span>
+                </a>
+                <nav id="header-menu-nav" class="right">
+                    
+                    <a  href="/">
+                        <i class="fa fa-home"></i>
+                        <span>Home</span>
+                    </a>
+                    
+                    <a  href="/archives">
+                        <i class="fa fa-archive"></i>
+                        <span>Archives</span>
+                    </a>
+                    
+                    <a  href="/about">
+                        <i class="fa fa-user"></i>
+                        <span>About</span>
+                    </a>
+                    
+                </nav>
+                <a class="mobile-header-menu-button">
+                    <i class="fa fa-bars"></i>
+                </a>
+            </div>
+        </div>
+        <div id="header-row">
+            <div id="logo">
+                <a href="/">
+                    <img src="/images/pacman.jpg" alt="logo">
+                </a>
+            </div>
+            <div class="header-info">
+                <div id="header-title">
+                    
+                    <h2>
+                        zolanunu&#39;s Blog
+                    </h2>
+                    
+                </div>
+                <div id="header-description">
+                    
+                    <h3>
+                        去努力尝试做一些你觉得你不会做或者不敢做的事情。
+                    </h3>
+                    
+                </div>
+            </div>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a title="zolanunu" target="_blank" href="//zhangbuzola.cn">
+                            <i class="fa fa-home fa-2x"></i></a>
+                    
+                        <a title="Github" target="_blank" href="//github.com/zolanunu">
+                            <i class="fa fa-github fa-2x"></i></a>
+                    
+                        <a title="Weibo" target="_blank" href="//weibo.com/zolanunu">
+                            <i class="fa fa-weibo fa-2x"></i></a>
+                    
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>
+      <div class="outer">
+        <section id="main" class="body-wrap"><article id="post-Java基础之ThisSuper" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="post-title" itemprop="name">
+      java基础学习之this和super关键字
+    </h1>
+    <div class="post-title-bar">
+      <ul>
+          
+              <li>
+                  <i class="fa fa-book"></i>
+                  
+                      <a href="/categories/Java/">Java</a>
+                  
+              </li>
+          
+        <li>
+          <i class="fa fa-calendar"></i>  2017-11-19
+        </li>
+        <li>
+          <i class="fa fa-eye"></i>
+          <span id="busuanzi_value_page_pv"></span>
+        </li>
+      </ul>
+    </div>
+  
+
+          
+      </header>
+    
+    <div class="article-entry post-content" itemprop="articleBody">
+      
+            
+            <h1 id="this-关键字"><a href="#this-关键字" class="headerlink" title="this 关键字"></a>this 关键字</h1><h2 id="关键字解释"><a href="#关键字解释" class="headerlink" title="关键字解释"></a>关键字解释</h2><p>首先你要知道在一个类中无论是写入方法还是属性等，肯定是要被外界引用到的(private 等被保护的除外)，要是想在类的外部调用方法或是属性，需要一个引用类型指向一个new的对象，如HelloWorld h=new HelloWorld()；中的“h”，<strong>但是如果你要想再一个类的内部使用该类的方法、属性、构造器等，java提供了一个简单的方法–this关键字。</strong>写入一个例子看了就很好理解了。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">public String str = &quot;test01&quot;;</span><br><span class="line"> </span><br><span class="line">	public String getStr() &#123;</span><br><span class="line">		return str;</span><br><span class="line">	&#125;</span><br><span class="line"> </span><br><span class="line">	public void setStr(String str) &#123;</span><br><span class="line">		// System.out.println(this);</span><br><span class="line">		this.str = str;</span><br><span class="line">	&#125;</span><br><span class="line">	public void getInfo()&#123;</span><br><span class="line">		System.out.println(this.str);</span><br><span class="line">	&#125;</span><br><span class="line"> </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">public class Test01_main &#123;</span><br><span class="line">	public static void main(String [] args)&#123;</span><br><span class="line">		Test01 t=new Test01();</span><br><span class="line">		</span><br><span class="line">		//在Test01类的内部，调用Test01类中的str属性。</span><br><span class="line">		t.getInfo();</span><br><span class="line">		</span><br><span class="line">		//在Test01_main类的中，调用Test01类中的str属性。</span><br><span class="line">	System.out.println(t.str);</span><br><span class="line">		</span><br><span class="line">		//对 Test01中的属性进行更改</span><br><span class="line">		t.setStr(&quot;new test01&quot;);</span><br><span class="line">		</span><br><span class="line">		//通过Test01类中查看属性</span><br><span class="line">		t.getInfo();</span><br><span class="line">		</span><br><span class="line">		//通过外部方法查看s属性</span><br><span class="line">		System.out.println(t.str);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line">// --------------------------------</span><br><span class="line">test01</span><br><span class="line">test01</span><br><span class="line">new test01</span><br><span class="line">new test01</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>this一般是在方法体中使用。</p>
+</li>
+<li><p>它实现了在类的内部调用该类的方法或属性。</p>
+</li>
+<li><p>在一个构造函数中调用本身的另一个构造函数。</p>
+</li>
+<li><p>当类没有被new是，并不知道this指向的是哪个对象，所以不能与static一起使用，因为被static修饰的方法是随类生成时生成的，不能被new。</p>
+</li>
+</ul>
+<p>this是对对象本身进行调用</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">public class Test02 &#123;</span><br><span class="line">	public void getInfo()&#123;</span><br><span class="line">		System.out.println(this);</span><br><span class="line">	&#125;</span><br><span class="line">	public static void main(String []args)&#123;</span><br><span class="line">		Test02 t=new Test02();</span><br><span class="line">		t.getInfo();</span><br><span class="line">		System.out.println(t);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line">// --------------------------------</span><br><span class="line">com.lava.test.Test02@368102c8</span><br><span class="line">com.lava.test.Test02@368102c8</span><br></pre></td></tr></table></figure>
+<h2 id="主要应用"><a href="#主要应用" class="headerlink" title="主要应用"></a>主要应用</h2><p>this关键字主要有三个应用：</p>
+<ul>
+<li><p>this调用本类中的属性，也就是类中的成员变量；</p>
+</li>
+<li><p>this调用本类中的其他方法；</p>
+</li>
+<li><p>this调用本类中的其他构造方法，调用时要放在构造方法的首行。</p>
+</li>
+</ul>
+<h1 id="super关键字"><a href="#super关键字" class="headerlink" title="super关键字"></a>super关键字</h1><p>super关键字的作用：</p>
+<ul>
+<li><p>主要存在于子类方法中，用于指向子类对象中父类对象。</p>
+</li>
+<li><p>访问父类的属性</p>
+</li>
+<li><p>访问父类的函数</p>
+</li>
+<li><p>访问父类的构造函数</p>
+</li>
+</ul>
+<p>this和super很像，this指向的是当前对象的调用，super指向的是当前调用对象的父类。类加载完毕，创建对象，父类的构造方法会被调用（默认自动无参），然后执行子类相应构造创建了一个子类对象，该子类对象还包含了一个父类对象。该父类对象在子类对象内部。this super只能在有对象的前提下使用，不能在静态上下文使用。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">class Person &#123; </span><br><span class="line">    public static void prt(String s) &#123; </span><br><span class="line">       System.out.println(s); </span><br><span class="line">    &#125; </span><br><span class="line">   </span><br><span class="line">    Person() &#123; </span><br><span class="line">       prt(&quot;父类·无参数构造方法： &quot;+&quot;A Person.&quot;); </span><br><span class="line">    &#125;//构造方法(1) </span><br><span class="line">    </span><br><span class="line">    Person(String name) &#123; </span><br><span class="line">       prt(&quot;父类·含一个参数的构造方法： &quot;+&quot;A person&apos;s name is &quot; + name); </span><br><span class="line">    &#125;//构造方法(2) </span><br><span class="line">&#125;     </span><br><span class="line">public class Chinese extends Person &#123; </span><br><span class="line">    Chinese() &#123; </span><br><span class="line">       super(); // 调用父类构造方法（1） </span><br><span class="line">       prt(&quot;子类·调用父类”无参数构造方法“： &quot;+&quot;A chinese coder.&quot;); </span><br><span class="line">    &#125; </span><br><span class="line">    </span><br><span class="line">    Chinese(String name) &#123; </span><br><span class="line">       super(name);// 调用父类具有相同形参的构造方法（2） </span><br><span class="line">       prt(&quot;子类·调用父类”含一个参数的构造方法“： &quot;+&quot;his name is &quot; + name); </span><br><span class="line">    &#125; </span><br><span class="line">    </span><br><span class="line">    Chinese(String name, int age) &#123; </span><br><span class="line">       this(name);// 调用具有相同形参的构造方法（3） </span><br><span class="line">       prt(&quot;子类：调用子类具有相同形参的构造方法：his age is &quot; + age); </span><br><span class="line">    &#125; </span><br><span class="line">    </span><br><span class="line">    public static void main(String[] args) &#123; </span><br><span class="line">       Chinese cn = new Chinese(); </span><br><span class="line">       cn = new Chinese(&quot;codersai&quot;); </span><br><span class="line">       cn = new Chinese(&quot;codersai&quot;, 18); </span><br><span class="line">    &#125; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>运行结果：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">父类·无参数构造方法： A Person.</span><br><span class="line">子类·调用父类”无参数构造方法“： A chinese coder.</span><br><span class="line">父类·含一个参数的构造方法： A person&apos;s name is codersai</span><br><span class="line">子类·调用父类”含一个参数的构造方法“： his name is codersai</span><br><span class="line">父类·含一个参数的构造方法： A person&apos;s name is codersai</span><br><span class="line">子类·调用父类”含一个参数的构造方法“： his name is codersai</span><br><span class="line">子类：调用子类具有相同形参的构造方法：his age is 18</span><br></pre></td></tr></table></figure>
+<p>从本例可以看到，可以用super和this分别调用父类的构造方法和本类中其他形式的构造方法。</p>
+<p>例子中Chinese类第三种构造方法调用的是本类中第二种构造方法，而第二种构造方法是调用父类的，因此也要先调用父类的构造方法，再调用本类中第二种，最后是重写第三种构造方法。</p>
+<h1 id="super和this的异同"><a href="#super和this的异同" class="headerlink" title="super和this的异同"></a>super和this的异同</h1><ul>
+<li><p>super（参数）：调用基类中的某一个构造函数（应该为构造函数中的第一条语句）</p>
+</li>
+<li><p>this（参数）：调用本类中另一种形成的构造函数（应该为构造函数中的第一条语句）</p>
+</li>
+<li><p>super:　它引用当前对象的直接父类中的成员（用来访问直接父类中被隐藏的父类中成员数据或函数，基类与派生类中有相同成员定义时如：super.变量名    super.成员函数据名（实参）</p>
+</li>
+<li><p>this：它代表当前对象名（在程序中易产生二义性之处，应使用this来指明当前对象；如果函数的形参与类中的成员数据同名，这时需用this来指明成员变量名）<br>调用super()必须写在子类构造方法的第一行，否则编译不通过。每个子类构造方法的第一条语句，都是隐含地调用super()，如果父类没有这种形式的构造函数，那么在编译的时候就会报错。</p>
+</li>
+<li><p>super()和this()类似,区别是，super()从子类中调用父类的构造方法，this()在同一类内调用其它方法。</p>
+</li>
+<li><p>super()和this()均需放在构造方法内第一行。尽管可以用this调用一个构造器，但却不能调用两个。</p>
+</li>
+<li><p>this和super不能同时出现在一个构造函数里面，因为this必然会调用其它的构造函数，其它的构造函数必然也会有super语句的存在，所以在同一个构造函数里面有相同的语句，就失去了语句的意义，编译器也不会通过。</p>
+</li>
+<li><p>this()和super()都指的是对象，所以，均不可以在static环境中使用。包括：static变量,static方法，static语句块。<br>从本质上讲，this是一个指向本对象的指针, 然而super是一个Java关键字。</p>
+</li>
+</ul>
+
+            <div class="post-copyright">
+    <div class="content">
+        <p>最后更新： 2018年07月12日 13:55</p>
+        <p>原始链接： <a class="post-url" href="/2017/11/19/Java基础之ThisSuper/" title="java基础学习之this和super关键字">http://zhangbuzola.cn/2017/11/19/Java基础之ThisSuper/</a></p>
+        <footer>
+            <a href="http://zhangbuzola.cn">
+                <img src="/images/pacman.jpg" alt="zolanunu">
+                zolanunu
+            </a>
+        </footer>
+    </div>
+</div>
+
+      
+        
+            
+
+        
+    </div>
+    <footer class="article-footer">
+        
+        <ul class="article-footer-menu">
+            
+            
+  <li class="article-footer-tags">
+    <i class="fa fa-tags"></i>
+      
+    <a href="/tags/java基础/" class="color2">java基础</a>
+      
+  </li>
+
+        </ul>
+        
+    </footer>
+  </div>
+</article>
+
+
+    <aside class="post-toc-pos post-toc-top" id="post-toc">
+        <nav class="post-toc-wrap">
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#this-关键字"><span class="post-toc-text">this 关键字</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#关键字解释"><span class="post-toc-text">关键字解释</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#主要应用"><span class="post-toc-text">主要应用</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#super关键字"><span class="post-toc-text">super关键字</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#super和this的异同"><span class="post-toc-text">super和this的异同</span></a></li></ol>
+        </nav>
+    </aside>
+    
+
+<nav id="article-nav">
+  
+    <a href="/2017/11/20/javabase_interface/" id="article-nav-newer" class="article-nav-link-wrap">
+
+      <span class="article-nav-title">
+        <i class="fa fa-hand-o-left" aria-hidden="true"></i>
+        
+          java基础学习之接口
+        
+      </span>
+    </a>
+  
+  
+    <a href="/2017/11/15/java基础之编译/" id="article-nav-older" class="article-nav-link-wrap">
+      <span class="article-nav-title">java基础学习之编译与运行</span>
+      <i class="fa fa-hand-o-right" aria-hidden="true"></i>
+    </a>
+  
+</nav>
+
+
+
+    
+        <link rel="stylesheet" href="//unpkg.com/gitment/style/default.css">
+    <script src="//unpkg.com/gitment/dist/gitment.browser.js"></script>
+    <script>
+        var gitment = new Gitment({
+            owner: 'true',
+            repo: 'zolanunu',
+            oauth: {
+                client_id: '1a04e8dee74a4b8634df',
+                client_secret: '9e3078ac89eb72f22abbdd11f7f0d11e2e1d7f7a',
+            },
+        })
+        gitment.render('comments')
+    </script>
+
+    
+</section>
+        
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+      <p>
+        Powered by  <a href="http://hexo.io/" target="_blank">Hexo</a>
+        Theme <a href="//github.com/wongminho/hexo-theme-miho" target="_blank">MiHo</a>
+      &copy; 2018 zolanunu<br>
+      </p>
+    </div>
+  </div>
+</footer>
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script>
+  var mihoConfig = {
+      root: "http://zhangbuzola.cn",
+      animate: true,
+      isHome: false,
+      share: false,
+      reward: 0
+  }
+</script>
+<div class="sidebar">
+    <div id="sidebar-search" title="Search">
+        <i class="fa fa-search"></i>
+    </div>
+    <div id="sidebar-category" title="Categories">
+        <i class="fa fa-book"></i>
+    </div>
+    <div id="sidebar-tag" title="Tags">
+        <i class="fa fa-tags"></i>
+    </div>
+    <div id="sidebar-top">
+        <span class="sidebar-top-icon"><i class="fa fa-angle-up"></i></span>
+    </div>
+</div>
+<div class="sidebar-menu-box" id="sidebar-menu-box">
+    <div class="sidebar-menu-box-container">
+        <div id="sidebar-menu-box-categories">
+            <a class="category-link" href="/categories/Java/">Java</a><a class="category-link" href="/categories/Java后台/">Java后台</a><a class="category-link" href="/categories/Python/">Python</a><a class="category-link" href="/categories/工具/">工具</a><a class="category-link" href="/categories/技术书/">技术书</a><a class="category-link" href="/categories/数据库/">数据库</a><a class="category-link" href="/categories/数据结构/">数据结构</a><a class="category-link" href="/categories/生活轨迹/">生活轨迹</a><a class="category-link" href="/categories/算法/">算法</a>
+        </div>
+        <div id="sidebar-menu-box-tags">
+            <a href="/tags/2018/" style="font-size: 11.43px;">2018</a> <a href="/tags/Collections/" style="font-size: 15.71px;">Collections</a> <a href="/tags/HashMap/" style="font-size: 10px;">HashMap</a> <a href="/tags/LinkedHashMap/" style="font-size: 10px;">LinkedHashMap</a> <a href="/tags/MySQL/" style="font-size: 17.14px;">MySQL</a> <a href="/tags/Mybatis/" style="font-size: 12.86px;">Mybatis</a> <a href="/tags/Object/" style="font-size: 10px;">Object</a> <a href="/tags/SSM/" style="font-size: 12.86px;">SSM</a> <a href="/tags/TreeMap/" style="font-size: 11.43px;">TreeMap</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/java基础/" style="font-size: 20px;">java基础</a> <a href="/tags/java并发编程实战/" style="font-size: 11.43px;">java并发编程实战</a> <a href="/tags/leetcode/" style="font-size: 17.14px;">leetcode</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/剑指offer/" style="font-size: 10px;">剑指offer</a> <a href="/tags/多线程/" style="font-size: 11.43px;">多线程</a> <a href="/tags/并发编程/" style="font-size: 10px;">并发编程</a> <a href="/tags/机器学习/" style="font-size: 12.86px;">机器学习</a> <a href="/tags/构造函数/" style="font-size: 10px;">构造函数</a> <a href="/tags/深入理解java虚拟机/" style="font-size: 10px;">深入理解java虚拟机</a> <a href="/tags/生活/" style="font-size: 10px;">生活</a> <a href="/tags/神经网络/" style="font-size: 10px;">神经网络</a> <a href="/tags/算法与数据结构/" style="font-size: 14.29px;">算法与数据结构</a> <a href="/tags/算法和数据结构/" style="font-size: 18.57px;">算法和数据结构</a> <a href="/tags/观影记/" style="font-size: 10px;">观影记</a> <a href="/tags/读书书单/" style="font-size: 10px;">读书书单</a>
+        </div>
+    </div>
+    <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
+</div>
+<div class="mobile-header-menu-nav" id="mobile-header-menu-nav">
+    <div class="mobile-header-menu-container">
+        <span class="title">Menus</span>
+        <ul class="mobile-header-menu-navbar">
+            
+            <li>
+                <a  href="/">
+                    <i class="fa fa-home"></i><span>Home</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/archives">
+                    <i class="fa fa-archive"></i><span>Archives</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/about">
+                    <i class="fa fa-user"></i><span>About</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    <div class="mobile-header-tag-container">
+        <span class="title">Tags</span>
+        <div id="mobile-header-container-tags">
+            <a href="/tags/2018/" style="font-size: 11.43px;">2018</a> <a href="/tags/Collections/" style="font-size: 15.71px;">Collections</a> <a href="/tags/HashMap/" style="font-size: 10px;">HashMap</a> <a href="/tags/LinkedHashMap/" style="font-size: 10px;">LinkedHashMap</a> <a href="/tags/MySQL/" style="font-size: 17.14px;">MySQL</a> <a href="/tags/Mybatis/" style="font-size: 12.86px;">Mybatis</a> <a href="/tags/Object/" style="font-size: 10px;">Object</a> <a href="/tags/SSM/" style="font-size: 12.86px;">SSM</a> <a href="/tags/TreeMap/" style="font-size: 11.43px;">TreeMap</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/java基础/" style="font-size: 20px;">java基础</a> <a href="/tags/java并发编程实战/" style="font-size: 11.43px;">java并发编程实战</a> <a href="/tags/leetcode/" style="font-size: 17.14px;">leetcode</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/剑指offer/" style="font-size: 10px;">剑指offer</a> <a href="/tags/多线程/" style="font-size: 11.43px;">多线程</a> <a href="/tags/并发编程/" style="font-size: 10px;">并发编程</a> <a href="/tags/机器学习/" style="font-size: 12.86px;">机器学习</a> <a href="/tags/构造函数/" style="font-size: 10px;">构造函数</a> <a href="/tags/深入理解java虚拟机/" style="font-size: 10px;">深入理解java虚拟机</a> <a href="/tags/生活/" style="font-size: 10px;">生活</a> <a href="/tags/神经网络/" style="font-size: 10px;">神经网络</a> <a href="/tags/算法与数据结构/" style="font-size: 14.29px;">算法与数据结构</a> <a href="/tags/算法和数据结构/" style="font-size: 18.57px;">算法和数据结构</a> <a href="/tags/观影记/" style="font-size: 10px;">观影记</a> <a href="/tags/读书书单/" style="font-size: 10px;">读书书单</a>
+        </div>
+    </div>
+</div>
+<div class="search-wrap">
+    <span class="search-close">&times;</span>
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+            <i class="icon icon-lg icon-chevron-left"></i>
+        </a>
+        <input class="search-field" placeholder="Search..." id="keywords">
+        <a id="search-submit" href="javascript:;">
+            <i class="fa fa-search"></i>
+        </a>
+    <div class="search-container" id="search-container">
+        <ul class="search-result" id="search-result">
+        </ul>
+    </div>
+</div>
+
+<div id="search-tpl">
+    <li class="search-result-item">
+        <a href="{url}" class="search-item-li">
+            <span class="search-item-li-title" title="{title}">{title}</span>
+        </a>
+    </li>
+</div>
+<script src="/js/search.js"></script>
+<script src="/js/main.js"></script>
+
+
+  <script src="//cdn.bootcss.com/particles.js/2.0.0/particles.min.js"></script>
+  <div id="particles"></div>
+  <script src="/js/particles.js"></script>
+
+
+
+
+
+
+
+  <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
+  <script src="//cdn.bootcss.com/scrollReveal.js/3.0.5/scrollreveal.js"></script>
+  <script src="/js/animate.js"></script>
+
+
+  <script src="/js/pop-img.js"></script>
+  <script>
+     $(".article-entry p img").popImg();
+  </script>
+
+  </div>
+</body>
+</html>

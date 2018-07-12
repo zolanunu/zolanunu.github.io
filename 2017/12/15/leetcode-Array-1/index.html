@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>leetcode 刷题1 | zolanunu</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+    <meta name="keywords" content="zolanunu,zolanunu's blog" />
+  
+  <meta name="description" content="MyCalendar I题目描述Implement a MyCalendar class to store your events. A new event can be added if adding the event will not cause a double booking. Your class will have the method, book(int start, int en">
+<meta name="keywords" content="算法和数据结构,leetcode">
+<meta property="og:type" content="article">
+<meta property="og:title" content="leetcode 刷题1">
+<meta property="og:url" content="http://zhangbuzola.cn/2017/12/15/leetcode-Array-1/index.html">
+<meta property="og:site_name" content="zolanunu">
+<meta property="og:description" content="MyCalendar I题目描述Implement a MyCalendar class to store your events. A new event can be added if adding the event will not cause a double booking. Your class will have the method, book(int start, int en">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2018-07-12T06:17:45.670Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="leetcode 刷题1">
+<meta name="twitter:description" content="MyCalendar I题目描述Implement a MyCalendar class to store your events. A new event can be added if adding the event will not cause a double booking. Your class will have the method, book(int start, int en">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="/js/pace.min.js"></script>
+  
+
+  
+	<script>
+	var _hmt = _hmt || [];
+	(function() {
+	  var hm = document.createElement("script");
+	  hm.src = "//hm.baidu.com/hm.js?a651034b7d11a367ae836642b29a3057";
+	  var s = document.getElementsByTagName("script")[0]; 
+	  s.parentNode.insertBefore(hm, s);
+	})();
+	</script>
+
+  
+
+</head>
+
+<body>
+  <div id="container">
+      <header id="header">
+    <div id="banner"></div>
+    <div id="header-outer">
+        <div id="header-menu" class="header-menu-pos animated">
+            <div class="header-menu-container">
+                <a href="/" class="left">
+                    <span class="site-title">zolanunu&#39;s Blog</span>
+                </a>
+                <nav id="header-menu-nav" class="right">
+                    
+                    <a  href="/">
+                        <i class="fa fa-home"></i>
+                        <span>Home</span>
+                    </a>
+                    
+                    <a  href="/archives">
+                        <i class="fa fa-archive"></i>
+                        <span>Archives</span>
+                    </a>
+                    
+                    <a  href="/about">
+                        <i class="fa fa-user"></i>
+                        <span>About</span>
+                    </a>
+                    
+                </nav>
+                <a class="mobile-header-menu-button">
+                    <i class="fa fa-bars"></i>
+                </a>
+            </div>
+        </div>
+        <div id="header-row">
+            <div id="logo">
+                <a href="/">
+                    <img src="/images/pacman.jpg" alt="logo">
+                </a>
+            </div>
+            <div class="header-info">
+                <div id="header-title">
+                    
+                    <h2>
+                        zolanunu&#39;s Blog
+                    </h2>
+                    
+                </div>
+                <div id="header-description">
+                    
+                    <h3>
+                        去努力尝试做一些你觉得你不会做或者不敢做的事情。
+                    </h3>
+                    
+                </div>
+            </div>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a title="zolanunu" target="_blank" href="//zhangbuzola.cn">
+                            <i class="fa fa-home fa-2x"></i></a>
+                    
+                        <a title="Github" target="_blank" href="//github.com/zolanunu">
+                            <i class="fa fa-github fa-2x"></i></a>
+                    
+                        <a title="Weibo" target="_blank" href="//weibo.com/zolanunu">
+                            <i class="fa fa-weibo fa-2x"></i></a>
+                    
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>
+      <div class="outer">
+        <section id="main" class="body-wrap"><article id="post-leetcode-Array-1" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="post-title" itemprop="name">
+      leetcode 刷题1
+    </h1>
+    <div class="post-title-bar">
+      <ul>
+          
+              <li>
+                  <i class="fa fa-book"></i>
+                  
+                      <a href="/categories/算法/">算法</a>
+                  
+              </li>
+          
+        <li>
+          <i class="fa fa-calendar"></i>  2017-12-15
+        </li>
+        <li>
+          <i class="fa fa-eye"></i>
+          <span id="busuanzi_value_page_pv"></span>
+        </li>
+      </ul>
+    </div>
+  
+
+          
+      </header>
+    
+    <div class="article-entry post-content" itemprop="articleBody">
+      
+            
+            <h1 id="MyCalendar-I"><a href="#MyCalendar-I" class="headerlink" title="MyCalendar I"></a>MyCalendar I</h1><h2 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h2><p>Implement a MyCalendar class to store your events. A new event can be added if adding the event will not cause a double booking.</p>
+<p>Your class will have the method, book(int start, int end). Formally, this represents a booking on the half open interval [start, end), the range of real numbers x such that start &lt;= x &lt; end.</p>
+<p>A double booking happens when two events have some non-empty intersection (ie., there is some time that is common to both events.)</p>
+<p>For each call to the method MyCalendar.book, return true if the event can be added to the calendar successfully without causing a double booking. Otherwise, return false and do not add the event to the calendar.</p>
+<p>Your class will be called like this: MyCalendar cal = new MyCalendar(); MyCalendar.book(start, end)</p>
+<p>Example 1:</p>
+<ul>
+<li><p>MyCalendar();</p>
+</li>
+<li><p>MyCalendar.book(10, 20); // returns true</p>
+</li>
+<li><p>MyCalendar.book(15, 25); // returns false</p>
+</li>
+<li><p>MyCalendar.book(20, 30); // returns true</p>
+</li>
+</ul>
+<p>Explanation: </p>
+<ul>
+<li><p>The first event can be booked.  The second can’t because time 15 is already booked by another event.</p>
+</li>
+<li><p>The third event can be booked, as the first event takes every time less than 20, but not including 20.</p>
+</li>
+</ul>
+<p>Note:</p>
+<ul>
+<li><p>The number of calls to MyCalendar.book per test case will be at most 1000.</p>
+</li>
+<li><p>In calls to MyCalendar.book(start, end), start and end are integers in the range [0, 10^9].</p>
+</li>
+</ul>
+<h2 id="题目解析"><a href="#题目解析" class="headerlink" title="题目解析"></a>题目解析</h2><p>没有任何重叠部分</p>
+<h2 id="解题一"><a href="#解题一" class="headerlink" title="解题一"></a>解题一</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">class MyCalendar &#123;</span><br><span class="line"></span><br><span class="line">    private TreeMap&lt;Integer, Integer&gt; startMap;</span><br><span class="line">    public MyCalendar() &#123;</span><br><span class="line">        startMap = new TreeMap&lt;&gt;();</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    public boolean book(int start, int end) &#123;</span><br><span class="line">        Integer nextStart = startMap.ceilingKey(start);</span><br><span class="line">        if (nextStart != null &amp;&amp; nextStart &lt; end) &#123;</span><br><span class="line">            return false;</span><br><span class="line">        &#125;</span><br><span class="line">        Integer prevStart = startMap.lowerKey(start);</span><br><span class="line">        if(prevStart != null &amp;&amp; startMap.get(prevStart) &gt; start) &#123;</span><br><span class="line">            return false;</span><br><span class="line">        &#125;</span><br><span class="line">        startMap.put(start, end);</span><br><span class="line">        return true;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="解题二"><a href="#解题二" class="headerlink" title="解题二"></a>解题二</h2><p>利用插入排序求解。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">class MyCalendar &#123;</span><br><span class="line"></span><br><span class="line">    private TreeMap&lt;Integer, Integer&gt; startMap;</span><br><span class="line">    public MyCalendar() &#123;</span><br><span class="line">        startMap = new TreeMap&lt;&gt;();</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    public boolean book(int start, int end) &#123;</span><br><span class="line">        Integer nextStart = startMap.ceilingKey(start);</span><br><span class="line">        if (nextStart != null &amp;&amp; nextStart &lt; end) &#123;</span><br><span class="line">            return false;</span><br><span class="line">        &#125;</span><br><span class="line">        Integer prevStart = startMap.lowerKey(start);</span><br><span class="line">        if(prevStart != null &amp;&amp; startMap.get(prevStart) &gt; start) &#123;</span><br><span class="line">            return false;</span><br><span class="line">        &#125;</span><br><span class="line">        startMap.put(start, end);</span><br><span class="line">        return true;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="解法三"><a href="#解法三" class="headerlink" title="解法三"></a>解法三</h2><p>利用BST二叉排序树，每个节点代表一个事件区间，如果要插入的部分全部在当前节点的左侧或者右侧，则左递归或者右递归，否则，插入失败。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">class Node &#123;</span><br><span class="line">	//节点有起始结束时间和左右子节点</span><br><span class="line">        public Node(int start, int end) &#123;</span><br><span class="line">            l = start;</span><br><span class="line">            r = end;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        int l, r;</span><br><span class="line">        Node left, right;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    Node root = null;</span><br><span class="line"></span><br><span class="line">    public boolean book(int start, int end) &#123;</span><br><span class="line">        if (root == null) &#123;</span><br><span class="line">            root = new Node(start, end);</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            Node cur = root;</span><br><span class="line">            Node pre = null;//父节点</span><br><span class="line">            boolean leftTag = false;//记录该插入的节点是左子还是右子</span><br><span class="line">            while (cur != null) &#123;</span><br><span class="line">                pre = cur;</span><br><span class="line">                if (end &lt;= cur.l) &#123;//应该在当前节点的左侧，往左子递归</span><br><span class="line">                    leftTag = true;</span><br><span class="line">                    cur = cur.left;</span><br><span class="line">                &#125; else if (start &gt;= cur.r) &#123;//应该在当前节点的右侧，往右子递归</span><br><span class="line">                    leftTag = false;</span><br><span class="line">                    cur = cur.right;</span><br><span class="line">                &#125; else &#123;// 有重叠，不应该插入，返回false</span><br><span class="line">                    return false;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            if (leftTag) &#123;//根据tag确定是父亲的左子还是右子</span><br><span class="line">                pre.left = new Node(start, end);</span><br><span class="line">            &#125; else &#123;</span><br><span class="line">                pre.right = new Node(start, end);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        return true;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<h1 id="MyCalendar-II"><a href="#MyCalendar-II" class="headerlink" title="MyCalendar II"></a>MyCalendar II</h1><h2 id="题目描述-1"><a href="#题目描述-1" class="headerlink" title="题目描述"></a>题目描述</h2><p>Implement a MyCalendarTwo class to store your events. A new event can be added if adding the event will not cause a triple booking.</p>
+<p>Your class will have one method, book(int start, int end). Formally, this represents a booking on the half open interval [start, end), the range of real numbers x such that start &lt;= x &lt; end.</p>
+<p>A triple booking happens when three events have some non-empty intersection (ie., there is some time that is common to all 3 events.)</p>
+<p>For each call to the method MyCalendar.book, return true if the event can be added to the calendar successfully without causing a triple booking. Otherwise, return false and do not add the event to the calendar.</p>
+<p>Your class will be called like this: MyCalendar cal = new MyCalendar(); MyCalendar.book(start, end)</p>
+<p>Example 1:</p>
+<p>MyCalendar();</p>
+<p>MyCalendar.book(10, 20); // returns true</p>
+<p>MyCalendar.book(50, 60); // returns true</p>
+<p>MyCalendar.book(10, 40); // returns true</p>
+<p>MyCalendar.book(5, 15); // returns false</p>
+<p>MyCalendar.book(5, 10); // returns true</p>
+<p>MyCalendar.book(25, 55); // returns true</p>
+<p>Explanation: </p>
+<p>The first two events can be booked.  The third event can be double booked.</p>
+<p>The fourth event (5, 15) can’t be booked, because it would result in a triple booking.</p>
+<p>The fifth event (5, 10) can be booked, as it does not use time 10 which is already double booked.</p>
+<p>The sixth event (25, 55) can be booked, as the time in [25, 40) will be double booked with the third event;</p>
+<p>the time [40, 50) will be single booked, and the time [50, 55) will be double booked with the second event.</p>
+<h2 id="题目解析-1"><a href="#题目解析-1" class="headerlink" title="题目解析"></a>题目解析</h2><p>My Calendar I: 无重叠</p>
+<p>MyCalendar II: 三个区间不能有重叠部分，重叠部分区域最多两个。</p>
+<h2 id="解法一"><a href="#解法一" class="headerlink" title="解法一"></a>解法一</h2><p>关键：保存重叠区域，用一个集合来专门存重叠区间，再用一个集合来存完整的区间。</p>
+<p>先遍历专门存重叠区间的集合，因为能在这里出现的区间，都已经是出现两次了，如果当前新的区间跟重叠区间有交集的话，说明此时三个事件重叠了，直接返回false。如果当前区间跟重叠区间没有交集的话，那么再来遍历完整区间的集合，如果有交集的话，那么应该算出重叠区间并且加入放重叠区间的集合中。最后记得将新区间加入完整区间的集合中</p>
+<h4 id="贴上代码："><a href="#贴上代码：" class="headerlink" title="贴上代码："></a>贴上代码：</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><span class="line">package com.leetcode.coding.arrays;</span><br><span class="line"></span><br><span class="line">import java.util.Set;</span><br><span class="line"></span><br><span class="line">public class MyCalendarII &#123;</span><br><span class="line">	private static Set&lt;Pair&gt; s1, s2;</span><br><span class="line">	// s2 是s1的所有交集部分</span><br><span class="line">	/***/</span><br><span class="line">	public MyCalendarII() &#123;</span><br><span class="line">		// TODO Auto-generated constructor stub</span><br><span class="line">	&#125;</span><br><span class="line">	public static boolean book(int s, int e) &#123;</span><br><span class="line">		for (Pair set : s2) &#123; // 查看是否和s2有交集</span><br><span class="line">			if (s &gt;= set.getE() || e &lt;= set.getS()) &#123;</span><br><span class="line">				// 没有任何交集，先走了或者后来来的</span><br><span class="line">				continue;</span><br><span class="line">			&#125;</span><br><span class="line">			else &#123;</span><br><span class="line">				// 有交集</span><br><span class="line">				return false;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		for (Pair a : s1) &#123;</span><br><span class="line">            if (s &gt;= a.getE() || e &lt;= a.getS())&#123;</span><br><span class="line">            	continue;</span><br><span class="line">            &#125;</span><br><span class="line">            else&#123;</span><br><span class="line">            	s2.add(new Pair(Math.max(s, a.getS()), Math.min(e, a.getE())));//将交集部分加入</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">		s1.add(new Pair(s, e));</span><br><span class="line">		return true;</span><br><span class="line">	&#125;</span><br><span class="line">	private static Object Pair(int max, int min) &#123;</span><br><span class="line">		// TODO Auto-generated method stub</span><br><span class="line">		return null;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Class Pair() &#123;</span><br><span class="line">	public int s;</span><br><span class="line">	public int e;</span><br><span class="line">	</span><br><span class="line">	public Pair(int s, int e) &#123;</span><br><span class="line">		this.s = s;</span><br><span class="line">		this.e = e;</span><br><span class="line">	&#125;</span><br><span class="line">	public int getS() &#123;</span><br><span class="line">		return s;</span><br><span class="line">	&#125;</span><br><span class="line">	public void setS(int s) &#123;</span><br><span class="line">		this.s = s;</span><br><span class="line">	&#125;</span><br><span class="line">	public int getE() &#123;</span><br><span class="line">		return e;</span><br><span class="line">	&#125;</span><br><span class="line">	public void setE(int e) &#123;</span><br><span class="line">		this.e = e;</span><br><span class="line">	&#125;	</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="解法二"><a href="#解法二" class="headerlink" title="解法二"></a>解法二</h2><p>建立一个时间点和次数之间的映射，规定遇到起始时间点，次数加1，遇到结束时间点，次数减1。那么我们首先更改新的起始时间start和结束时间end的映射，start对应值增1，end对应值减1。然后定义一个变量cnt，来统计当前的次数。</p>
+<p>用TreeMap保存所有事件开始及终止的位置以及它们的次数</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">TreeMap&lt;Integer,Integer&gt; treeMap;</span><br><span class="line">   public MyCalendarTwo() &#123;</span><br><span class="line">       treeMap=new TreeMap&lt;&gt;();</span><br><span class="line">   &#125;</span><br><span class="line">   </span><br><span class="line">   public boolean book(int start, int end) &#123;</span><br><span class="line">       int a=treeMap.getOrDefault(start,0);</span><br><span class="line">       int b=treeMap.getOrDefault(end,0);</span><br><span class="line">       treeMap.put(start,a+1);</span><br><span class="line">       treeMap.put(end,b-1);</span><br><span class="line">       int count=0;</span><br><span class="line"></span><br><span class="line">       for (Integer val : treeMap.values()) &#123; </span><br><span class="line">           count+=val;//记录当前已开始但未结束的事件个数</span><br><span class="line">           if(count&gt;2)&#123;//如果事件个数&gt;2，则说明有三个或者以上的重叠，不满足条件，要取消刚刚的插入</span><br><span class="line">               if(a==0)&#123;//如果插入前的个数为0则可以直接删除这条记录，否则对次数进行更改</span><br><span class="line">                   treeMap.remove(start);</span><br><span class="line">               &#125;else&#123;</span><br><span class="line">                    treeMap.put(start,a);</span><br><span class="line">               &#125;</span><br><span class="line">               if(b==0)&#123;</span><br><span class="line">                   treeMap.remove(end);</span><br><span class="line">               &#125;else&#123;</span><br><span class="line">                   treeMap.put(end,b);</span><br><span class="line">               &#125;</span><br><span class="line">               return false;</span><br><span class="line">           &#125;</span><br><span class="line">       &#125;</span><br><span class="line">       return true;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+<h2 id="解题三"><a href="#解题三" class="headerlink" title="解题三"></a>解题三</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line">import java.util.ArrayList;</span><br><span class="line">import java.util.HashMap;</span><br><span class="line">import java.util.Map;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * 利用HashMap存储各区间端点被覆盖的次数，记为dmap</span><br><span class="line"> * 利用List存储所有不triple booking的活动，记为events</span><br><span class="line"> * 每次添加活动时，遍历events，判断当前活动与已存在活动是否发生冲突，并更新dmap</span><br><span class="line"> * 将终点坐标减去0.5，与起点坐标做区分</span><br><span class="line"> * */</span><br><span class="line">public class MyCalendarII &#123;</span><br><span class="line">	private Map&lt;Double, Integer&gt; dMap;</span><br><span class="line">	private ArrayList&lt;int[]&gt; events;</span><br><span class="line">	</span><br><span class="line">	public MyCalendarII_1() &#123;</span><br><span class="line">		dMap = new HashMap&lt;&gt;();</span><br><span class="line">		events = new ArrayList&lt;&gt;();</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	public boolean book(int start, int end) &#123;</span><br><span class="line">		int cs = 1, ce = 1;</span><br><span class="line">		for (int i = 0; i &lt; events.size(); i++) &#123;</span><br><span class="line">			if (events.get(i)[0] &lt;= start &amp;&amp; events.get(i)[1]  &gt; start) &#123;</span><br><span class="line">				cs++;</span><br><span class="line">			&#125;</span><br><span class="line">			if (events.get(i)[0] &lt; end &amp;&amp; events.get(i)[1] &gt; end) &#123;</span><br><span class="line">				ce++;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		if (cs &gt; 2 || ce &gt; 2) return false;</span><br><span class="line">		ArrayList&lt;Double&gt; addList = new ArrayList&lt;&gt;();</span><br><span class="line">		for (double key : dMap.keySet()) &#123;</span><br><span class="line">            if (start &lt;= key &amp;&amp; key &lt;= end - 0.5) &#123;</span><br><span class="line">                if (dMap.get(key) == 2) return false;</span><br><span class="line">                addList.add(key);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">		for (Double key: addList) dMap.put(key, dMap.get(key) + 1);</span><br><span class="line">        if (!dMap.containsKey(start)) &#123;</span><br><span class="line">            dMap.put((double)start, cs);</span><br><span class="line">        &#125;</span><br><span class="line">        if (!dMap.containsKey(end - 0.5)) &#123;</span><br><span class="line">            dMap.put(end - 0.5, ce);</span><br><span class="line">        &#125;</span><br><span class="line">        events.add(new int[]&#123;start, end&#125;);</span><br><span class="line">        return true;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="解题四"><a href="#解题四" class="headerlink" title="解题四"></a>解题四</h2><p>和第一题一样使用BST，没有重叠的区间的节点操作类似第一题，但是对于有重叠区间的节点，要进行分裂，把lser,lsre,slre,sler四种情况总结起来就是中间两个值作为当前节点的起始和终止时间，且次数要增加，两侧分别进行左递归和右递归，次数根据lr还是se再外侧来决定。[selr分别为待插入的start,end，当前节点的left和right]</p>
+<p>注意，次数不能简单的为1，对于分裂了lr的情况（如lser和lsre、sler），递归的时候次数可能要指定为当前节点的已有次数，而这个不是固定为1的。所以插入次数也要作为参数进行传递。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><span class="line">class Node &#123;//节点有起始终止事件，左右子节点，这个时间区间的重叠次数</span><br><span class="line">       int left, right;</span><br><span class="line">       int count;</span><br><span class="line">       Node leftChild, rightChild;</span><br><span class="line"></span><br><span class="line">       public Node(int l, int r, int c) &#123;</span><br><span class="line">           left = l;</span><br><span class="line">           right = r;</span><br><span class="line">           count = c;</span><br><span class="line">       &#125;</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   int maxK = 1;//只要调用1次book，则最大记录至少为1，所以可以直接初始化为1</span><br><span class="line">   Node root;</span><br><span class="line"></span><br><span class="line">   public int book(int start, int end) &#123;</span><br><span class="line">       root = insert(root, start, end, 1);</span><br><span class="line">       return maxK;</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   private Node insert(Node root2, int start, int end, int c) &#123;//由于需要修改节点的链接关系，所以需要返回节点</span><br><span class="line">       if (start &gt;= end) &#123;// no need to take action</span><br><span class="line">           return root2;</span><br><span class="line">       &#125;</span><br><span class="line">       if (root2 == null) &#123;</span><br><span class="line">           root2 = new Node(start, end, c);</span><br><span class="line">           return root2;</span><br><span class="line">       &#125;</span><br><span class="line">       int l = root2.left;</span><br><span class="line">       int r = root2.right;</span><br><span class="line">       if (end &lt;= l) &#123;//一定落在当前节点的左侧即左子树上，进行左递归</span><br><span class="line">           root2.leftChild = insert(root2.leftChild, start, end, c);</span><br><span class="line">       &#125; else if (start &gt;= r) &#123;</span><br><span class="line">           root2.rightChild = insert(root2.rightChild, start, end, c);</span><br><span class="line">       &#125; else &#123;</span><br><span class="line">           int[] a = new int[4];//给四个值排序</span><br><span class="line">           if (start &lt;= l) &#123;</span><br><span class="line">               a[0] = start;</span><br><span class="line">               a[1] = l;</span><br><span class="line">           &#125; else &#123;</span><br><span class="line">               a[0] = l;</span><br><span class="line">               a[1] = start;</span><br><span class="line">           &#125;</span><br><span class="line">           if (end &lt;= r) &#123;</span><br><span class="line">               a[2] = end;</span><br><span class="line">               a[3] = r;</span><br><span class="line">           &#125; else &#123;</span><br><span class="line">               a[2] = r;</span><br><span class="line">               a[3] = end;</span><br><span class="line">           &#125;</span><br><span class="line">           root2.left = a[1];//中间的两个值作为当前节点的值</span><br><span class="line">           root2.right = a[2];</span><br><span class="line"></span><br><span class="line">           root2.leftChild = insert(root2.leftChild, a[0], a[1], start &lt;= l ? c : root2.count);//左递归，如果start在外侧，则次数为c；如果l在外侧，则次数为当前节点的次数</span><br><span class="line">           root2.rightChild = insert(root2.rightChild, a[2], a[3], end &gt;= r ? c : root2.count);</span><br><span class="line">           root2.count += c;//当前节点的次数要增加，并且根据大小情况选择性的更新maxK</span><br><span class="line">           maxK = Math.max(maxK, root2.count);</span><br><span class="line">       &#125;</span><br><span class="line">       return root2;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+
+            <div class="post-copyright">
+    <div class="content">
+        <p>最后更新： 2018年07月12日 14:17</p>
+        <p>原始链接： <a class="post-url" href="/2017/12/15/leetcode-Array-1/" title="leetcode 刷题1">http://zhangbuzola.cn/2017/12/15/leetcode-Array-1/</a></p>
+        <footer>
+            <a href="http://zhangbuzola.cn">
+                <img src="/images/pacman.jpg" alt="zolanunu">
+                zolanunu
+            </a>
+        </footer>
+    </div>
+</div>
+
+      
+        
+            
+
+        
+    </div>
+    <footer class="article-footer">
+        
+        <ul class="article-footer-menu">
+            
+            
+  <li class="article-footer-tags">
+    <i class="fa fa-tags"></i>
+      
+    <a href="/tags/算法和数据结构/" class="color3">算法和数据结构</a>
+      
+    <a href="/tags/leetcode/" class="color4">leetcode</a>
+      
+  </li>
+
+        </ul>
+        
+    </footer>
+  </div>
+</article>
+
+
+    <aside class="post-toc-pos post-toc-top" id="post-toc">
+        <nav class="post-toc-wrap">
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#MyCalendar-I"><span class="post-toc-text">MyCalendar I</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#题目描述"><span class="post-toc-text">题目描述</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#题目解析"><span class="post-toc-text">题目解析</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#解题一"><span class="post-toc-text">解题一</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#解题二"><span class="post-toc-text">解题二</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#解法三"><span class="post-toc-text">解法三</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#MyCalendar-II"><span class="post-toc-text">MyCalendar II</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#题目描述-1"><span class="post-toc-text">题目描述</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#题目解析-1"><span class="post-toc-text">题目解析</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#解法一"><span class="post-toc-text">解法一</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#贴上代码："><span class="post-toc-text">贴上代码：</span></a></li></ol></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#解法二"><span class="post-toc-text">解法二</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#解题三"><span class="post-toc-text">解题三</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#解题四"><span class="post-toc-text">解题四</span></a></li></ol></li></ol>
+        </nav>
+    </aside>
+    
+
+<nav id="article-nav">
+  
+    <a href="/2017/12/16/leetcode-Array-2/" id="article-nav-newer" class="article-nav-link-wrap">
+
+      <span class="article-nav-title">
+        <i class="fa fa-hand-o-left" aria-hidden="true"></i>
+        
+          leetcode刷题二
+        
+      </span>
+    </a>
+  
+  
+    <a href="/2017/12/15/imos-累积和法/" id="article-nav-older" class="article-nav-link-wrap">
+      <span class="article-nav-title">imos累积和法</span>
+      <i class="fa fa-hand-o-right" aria-hidden="true"></i>
+    </a>
+  
+</nav>
+
+
+
+    
+        <link rel="stylesheet" href="//unpkg.com/gitment/style/default.css">
+    <script src="//unpkg.com/gitment/dist/gitment.browser.js"></script>
+    <script>
+        var gitment = new Gitment({
+            owner: 'true',
+            repo: 'zolanunu',
+            oauth: {
+                client_id: '1a04e8dee74a4b8634df',
+                client_secret: '9e3078ac89eb72f22abbdd11f7f0d11e2e1d7f7a',
+            },
+        })
+        gitment.render('comments')
+    </script>
+
+    
+</section>
+        
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+      <p>
+        Powered by  <a href="http://hexo.io/" target="_blank">Hexo</a>
+        Theme <a href="//github.com/wongminho/hexo-theme-miho" target="_blank">MiHo</a>
+      &copy; 2018 zolanunu<br>
+      </p>
+    </div>
+  </div>
+</footer>
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script>
+  var mihoConfig = {
+      root: "http://zhangbuzola.cn",
+      animate: true,
+      isHome: false,
+      share: false,
+      reward: 0
+  }
+</script>
+<div class="sidebar">
+    <div id="sidebar-search" title="Search">
+        <i class="fa fa-search"></i>
+    </div>
+    <div id="sidebar-category" title="Categories">
+        <i class="fa fa-book"></i>
+    </div>
+    <div id="sidebar-tag" title="Tags">
+        <i class="fa fa-tags"></i>
+    </div>
+    <div id="sidebar-top">
+        <span class="sidebar-top-icon"><i class="fa fa-angle-up"></i></span>
+    </div>
+</div>
+<div class="sidebar-menu-box" id="sidebar-menu-box">
+    <div class="sidebar-menu-box-container">
+        <div id="sidebar-menu-box-categories">
+            <a class="category-link" href="/categories/Java/">Java</a><a class="category-link" href="/categories/Java后台/">Java后台</a><a class="category-link" href="/categories/Python/">Python</a><a class="category-link" href="/categories/工具/">工具</a><a class="category-link" href="/categories/技术书/">技术书</a><a class="category-link" href="/categories/数据库/">数据库</a><a class="category-link" href="/categories/数据结构/">数据结构</a><a class="category-link" href="/categories/生活轨迹/">生活轨迹</a><a class="category-link" href="/categories/算法/">算法</a>
+        </div>
+        <div id="sidebar-menu-box-tags">
+            <a href="/tags/2018/" style="font-size: 11.43px;">2018</a> <a href="/tags/Collections/" style="font-size: 15.71px;">Collections</a> <a href="/tags/HashMap/" style="font-size: 10px;">HashMap</a> <a href="/tags/LinkedHashMap/" style="font-size: 10px;">LinkedHashMap</a> <a href="/tags/MySQL/" style="font-size: 17.14px;">MySQL</a> <a href="/tags/Mybatis/" style="font-size: 12.86px;">Mybatis</a> <a href="/tags/Object/" style="font-size: 10px;">Object</a> <a href="/tags/SSM/" style="font-size: 12.86px;">SSM</a> <a href="/tags/TreeMap/" style="font-size: 11.43px;">TreeMap</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/java基础/" style="font-size: 20px;">java基础</a> <a href="/tags/java并发编程实战/" style="font-size: 11.43px;">java并发编程实战</a> <a href="/tags/leetcode/" style="font-size: 17.14px;">leetcode</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/剑指offer/" style="font-size: 10px;">剑指offer</a> <a href="/tags/多线程/" style="font-size: 11.43px;">多线程</a> <a href="/tags/并发编程/" style="font-size: 10px;">并发编程</a> <a href="/tags/机器学习/" style="font-size: 12.86px;">机器学习</a> <a href="/tags/构造函数/" style="font-size: 10px;">构造函数</a> <a href="/tags/深入理解java虚拟机/" style="font-size: 10px;">深入理解java虚拟机</a> <a href="/tags/生活/" style="font-size: 10px;">生活</a> <a href="/tags/神经网络/" style="font-size: 10px;">神经网络</a> <a href="/tags/算法与数据结构/" style="font-size: 14.29px;">算法与数据结构</a> <a href="/tags/算法和数据结构/" style="font-size: 18.57px;">算法和数据结构</a> <a href="/tags/观影记/" style="font-size: 10px;">观影记</a> <a href="/tags/读书书单/" style="font-size: 10px;">读书书单</a>
+        </div>
+    </div>
+    <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
+</div>
+<div class="mobile-header-menu-nav" id="mobile-header-menu-nav">
+    <div class="mobile-header-menu-container">
+        <span class="title">Menus</span>
+        <ul class="mobile-header-menu-navbar">
+            
+            <li>
+                <a  href="/">
+                    <i class="fa fa-home"></i><span>Home</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/archives">
+                    <i class="fa fa-archive"></i><span>Archives</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/about">
+                    <i class="fa fa-user"></i><span>About</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    <div class="mobile-header-tag-container">
+        <span class="title">Tags</span>
+        <div id="mobile-header-container-tags">
+            <a href="/tags/2018/" style="font-size: 11.43px;">2018</a> <a href="/tags/Collections/" style="font-size: 15.71px;">Collections</a> <a href="/tags/HashMap/" style="font-size: 10px;">HashMap</a> <a href="/tags/LinkedHashMap/" style="font-size: 10px;">LinkedHashMap</a> <a href="/tags/MySQL/" style="font-size: 17.14px;">MySQL</a> <a href="/tags/Mybatis/" style="font-size: 12.86px;">Mybatis</a> <a href="/tags/Object/" style="font-size: 10px;">Object</a> <a href="/tags/SSM/" style="font-size: 12.86px;">SSM</a> <a href="/tags/TreeMap/" style="font-size: 11.43px;">TreeMap</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/java基础/" style="font-size: 20px;">java基础</a> <a href="/tags/java并发编程实战/" style="font-size: 11.43px;">java并发编程实战</a> <a href="/tags/leetcode/" style="font-size: 17.14px;">leetcode</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/剑指offer/" style="font-size: 10px;">剑指offer</a> <a href="/tags/多线程/" style="font-size: 11.43px;">多线程</a> <a href="/tags/并发编程/" style="font-size: 10px;">并发编程</a> <a href="/tags/机器学习/" style="font-size: 12.86px;">机器学习</a> <a href="/tags/构造函数/" style="font-size: 10px;">构造函数</a> <a href="/tags/深入理解java虚拟机/" style="font-size: 10px;">深入理解java虚拟机</a> <a href="/tags/生活/" style="font-size: 10px;">生活</a> <a href="/tags/神经网络/" style="font-size: 10px;">神经网络</a> <a href="/tags/算法与数据结构/" style="font-size: 14.29px;">算法与数据结构</a> <a href="/tags/算法和数据结构/" style="font-size: 18.57px;">算法和数据结构</a> <a href="/tags/观影记/" style="font-size: 10px;">观影记</a> <a href="/tags/读书书单/" style="font-size: 10px;">读书书单</a>
+        </div>
+    </div>
+</div>
+<div class="search-wrap">
+    <span class="search-close">&times;</span>
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+            <i class="icon icon-lg icon-chevron-left"></i>
+        </a>
+        <input class="search-field" placeholder="Search..." id="keywords">
+        <a id="search-submit" href="javascript:;">
+            <i class="fa fa-search"></i>
+        </a>
+    <div class="search-container" id="search-container">
+        <ul class="search-result" id="search-result">
+        </ul>
+    </div>
+</div>
+
+<div id="search-tpl">
+    <li class="search-result-item">
+        <a href="{url}" class="search-item-li">
+            <span class="search-item-li-title" title="{title}">{title}</span>
+        </a>
+    </li>
+</div>
+<script src="/js/search.js"></script>
+<script src="/js/main.js"></script>
+
+
+  <script src="//cdn.bootcss.com/particles.js/2.0.0/particles.min.js"></script>
+  <div id="particles"></div>
+  <script src="/js/particles.js"></script>
+
+
+
+
+
+
+
+  <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
+  <script src="//cdn.bootcss.com/scrollReveal.js/3.0.5/scrollreveal.js"></script>
+  <script src="/js/animate.js"></script>
+
+
+  <script src="/js/pop-img.js"></script>
+  <script>
+     $(".article-entry p img").popImg();
+  </script>
+
+  </div>
+</body>
+</html>

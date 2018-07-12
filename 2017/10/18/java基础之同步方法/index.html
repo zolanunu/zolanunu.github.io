@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>java基础学习之同步方法 | zolanunu</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+    <meta name="keywords" content="zolanunu,zolanunu's blog" />
+  
+  <meta name="description" content="参考https://www.cnblogs.com/upcwanghaibo/p/6535505.html 同步方法：使用Synchronized关键字修饰 同步方法：java每个对象都有一个内置锁，当用Synchronized关键字修饰方法的时候，内置锁会保护这个方法，在调用该方法的时候，需要获得内置锁，否则会处于阻塞状态 同步代码块  1synchronized(object)&amp;#123;&amp;#">
+<meta name="keywords" content="java基础">
+<meta property="og:type" content="article">
+<meta property="og:title" content="java基础学习之同步方法">
+<meta property="og:url" content="http://zhangbuzola.cn/2017/10/18/java基础之同步方法/index.html">
+<meta property="og:site_name" content="zolanunu">
+<meta property="og:description" content="参考https://www.cnblogs.com/upcwanghaibo/p/6535505.html 同步方法：使用Synchronized关键字修饰 同步方法：java每个对象都有一个内置锁，当用Synchronized关键字修饰方法的时候，内置锁会保护这个方法，在调用该方法的时候，需要获得内置锁，否则会处于阻塞状态 同步代码块  1synchronized(object)&amp;#123;&amp;#">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2018-07-12T06:19:41.672Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="java基础学习之同步方法">
+<meta name="twitter:description" content="参考https://www.cnblogs.com/upcwanghaibo/p/6535505.html 同步方法：使用Synchronized关键字修饰 同步方法：java每个对象都有一个内置锁，当用Synchronized关键字修饰方法的时候，内置锁会保护这个方法，在调用该方法的时候，需要获得内置锁，否则会处于阻塞状态 同步代码块  1synchronized(object)&amp;#123;&amp;#">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="/js/pace.min.js"></script>
+  
+
+  
+	<script>
+	var _hmt = _hmt || [];
+	(function() {
+	  var hm = document.createElement("script");
+	  hm.src = "//hm.baidu.com/hm.js?a651034b7d11a367ae836642b29a3057";
+	  var s = document.getElementsByTagName("script")[0]; 
+	  s.parentNode.insertBefore(hm, s);
+	})();
+	</script>
+
+  
+
+</head>
+
+<body>
+  <div id="container">
+      <header id="header">
+    <div id="banner"></div>
+    <div id="header-outer">
+        <div id="header-menu" class="header-menu-pos animated">
+            <div class="header-menu-container">
+                <a href="/" class="left">
+                    <span class="site-title">zolanunu&#39;s Blog</span>
+                </a>
+                <nav id="header-menu-nav" class="right">
+                    
+                    <a  href="/">
+                        <i class="fa fa-home"></i>
+                        <span>Home</span>
+                    </a>
+                    
+                    <a  href="/archives">
+                        <i class="fa fa-archive"></i>
+                        <span>Archives</span>
+                    </a>
+                    
+                    <a  href="/about">
+                        <i class="fa fa-user"></i>
+                        <span>About</span>
+                    </a>
+                    
+                </nav>
+                <a class="mobile-header-menu-button">
+                    <i class="fa fa-bars"></i>
+                </a>
+            </div>
+        </div>
+        <div id="header-row">
+            <div id="logo">
+                <a href="/">
+                    <img src="/images/pacman.jpg" alt="logo">
+                </a>
+            </div>
+            <div class="header-info">
+                <div id="header-title">
+                    
+                    <h2>
+                        zolanunu&#39;s Blog
+                    </h2>
+                    
+                </div>
+                <div id="header-description">
+                    
+                    <h3>
+                        去努力尝试做一些你觉得你不会做或者不敢做的事情。
+                    </h3>
+                    
+                </div>
+            </div>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a title="zolanunu" target="_blank" href="//zhangbuzola.cn">
+                            <i class="fa fa-home fa-2x"></i></a>
+                    
+                        <a title="Github" target="_blank" href="//github.com/zolanunu">
+                            <i class="fa fa-github fa-2x"></i></a>
+                    
+                        <a title="Weibo" target="_blank" href="//weibo.com/zolanunu">
+                            <i class="fa fa-weibo fa-2x"></i></a>
+                    
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>
+      <div class="outer">
+        <section id="main" class="body-wrap"><article id="post-java基础之同步方法" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="post-title" itemprop="name">
+      java基础学习之同步方法
+    </h1>
+    <div class="post-title-bar">
+      <ul>
+          
+              <li>
+                  <i class="fa fa-book"></i>
+                  
+                      <a href="/categories/Java/">Java</a>
+                  
+              </li>
+          
+        <li>
+          <i class="fa fa-calendar"></i>  2017-10-18
+        </li>
+        <li>
+          <i class="fa fa-eye"></i>
+          <span id="busuanzi_value_page_pv"></span>
+        </li>
+      </ul>
+    </div>
+  
+
+          
+      </header>
+    
+    <div class="article-entry post-content" itemprop="articleBody">
+      
+            
+            <h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p><a href="https://www.cnblogs.com/upcwanghaibo/p/6535505.html" target="_blank" rel="noopener">https://www.cnblogs.com/upcwanghaibo/p/6535505.html</a></p>
+<h1 id="同步方法："><a href="#同步方法：" class="headerlink" title="同步方法："></a>同步方法：</h1><h2 id="使用Synchronized关键字修饰"><a href="#使用Synchronized关键字修饰" class="headerlink" title="使用Synchronized关键字修饰"></a>使用Synchronized关键字修饰</h2><ul>
+<li>同步方法：java每个对象都有一个内置锁，当用Synchronized关键字修饰方法的时候，内置锁会保护这个方法，在调用该方法的时候，需要获得内置锁，否则会处于阻塞状态</li>
+<li>同步代码块</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">synchronized(object)&#123;&#125;</span><br></pre></td></tr></table></figure>
+<p>即有synchronized关键字修饰的语句块。 被该关键字修饰的语句块会自动被加上内置锁，从而实现同步<br>同步是一个高开销的操作，因此需要考虑锁的粒度</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">package com.xhj.thread;</span><br><span class="line">	 </span><br><span class="line">	    /**</span><br><span class="line">	     * 线程同步的运用</span><br><span class="line">	     * </span><br><span class="line">	     * @author XIEHEJUN</span><br><span class="line">	     * </span><br><span class="line">	     */</span><br><span class="line">	    public class SynchronizedThread &#123;</span><br><span class="line">	 </span><br><span class="line">	        class Bank &#123;</span><br><span class="line">	            private int account = 100;</span><br><span class="line">	            public int getAccount() &#123;</span><br><span class="line">	                return account;</span><br><span class="line">	            &#125;</span><br><span class="line">	 </span><br><span class="line">	            /**</span><br><span class="line">	             * 用同步方法实现</span><br><span class="line">	             * </span><br><span class="line">	             * @param money</span><br><span class="line">	             */</span><br><span class="line">	            public synchronized void save(int money) &#123;</span><br><span class="line">	                account += money;</span><br><span class="line">	            &#125;</span><br><span class="line">	 </span><br><span class="line">	            /**</span><br><span class="line">	             * 用同步代码块实现</span><br><span class="line">	             * </span><br><span class="line">	             * @param money</span><br><span class="line">	             */</span><br><span class="line">	            public void save1(int money) &#123;</span><br><span class="line">	                synchronized (this) &#123;</span><br><span class="line">	                    account += money;</span><br><span class="line">	                &#125;</span><br><span class="line">	            &#125;</span><br><span class="line">	        &#125;</span><br></pre></td></tr></table></figure>
+<p><strong>同步</strong>是多线程中的重要概念。同步的使用可以保证在多线程运行的环境中，程序不会产生设计之外的错误结果。同步的实现方式有两种，同步方法和同步块，这两种方式都要用到synchronized关键字。</p>
+<p><strong>同步方法</strong>:给一个方法增加synchronized修饰符之后就可以使它成为同步方法，这个方法可以是静态方法和非静态方法，但是不能是抽象类的抽象方法，也不能是接口中的接口方法。下面代码是一个同步方法的示例：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">public synchronized void aMethod() &#123; </span><br><span class="line">    // do something </span><br><span class="line">&#125; </span><br><span class="line">public static synchronized void anotherMethod() &#123; </span><br><span class="line">    // do something </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>线程在执行同步方法时是具有排它性的。当任意一个线程进入到一个对象的任意一个同步方法时，这个对象的所有同步方法都被锁定了，在此期间，其他任何线程都不能访问这个对象的任意一个同步方法，直到这个线程执行完它所调用的同步方法并从中退出，从而导致它释放了该对象的同步锁之后。在一个对象被某个线程锁定之后，其他线程是可以访问这个对象的所有非同步方法的。</p>
+<p><strong>同步块</strong>：同步块是通过锁定一个指定的对象，来对同步块中包含的代码进行同步；而同步方法是对这个方法块里的代码进行同步，而这种情况下锁定的对象就是同步方法所属的主体对象自身。</p>
+<p>如果这个方法是静态同步方法呢？那么线程锁定的就不是这个类的对象了，也不是这个类自身，而是这个类对应的java.lang.Class类型的对象。同步方法和同步块之间的相互制约只限于同一个对象之间，所以静态同步方法只受它所属类的其它静态同步方法的制约，而跟这个类的实例（对象）没有关系。</p>
+<p>如果一个对象既有同步方法，又有同步块，那么当其中任意一个同步方法或者同步块被某个线程执行时，这个对象就被锁定了，其他线程无法在此时访问这个对象的同步方法，也不能执行同步块。</p>
+<h2 id="wait与notify"><a href="#wait与notify" class="headerlink" title="wait与notify"></a>wait与notify</h2><ul>
+<li><p>wait():使一个线程处于等待状态，并且释放所持有的对象的lock。</p>
+</li>
+<li><p>sleep():使一个正在运行的线程处于睡眠状态，是一个静态方法，调用此方法要捕捉InterruptedException异常。</p>
+</li>
+<li><p>notify():唤醒一个处于等待状态的线程，注意的是在调用此方法的时候，并不能确切的唤醒某一个等待状态的线程，而是由JVM确定唤醒哪个线程，而且不是按优先级。</p>
+</li>
+<li><p>Allnotity():唤醒所有处入等待状态的线程，注意并不是给所有唤醒线程一个对象的锁，而是让它们竞争。</p>
+</li>
+</ul>
+<h2 id="使用特殊域变量-volatile-实现线程同步"><a href="#使用特殊域变量-volatile-实现线程同步" class="headerlink" title="使用特殊域变量(volatile)实现线程同步"></a>使用特殊域变量(volatile)实现线程同步</h2><ul>
+<li><p>volatile关键字为域变量的访问提供了一种免锁机制</p>
+</li>
+<li><p>使用volatile修饰域相当于告诉虚拟机该域可能会被其他线程更新</p>
+</li>
+<li><p>因此每次使用该域就要重新计算，而不是使用寄存器中的值 </p>
+</li>
+<li><p>volatile不会提供任何原子操作，它也不能用来修饰final类型的变量 </p>
+</li>
+</ul>
+<h2 id="使用重入锁实现线程同步"><a href="#使用重入锁实现线程同步" class="headerlink" title="使用重入锁实现线程同步"></a>使用重入锁实现线程同步</h2><p>在JavaSE5.0中新增了一个java.util.concurrent包来支持同步。<br>ReentrantLock类是可重入、互斥、实现了Lock接口的锁，它与使用synchronized方法和快具有相同的基本行为和语义，并且扩展了其能力。</p>
+<p>ReenreantLock类的常用方法有：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ReentrantLock() : 创建一个ReentrantLock实例 </span><br><span class="line">lock() : 获得锁 </span><br><span class="line">unlock() : 释放锁</span><br></pre></td></tr></table></figure>
+<p>注：ReentrantLock()还有一个可以创建公平锁的构造方法，但由于能大幅度降低程序运行效率，不推荐使用 </p>
+<p>例如：在上面例子的基础上，改写后的代码为: </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">//只给出要修改的代码，其余代码与上同</span><br><span class="line">        class Bank &#123;</span><br><span class="line">            </span><br><span class="line">            private int account = 100;</span><br><span class="line">            //需要声明这个锁</span><br><span class="line">            private Lock lock = new ReentrantLock();</span><br><span class="line">            public int getAccount() &#123;</span><br><span class="line">                return account;</span><br><span class="line">            &#125;</span><br><span class="line">            //这里不再需要synchronized </span><br><span class="line">            public void save(int money) &#123;</span><br><span class="line">                lock.lock();</span><br><span class="line">                try&#123;</span><br><span class="line">                    account += money;</span><br><span class="line">                &#125;finally&#123;</span><br><span class="line">                    lock.unlock();</span><br><span class="line">                &#125;</span><br><span class="line">                </span><br><span class="line">            &#125;</span><br><span class="line">        ｝</span><br></pre></td></tr></table></figure>
+<h2 id="使用局部变量实现线程同步"><a href="#使用局部变量实现线程同步" class="headerlink" title="使用局部变量实现线程同步"></a>使用局部变量实现线程同步</h2><p>如果使用ThreadLocal管理变量，则每一个使用该变量的线程都获得该变量的副本，副本之间相互独立，这样每一个线程都可以随意修改自己的变量副本，而不会对其他线程产生影响。</p>
+<p>ThreadLocal 类的常用方法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">ThreadLocal() : 创建一个线程本地变量 </span><br><span class="line">get() : 返回此线程局部变量的当前线程副本中的值 </span><br><span class="line">initialValue() : 返回此线程局部变量的当前线程的&quot;初始值&quot; </span><br><span class="line">set(T value) : 将此线程局部变量的当前线程副本中的值设置为value</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">//只改Bank类，其余代码与上同</span><br><span class="line">public class Bank&#123;</span><br><span class="line">	            //使用ThreadLocal类管理共享变量account</span><br><span class="line">	            private static ThreadLocal&lt;Integer&gt; account = new ThreadLocal&lt;Integer&gt;()&#123;</span><br><span class="line">	                @Override</span><br><span class="line">	                protected Integer initialValue()&#123;</span><br><span class="line">	                    return 100;</span><br><span class="line">	                &#125;</span><br><span class="line">	            &#125;;</span><br><span class="line">	            public void save(int money)&#123;</span><br><span class="line">	                account.set(account.get()+money);</span><br><span class="line">	            &#125;</span><br><span class="line">	            public int getAccount()&#123;</span><br><span class="line">	                return account.get();</span><br><span class="line">	            &#125;</span><br><span class="line">	        &#125;</span><br></pre></td></tr></table></figure>
+<p> 注：ThreadLocal与同步机制 </p>
+<ul>
+<li><p>ThreadLocal与同步机制都是为了解决多线程中相同变量的访问冲突问题。 </p>
+</li>
+<li><p>前者采用以”空间换时间”的方法，后者采用以”时间换空间”的方式</p>
+</li>
+</ul>
+<h2 id="使用阻塞队列实现线程同步"><a href="#使用阻塞队列实现线程同步" class="headerlink" title="使用阻塞队列实现线程同步"></a>使用阻塞队列实现线程同步</h2><p>前面5种同步方式都是在底层实现的线程同步，但是我们在实际开发当中，应当尽量远离底层结构。 使用javaSE5.0版本中新增的java.util.concurrent包将有助于简化开发。</p>
+<p>本小节主要是使用LinkedBlockingQueue<e>来实现线程的同步 LinkedBlockingQueue<e>是一个基于已连接节点的，范围任意的blocking queue。 队列是先进先出的顺序（FIFO），关于队列以后会详细讲解~LinkedBlockingQueue 类常用方法 LinkedBlockingQueue() : 创建一个容量为Integer.MAX_VALUE的LinkedBlockingQueue put(E e) : 在队尾添加一个元素，如果队列满则阻塞 size() : 返回队列中的元素个数 take() : 移除并返回队头元素，如果队列空则阻塞代码实例： 实现商家生产商品和买卖商品的同步</e></e></p>
+<h2 id="使用原子变量实现线程同步"><a href="#使用原子变量实现线程同步" class="headerlink" title="使用原子变量实现线程同步"></a>使用原子变量实现线程同步</h2><p>需要使用线程同步的根本原因在于对普通变量的操作不是原子的。</p>
+<p>那么什么是原子操作呢？原子操作就是指将读取变量值、修改变量值、保存变量值看成一个整体来操作即-这几种行为要么同时完成，要么都不完成。在java的util.concurrent.atomic包中提供了创建了原子类型变量的工具类，使用该类可以简化线程同步。其中AtomicInteger 表可以用原子方式更新int的值，可用在应用程序中(如以原子方式增加的计数器)，但不能用于替换Integer；可扩展Number，允许那些处理机遇数字类的工具和实用工具进行统一访问。</p>
+<h3 id="AtomicInteger类常用方法："><a href="#AtomicInteger类常用方法：" class="headerlink" title="AtomicInteger类常用方法："></a>AtomicInteger类常用方法：</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">AtomicInteger(int initialValue) : 创建具有给定初始值的新的</span><br><span class="line">AtomicIntegeraddAddGet(int dalta) : 以原子方式将给定值与当前值相加</span><br><span class="line">get() : 获取当前值</span><br></pre></td></tr></table></figure>
+<pre><code>class Bank {
+        private AtomicInteger account = new AtomicInteger(100);
+        public AtomicInteger getAccount() {
+            return account; 
+        } 
+        public void save(int money) {
+            account.addAndGet(money);
+        }
+    }
+</code></pre><h3 id="补充–原子操作主要有："><a href="#补充–原子操作主要有：" class="headerlink" title="补充–原子操作主要有：　　"></a>补充–原子操作主要有：　　</h3><p>对于引用变量和大多数原始变量(long和double除外)的读写操作；　　</p>
+<p>对于所有使用volatile修饰的变量(包括long和double)的读写操作。</p>
+
+            <div class="post-copyright">
+    <div class="content">
+        <p>最后更新： 2018年07月12日 14:19</p>
+        <p>原始链接： <a class="post-url" href="/2017/10/18/java基础之同步方法/" title="java基础学习之同步方法">http://zhangbuzola.cn/2017/10/18/java基础之同步方法/</a></p>
+        <footer>
+            <a href="http://zhangbuzola.cn">
+                <img src="/images/pacman.jpg" alt="zolanunu">
+                zolanunu
+            </a>
+        </footer>
+    </div>
+</div>
+
+      
+        
+            
+
+        
+    </div>
+    <footer class="article-footer">
+        
+        <ul class="article-footer-menu">
+            
+            
+  <li class="article-footer-tags">
+    <i class="fa fa-tags"></i>
+      
+    <a href="/tags/java基础/" class="color2">java基础</a>
+      
+  </li>
+
+        </ul>
+        
+    </footer>
+  </div>
+</article>
+
+
+    <aside class="post-toc-pos post-toc-top" id="post-toc">
+        <nav class="post-toc-wrap">
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#参考"><span class="post-toc-text">参考</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#同步方法："><span class="post-toc-text">同步方法：</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#使用Synchronized关键字修饰"><span class="post-toc-text">使用Synchronized关键字修饰</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#wait与notify"><span class="post-toc-text">wait与notify</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#使用特殊域变量-volatile-实现线程同步"><span class="post-toc-text">使用特殊域变量(volatile)实现线程同步</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#使用重入锁实现线程同步"><span class="post-toc-text">使用重入锁实现线程同步</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#使用局部变量实现线程同步"><span class="post-toc-text">使用局部变量实现线程同步</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#使用阻塞队列实现线程同步"><span class="post-toc-text">使用阻塞队列实现线程同步</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#使用原子变量实现线程同步"><span class="post-toc-text">使用原子变量实现线程同步</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#AtomicInteger类常用方法："><span class="post-toc-text">AtomicInteger类常用方法：</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#补充–原子操作主要有："><span class="post-toc-text">补充–原子操作主要有：　　</span></a></li></ol></li></ol></li></ol>
+        </nav>
+    </aside>
+    
+
+<nav id="article-nav">
+  
+    <a href="/2017/10/19/java基础之多线程一/" id="article-nav-newer" class="article-nav-link-wrap">
+
+      <span class="article-nav-title">
+        <i class="fa fa-hand-o-left" aria-hidden="true"></i>
+        
+          java基础学习之线程与进程
+        
+      </span>
+    </a>
+  
+  
+    <a href="/2017/10/18/NerualNeiwork_regression_keras/" id="article-nav-older" class="article-nav-link-wrap">
+      <span class="article-nav-title">神经网络初探</span>
+      <i class="fa fa-hand-o-right" aria-hidden="true"></i>
+    </a>
+  
+</nav>
+
+
+
+    
+        <link rel="stylesheet" href="//unpkg.com/gitment/style/default.css">
+    <script src="//unpkg.com/gitment/dist/gitment.browser.js"></script>
+    <script>
+        var gitment = new Gitment({
+            owner: 'true',
+            repo: 'zolanunu',
+            oauth: {
+                client_id: '1a04e8dee74a4b8634df',
+                client_secret: '9e3078ac89eb72f22abbdd11f7f0d11e2e1d7f7a',
+            },
+        })
+        gitment.render('comments')
+    </script>
+
+    
+</section>
+        
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+      <p>
+        Powered by  <a href="http://hexo.io/" target="_blank">Hexo</a>
+        Theme <a href="//github.com/wongminho/hexo-theme-miho" target="_blank">MiHo</a>
+      &copy; 2018 zolanunu<br>
+      </p>
+    </div>
+  </div>
+</footer>
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script>
+  var mihoConfig = {
+      root: "http://zhangbuzola.cn",
+      animate: true,
+      isHome: false,
+      share: false,
+      reward: 0
+  }
+</script>
+<div class="sidebar">
+    <div id="sidebar-search" title="Search">
+        <i class="fa fa-search"></i>
+    </div>
+    <div id="sidebar-category" title="Categories">
+        <i class="fa fa-book"></i>
+    </div>
+    <div id="sidebar-tag" title="Tags">
+        <i class="fa fa-tags"></i>
+    </div>
+    <div id="sidebar-top">
+        <span class="sidebar-top-icon"><i class="fa fa-angle-up"></i></span>
+    </div>
+</div>
+<div class="sidebar-menu-box" id="sidebar-menu-box">
+    <div class="sidebar-menu-box-container">
+        <div id="sidebar-menu-box-categories">
+            <a class="category-link" href="/categories/Java/">Java</a><a class="category-link" href="/categories/Java后台/">Java后台</a><a class="category-link" href="/categories/Python/">Python</a><a class="category-link" href="/categories/工具/">工具</a><a class="category-link" href="/categories/技术书/">技术书</a><a class="category-link" href="/categories/数据库/">数据库</a><a class="category-link" href="/categories/数据结构/">数据结构</a><a class="category-link" href="/categories/生活轨迹/">生活轨迹</a><a class="category-link" href="/categories/算法/">算法</a>
+        </div>
+        <div id="sidebar-menu-box-tags">
+            <a href="/tags/2018/" style="font-size: 11.43px;">2018</a> <a href="/tags/Collections/" style="font-size: 15.71px;">Collections</a> <a href="/tags/HashMap/" style="font-size: 10px;">HashMap</a> <a href="/tags/LinkedHashMap/" style="font-size: 10px;">LinkedHashMap</a> <a href="/tags/MySQL/" style="font-size: 17.14px;">MySQL</a> <a href="/tags/Mybatis/" style="font-size: 12.86px;">Mybatis</a> <a href="/tags/Object/" style="font-size: 10px;">Object</a> <a href="/tags/SSM/" style="font-size: 12.86px;">SSM</a> <a href="/tags/TreeMap/" style="font-size: 11.43px;">TreeMap</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/java基础/" style="font-size: 20px;">java基础</a> <a href="/tags/java并发编程实战/" style="font-size: 11.43px;">java并发编程实战</a> <a href="/tags/leetcode/" style="font-size: 17.14px;">leetcode</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/剑指offer/" style="font-size: 10px;">剑指offer</a> <a href="/tags/多线程/" style="font-size: 11.43px;">多线程</a> <a href="/tags/并发编程/" style="font-size: 10px;">并发编程</a> <a href="/tags/机器学习/" style="font-size: 12.86px;">机器学习</a> <a href="/tags/构造函数/" style="font-size: 10px;">构造函数</a> <a href="/tags/深入理解java虚拟机/" style="font-size: 10px;">深入理解java虚拟机</a> <a href="/tags/生活/" style="font-size: 10px;">生活</a> <a href="/tags/神经网络/" style="font-size: 10px;">神经网络</a> <a href="/tags/算法与数据结构/" style="font-size: 14.29px;">算法与数据结构</a> <a href="/tags/算法和数据结构/" style="font-size: 18.57px;">算法和数据结构</a> <a href="/tags/观影记/" style="font-size: 10px;">观影记</a> <a href="/tags/读书书单/" style="font-size: 10px;">读书书单</a>
+        </div>
+    </div>
+    <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
+</div>
+<div class="mobile-header-menu-nav" id="mobile-header-menu-nav">
+    <div class="mobile-header-menu-container">
+        <span class="title">Menus</span>
+        <ul class="mobile-header-menu-navbar">
+            
+            <li>
+                <a  href="/">
+                    <i class="fa fa-home"></i><span>Home</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/archives">
+                    <i class="fa fa-archive"></i><span>Archives</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/about">
+                    <i class="fa fa-user"></i><span>About</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    <div class="mobile-header-tag-container">
+        <span class="title">Tags</span>
+        <div id="mobile-header-container-tags">
+            <a href="/tags/2018/" style="font-size: 11.43px;">2018</a> <a href="/tags/Collections/" style="font-size: 15.71px;">Collections</a> <a href="/tags/HashMap/" style="font-size: 10px;">HashMap</a> <a href="/tags/LinkedHashMap/" style="font-size: 10px;">LinkedHashMap</a> <a href="/tags/MySQL/" style="font-size: 17.14px;">MySQL</a> <a href="/tags/Mybatis/" style="font-size: 12.86px;">Mybatis</a> <a href="/tags/Object/" style="font-size: 10px;">Object</a> <a href="/tags/SSM/" style="font-size: 12.86px;">SSM</a> <a href="/tags/TreeMap/" style="font-size: 11.43px;">TreeMap</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/java基础/" style="font-size: 20px;">java基础</a> <a href="/tags/java并发编程实战/" style="font-size: 11.43px;">java并发编程实战</a> <a href="/tags/leetcode/" style="font-size: 17.14px;">leetcode</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/剑指offer/" style="font-size: 10px;">剑指offer</a> <a href="/tags/多线程/" style="font-size: 11.43px;">多线程</a> <a href="/tags/并发编程/" style="font-size: 10px;">并发编程</a> <a href="/tags/机器学习/" style="font-size: 12.86px;">机器学习</a> <a href="/tags/构造函数/" style="font-size: 10px;">构造函数</a> <a href="/tags/深入理解java虚拟机/" style="font-size: 10px;">深入理解java虚拟机</a> <a href="/tags/生活/" style="font-size: 10px;">生活</a> <a href="/tags/神经网络/" style="font-size: 10px;">神经网络</a> <a href="/tags/算法与数据结构/" style="font-size: 14.29px;">算法与数据结构</a> <a href="/tags/算法和数据结构/" style="font-size: 18.57px;">算法和数据结构</a> <a href="/tags/观影记/" style="font-size: 10px;">观影记</a> <a href="/tags/读书书单/" style="font-size: 10px;">读书书单</a>
+        </div>
+    </div>
+</div>
+<div class="search-wrap">
+    <span class="search-close">&times;</span>
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+            <i class="icon icon-lg icon-chevron-left"></i>
+        </a>
+        <input class="search-field" placeholder="Search..." id="keywords">
+        <a id="search-submit" href="javascript:;">
+            <i class="fa fa-search"></i>
+        </a>
+    <div class="search-container" id="search-container">
+        <ul class="search-result" id="search-result">
+        </ul>
+    </div>
+</div>
+
+<div id="search-tpl">
+    <li class="search-result-item">
+        <a href="{url}" class="search-item-li">
+            <span class="search-item-li-title" title="{title}">{title}</span>
+        </a>
+    </li>
+</div>
+<script src="/js/search.js"></script>
+<script src="/js/main.js"></script>
+
+
+  <script src="//cdn.bootcss.com/particles.js/2.0.0/particles.min.js"></script>
+  <div id="particles"></div>
+  <script src="/js/particles.js"></script>
+
+
+
+
+
+
+
+  <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
+  <script src="//cdn.bootcss.com/scrollReveal.js/3.0.5/scrollreveal.js"></script>
+  <script src="/js/animate.js"></script>
+
+
+  <script src="/js/pop-img.js"></script>
+  <script>
+     $(".article-entry p img").popImg();
+  </script>
+
+  </div>
+</body>
+</html>

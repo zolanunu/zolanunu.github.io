@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>java集合之Map下的相关接口及直接实现类 | zolanunu</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+    <meta name="keywords" content="zolanunu,zolanunu's blog" />
+  
+  <meta name="description" content="Map接口Map 提供 Key 到 Value 的映射，一个 Map 中不能包含相同的 Key，每个 Key 只能映射一个 Value。Map 接口提供 3 种集合的视图，Map 的内容可以被当作一组 Key 集合，一组 Value 集合，或者一组 Key-Value 映射。 Map中的方法123456789int size() 存储的键值对的个数boolean isEmpty() 判断容器中是不">
+<meta name="keywords" content="Collections">
+<meta property="og:type" content="article">
+<meta property="og:title" content="java集合之Map下的相关接口及直接实现类">
+<meta property="og:url" content="http://zhangbuzola.cn/2018/04/27/java集合之Map下接口及直接实现类/index.html">
+<meta property="og:site_name" content="zolanunu">
+<meta property="og:description" content="Map接口Map 提供 Key 到 Value 的映射，一个 Map 中不能包含相同的 Key，每个 Key 只能映射一个 Value。Map 接口提供 3 种集合的视图，Map 的内容可以被当作一组 Key 集合，一组 Value 集合，或者一组 Key-Value 映射。 Map中的方法123456789int size() 存储的键值对的个数boolean isEmpty() 判断容器中是不">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2018-07-12T06:20:19.613Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="java集合之Map下的相关接口及直接实现类">
+<meta name="twitter:description" content="Map接口Map 提供 Key 到 Value 的映射，一个 Map 中不能包含相同的 Key，每个 Key 只能映射一个 Value。Map 接口提供 3 种集合的视图，Map 的内容可以被当作一组 Key 集合，一组 Value 集合，或者一组 Key-Value 映射。 Map中的方法123456789int size() 存储的键值对的个数boolean isEmpty() 判断容器中是不">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="/js/pace.min.js"></script>
+  
+
+  
+	<script>
+	var _hmt = _hmt || [];
+	(function() {
+	  var hm = document.createElement("script");
+	  hm.src = "//hm.baidu.com/hm.js?a651034b7d11a367ae836642b29a3057";
+	  var s = document.getElementsByTagName("script")[0]; 
+	  s.parentNode.insertBefore(hm, s);
+	})();
+	</script>
+
+  
+
+</head>
+
+<body>
+  <div id="container">
+      <header id="header">
+    <div id="banner"></div>
+    <div id="header-outer">
+        <div id="header-menu" class="header-menu-pos animated">
+            <div class="header-menu-container">
+                <a href="/" class="left">
+                    <span class="site-title">zolanunu&#39;s Blog</span>
+                </a>
+                <nav id="header-menu-nav" class="right">
+                    
+                    <a  href="/">
+                        <i class="fa fa-home"></i>
+                        <span>Home</span>
+                    </a>
+                    
+                    <a  href="/archives">
+                        <i class="fa fa-archive"></i>
+                        <span>Archives</span>
+                    </a>
+                    
+                    <a  href="/about">
+                        <i class="fa fa-user"></i>
+                        <span>About</span>
+                    </a>
+                    
+                </nav>
+                <a class="mobile-header-menu-button">
+                    <i class="fa fa-bars"></i>
+                </a>
+            </div>
+        </div>
+        <div id="header-row">
+            <div id="logo">
+                <a href="/">
+                    <img src="/images/pacman.jpg" alt="logo">
+                </a>
+            </div>
+            <div class="header-info">
+                <div id="header-title">
+                    
+                    <h2>
+                        zolanunu&#39;s Blog
+                    </h2>
+                    
+                </div>
+                <div id="header-description">
+                    
+                    <h3>
+                        去努力尝试做一些你觉得你不会做或者不敢做的事情。
+                    </h3>
+                    
+                </div>
+            </div>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a title="zolanunu" target="_blank" href="//zhangbuzola.cn">
+                            <i class="fa fa-home fa-2x"></i></a>
+                    
+                        <a title="Github" target="_blank" href="//github.com/zolanunu">
+                            <i class="fa fa-github fa-2x"></i></a>
+                    
+                        <a title="Weibo" target="_blank" href="//weibo.com/zolanunu">
+                            <i class="fa fa-weibo fa-2x"></i></a>
+                    
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>
+      <div class="outer">
+        <section id="main" class="body-wrap"><article id="post-java集合之Map下接口及直接实现类" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="post-title" itemprop="name">
+      java集合之Map下的相关接口及直接实现类
+    </h1>
+    <div class="post-title-bar">
+      <ul>
+          
+              <li>
+                  <i class="fa fa-book"></i>
+                  
+                      <a href="/categories/Java/">Java</a>
+                  
+              </li>
+          
+        <li>
+          <i class="fa fa-calendar"></i>  2018-04-27
+        </li>
+        <li>
+          <i class="fa fa-eye"></i>
+          <span id="busuanzi_value_page_pv"></span>
+        </li>
+      </ul>
+    </div>
+  
+
+          
+      </header>
+    
+    <div class="article-entry post-content" itemprop="articleBody">
+      
+            
+            <h1 id="Map接口"><a href="#Map接口" class="headerlink" title="Map接口"></a>Map接口</h1><p>Map 提供 Key 到 Value 的映射，一个 Map 中不能包含相同的 Key，每个 Key 只能映射一个 Value。Map 接口提供 3 种集合的视图，Map 的内容可以被当作一组 Key 集合，一组 Value 集合，或者一组 Key-Value 映射。</p>
+<h2 id="Map中的方法"><a href="#Map中的方法" class="headerlink" title="Map中的方法"></a>Map中的方法</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">int size() 存储的键值对的个数</span><br><span class="line">boolean isEmpty() 判断容器中是不是空的</span><br><span class="line">boolean containsKey()	判断容器中是否包含对应的键</span><br><span class="line">boolean containsValue() 判断容器中是否包含指定的值</span><br><span class="line">V get(Object value) 根据键来获取对应的值	</span><br><span class="line">V put(K key,V value)	把键值对数据添加到Map容器中</span><br><span class="line">V remove(Object key) 删除Map容器中对应的key</span><br><span class="line">Collection&lt;V&gt; values()	获取Map容器中所有的值</span><br><span class="line">Set&lt;Map.Entry&lt;K,V&gt;&gt;entrySet()	返回包含的映射关系的Set视图</span><br></pre></td></tr></table></figure>
+<h1 id="SortedMap接口"><a href="#SortedMap接口" class="headerlink" title="SortedMap接口"></a>SortedMap接口</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">public interface SortedMap&lt;K,V&gt;</span><br><span class="line">extends Map&lt;K,V&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">java.util.SortedMap.comparator() //接收比较器，用于Map排序</span><br><span class="line">java.util.SortedMap.entrySet()  //后去Map中的entrySet集合</span><br><span class="line">java.util.SortedMap.firstKey()	//第一个key</span><br><span class="line">java.util.SortedMap.headMap(K k)	//在k之前的键值对</span><br><span class="line">java.util.SortedMap.keySet()        //获取key的set集合</span><br><span class="line">java.util.SortedMap.lastKey()       //最后的key</span><br><span class="line">java.util.SortedMap.subMap(K k1, K k2)	//k1，k2之间的键值对</span><br><span class="line">java.util.SortedMap.tailMap(K)        //集合最后的键值对</span><br><span class="line">java.util.SortedMap.values()         //集合所有的values</span><br></pre></td></tr></table></figure>
+<h2 id="应用"><a href="#应用" class="headerlink" title="应用"></a>应用</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">SortedMap&lt;String,Integer&gt; sortedTreeMap = new TreeMap&lt;String,Integer&gt;(); // SortedMap接收TreeMap的实例 </span><br><span class="line"></span><br><span class="line">// 增加元素</span><br><span class="line">sortedTreeMap.put(&quot;aa&quot;, 11);</span><br><span class="line">sortedTreeMap.put(&quot;bb&quot;, 22);</span><br><span class="line">sortedTreeMap.put(&quot;cc&quot;, 33);</span><br><span class="line">sortedTreeMap.put(&quot;dd&quot;, 44);</span><br><span class="line">sortedTreeMap.put(&quot;ee&quot;, 55);</span><br><span class="line"></span><br><span class="line">System.out.println(&quot;共有多少个元素：&quot; + sortedTreeMap.size());	//添加了7个元素，减去重复的剩余5个</span><br><span class="line">System.out.println(&quot;entrySet：&quot; + sortedTreeMap.entrySet());	//所有的键值对</span><br><span class="line">System.out.println(&quot;第一个元素：&quot; + sortedTreeMap.firstKey());	//第一个key元素</span><br><span class="line">System.out.println(&quot;最后一个元素：&quot; + sortedTreeMap.lastKey());	//最后一个key元素</span><br><span class="line">System.out.println(&quot;headSet元素：&quot; + sortedTreeMap.headMap(&quot;cc&quot;));	//cc之前的元素</span><br><span class="line">System.out.println(&quot;tailSet元素：&quot; + sortedTreeMap.tailMap(&quot;cc&quot;));	//cc之后的元素</span><br><span class="line">System.out.println(&quot;subSet元素：&quot; + sortedTreeMap.subMap(&quot;aa&quot;, &quot;dd&quot;));	//aa到dd之间的元素</span><br><span class="line">System.out.println(&quot;subSet元素：&quot; + sortedTreeMap.values());		//values,所有的value值</span><br></pre></td></tr></table></figure>
+<h1 id="NavigableMap接口"><a href="#NavigableMap接口" class="headerlink" title="NavigableMap接口"></a>NavigableMap接口</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">public interface NavigableMap&lt;K,V&gt; extends SortedMap&lt;K,V&gt; &#123;&#125;</span><br></pre></td></tr></table></figure>
+<p>所有已知实现类：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ConcurrentSkipListMap, TreeMap</span><br></pre></td></tr></table></figure>
+<p>NavigableMap扩展了 SortedMap，具有了针对给定搜索目标返回最接近匹配项的导航方法。方法 lowerEntry、floorEntry、ceilingEntry 和 higherEntry 分别返回与小于、小于等于、大于等于、大于给定键的键关联的 Map.Entry 对象，如果不存在这样的键，则返回 null。类似地，方法 lowerKey、floorKey、ceilingKey 和 higherKey 只返回关联的键。所有这些方法是为查找条目而不是遍历条目而设计的。</p>
+<p>可以按照键的升序或降序访问和遍历 NavigableMap。descendingMap 方法返回映射的一个视图，该视图表示的所有关系方法和方向方法都是逆向的。升序操作和视图的性能很可能比降序操作和视图的性能要好。subMap、headMap 和 tailMap 方法与名称相似的 SortedMap 方法的不同之处在于：可以接受用于描述是否包括（或不包括）下边界和上边界的附加参数。任何 NavigableMap 的 Submap 必须实现 NavigableMap 接口。</p>
+<p>此接口还定义了 firstEntry、pollFirstEntry、lastEntry 和 pollLastEntry 方法，它们返回和/或移除最小和最大的映射关系（如果存在），否则返回 null。</p>
+<p>subMap(K, K)、headMap(K) 和 tailMap(K) 方法被指定为返回 SortedMap，以允许现有 SortedMap 实现能相容地改进为实现 NavigableMap，但鼓励此接口的扩展和实现重写这些方法以返回 NavigableMap。类似地，可以重写 SortedMap.keySet() 以返回 NavigableSet。 </p>
+<h2 id="应用-1"><a href="#应用-1" class="headerlink" title="应用"></a>应用</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br></pre></td><td class="code"><pre><span class="line">NavigableMap&lt;String, Integer&gt; navigatorTreeMap = new TreeMap&lt;String, Integer&gt;();</span><br><span class="line">// SortedMap接收TreeMap的实例</span><br><span class="line"></span><br><span class="line">// 增加元素</span><br><span class="line">navigatorTreeMap.put(&quot;aa&quot;, 11);</span><br><span class="line">navigatorTreeMap.put(&quot;bb&quot;, 22);</span><br><span class="line">navigatorTreeMap.put(&quot;cc&quot;, 33);</span><br><span class="line">navigatorTreeMap.put(&quot;dd&quot;, 44);</span><br><span class="line">navigatorTreeMap.put(&quot;ee&quot;, 55);</span><br><span class="line">navigatorTreeMap.put(&quot;ff&quot;, 55);</span><br><span class="line">navigatorTreeMap.put(&quot;gg&quot;, 55);</span><br><span class="line"></span><br><span class="line">System.out.println(navigatorTreeMap.size());	// 7个元素：</span><br><span class="line">System.out.println(navigatorTreeMap.ceilingKey(&quot;cc&quot;));</span><br><span class="line">// 返回大于等于cc的最小键：cc</span><br><span class="line">System.out.println(navigatorTreeMap.ceilingEntry(&quot;c&quot;));</span><br><span class="line">// 返回一个键-值映射关系，它与大于等于cc的最小键关联：cc=33</span><br><span class="line">System.out.println(navigatorTreeMap.descendingMap());</span><br><span class="line">// 返回逆序视图:&#123;gg=55, ff=55, ee=55, dd=44, cc=33, bb=22, aa=11&#125;</span><br><span class="line">System.out.println(navigatorTreeMap.firstKey());</span><br><span class="line">// 最小键:aa</span><br><span class="line">System.out.println(navigatorTreeMap.firstEntry());</span><br><span class="line">// 最小键对应的k-v键值对：aa=11</span><br><span class="line">System.out.println(navigatorTreeMap.floorEntry(&quot;c&quot;));</span><br><span class="line">// 返回一个键-值映射关系，它与小于等于给定键的最大键关联:bb=22</span><br><span class="line">System.out.println(navigatorTreeMap.floorKey(&quot;cc&quot;));</span><br><span class="line">// 返回小于等于cc的最大键:cc</span><br><span class="line">System.out.println(navigatorTreeMap.headMap(&quot;bb&quot;));</span><br><span class="line">// 返回此映射的部分视图，其键值严格小于bb:&#123;aa=11&#125;</span><br><span class="line">System.out.println(navigatorTreeMap.headMap(&quot;bb&quot;, true));</span><br><span class="line">// 同上小于等于（true）:&#123;aa=11, bb=22&#125;</span><br><span class="line">System.out.println(navigatorTreeMap.higherEntry(&quot;c&quot;));</span><br><span class="line">// 返回一个键-值映射关系，它与小于等于给定键的最大键关联:cc=33</span><br><span class="line">System.out.println(navigatorTreeMap.higherKey(&quot;cc&quot;));</span><br><span class="line">// 返回小于等于cc的最大键:dd</span><br><span class="line">System.out.println(navigatorTreeMap.lastEntry());</span><br><span class="line">// 返回一个键-值映射关系，它与小于等于给定键的最大键关联:gg=55</span><br><span class="line">System.out.println(navigatorTreeMap.lastKey());</span><br><span class="line">// 返回小于等于cc的最大键:gg</span><br><span class="line">System.out.println(navigatorTreeMap.lowerEntry(&quot;c&quot;));</span><br><span class="line">// 返回一个键-值映射关系，它与小于等于给定键的最大键关联:bb=22</span><br><span class="line">System.out.println(navigatorTreeMap.lowerKey(&quot;cc&quot;));</span><br><span class="line">// 返回严格小于cc的最大键:bb</span><br><span class="line">System.out.println(navigatorTreeMap.pollFirstEntry());</span><br><span class="line">// 移除并返回与此映射中的最小键关联的键-值映射关系:aa=11</span><br><span class="line">System.out.println(navigatorTreeMap.pollLastEntry());</span><br><span class="line">// 移除并返回与此映射中的最大键关联的键-值映射关系:gg=55</span><br><span class="line">System.out.println(navigatorTreeMap.navigableKeySet());</span><br><span class="line">// 返回此映射中所包含键的</span><br><span class="line">// NavigableSet 视图。:[bb, cc, dd, ee, ff]</span><br><span class="line">System.out.println(navigatorTreeMap.subMap(&quot;aa&quot;, true, &quot;dd&quot;, true));</span><br><span class="line">// 返回部分视图，true表示包括当前元素键值对:&#123;bb=22, cc=33, dd=44&#125;</span><br><span class="line">System.out.println(navigatorTreeMap.subMap(&quot;bb&quot;, &quot;dd&quot;));</span><br><span class="line">// 返回部分视图包括前面的元素，不包括后面的：&#123;bb=22, cc=33&#125;</span><br><span class="line">System.out.println(navigatorTreeMap.tailMap(&quot;cc&quot;));</span><br><span class="line">// 返回元素大于cc的元素映射视图,包括cc：//&#123;cc=33, dd=44, ee=55, ff=55&#125;</span><br><span class="line">System.out.println(navigatorTreeMap.tailMap(&quot;cc&quot;, false));</span><br><span class="line">// 返回元素大于等于cc的元素映射视图:&#123;dd=44, ee=55, ff=55&#125;</span><br><span class="line">System.out.println(navigatorTreeMap.descendingMap());</span><br><span class="line">// 返回此映射中所包含映射关系的逆序：&#123;ff=55, ee=55, dd=44, cc=33, bb=22&#125;视图。:</span><br><span class="line">System.out.println(navigatorTreeMap.descendingKeySet());// 返回此映射中所包含键的逆序</span><br><span class="line">// NavigableSet视图:[ff, ee, dd, cc, bb]</span><br></pre></td></tr></table></figure>
+<h1 id="抽象类AbstractMap"><a href="#抽象类AbstractMap" class="headerlink" title="抽象类AbstractMap"></a>抽象类AbstractMap</h1><p>AbstractMap 提供了 Map 的基本实现，使得我们以后要实现一个 Map 不用从头开始，只需要继承 AbstractMap, 然后按需求实现/重写对应方法即可。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">public abstract Set&lt;Entry&lt;K,V&gt;&gt; entrySet();</span><br></pre></td></tr></table></figure>
+<h2 id="WeakHashMap"><a href="#WeakHashMap" class="headerlink" title="WeakHashMap"></a>WeakHashMap</h2><p>这种Map通常用在数据缓存中。它将键存储在弱引用（WeakReference）中。如果没有强引用指向键对象，这些键就可以被GC垃圾回收线程回收。值被保存在强引用中，所以要确保没有引用从值指向键或者将值也保存在弱引用中<br>m.put(key, new WeakReference(value))</p>
+<h2 id="LinkedHashMap"><a href="#LinkedHashMap" class="headerlink" title="LinkedHashMap"></a>LinkedHashMap</h2><p>HashMap和LinkedList的结合，所有元素的插入顺序存储在LinkedList中。所以迭代LinkedHashMap的条目（entry）、键和值的时候总是遵循插入的顺序。在JDK中，这是元素消耗内存最大的集合。</p>
+<h2 id="TreeMap"><a href="#TreeMap" class="headerlink" title="TreeMap"></a>TreeMap</h2><p>一种基于已排序且带导向信息Map的红黑树。每次插入都会按照自然顺序或者给定的比较器排序。这个Map需要实现equals方法和Comparable/Comparator。compareTo需要前后一致。这个类实现了一个NavigableMap接口：可以带有与键数量不同的入口，可以得到键的上一个或者下一个入口，可以得到另一Map某一范围的键（大致和SQL的BETWEEN运算符相同），TreeMap是唯一的带有subMap()方法的Map，它可以返回一个子树。</p>
+<h2 id="HashMap和hashtable比较"><a href="#HashMap和hashtable比较" class="headerlink" title="HashMap和hashtable比较"></a>HashMap和hashtable比较</h2><ul>
+<li><p>hashtable基于旧的dictionary类，HashMap基于jdk1.2新的map接口。 </p>
+</li>
+<li><p>hashtable同步，线程安全；HashMap异步，线程不安全，但是效率高。 </p>
+</li>
+<li><p>hashtable不能添加null key和null value；HashMap可以添加null key和null value。<br>4）不需要线程安全，一般使用HashMap。</p>
+</li>
+</ul>
+<h2 id="HashMap和treemap比较"><a href="#HashMap和treemap比较" class="headerlink" title="HashMap和treemap比较"></a>HashMap和treemap比较</h2><ul>
+<li><p>HashMap使用hashcode对元素进行快速查找，元素顺序不固定；treemap元素顺序通过key固定（实现了sortedmap），想要得到有序结果，使用treemap，linkedhashmap是基于元素进入集合的顺序。 </p>
+</li>
+<li><p>频繁索引，添加，删除元素使用HashMap，要求添加的键类明确定义了hashCode()和 equals()的实现。 </p>
+</li>
+<li><p>二树map一样，但顺序不一样，导致hashCode()不一样。在hashMap中，同样的值的map,顺序不同，equals时false;而在treeMap中，同样的值的map,顺序不同,equals时，true，说明，treeMap在equals()时是整理了顺序了的。</p>
+</li>
+</ul>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p><a href="https://www.cnblogs.com/yulinfeng/p/8486539.html" target="_blank" rel="noopener">https://www.cnblogs.com/yulinfeng/p/8486539.html</a></p>
+
+            <div class="post-copyright">
+    <div class="content">
+        <p>最后更新： 2018年07月12日 14:20</p>
+        <p>原始链接： <a class="post-url" href="/2018/04/27/java集合之Map下接口及直接实现类/" title="java集合之Map下的相关接口及直接实现类">http://zhangbuzola.cn/2018/04/27/java集合之Map下接口及直接实现类/</a></p>
+        <footer>
+            <a href="http://zhangbuzola.cn">
+                <img src="/images/pacman.jpg" alt="zolanunu">
+                zolanunu
+            </a>
+        </footer>
+    </div>
+</div>
+
+      
+        
+            
+
+        
+    </div>
+    <footer class="article-footer">
+        
+        <ul class="article-footer-menu">
+            
+            
+  <li class="article-footer-tags">
+    <i class="fa fa-tags"></i>
+      
+    <a href="/tags/Collections/" class="color2">Collections</a>
+      
+  </li>
+
+        </ul>
+        
+    </footer>
+  </div>
+</article>
+
+
+    <aside class="post-toc-pos post-toc-top" id="post-toc">
+        <nav class="post-toc-wrap">
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#Map接口"><span class="post-toc-text">Map接口</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Map中的方法"><span class="post-toc-text">Map中的方法</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#SortedMap接口"><span class="post-toc-text">SortedMap接口</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#应用"><span class="post-toc-text">应用</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#NavigableMap接口"><span class="post-toc-text">NavigableMap接口</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#应用-1"><span class="post-toc-text">应用</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#抽象类AbstractMap"><span class="post-toc-text">抽象类AbstractMap</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#WeakHashMap"><span class="post-toc-text">WeakHashMap</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#LinkedHashMap"><span class="post-toc-text">LinkedHashMap</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#TreeMap"><span class="post-toc-text">TreeMap</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#HashMap和hashtable比较"><span class="post-toc-text">HashMap和hashtable比较</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#HashMap和treemap比较"><span class="post-toc-text">HashMap和treemap比较</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#参考"><span class="post-toc-text">参考</span></a></li></ol>
+        </nav>
+    </aside>
+    
+
+<nav id="article-nav">
+  
+    <a href="/2018/07/04/java基础之多线程三/" id="article-nav-newer" class="article-nav-link-wrap">
+
+      <span class="article-nav-title">
+        <i class="fa fa-hand-o-left" aria-hidden="true"></i>
+        
+          java基础学习之多线程三
+        
+      </span>
+    </a>
+  
+  
+    <a href="/2018/04/27/java集合之TreeMap/" id="article-nav-older" class="article-nav-link-wrap">
+      <span class="article-nav-title">java集合之TreeMap(二)</span>
+      <i class="fa fa-hand-o-right" aria-hidden="true"></i>
+    </a>
+  
+</nav>
+
+
+
+    
+        <link rel="stylesheet" href="//unpkg.com/gitment/style/default.css">
+    <script src="//unpkg.com/gitment/dist/gitment.browser.js"></script>
+    <script>
+        var gitment = new Gitment({
+            owner: 'true',
+            repo: 'zolanunu',
+            oauth: {
+                client_id: '1a04e8dee74a4b8634df',
+                client_secret: '9e3078ac89eb72f22abbdd11f7f0d11e2e1d7f7a',
+            },
+        })
+        gitment.render('comments')
+    </script>
+
+    
+</section>
+        
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+      <p>
+        Powered by  <a href="http://hexo.io/" target="_blank">Hexo</a>
+        Theme <a href="//github.com/wongminho/hexo-theme-miho" target="_blank">MiHo</a>
+      &copy; 2018 zolanunu<br>
+      </p>
+    </div>
+  </div>
+</footer>
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script>
+  var mihoConfig = {
+      root: "http://zhangbuzola.cn",
+      animate: true,
+      isHome: false,
+      share: false,
+      reward: 0
+  }
+</script>
+<div class="sidebar">
+    <div id="sidebar-search" title="Search">
+        <i class="fa fa-search"></i>
+    </div>
+    <div id="sidebar-category" title="Categories">
+        <i class="fa fa-book"></i>
+    </div>
+    <div id="sidebar-tag" title="Tags">
+        <i class="fa fa-tags"></i>
+    </div>
+    <div id="sidebar-top">
+        <span class="sidebar-top-icon"><i class="fa fa-angle-up"></i></span>
+    </div>
+</div>
+<div class="sidebar-menu-box" id="sidebar-menu-box">
+    <div class="sidebar-menu-box-container">
+        <div id="sidebar-menu-box-categories">
+            <a class="category-link" href="/categories/Java/">Java</a><a class="category-link" href="/categories/Java后台/">Java后台</a><a class="category-link" href="/categories/Python/">Python</a><a class="category-link" href="/categories/工具/">工具</a><a class="category-link" href="/categories/技术书/">技术书</a><a class="category-link" href="/categories/数据库/">数据库</a><a class="category-link" href="/categories/数据结构/">数据结构</a><a class="category-link" href="/categories/生活轨迹/">生活轨迹</a><a class="category-link" href="/categories/算法/">算法</a>
+        </div>
+        <div id="sidebar-menu-box-tags">
+            <a href="/tags/2018/" style="font-size: 11.43px;">2018</a> <a href="/tags/Collections/" style="font-size: 15.71px;">Collections</a> <a href="/tags/HashMap/" style="font-size: 10px;">HashMap</a> <a href="/tags/LinkedHashMap/" style="font-size: 10px;">LinkedHashMap</a> <a href="/tags/MySQL/" style="font-size: 17.14px;">MySQL</a> <a href="/tags/Mybatis/" style="font-size: 12.86px;">Mybatis</a> <a href="/tags/Object/" style="font-size: 10px;">Object</a> <a href="/tags/SSM/" style="font-size: 12.86px;">SSM</a> <a href="/tags/TreeMap/" style="font-size: 11.43px;">TreeMap</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/java基础/" style="font-size: 20px;">java基础</a> <a href="/tags/java并发编程实战/" style="font-size: 11.43px;">java并发编程实战</a> <a href="/tags/leetcode/" style="font-size: 17.14px;">leetcode</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/剑指offer/" style="font-size: 10px;">剑指offer</a> <a href="/tags/多线程/" style="font-size: 11.43px;">多线程</a> <a href="/tags/并发编程/" style="font-size: 10px;">并发编程</a> <a href="/tags/机器学习/" style="font-size: 12.86px;">机器学习</a> <a href="/tags/构造函数/" style="font-size: 10px;">构造函数</a> <a href="/tags/深入理解java虚拟机/" style="font-size: 10px;">深入理解java虚拟机</a> <a href="/tags/生活/" style="font-size: 10px;">生活</a> <a href="/tags/神经网络/" style="font-size: 10px;">神经网络</a> <a href="/tags/算法与数据结构/" style="font-size: 14.29px;">算法与数据结构</a> <a href="/tags/算法和数据结构/" style="font-size: 18.57px;">算法和数据结构</a> <a href="/tags/观影记/" style="font-size: 10px;">观影记</a> <a href="/tags/读书书单/" style="font-size: 10px;">读书书单</a>
+        </div>
+    </div>
+    <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
+</div>
+<div class="mobile-header-menu-nav" id="mobile-header-menu-nav">
+    <div class="mobile-header-menu-container">
+        <span class="title">Menus</span>
+        <ul class="mobile-header-menu-navbar">
+            
+            <li>
+                <a  href="/">
+                    <i class="fa fa-home"></i><span>Home</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/archives">
+                    <i class="fa fa-archive"></i><span>Archives</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/about">
+                    <i class="fa fa-user"></i><span>About</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    <div class="mobile-header-tag-container">
+        <span class="title">Tags</span>
+        <div id="mobile-header-container-tags">
+            <a href="/tags/2018/" style="font-size: 11.43px;">2018</a> <a href="/tags/Collections/" style="font-size: 15.71px;">Collections</a> <a href="/tags/HashMap/" style="font-size: 10px;">HashMap</a> <a href="/tags/LinkedHashMap/" style="font-size: 10px;">LinkedHashMap</a> <a href="/tags/MySQL/" style="font-size: 17.14px;">MySQL</a> <a href="/tags/Mybatis/" style="font-size: 12.86px;">Mybatis</a> <a href="/tags/Object/" style="font-size: 10px;">Object</a> <a href="/tags/SSM/" style="font-size: 12.86px;">SSM</a> <a href="/tags/TreeMap/" style="font-size: 11.43px;">TreeMap</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/java基础/" style="font-size: 20px;">java基础</a> <a href="/tags/java并发编程实战/" style="font-size: 11.43px;">java并发编程实战</a> <a href="/tags/leetcode/" style="font-size: 17.14px;">leetcode</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/剑指offer/" style="font-size: 10px;">剑指offer</a> <a href="/tags/多线程/" style="font-size: 11.43px;">多线程</a> <a href="/tags/并发编程/" style="font-size: 10px;">并发编程</a> <a href="/tags/机器学习/" style="font-size: 12.86px;">机器学习</a> <a href="/tags/构造函数/" style="font-size: 10px;">构造函数</a> <a href="/tags/深入理解java虚拟机/" style="font-size: 10px;">深入理解java虚拟机</a> <a href="/tags/生活/" style="font-size: 10px;">生活</a> <a href="/tags/神经网络/" style="font-size: 10px;">神经网络</a> <a href="/tags/算法与数据结构/" style="font-size: 14.29px;">算法与数据结构</a> <a href="/tags/算法和数据结构/" style="font-size: 18.57px;">算法和数据结构</a> <a href="/tags/观影记/" style="font-size: 10px;">观影记</a> <a href="/tags/读书书单/" style="font-size: 10px;">读书书单</a>
+        </div>
+    </div>
+</div>
+<div class="search-wrap">
+    <span class="search-close">&times;</span>
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+            <i class="icon icon-lg icon-chevron-left"></i>
+        </a>
+        <input class="search-field" placeholder="Search..." id="keywords">
+        <a id="search-submit" href="javascript:;">
+            <i class="fa fa-search"></i>
+        </a>
+    <div class="search-container" id="search-container">
+        <ul class="search-result" id="search-result">
+        </ul>
+    </div>
+</div>
+
+<div id="search-tpl">
+    <li class="search-result-item">
+        <a href="{url}" class="search-item-li">
+            <span class="search-item-li-title" title="{title}">{title}</span>
+        </a>
+    </li>
+</div>
+<script src="/js/search.js"></script>
+<script src="/js/main.js"></script>
+
+
+  <script src="//cdn.bootcss.com/particles.js/2.0.0/particles.min.js"></script>
+  <div id="particles"></div>
+  <script src="/js/particles.js"></script>
+
+
+
+
+
+
+
+  <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
+  <script src="//cdn.bootcss.com/scrollReveal.js/3.0.5/scrollreveal.js"></script>
+  <script src="/js/animate.js"></script>
+
+
+  <script src="/js/pop-img.js"></script>
+  <script>
+     $(".article-entry p img").popImg();
+  </script>
+
+  </div>
+</body>
+</html>

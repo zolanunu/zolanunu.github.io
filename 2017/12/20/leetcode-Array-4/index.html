@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>leetcode刷题四 | zolanunu</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+    <meta name="keywords" content="zolanunu,zolanunu's blog" />
+  
+  <meta name="description" content="695. Max Area Of Island难度星级： *** 题目描述Given a non-empty 2D array grid of 0’s and 1’s, an island is a group of 1’s (representing land) connected 4-directionally (horizontal or vertical.) You may assume">
+<meta name="keywords" content="算法与数据结构,leetcode">
+<meta property="og:type" content="article">
+<meta property="og:title" content="leetcode刷题四">
+<meta property="og:url" content="http://zhangbuzola.cn/2017/12/20/leetcode-Array-4/index.html">
+<meta property="og:site_name" content="zolanunu">
+<meta property="og:description" content="695. Max Area Of Island难度星级： *** 题目描述Given a non-empty 2D array grid of 0’s and 1’s, an island is a group of 1’s (representing land) connected 4-directionally (horizontal or vertical.) You may assume">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="http://zhangbuzola.cn/assets/images/array_leetcode_1.jpg">
+<meta property="og:updated_time" content="2018-07-12T05:53:50.476Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="leetcode刷题四">
+<meta name="twitter:description" content="695. Max Area Of Island难度星级： *** 题目描述Given a non-empty 2D array grid of 0’s and 1’s, an island is a group of 1’s (representing land) connected 4-directionally (horizontal or vertical.) You may assume">
+<meta name="twitter:image" content="http://zhangbuzola.cn/assets/images/array_leetcode_1.jpg">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="/js/pace.min.js"></script>
+  
+
+  
+	<script>
+	var _hmt = _hmt || [];
+	(function() {
+	  var hm = document.createElement("script");
+	  hm.src = "//hm.baidu.com/hm.js?a651034b7d11a367ae836642b29a3057";
+	  var s = document.getElementsByTagName("script")[0]; 
+	  s.parentNode.insertBefore(hm, s);
+	})();
+	</script>
+
+  
+
+</head>
+
+<body>
+  <div id="container">
+      <header id="header">
+    <div id="banner"></div>
+    <div id="header-outer">
+        <div id="header-menu" class="header-menu-pos animated">
+            <div class="header-menu-container">
+                <a href="/" class="left">
+                    <span class="site-title">zolanunu&#39;s Blog</span>
+                </a>
+                <nav id="header-menu-nav" class="right">
+                    
+                    <a  href="/">
+                        <i class="fa fa-home"></i>
+                        <span>Home</span>
+                    </a>
+                    
+                    <a  href="/archives">
+                        <i class="fa fa-archive"></i>
+                        <span>Archives</span>
+                    </a>
+                    
+                    <a  href="/about">
+                        <i class="fa fa-user"></i>
+                        <span>About</span>
+                    </a>
+                    
+                </nav>
+                <a class="mobile-header-menu-button">
+                    <i class="fa fa-bars"></i>
+                </a>
+            </div>
+        </div>
+        <div id="header-row">
+            <div id="logo">
+                <a href="/">
+                    <img src="/images/pacman.jpg" alt="logo">
+                </a>
+            </div>
+            <div class="header-info">
+                <div id="header-title">
+                    
+                    <h2>
+                        zolanunu&#39;s Blog
+                    </h2>
+                    
+                </div>
+                <div id="header-description">
+                    
+                    <h3>
+                        去努力尝试做一些你觉得你不会做或者不敢做的事情。
+                    </h3>
+                    
+                </div>
+            </div>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a title="zolanunu" target="_blank" href="//zhangbuzola.cn">
+                            <i class="fa fa-home fa-2x"></i></a>
+                    
+                        <a title="Github" target="_blank" href="//github.com/zolanunu">
+                            <i class="fa fa-github fa-2x"></i></a>
+                    
+                        <a title="Weibo" target="_blank" href="//weibo.com/zolanunu">
+                            <i class="fa fa-weibo fa-2x"></i></a>
+                    
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>
+      <div class="outer">
+        <section id="main" class="body-wrap"><article id="post-leetcode-Array-4" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="post-title" itemprop="name">
+      leetcode刷题四
+    </h1>
+    <div class="post-title-bar">
+      <ul>
+          
+              <li>
+                  <i class="fa fa-book"></i>
+                  
+                      <a href="/categories/算法/">算法</a>
+                  
+              </li>
+          
+        <li>
+          <i class="fa fa-calendar"></i>  2017-12-20
+        </li>
+        <li>
+          <i class="fa fa-eye"></i>
+          <span id="busuanzi_value_page_pv"></span>
+        </li>
+      </ul>
+    </div>
+  
+
+          
+      </header>
+    
+    <div class="article-entry post-content" itemprop="articleBody">
+      
+            
+            <h1 id="695-Max-Area-Of-Island"><a href="#695-Max-Area-Of-Island" class="headerlink" title="695. Max Area Of Island"></a>695. Max Area Of Island</h1><p>难度星级： ***</p>
+<h2 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h2><p>Given a non-empty 2D array grid of 0’s and 1’s, an island is a group of 1’s (representing land) connected 4-directionally (horizontal or vertical.) You may assume all four edges of the grid are surrounded by water.</p>
+<p>Find the maximum area of an island in the given 2D array. (If there is no island, the maximum area is 0.)</p>
+<p>Example 1:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">[[0,0,1,0,0,0,0,1,0,0,0,0,0],</span><br><span class="line"> [0,0,0,0,0,0,0,1,1,1,0,0,0],</span><br><span class="line"> [0,1,1,0,1,0,0,0,0,0,0,0,0],</span><br><span class="line"> [0,1,0,0,1,1,0,0,1,0,1,0,0],</span><br><span class="line"> [0,1,0,0,1,1,0,0,1,1,1,0,0],</span><br><span class="line"> [0,0,0,0,0,0,0,0,0,0,1,0,0],</span><br><span class="line"> [0,0,0,0,0,0,0,1,1,1,0,0,0],</span><br><span class="line"> [0,0,0,0,0,0,0,1,1,0,0,0,0]]</span><br><span class="line">Given the above grid, return 6. Note the answer is not 11</span><br><span class="line">because the island must be connected 4-directionally.</span><br></pre></td></tr></table></figure>
+<p>Example 2:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[[0,0,0,0,0,0,0,0]]</span><br><span class="line">Given the above grid, return 0.</span><br></pre></td></tr></table></figure>
+<p>Note: The length of each dimension in the given grid does not exceed 50.</p>
+<h2 id="解题思路"><a href="#解题思路" class="headerlink" title="解题思路"></a>解题思路</h2><p>题目给了我们一个 2d grid array， 让我们找到所有岛中区域最大的一个，返回区域值。0代表海洋，1代表陆地。陆地与陆地相连，只能是横向和纵向，不可以斜着。</p>
+<p>因为只能横向和纵向相连，所以每一个cell 只能是4个方向延伸，左 上 右 下。</p>
+<p>这道题目要用到Depth-first Search，遍历2d array，遇到1的时候，就利用dfs把这个岛的区域大小找全。我的dps顺序是 左，上，右，下。在递归dfs之前，要把目前的cell</p>
+<p>设为0，是为了避免dfs又往回走，每一个数过的cell，就不需要在重复走了。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">class Solution </span><br><span class="line">&#123;</span><br><span class="line">    public int maxAreaOfIsland(int[][] grid) </span><br><span class="line">    &#123;</span><br><span class="line">        int max_area = 0;</span><br><span class="line">        </span><br><span class="line">        for(int i=0; i&lt;grid.length; i++)</span><br><span class="line">        &#123;</span><br><span class="line">            for(int j=0; j&lt;grid[0].length; j++)</span><br><span class="line">            &#123;</span><br><span class="line">                if(grid[i][j] == 1)</span><br><span class="line">                    max_area = Math.max(max_area, dfs(grid, i, j));</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        return max_area;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    public int dfs(int[][] grid, int i, int j)</span><br><span class="line">    &#123;</span><br><span class="line">        // if i or j is invalid or grid is 0, just return 0</span><br><span class="line">        if( i &lt; 0 || i &gt;= grid.length || j &lt; 0 || j &gt;= grid[0].length || grid[i][j] == 0)</span><br><span class="line">            return 0;</span><br><span class="line">        </span><br><span class="line">        // do dfs to its 4 direction cell when value is 1</span><br><span class="line">        int tempMaxArea = 1;    </span><br><span class="line">        grid[i][j] = 0; // set current cell to 0 to prevent dfs coming back</span><br><span class="line">        </span><br><span class="line">        // order is left, top, right, bottom</span><br><span class="line">        tempMaxArea += dfs(grid, i, j-1) + dfs(grid, i-1, j) + dfs(grid, i, j+1) + dfs(grid, i+1, j);</span><br><span class="line">        </span><br><span class="line">        return tempMaxArea;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="689-Maximum-Sum-of-3-Non-Overlapping-Subarrays"><a href="#689-Maximum-Sum-of-3-Non-Overlapping-Subarrays" class="headerlink" title="689. Maximum Sum of 3 Non-Overlapping Subarrays"></a>689. Maximum Sum of 3 Non-Overlapping Subarrays</h1><p>难度星级： <em>**</em></p>
+<h2 id="题目描述-1"><a href="#题目描述-1" class="headerlink" title="题目描述"></a>题目描述</h2><p>In a given array nums of positive integers, find three non-overlapping subarrays with maximum sum.</p>
+<p>Each subarray will be of size k, and we want to maximize the sum of all 3*k entries.</p>
+<p>Return the result as a list of indices representing the starting position of each interval (0-indexed). If there are multiple answers, return the lexicographically smallest one.</p>
+<p>Example:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Input: [1,2,1,2,6,7,5,1], 2</span><br><span class="line">Output: [0, 3, 5]</span><br><span class="line">Explanation: Subarrays [1, 2], [2, 6], [7, 5] correspond to the starting indices [0, 3, 5].</span><br><span class="line">We could have also taken [2, 1], but an answer of [1, 3, 5] would be lexicographically larger.</span><br></pre></td></tr></table></figure>
+<p>Note:</p>
+<ul>
+<li><p>nums.length will be between 1 and 20000.</p>
+</li>
+<li><p>nums[i] will be between 1 and 65535.</p>
+</li>
+<li><p>k will be between 1 and floor(nums.length / 3).</p>
+</li>
+</ul>
+<h2 id="解题思路-1"><a href="#解题思路-1" class="headerlink" title="解题思路"></a>解题思路</h2><p><strong>题意</strong>:</p>
+<h3 id="解法一"><a href="#解法一" class="headerlink" title="解法一"></a>解法一</h3><p>给定正整数数组nums，计算其中不想交的3段子数组的最大和。每段子数组的长度为k。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line">class Solution:</span><br><span class="line">    def maxSumOfThreeSubarrays(self, nums, k):</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        :type nums: List[int]</span><br><span class="line">        :type k: int</span><br><span class="line">        :rtype: List[int]</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        # print(nums)</span><br><span class="line">        #前缀和</span><br><span class="line">        s = [0] * len(nums)</span><br><span class="line">        s[0] = nums[0]</span><br><span class="line">        for i in range(1, len(s)):</span><br><span class="line">            s[i] = s[i - 1] + nums[i]</span><br><span class="line"></span><br><span class="line">        # print(&apos;s&apos;, s) </span><br><span class="line">        a = [0] * len(nums)</span><br><span class="line">        a[k - 1] = s[k - 1]</span><br><span class="line">        for i in range(k, len(s)):</span><br><span class="line">            a[i] = s[i] - s[i - k]</span><br><span class="line">        # print(&apos;a&apos;, a)</span><br><span class="line">        #最大前缀和</span><br><span class="line">        ss = [0] * len(nums)</span><br><span class="line">        ma = 0</span><br><span class="line">        for i in range(k - 1, len(s)):</span><br><span class="line">            if a[i] &gt; a[ma]:</span><br><span class="line">                ma = i</span><br><span class="line">            ss[i] = (a[ma], ma)</span><br><span class="line">        # print(&apos;ss&apos;,ss)</span><br><span class="line">        sss = [0] * len(nums)</span><br><span class="line">        for i in range(k * 2 - 1, len(s)):</span><br><span class="line">            sss[i] = a[i] + ss[i - k][0]</span><br><span class="line">        # print(&apos;sss&apos;,sss)</span><br><span class="line">        #二级最大前缀和</span><br><span class="line">        b = [0] * len(nums)</span><br><span class="line">        ma = 0</span><br><span class="line">        for i in range(k * 2 - 1, len(s)):</span><br><span class="line">            if sss[i] &gt; sss[ma]:</span><br><span class="line">                ma = i</span><br><span class="line">            b[i] = (sss[ma], ma)</span><br><span class="line">        # print(&apos;b&apos;,b)</span><br><span class="line">        #三级前缀和</span><br><span class="line">        c = [0] * len(nums)</span><br><span class="line">        for i in range(k * 3 - 1, len(s)):</span><br><span class="line">            c[i] = a[i] + b[i - k][0]</span><br><span class="line">        # print(&apos;c&apos;,c)</span><br><span class="line">        ans = 0</span><br><span class="line">        for i in range(k * 3 - 1, len(c)):</span><br><span class="line">            if c[i] &gt; c[ans]:</span><br><span class="line">                ans = i</span><br><span class="line">        ret = [0, 0, ans]</span><br><span class="line">        ret[1] = b[ret[2] - k][1]</span><br><span class="line">        ret[0] = ss[ret[1] - k][1]</span><br><span class="line">        ret = list(map(lambda i: i - k+1, ret))</span><br><span class="line">        return ret</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">if __name__ == &apos;__main__&apos;:</span><br><span class="line">    ans = Solution().maxSumOfThreeSubarrays([1,2,1,2,6,7,5,1], 2)</span><br><span class="line">    print(ans)</span><br></pre></td></tr></table></figure>
+<h3 id="解法二"><a href="#解法二" class="headerlink" title="解法二"></a>解法二</h3><p>分治法和合并法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line">class Solution &#123;</span><br><span class="line">    public int[] maxSumOfThreeSubarrays(int[] nums, int k) &#123;</span><br><span class="line">        int n = nums.length;</span><br><span class="line">        int[] sum = new int[n + 1];</span><br><span class="line">        int[] left = new int[n];</span><br><span class="line">        int[] right = new int[n];</span><br><span class="line">        int[] ret = new int[3];</span><br><span class="line"></span><br><span class="line">        // First get the prefix sum of nums.</span><br><span class="line">        // Prefix sum enables us to get the sum of k consecutive element in O(1) time</span><br><span class="line">        for (int i = 0; i &lt; n; i++) &#123;</span><br><span class="line">            sum[i + 1] = sum[i] + nums[i];</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        // DP for the left intetval max sum</span><br><span class="line">        for (int i = k, tot = sum[k] - sum[0]; i &lt; n; i++) &#123;</span><br><span class="line">            if (sum[i + 1] - sum[i - k + 1] &gt; tot) &#123;</span><br><span class="line">                tot = sum[i + 1] - sum[i - k + 1];</span><br><span class="line">                left[i] = i - k + 1;</span><br><span class="line">            &#125; else &#123;</span><br><span class="line">                left[i] = left[i - 1];</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        // DP for the right interval max sum</span><br><span class="line">        right[n - k] = n - k;</span><br><span class="line">        for (int i = n - 1 - k, tot = sum[n] - sum[n - k]; i &gt;= 0; i--) &#123;</span><br><span class="line">            if (sum[i + k] - sum[i] &gt;= tot) &#123;</span><br><span class="line">                tot = sum[i + k] - sum[i];</span><br><span class="line">                right[i] = i;</span><br><span class="line">            &#125; else &#123;</span><br><span class="line">                right[i] = right[i + 1];</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        // Find the max sum by iterating through the middle interval index based on above 2 cache.</span><br><span class="line">        int maxSum = 0;</span><br><span class="line">        for (int i = k; i &lt;= n - 2 * k; i++) &#123;</span><br><span class="line">            int l = left[i - 1], r = right[i + k];</span><br><span class="line">            int tot = sum[l + k] - sum[l] + sum[r + k] - sum[r] + sum[i + k] - sum[i];</span><br><span class="line">            if (tot &gt; maxSum) &#123;</span><br><span class="line">                ret[0] = l;</span><br><span class="line">                ret[1] = i;</span><br><span class="line">                ret[2] = r;</span><br><span class="line">                maxSum = tot;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        return ret;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="683-K-Empty-Slots"><a href="#683-K-Empty-Slots" class="headerlink" title="683. K Empty Slots"></a>683. K Empty Slots</h1><p>难度星级： <strong>*</strong></p>
+<h2 id="题目描述-2"><a href="#题目描述-2" class="headerlink" title="题目描述"></a>题目描述</h2><p>There is a garden with N slots. In each slot, there is a flower. The N flowers will bloom one by one in N days. In each day, there will be exactly one flower blooming and it will be in the status of blooming since then.</p>
+<p>Given an array flowers consists of number from 1 to N. Each number in the array represents the place where the flower will open in that day.</p>
+<p>For example, flowers[i] = x means that the unique flower that blooms at day i will be at position x, where i and x will be in the range from 1 to N.</p>
+<p>Also given an integer k, you need to output in which day there exists two flowers in the status of blooming, and also the number of flowers between them is k and these flowers are not blooming.</p>
+<p>If there isn’t such day, output -1.</p>
+<p>Example 1:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Input: </span><br><span class="line">flowers: [1,3,2]</span><br><span class="line">k: 1</span><br><span class="line">Output: 2</span><br><span class="line">Explanation: In the second day, the first and the third flower have become blooming.</span><br></pre></td></tr></table></figure>
+<p>Example 2:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Input: </span><br><span class="line">flowers: [1,2,3]</span><br><span class="line">k: 1</span><br><span class="line">Output: -1</span><br></pre></td></tr></table></figure>
+<p>Note:</p>
+<ul>
+<li>The given array will be in the range [1, 20000].</li>
+</ul>
+<h2 id="解题思路-2"><a href="#解题思路-2" class="headerlink" title="解题思路"></a>解题思路</h2><p>题意：</p>
+<p>树状数组（Fenwick Tree）</p>
+<p>树状数组ft[k]存储前k个槽一共有多少朵花，则区间[m, n]的花朵总数 = ft[n] - ft[m - 1]</p>
+<p>利用该数据结构，遍历flowers即可求解。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">class Solution(object):</span><br><span class="line">    def kEmptySlots(self, flowers, k):</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        :type flowers: List[int]</span><br><span class="line">        :type k: int</span><br><span class="line">        :rtype: int</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        maxn = max(flowers)</span><br><span class="line">        nums = [0] * (maxn + 1)</span><br><span class="line">        ft = FenwickTree(maxn)</span><br><span class="line">        for i, v in enumerate(flowers):</span><br><span class="line">            ft.add(v, 1)</span><br><span class="line">            nums[v] = 1</span><br><span class="line">            if v &gt;= k and ft.sum(v) - ft.sum(v - k - 2) == 2 and nums[v - k - 1]:</span><br><span class="line">                return i + 1</span><br><span class="line">            if v + k + 1&lt;= maxn and ft.sum(v + k + 1) - ft.sum(v - 1) == 2 and nums[v + k + 1]:</span><br><span class="line">                return i + 1</span><br><span class="line">        return -1</span><br><span class="line"></span><br><span class="line">class FenwickTree(object):</span><br><span class="line">    def __init__(self, n):</span><br><span class="line">        self.n = n</span><br><span class="line">        self.sums = [0] * (n + 1)</span><br><span class="line">    def add(self, x, val):</span><br><span class="line">        while x &lt;= self.n:</span><br><span class="line">            self.sums[x] += val</span><br><span class="line">            x += self.lowbit(x)</span><br><span class="line">    def lowbit(self, x):</span><br><span class="line">        return x &amp; -x</span><br><span class="line">    def sum(self, x):</span><br><span class="line">        res = 0</span><br><span class="line">        while x &gt; 0:</span><br><span class="line">            res += self.sums[x]</span><br><span class="line">            x -= self.lowbit(x)</span><br><span class="line">        return res</span><br></pre></td></tr></table></figure>
+<h1 id="674-Longest-Continuous-Increasing-Subsequence"><a href="#674-Longest-Continuous-Increasing-Subsequence" class="headerlink" title="674. Longest Continuous Increasing Subsequence"></a>674. Longest Continuous Increasing Subsequence</h1><h2 id="题目描述-3"><a href="#题目描述-3" class="headerlink" title="题目描述"></a>题目描述</h2><p>Given a non-negative integer, you could swap two digits at most once to get the maximum valued number. Return the maximum valued number you could get.</p>
+<p>Example 1:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Input: 2736</span><br><span class="line">Output: 7236</span><br><span class="line">Explanation: Swap the number 2 and the number 7.</span><br></pre></td></tr></table></figure>
+<p>Example 2:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Input: 9973</span><br><span class="line">Output: 9973</span><br><span class="line">Explanation: No swap.</span><br></pre></td></tr></table></figure>
+<p>Note:</p>
+<ul>
+<li>The given number is in the range [0, 108]</li>
+</ul>
+<h2 id="解题思路-3"><a href="#解题思路-3" class="headerlink" title="解题思路"></a>解题思路</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">package com.leetcode.coding;</span><br><span class="line"></span><br><span class="line">public class LongestContinuousIncreasingSubsequence &#123;</span><br><span class="line">	public static int findLengthOfLCIS(int[] nums) &#123;</span><br><span class="line">		if(nums.length == 0) &#123;</span><br><span class="line">			return 0;</span><br><span class="line">		&#125;</span><br><span class="line">		int curlen = 0;</span><br><span class="line">		for(int i = 0, k = 1; i &lt; nums.length-1; i++) &#123;</span><br><span class="line">			if(nums[i] &lt; nums[i+1]) &#123;</span><br><span class="line">				k++;</span><br><span class="line">				curlen = Math.max(curlen, k);</span><br><span class="line">			&#125; else &#123;</span><br><span class="line">				k = 1;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		return curlen;</span><br><span class="line">	&#125;</span><br><span class="line">	public static void main(String[] args) &#123;</span><br><span class="line">		int[] nums = &#123;1,3,5,4,7&#125;;</span><br><span class="line">		int len = findLengthOfLCIS(nums);</span><br><span class="line">		System.out.println(len);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="670-Maximum-Swap"><a href="#670-Maximum-Swap" class="headerlink" title="670. Maximum Swap"></a>670. Maximum Swap</h1><h2 id="题目描述-4"><a href="#题目描述-4" class="headerlink" title="题目描述"></a>题目描述</h2><p>Given a non-negative integer, you could swap two digits at most once to get the maximum valued number. Return the maximum valued number you could get.</p>
+<p>Example 1:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Input: 2736</span><br><span class="line">Output: 7236</span><br><span class="line">Explanation: Swap the number 2 and the number 7.</span><br></pre></td></tr></table></figure>
+<p>Example 2:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Input: 9973</span><br><span class="line">Output: 9973</span><br><span class="line">Explanation: No swap.</span><br></pre></td></tr></table></figure>
+<p>Note:</p>
+<ul>
+<li>The given number is in the range [0, 108].</li>
+</ul>
+<h2 id="解题思路-4"><a href="#解题思路-4" class="headerlink" title="解题思路"></a>解题思路</h2><p><strong>题意</strong>：给定非负整数，至多对调其中的两个数字，使数字最大化</p>
+<p>从左向右（高位到低位）遍历nums, numt，记当前数字分别为m, n, 下标为i</p>
+<p>若m != n：则将nums[i + 1 .. size]的最后一个最大值maxv与m对调</p>
+<p>将nums恢复为数字并返回。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">public static int maximumSwap1(int num) &#123;</span><br><span class="line">	char[] digits = Integer.toString(num).toCharArray();</span><br><span class="line">	int[] buckets = new int[10];</span><br><span class="line">	for (int i = 0; i &lt; digits.length; i++) &#123;</span><br><span class="line">		buckets[digits[i] - &apos;0&apos;] = i;</span><br><span class="line">	&#125;</span><br><span class="line">	        </span><br><span class="line">	for (int i = 0; i &lt; digits.length; i++) &#123;      //从最高位开始</span><br><span class="line">	        for (int k = 9; k &gt; digits[i] - &apos;0&apos;; k--) &#123;    // k需要比数字digits[i]大</span><br><span class="line">	            if (buckets[k] &gt; i) &#123;     //如果k的位置在i后面</span><br><span class="line">	                char tmp = digits[i];</span><br><span class="line">	                digits[i] = digits[buckets[k]];</span><br><span class="line">			digits[buckets[k]] = tmp;</span><br><span class="line">	                return Int</span><br><span class="line"></span><br><span class="line">eger.valueOf(new String(digits));</span><br><span class="line">	                &#125;</span><br><span class="line">	            &#125;</span><br><span class="line">	        &#125;</span><br><span class="line">	return num;</span><br><span class="line">&#125;</span><br><span class="line">public static void main(String[] args) &#123;</span><br><span class="line">	int n = 2736;</span><br><span class="line">	int i = maximumSwap1(n);</span><br><span class="line">	System.out.println(i);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="667-Beautiful-Arrangement-II"><a href="#667-Beautiful-Arrangement-II" class="headerlink" title="667. Beautiful Arrangement II"></a>667. Beautiful Arrangement II</h1><h2 id="题目描述-5"><a href="#题目描述-5" class="headerlink" title="题目描述"></a>题目描述</h2><p>Given two integers n and k, you need to construct a list which contains n different positive integers ranging from 1 to n and obeys the following requirement:<br>Suppose this list is [a1, a2, a3, … , an], then the list [|a1 - a2|, |a2 - a3|, |a3 - a4|, … , |an-1 - an|] has exactly k distinct integers.</p>
+<p>If there are multiple answers, print any of them.</p>
+<p>Example 1:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Input: n = 3, k = 1</span><br><span class="line">Output: [1, 2, 3]</span><br><span class="line">Explanation: The [1, 2, 3] has three different positive integers ranging from 1 to 3,</span><br><span class="line">and the [1, 1] has exactly 1 distinct integer: 1.</span><br></pre></td></tr></table></figure>
+<p>Example 2:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Input: n = 3, k = 2</span><br><span class="line">Output: [1, 3, 2]</span><br><span class="line">Explanation: The [1, 3, 2] has three different positive integers ranging from 1 to 3,</span><br><span class="line">and the [2, 1] has exactly 2 distinct integers: 1 and 2.</span><br></pre></td></tr></table></figure>
+<p>Note:</p>
+<ul>
+<li>The n and k are in the range 1 &lt;= k &lt; n &lt;= 104.</li>
+</ul>
+<h2 id="解题思路-5"><a href="#解题思路-5" class="headerlink" title="解题思路"></a>解题思路</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">package com.leetcode.coding;</span><br><span class="line"></span><br><span class="line">public class BeautifulArrangementII &#123;</span><br><span class="line">	public static int[] constructArray(int n, int k) &#123;</span><br><span class="line">		int[] res = new int[n];</span><br><span class="line">		int l = 1, r = n;</span><br><span class="line">		for(int i = 0; l &lt;= r; i++) &#123;</span><br><span class="line">			res[i] = k &gt; 1 ? (k-- % 2 == 0 ? r-- : l++) : l++;</span><br><span class="line">		&#125;</span><br><span class="line">		return res;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	public static int[] constructArray1(int n, int k) &#123;</span><br><span class="line">		int[] res = new int[n];</span><br><span class="line">		for(int i = 1, j = n, s = 0; i &lt;= j;) &#123;</span><br><span class="line">			if(k &gt; 1) &#123;</span><br><span class="line">				if(k % 2 == 0) &#123;</span><br><span class="line">					res[s++] = i++;</span><br><span class="line">				&#125;</span><br><span class="line">				else &#123;</span><br><span class="line">					res[s++] = j--;</span><br><span class="line">				&#125;</span><br><span class="line">				k--;</span><br><span class="line">			&#125; else &#123;</span><br><span class="line">				if(k % 2 == 0) &#123;</span><br><span class="line">					res[s++] = i++;</span><br><span class="line">				&#125; else &#123;</span><br><span class="line">					res[s++] = j--;</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		return res;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	public static void main(String[] args) &#123;</span><br><span class="line">		int[] res = BeautifulArrangementII.constructArray(7, 3);</span><br><span class="line">		for(int i = 0; i &lt; res.length; i++) &#123;</span><br><span class="line">			System.out.print(res[i] + &quot; &quot;);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="665-Non-decreasing-Array"><a href="#665-Non-decreasing-Array" class="headerlink" title="665. Non-decreasing Array"></a>665. Non-decreasing Array</h1><h2 id="题目描述-6"><a href="#题目描述-6" class="headerlink" title="题目描述"></a>题目描述</h2><p>Given an array with n integers, your task is to check if it could become non-decreasing by modifying at most 1 element.</p>
+<p>We define an array is non-decreasing if array[i] &lt;= array[i + 1] holds for every i (1 &lt;= i &lt; n).</p>
+<p>Example 1:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Input: [4,2,3]</span><br><span class="line">Output: True</span><br><span class="line">Explanation: You could modify the first 4 to 1 to get a non-decreasing array.</span><br></pre></td></tr></table></figure>
+<p>Example 2:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Input: [4,2,1]</span><br><span class="line">Output: False</span><br><span class="line">Explanation: You can&apos;t get a non-decreasing array by modify at most one element.</span><br></pre></td></tr></table></figure>
+<ul>
+<li>Note: The n belongs to [1, 10,000].</li>
+</ul>
+<h2 id="解题思路-6"><a href="#解题思路-6" class="headerlink" title="解题思路"></a>解题思路</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">class Solution </span><br><span class="line">&#123;</span><br><span class="line">    public boolean checkPossibility(int[] nums) </span><br><span class="line">    &#123;</span><br><span class="line">        boolean modified = false;</span><br><span class="line">        </span><br><span class="line">        for(int i=0; i&lt;nums.length; i++)</span><br><span class="line">        &#123;</span><br><span class="line">            if(i+1 &lt; nums.length &amp;&amp; nums[i] &gt; nums[i+1])</span><br><span class="line">            &#123;</span><br><span class="line">                if(modified) // if modified a number already</span><br><span class="line">                    return false;</span><br><span class="line">                else // if it is first time to modify a number</span><br><span class="line">                &#123;</span><br><span class="line">                    if(i-1 &lt; 0 || nums[i+1] &gt;= nums[i-1])</span><br><span class="line">		    // if nums[i+1] is larger or equal all numbers before nums[i]</span><br><span class="line">                        nums[i] = nums[i+1]; // change nums[i] as same as nums[i+1]</span><br><span class="line">                    else</span><br><span class="line">		   // if nums[i+1] is not larger than all numbers before nums[i]</span><br><span class="line">                        nums[i+1] = nums[i]; // change nums[i+1] as same as nums[i]</span><br><span class="line">                    </span><br><span class="line">                    modified = true;</span><br><span class="line">                &#125; </span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        return true;</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">class Solution(object):</span><br><span class="line">    def checkPossibility(self, nums):</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        :type nums: List[int]</span><br><span class="line">        :rtype: bool</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        times = 0</span><br><span class="line">        for i in range(1, len(nums)):</span><br><span class="line">            if nums[i] &lt; nums[i - 1]:</span><br><span class="line">                times += 1</span><br><span class="line">                if times == 2:</span><br><span class="line">                    return False</span><br><span class="line">                if (i != 1 and i != len(nums) - 1):</span><br><span class="line">                    if (nums[i - 1] &gt; nums[i + 1] and nums[i] &lt; nums[i - 2]):</span><br><span class="line">                        return False</span><br><span class="line">        return True</span><br></pre></td></tr></table></figure>
+<h1 id="621-Task-Schedular"><a href="#621-Task-Schedular" class="headerlink" title="621. Task Schedular"></a>621. Task Schedular</h1><h2 id="题目描述-7"><a href="#题目描述-7" class="headerlink" title="题目描述"></a>题目描述</h2><p>Given a char array representing tasks CPU need to do. It contains capital letters A to Z where different letters represent different tasks.Tasks could be done without original order. Each task could be done in one interval. For each interval, CPU could finish one task or just be idle.</p>
+<p>However, there is a non-negative cooling interval n that means between two same tasks, there must be at least n intervals that CPU are doing different tasks or just be idle.</p>
+<p>You need to return the least number of intervals the CPU will take to finish all the given tasks.</p>
+<p>Example 1:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Input: tasks = [&quot;A&quot;,&quot;A&quot;,&quot;A&quot;,&quot;B&quot;,&quot;B&quot;,&quot;B&quot;], n = 2</span><br><span class="line">Output: 8</span><br><span class="line">Explanation: A -&gt; B -&gt; idle -&gt; A -&gt; B -&gt; idle -&gt; A -&gt; B.</span><br></pre></td></tr></table></figure>
+<p>Note:</p>
+<ul>
+<li><p>The number of tasks is in the range [1, 10000].</p>
+</li>
+<li><p>The integer n is in the range [0, 100].</p>
+</li>
+</ul>
+<h2 id="解题思路-7"><a href="#解题思路-7" class="headerlink" title="解题思路"></a>解题思路</h2><ul>
+<li>贪心，利用优先队列排序：队列中保存&lt;类型，个数&gt;的map，并且按照个数由大到小排序。按照词频由大到小取出n+1个或者队列中全部(若没有取出全部，则总长度要加上空闲个数)，再把词频-1之后不为0的放回队列中。直到队列空了为止。——其实也和前面相同，总是选择词频最大的填入每一块。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">class Solution &#123;</span><br><span class="line">public:</span><br><span class="line">    int leastInterval(vector&lt;char&gt;&amp; tasks, int n) &#123;</span><br><span class="line">                map&lt;char, int&gt; m;</span><br><span class="line">        for (int i = 0; i &lt; tasks.size(); ++i) &#123;</span><br><span class="line">            m[tasks[i]]++;</span><br><span class="line">        &#125;</span><br><span class="line">        priority_queue&lt;int&gt; pq;</span><br><span class="line">        for (auto ite : m)&#123;</span><br><span class="line">            pq.push(ite.second);</span><br><span class="line">        &#125;</span><br><span class="line">        int cycle = n + 1, ret = 0;</span><br><span class="line">        while(!pq.empty())&#123;</span><br><span class="line">            vector&lt;int&gt; tmp;</span><br><span class="line">            int time = 0;</span><br><span class="line">            for (int i = 0; i &lt; cycle; ++i) &#123;</span><br><span class="line">                if (!pq.empty())&#123;</span><br><span class="line">                    tmp.push_back(pq.top());</span><br><span class="line">                    pq.pop();</span><br><span class="line">                    time++;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            for (auto cnt : tmp)&#123;</span><br><span class="line">                int remainCnt = cnt - 1;</span><br><span class="line">                if(remainCnt &gt; 0)pq.push(remainCnt);</span><br><span class="line">            &#125;</span><br><span class="line">            if(pq.empty()) ret += time;//如果是最后一次调度，不在需要idle来填充</span><br><span class="line">            else ret += cycle;</span><br><span class="line">        &#125;</span><br><span class="line">        return ret;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>先统计词频，再排序，从后往前找到第一个不是最大词频的下标i，结果是tasks.length或(c[25] - 1) * (n + 1) + 25 – i中大的那一个，25-i就是最大词频的任务类，这个和我的思路是一样的。证明：最大词频是k，则创建k个块，每一块开头是最大词频的任务构成的(输入AACCCDDEEE，则开头是CE)，词频由大到小插入每一块。</li>
+</ul>
+<p>这道题让我们安排CPU的任务，规定在两个相同任务之间至少隔n个时间点。说实话，刚开始博主并没有完全理解题目的意思，后来看了大神们的解法才悟出个道理来。下面这种解法参考了大神fatalme的帖子，由于题目中规定了两个相同任务之间至少隔n个时间点，那么我们首先应该处理的出现次数最多的那个任务，先确定好这些高频任务，然后再来安排那些低频任务。如果任务F的出现频率最高，为k次，那么我们用n个空位将每两个F分隔开，然后我们按顺序加入其他低频的任务，来看一个例子：</p>
+<p>AAAABBBEEFFGG 3</p>
+<p>我们发现任务A出现了4次，频率最高，于是我们在每个A中间加入三个空位，如下：</p>
+<p>A—A—A—A</p>
+<p>AB–AB–AB–A   (加入B)</p>
+<p>ABE-ABE-AB–A   (加入E)</p>
+<p>ABEFABE-ABF-A   (加入F，每次尽可能填满或者是均匀填充)</p>
+<p>ABEFABEGABFGA   (加入G)</p>
+<p>再来看一个例子：</p>
+<p>ACCCEEE 2</p>
+<p>我们发现任务C和E都出现了三次，那么我们就将CE看作一个整体，在中间加入一个位置即可：</p>
+<p>CE-CE-CE</p>
+<p>CEACE-CE   (加入A)</p>
+<p>注意最后面那个idle不能省略，不然就不满足相同两个任务之间要隔2个时间点了。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">class Solution &#123;</span><br><span class="line">public:</span><br><span class="line">    int leastInterval(vector&lt;char&gt;&amp; tasks, int n) &#123;</span><br><span class="line">        int mx = 0, mxCnt = 0;</span><br><span class="line">        vector&lt;int&gt; cnt(26, 0);        </span><br><span class="line">        for (char task : tasks) &#123;</span><br><span class="line">            ++cnt[task - &apos;A&apos;];</span><br><span class="line">            if (mx == cnt[task - &apos;A&apos;]) &#123;</span><br><span class="line">                ++mxCnt;</span><br><span class="line">            &#125; else if (mx &lt; cnt[task - &apos;A&apos;]) &#123;</span><br><span class="line">                mx = cnt[task - &apos;A&apos;];</span><br><span class="line">                mxCnt = 1;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        int partCnt = mx - 1;</span><br><span class="line">        int partLen = n - (mxCnt - 1);</span><br><span class="line">        int emptySlots = partCnt * partLen;</span><br><span class="line">        int taskLeft = tasks.size() - mx * mxCnt;</span><br><span class="line">        int idles = max(0, emptySlots - taskLeft);</span><br><span class="line">        return tasks.size() + idles;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p><img src="/assets/images/array_leetcode_1.jpg" alt=""></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">public class Solution &#123;</span><br><span class="line">    public int leastInterval(char[] tasks, int n) &#123;</span><br><span class="line">        int[] map = new int[26];</span><br><span class="line">        for (char c: tasks)</span><br><span class="line">            map[c - &apos;A&apos;]++;</span><br><span class="line">        Arrays.sort(map);</span><br><span class="line">        int max_val = map[25] - 1, idle_slots = max_val * n;</span><br><span class="line">        for (int i = 24; i &gt;= 0 &amp;&amp; map[i] &gt; 0; i--) &#123;</span><br><span class="line">            idle_slots -= Math.min(map[i], max_val);</span><br><span class="line">        &#125;</span><br><span class="line">        return idle_slots &gt; 0 ? idle_slots + tasks.length : tasks.length;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="532-K-diff-Pairs-in-an-Array"><a href="#532-K-diff-Pairs-in-an-Array" class="headerlink" title="532. K-diff Pairs in an Array"></a>532. K-diff Pairs in an Array</h1><p>Given an array of integers and an integer k, you need to find the number of unique k-diff pairs in the array. Here a k-diff pair is defined as an integer pair (i, j), where i and j are both numbers in the array and their absolute difference is k.</p>
+<p>Example 1:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Input: [3, 1, 4, 1, 5], k = 2</span><br><span class="line">Output: 2</span><br><span class="line">Explanation: There are two 2-diff pairs in the array, (1, 3) and (3, 5).</span><br><span class="line">Although we have two 1s in the input, we should only return the number of unique pairs.</span><br></pre></td></tr></table></figure>
+<p>Example 2:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Input:[1, 2, 3, 4, 5], k = 1</span><br><span class="line">Output: 4</span><br><span class="line">Explanation: There are four 1-diff pairs in the array, (1, 2), (2, 3), (3, 4) and (4, 5).</span><br></pre></td></tr></table></figure>
+<p>Example 3:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Input: [1, 3, 1, 5, 4], k = 0</span><br><span class="line">Output: 1</span><br><span class="line">Explanation: There is one 0-diff pair in the array, (1, 1).</span><br></pre></td></tr></table></figure>
+<p>Note:</p>
+<ul>
+<li><p>The pairs (i, j) and (j, i) count as the same pair.</p>
+</li>
+<li><p>The length of the array won’t exceed 10,000.</p>
+</li>
+<li><p>All the integers in the given input belong to the range: [-1e7, 1e7].</p>
+</li>
+</ul>
+<h2 id="解题思路-8"><a href="#解题思路-8" class="headerlink" title="解题思路"></a>解题思路</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line">class Solution &#123;</span><br><span class="line">    public int findPairs(int[] nums, int k) &#123;</span><br><span class="line">		if(nums.length == 0) &#123;</span><br><span class="line">			return 0;</span><br><span class="line">		&#125;</span><br><span class="line">		Arrays.sort(nums);</span><br><span class="line">		if(nums[0] + k &gt; nums[nums.length-1])&#123;</span><br><span class="line">			return 0;</span><br><span class="line">		&#125;</span><br><span class="line">		int count = 0;</span><br><span class="line">		//boolean[] visited = new boolean[nums.length];</span><br><span class="line">		//System.out.println(visited[0]);</span><br><span class="line">		int keyindex = -1;</span><br><span class="line">		</span><br><span class="line">		for(int i = 0; i &lt; nums.length; i++) &#123;</span><br><span class="line">			//System.out.println(&quot;i: &quot; + i + &quot;, &quot;+&quot;nums[i]: &quot;+nums[i] +&quot;, &quot;+ &quot;nums[i]+k: &quot; + (nums[i] + k));</span><br><span class="line">			//System.out.println(nums[i] + k);</span><br><span class="line">			int target = nums[i] + k;</span><br><span class="line">			if(i == 0) &#123;</span><br><span class="line">				keyindex = binarySearch(nums, 1, target);</span><br><span class="line">				//System.out.println(&quot;keyindex:&quot; + keyindex);</span><br><span class="line">				if(keyindex != -1) &#123;</span><br><span class="line">					count++;</span><br><span class="line">				&#125;</span><br><span class="line">			&#125; else if(i != 0 &amp;&amp; nums[i] != nums[i-1]) &#123;</span><br><span class="line">				keyindex = binarySearch(nums, i+1, target);</span><br><span class="line">				//System.out.println(&quot;keyindex:&quot; + keyindex);</span><br><span class="line">				if(keyindex != -1) &#123;</span><br><span class="line">					count++;</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		return count;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	public int binarySearch(int[] nums, int start, int target) &#123;</span><br><span class="line">		int left = start, right = nums.length - 1;</span><br><span class="line">		</span><br><span class="line">		//System.out.println(mid);</span><br><span class="line">		while (left &lt;= right) &#123;</span><br><span class="line">			int mid = (left + right) / 2;</span><br><span class="line">			if (nums[mid] &gt; target) &#123;</span><br><span class="line">				right = mid - 1;</span><br><span class="line">			&#125; else if(nums[mid] &lt; target) &#123;</span><br><span class="line">				left = mid + 1;</span><br><span class="line">			&#125; else &#123;</span><br><span class="line">				return left;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		return -1;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="581-Shortest-Unsorted-Continuous-Subarray"><a href="#581-Shortest-Unsorted-Continuous-Subarray" class="headerlink" title="581. Shortest Unsorted Continuous Subarray"></a>581. Shortest Unsorted Continuous Subarray</h1><h2 id="题目描述-8"><a href="#题目描述-8" class="headerlink" title="题目描述"></a>题目描述</h2><p>Given an integer array, you need to find one continuous subarray that if you only sort this subarray in ascending order, then the whole array will be sorted in ascending order, too.</p>
+<p>You need to find the shortest such subarray and output its length.</p>
+<p>Example 1:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Input: [2, 6, 4, 8, 10, 9, 15]</span><br><span class="line">Output: 5</span><br><span class="line">Explanation: You need to sort [6, 4, 8, 10, 9] in </span><br><span class="line">ascending order to make the whole array sorted in ascending order.</span><br></pre></td></tr></table></figure>
+<p>Note:</p>
+<ul>
+<li><p>Then length of the input array is in range [1, 10,000].</p>
+</li>
+<li><p>The input array may contain duplicates, so ascending order here means &lt;=.</p>
+</li>
+</ul>
+<h2 id="解题思路-9"><a href="#解题思路-9" class="headerlink" title="解题思路"></a>解题思路</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * </span><br><span class="line"> */</span><br><span class="line">package com.leetcode.coding;</span><br><span class="line"></span><br><span class="line">import java.util.Arrays;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * @author zolanunu</span><br><span class="line"> *</span><br><span class="line"> */</span><br><span class="line">public class ShortestUnSortedContinuousSubArray &#123;</span><br><span class="line">	public static int findUnsortedSubarray(int[] nums) &#123;</span><br><span class="line">		int len = nums.length;</span><br><span class="line">		int[] numscopy = new int[nums.length];</span><br><span class="line">		for(int i = 0; i &lt; len; i++) &#123;</span><br><span class="line">			numscopy[i] = nums[i];</span><br><span class="line">		&#125;</span><br><span class="line">		Arrays.sort(nums);</span><br><span class="line">		int s = -1, e = -1;</span><br><span class="line">		for(int i = 0; i &lt; len; i++) &#123;</span><br><span class="line">			if(numscopy[i] != nums[i]) &#123;</span><br><span class="line">				if(s == -1) &#123;</span><br><span class="line">					s = i;</span><br><span class="line">				&#125;</span><br><span class="line">				e = i;</span><br><span class="line">			&#125;</span><br><span class="line">			System.out.println(s +&quot; &quot;+ e);</span><br><span class="line">		&#125;</span><br><span class="line">		if(s == e) &#123;</span><br><span class="line">			return 0;</span><br><span class="line">		&#125;</span><br><span class="line">		System.out.println(s +&quot; &quot;+ e);</span><br><span class="line">		return e - s + 1;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	public static void main(String[] args) &#123;</span><br><span class="line">		int[] nums = &#123;1,2,3,4,5,2&#125;;</span><br><span class="line">		System.out.println(findUnsortedSubarray(nums));</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+            <div class="post-copyright">
+    <div class="content">
+        <p>最后更新： 2018年07月12日 13:53</p>
+        <p>原始链接： <a class="post-url" href="/2017/12/20/leetcode-Array-4/" title="leetcode刷题四">http://zhangbuzola.cn/2017/12/20/leetcode-Array-4/</a></p>
+        <footer>
+            <a href="http://zhangbuzola.cn">
+                <img src="/images/pacman.jpg" alt="zolanunu">
+                zolanunu
+            </a>
+        </footer>
+    </div>
+</div>
+
+      
+        
+            
+
+        
+    </div>
+    <footer class="article-footer">
+        
+        <ul class="article-footer-menu">
+            
+            
+  <li class="article-footer-tags">
+    <i class="fa fa-tags"></i>
+      
+    <a href="/tags/算法与数据结构/" class="color3">算法与数据结构</a>
+      
+    <a href="/tags/leetcode/" class="color4">leetcode</a>
+      
+  </li>
+
+        </ul>
+        
+    </footer>
+  </div>
+</article>
+
+
+    <aside class="post-toc-pos post-toc-top" id="post-toc">
+        <nav class="post-toc-wrap">
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#695-Max-Area-Of-Island"><span class="post-toc-text">695. Max Area Of Island</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#题目描述"><span class="post-toc-text">题目描述</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#解题思路"><span class="post-toc-text">解题思路</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#689-Maximum-Sum-of-3-Non-Overlapping-Subarrays"><span class="post-toc-text">689. Maximum Sum of 3 Non-Overlapping Subarrays</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#题目描述-1"><span class="post-toc-text">题目描述</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#解题思路-1"><span class="post-toc-text">解题思路</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#解法一"><span class="post-toc-text">解法一</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#解法二"><span class="post-toc-text">解法二</span></a></li></ol></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#683-K-Empty-Slots"><span class="post-toc-text">683. K Empty Slots</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#题目描述-2"><span class="post-toc-text">题目描述</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#解题思路-2"><span class="post-toc-text">解题思路</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#674-Longest-Continuous-Increasing-Subsequence"><span class="post-toc-text">674. Longest Continuous Increasing Subsequence</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#题目描述-3"><span class="post-toc-text">题目描述</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#解题思路-3"><span class="post-toc-text">解题思路</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#670-Maximum-Swap"><span class="post-toc-text">670. Maximum Swap</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#题目描述-4"><span class="post-toc-text">题目描述</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#解题思路-4"><span class="post-toc-text">解题思路</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#667-Beautiful-Arrangement-II"><span class="post-toc-text">667. Beautiful Arrangement II</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#题目描述-5"><span class="post-toc-text">题目描述</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#解题思路-5"><span class="post-toc-text">解题思路</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#665-Non-decreasing-Array"><span class="post-toc-text">665. Non-decreasing Array</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#题目描述-6"><span class="post-toc-text">题目描述</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#解题思路-6"><span class="post-toc-text">解题思路</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#621-Task-Schedular"><span class="post-toc-text">621. Task Schedular</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#题目描述-7"><span class="post-toc-text">题目描述</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#解题思路-7"><span class="post-toc-text">解题思路</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#532-K-diff-Pairs-in-an-Array"><span class="post-toc-text">532. K-diff Pairs in an Array</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#解题思路-8"><span class="post-toc-text">解题思路</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#581-Shortest-Unsorted-Continuous-Subarray"><span class="post-toc-text">581. Shortest Unsorted Continuous Subarray</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#题目描述-8"><span class="post-toc-text">题目描述</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#解题思路-9"><span class="post-toc-text">解题思路</span></a></li></ol></li></ol>
+        </nav>
+    </aside>
+    
+
+<nav id="article-nav">
+  
+    <a href="/2017/12/27/java基础之finalize/" id="article-nav-newer" class="article-nav-link-wrap">
+
+      <span class="article-nav-title">
+        <i class="fa fa-hand-o-left" aria-hidden="true"></i>
+        
+          java基础学习之finalize
+        
+      </span>
+    </a>
+  
+  
+    <a href="/2017/12/20/javabase_constructure/" id="article-nav-older" class="article-nav-link-wrap">
+      <span class="article-nav-title">java基础学习之构造函数</span>
+      <i class="fa fa-hand-o-right" aria-hidden="true"></i>
+    </a>
+  
+</nav>
+
+
+
+    
+        <link rel="stylesheet" href="//unpkg.com/gitment/style/default.css">
+    <script src="//unpkg.com/gitment/dist/gitment.browser.js"></script>
+    <script>
+        var gitment = new Gitment({
+            owner: 'true',
+            repo: 'zolanunu',
+            oauth: {
+                client_id: '1a04e8dee74a4b8634df',
+                client_secret: '9e3078ac89eb72f22abbdd11f7f0d11e2e1d7f7a',
+            },
+        })
+        gitment.render('comments')
+    </script>
+
+    
+</section>
+        
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+      <p>
+        Powered by  <a href="http://hexo.io/" target="_blank">Hexo</a>
+        Theme <a href="//github.com/wongminho/hexo-theme-miho" target="_blank">MiHo</a>
+      &copy; 2018 zolanunu<br>
+      </p>
+    </div>
+  </div>
+</footer>
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script>
+  var mihoConfig = {
+      root: "http://zhangbuzola.cn",
+      animate: true,
+      isHome: false,
+      share: false,
+      reward: 0
+  }
+</script>
+<div class="sidebar">
+    <div id="sidebar-search" title="Search">
+        <i class="fa fa-search"></i>
+    </div>
+    <div id="sidebar-category" title="Categories">
+        <i class="fa fa-book"></i>
+    </div>
+    <div id="sidebar-tag" title="Tags">
+        <i class="fa fa-tags"></i>
+    </div>
+    <div id="sidebar-top">
+        <span class="sidebar-top-icon"><i class="fa fa-angle-up"></i></span>
+    </div>
+</div>
+<div class="sidebar-menu-box" id="sidebar-menu-box">
+    <div class="sidebar-menu-box-container">
+        <div id="sidebar-menu-box-categories">
+            <a class="category-link" href="/categories/Java/">Java</a><a class="category-link" href="/categories/Java后台/">Java后台</a><a class="category-link" href="/categories/Python/">Python</a><a class="category-link" href="/categories/工具/">工具</a><a class="category-link" href="/categories/技术书/">技术书</a><a class="category-link" href="/categories/数据库/">数据库</a><a class="category-link" href="/categories/数据结构/">数据结构</a><a class="category-link" href="/categories/生活轨迹/">生活轨迹</a><a class="category-link" href="/categories/算法/">算法</a>
+        </div>
+        <div id="sidebar-menu-box-tags">
+            <a href="/tags/2018/" style="font-size: 11.43px;">2018</a> <a href="/tags/Collections/" style="font-size: 15.71px;">Collections</a> <a href="/tags/HashMap/" style="font-size: 10px;">HashMap</a> <a href="/tags/LinkedHashMap/" style="font-size: 10px;">LinkedHashMap</a> <a href="/tags/MySQL/" style="font-size: 17.14px;">MySQL</a> <a href="/tags/Mybatis/" style="font-size: 12.86px;">Mybatis</a> <a href="/tags/Object/" style="font-size: 10px;">Object</a> <a href="/tags/SSM/" style="font-size: 12.86px;">SSM</a> <a href="/tags/TreeMap/" style="font-size: 11.43px;">TreeMap</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/java基础/" style="font-size: 20px;">java基础</a> <a href="/tags/java并发编程实战/" style="font-size: 11.43px;">java并发编程实战</a> <a href="/tags/leetcode/" style="font-size: 17.14px;">leetcode</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/剑指offer/" style="font-size: 10px;">剑指offer</a> <a href="/tags/多线程/" style="font-size: 11.43px;">多线程</a> <a href="/tags/并发编程/" style="font-size: 10px;">并发编程</a> <a href="/tags/机器学习/" style="font-size: 12.86px;">机器学习</a> <a href="/tags/构造函数/" style="font-size: 10px;">构造函数</a> <a href="/tags/深入理解java虚拟机/" style="font-size: 10px;">深入理解java虚拟机</a> <a href="/tags/生活/" style="font-size: 10px;">生活</a> <a href="/tags/神经网络/" style="font-size: 10px;">神经网络</a> <a href="/tags/算法与数据结构/" style="font-size: 14.29px;">算法与数据结构</a> <a href="/tags/算法和数据结构/" style="font-size: 18.57px;">算法和数据结构</a> <a href="/tags/观影记/" style="font-size: 10px;">观影记</a> <a href="/tags/读书书单/" style="font-size: 10px;">读书书单</a>
+        </div>
+    </div>
+    <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
+</div>
+<div class="mobile-header-menu-nav" id="mobile-header-menu-nav">
+    <div class="mobile-header-menu-container">
+        <span class="title">Menus</span>
+        <ul class="mobile-header-menu-navbar">
+            
+            <li>
+                <a  href="/">
+                    <i class="fa fa-home"></i><span>Home</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/archives">
+                    <i class="fa fa-archive"></i><span>Archives</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/about">
+                    <i class="fa fa-user"></i><span>About</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    <div class="mobile-header-tag-container">
+        <span class="title">Tags</span>
+        <div id="mobile-header-container-tags">
+            <a href="/tags/2018/" style="font-size: 11.43px;">2018</a> <a href="/tags/Collections/" style="font-size: 15.71px;">Collections</a> <a href="/tags/HashMap/" style="font-size: 10px;">HashMap</a> <a href="/tags/LinkedHashMap/" style="font-size: 10px;">LinkedHashMap</a> <a href="/tags/MySQL/" style="font-size: 17.14px;">MySQL</a> <a href="/tags/Mybatis/" style="font-size: 12.86px;">Mybatis</a> <a href="/tags/Object/" style="font-size: 10px;">Object</a> <a href="/tags/SSM/" style="font-size: 12.86px;">SSM</a> <a href="/tags/TreeMap/" style="font-size: 11.43px;">TreeMap</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/java基础/" style="font-size: 20px;">java基础</a> <a href="/tags/java并发编程实战/" style="font-size: 11.43px;">java并发编程实战</a> <a href="/tags/leetcode/" style="font-size: 17.14px;">leetcode</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/剑指offer/" style="font-size: 10px;">剑指offer</a> <a href="/tags/多线程/" style="font-size: 11.43px;">多线程</a> <a href="/tags/并发编程/" style="font-size: 10px;">并发编程</a> <a href="/tags/机器学习/" style="font-size: 12.86px;">机器学习</a> <a href="/tags/构造函数/" style="font-size: 10px;">构造函数</a> <a href="/tags/深入理解java虚拟机/" style="font-size: 10px;">深入理解java虚拟机</a> <a href="/tags/生活/" style="font-size: 10px;">生活</a> <a href="/tags/神经网络/" style="font-size: 10px;">神经网络</a> <a href="/tags/算法与数据结构/" style="font-size: 14.29px;">算法与数据结构</a> <a href="/tags/算法和数据结构/" style="font-size: 18.57px;">算法和数据结构</a> <a href="/tags/观影记/" style="font-size: 10px;">观影记</a> <a href="/tags/读书书单/" style="font-size: 10px;">读书书单</a>
+        </div>
+    </div>
+</div>
+<div class="search-wrap">
+    <span class="search-close">&times;</span>
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+            <i class="icon icon-lg icon-chevron-left"></i>
+        </a>
+        <input class="search-field" placeholder="Search..." id="keywords">
+        <a id="search-submit" href="javascript:;">
+            <i class="fa fa-search"></i>
+        </a>
+    <div class="search-container" id="search-container">
+        <ul class="search-result" id="search-result">
+        </ul>
+    </div>
+</div>
+
+<div id="search-tpl">
+    <li class="search-result-item">
+        <a href="{url}" class="search-item-li">
+            <span class="search-item-li-title" title="{title}">{title}</span>
+        </a>
+    </li>
+</div>
+<script src="/js/search.js"></script>
+<script src="/js/main.js"></script>
+
+
+  <script src="//cdn.bootcss.com/particles.js/2.0.0/particles.min.js"></script>
+  <div id="particles"></div>
+  <script src="/js/particles.js"></script>
+
+
+
+
+
+
+
+  <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
+  <script src="//cdn.bootcss.com/scrollReveal.js/3.0.5/scrollreveal.js"></script>
+  <script src="/js/animate.js"></script>
+
+
+  <script src="/js/pop-img.js"></script>
+  <script>
+     $(".article-entry p img").popImg();
+  </script>
+
+  </div>
+</body>
+</html>

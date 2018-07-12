@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>K-means | zolanunu</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+    <meta name="keywords" content="zolanunu,zolanunu's blog" />
+  
+  <meta name="description" content="利用K-均值聚类算法对未标注数据分组聚类什么是聚类算法呢，相比于分类算法，很明了了。聚类算法是无监督的，也就是样本都没有任何标签，而分类对象的标签已经。将相似的对象聚成簇。簇内的对象越相似，聚类效果就越好。 下面介绍K-均值聚类的算法。K-均值：是将n个样本聚类到k个簇中，每个簇的中心采用簇中所含的均值计算得到的。 K-均值聚类算法优点： 容易实现 缺点：可能收敛到局部最小值，在大规模数据集上收敛">
+<meta name="keywords" content="算法和数据结构,机器学习">
+<meta property="og:type" content="article">
+<meta property="og:title" content="K-means">
+<meta property="og:url" content="http://zhangbuzola.cn/2017/12/28/MLInaction_c10_kmeans/index.html">
+<meta property="og:site_name" content="zolanunu">
+<meta property="og:description" content="利用K-均值聚类算法对未标注数据分组聚类什么是聚类算法呢，相比于分类算法，很明了了。聚类算法是无监督的，也就是样本都没有任何标签，而分类对象的标签已经。将相似的对象聚成簇。簇内的对象越相似，聚类效果就越好。 下面介绍K-均值聚类的算法。K-均值：是将n个样本聚类到k个簇中，每个簇的中心采用簇中所含的均值计算得到的。 K-均值聚类算法优点： 容易实现 缺点：可能收敛到局部最小值，在大规模数据集上收敛">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="http://zhangbuzola.cn/assets/images/c10%20kmeans%20algorithm.png">
+<meta property="og:updated_time" content="2018-07-12T05:52:19.432Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="K-means">
+<meta name="twitter:description" content="利用K-均值聚类算法对未标注数据分组聚类什么是聚类算法呢，相比于分类算法，很明了了。聚类算法是无监督的，也就是样本都没有任何标签，而分类对象的标签已经。将相似的对象聚成簇。簇内的对象越相似，聚类效果就越好。 下面介绍K-均值聚类的算法。K-均值：是将n个样本聚类到k个簇中，每个簇的中心采用簇中所含的均值计算得到的。 K-均值聚类算法优点： 容易实现 缺点：可能收敛到局部最小值，在大规模数据集上收敛">
+<meta name="twitter:image" content="http://zhangbuzola.cn/assets/images/c10%20kmeans%20algorithm.png">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="/js/pace.min.js"></script>
+  
+
+  
+	<script>
+	var _hmt = _hmt || [];
+	(function() {
+	  var hm = document.createElement("script");
+	  hm.src = "//hm.baidu.com/hm.js?a651034b7d11a367ae836642b29a3057";
+	  var s = document.getElementsByTagName("script")[0]; 
+	  s.parentNode.insertBefore(hm, s);
+	})();
+	</script>
+
+  
+
+</head>
+
+<body>
+  <div id="container">
+      <header id="header">
+    <div id="banner"></div>
+    <div id="header-outer">
+        <div id="header-menu" class="header-menu-pos animated">
+            <div class="header-menu-container">
+                <a href="/" class="left">
+                    <span class="site-title">zolanunu&#39;s Blog</span>
+                </a>
+                <nav id="header-menu-nav" class="right">
+                    
+                    <a  href="/">
+                        <i class="fa fa-home"></i>
+                        <span>Home</span>
+                    </a>
+                    
+                    <a  href="/archives">
+                        <i class="fa fa-archive"></i>
+                        <span>Archives</span>
+                    </a>
+                    
+                    <a  href="/about">
+                        <i class="fa fa-user"></i>
+                        <span>About</span>
+                    </a>
+                    
+                </nav>
+                <a class="mobile-header-menu-button">
+                    <i class="fa fa-bars"></i>
+                </a>
+            </div>
+        </div>
+        <div id="header-row">
+            <div id="logo">
+                <a href="/">
+                    <img src="/images/pacman.jpg" alt="logo">
+                </a>
+            </div>
+            <div class="header-info">
+                <div id="header-title">
+                    
+                    <h2>
+                        zolanunu&#39;s Blog
+                    </h2>
+                    
+                </div>
+                <div id="header-description">
+                    
+                    <h3>
+                        去努力尝试做一些你觉得你不会做或者不敢做的事情。
+                    </h3>
+                    
+                </div>
+            </div>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a title="zolanunu" target="_blank" href="//zhangbuzola.cn">
+                            <i class="fa fa-home fa-2x"></i></a>
+                    
+                        <a title="Github" target="_blank" href="//github.com/zolanunu">
+                            <i class="fa fa-github fa-2x"></i></a>
+                    
+                        <a title="Weibo" target="_blank" href="//weibo.com/zolanunu">
+                            <i class="fa fa-weibo fa-2x"></i></a>
+                    
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>
+      <div class="outer">
+        <section id="main" class="body-wrap"><article id="post-MLInaction_c10_kmeans" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="post-title" itemprop="name">
+      K-means
+    </h1>
+    <div class="post-title-bar">
+      <ul>
+          
+              <li>
+                  <i class="fa fa-book"></i>
+                  
+                      <a href="/categories/算法/">算法</a>
+                  
+              </li>
+          
+        <li>
+          <i class="fa fa-calendar"></i>  2017-12-28
+        </li>
+        <li>
+          <i class="fa fa-eye"></i>
+          <span id="busuanzi_value_page_pv"></span>
+        </li>
+      </ul>
+    </div>
+  
+
+          
+      </header>
+    
+    <div class="article-entry post-content" itemprop="articleBody">
+      
+            
+            <h1 id="利用K-均值聚类算法对未标注数据分组"><a href="#利用K-均值聚类算法对未标注数据分组" class="headerlink" title="利用K-均值聚类算法对未标注数据分组"></a>利用K-均值聚类算法对未标注数据分组</h1><h2 id="聚类"><a href="#聚类" class="headerlink" title="聚类"></a>聚类</h2><p>什么是聚类算法呢，相比于分类算法，很明了了。聚类算法是无监督的，也就是样本都没有任何标签，而分类对象的标签已经。将相似的对象聚成簇。簇内的对象越相似，聚类效果就越好。</p>
+<p>下面介绍K-均值聚类的算法。K-均值：是将n个样本聚类到k个簇中，每个簇的中心采用簇中所含的均值计算得到的。</p>
+<h2 id="K-均值聚类算法"><a href="#K-均值聚类算法" class="headerlink" title="K-均值聚类算法"></a>K-均值聚类算法</h2><p>优点： 容易实现</p>
+<p>缺点：可能收敛到局部最小值，在大规模数据集上收敛较慢。</p>
+<h3 id="伪代码"><a href="#伪代码" class="headerlink" title="伪代码"></a>伪代码</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">创建k个点作为起始质心（经常是随机选择）</span><br><span class="line">当任意一个点的簇分配结果发生改变时：</span><br><span class="line">	对数据集中的每个数据点</span><br><span class="line">		对每个质心</span><br><span class="line">			计算质心与数据点之间的距离  </span><br><span class="line">		将数据点分配到距其最近的簇</span><br><span class="line">	对每个簇，计算簇中所有点的均值，并将其作为簇的质心。（更新质心）</span><br></pre></td></tr></table></figure>
+<p>复杂度：时间复杂度：O（mnkd），其中 m是样本的个数，n为维数，k是迭代的次数，d为聚类中心的个数。空间复杂度：O（mn）</p>
+<h3 id="python实践"><a href="#python实践" class="headerlink" title="python实践"></a>python实践</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line">&apos;&apos;&apos;</span><br><span class="line">k Means Clustering for Ch10 of Machine Learning in Action</span><br><span class="line">&apos;&apos;&apos;</span><br><span class="line">from numpy import *</span><br><span class="line"></span><br><span class="line">def loadDataSet(fileName):</span><br><span class="line"> # general function to parse tab delimited floats</span><br><span class="line">    dataMat = []                </span><br><span class="line"> # assume last column is target value</span><br><span class="line">    fr = open(fileName)</span><br><span class="line">    for line in fr.readlines():</span><br><span class="line">        curLine = line.strip().split(&apos;\t&apos;)</span><br><span class="line">        fltLine = map(float,curLine) </span><br><span class="line">        # map all elements to float()</span><br><span class="line">        dataMat.append(fltLine)</span><br><span class="line">    return dataMat</span><br><span class="line"></span><br><span class="line">def distEclud(vecA, vecB):</span><br><span class="line">    return sqrt(sum(power(vecA - vecB, 2))) </span><br><span class="line">    # la.norm(vecA-vecB)</span><br><span class="line"></span><br><span class="line">def randCent(dataSet, k): # 在给定的数据集上构建一个包含k个随机质心的集合</span><br><span class="line">    n = shape(dataSet)[1]</span><br><span class="line">    centroids = mat(zeros((k,n)))# create centroid mat</span><br><span class="line">    for j in range(n): # create random cluster centers, within bounds of each dimension</span><br><span class="line">        minJ = min(dataSet[:,j]) </span><br><span class="line">        rangeJ = float(max(dataSet[:,j]) - minJ)</span><br><span class="line">        centroids[:,j] = mat(minJ + rangeJ * random.rand(k,1))</span><br><span class="line">    return centroids</span><br><span class="line">    </span><br><span class="line">def kMeans(dataSet, k, distMeas=distEclud, createCent=randCent):</span><br><span class="line">    m = shape(dataSet)[0]</span><br><span class="line">    clusterAssment = mat(zeros((m,2)))# create mat to assign data points </span><br><span class="line">                                      # to a centroid, also holds SE of each point</span><br><span class="line">    # 用于存放该样本属于哪类及质心距离</span><br><span class="line">    centroids = createCent(dataSet, k)</span><br><span class="line">    clusterChanged = True</span><br><span class="line">    while clusterChanged:</span><br><span class="line">        clusterChanged = False</span><br><span class="line">        for i in range(m):#for each data point assign it to the closest centroid</span><br><span class="line">            minDist = inf; minIndex = -1</span><br><span class="line">            for j in range(k):</span><br><span class="line">                distJI = distMeas(centroids[j,:],dataSet[i,:])</span><br><span class="line">                if distJI &lt; minDist:</span><br><span class="line">                    minDist = distJI; minIndex = j</span><br><span class="line">            if clusterAssment[i,0] != minIndex: clusterChanged = True</span><br><span class="line">            clusterAssment[i,:] = minIndex,minDist**2</span><br><span class="line">        print centroids</span><br><span class="line">        for cent in range(k):# recalculate centroids</span><br><span class="line">            ptsInClust = dataSet[nonzero(clusterAssment[:,0].A==cent)[0]]# get all the point in this cluster</span><br><span class="line">            centroids[cent,:] = mean(ptsInClust, axis=0) # assign centroid to mean </span><br><span class="line">    return centroids, clusterAssment</span><br></pre></td></tr></table></figure>
+<h2 id="二分K-均值算法"><a href="#二分K-均值算法" class="headerlink" title="二分K-均值算法"></a>二分K-均值算法</h2><p>二分K-均值是为了解决简答的K-均值算法收敛于局部最小的问题。</p>
+<p>算法思想：一开始将所有样本点作为一个簇，然后将该簇一分为二。然后选择其一进行划分，选择哪一个簇的原则是：对其划分可以最大程度降低SSE的值。</p>
+<h3 id="伪代码-1"><a href="#伪代码-1" class="headerlink" title="伪代码"></a>伪代码</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">将所有点看成一个簇</span><br><span class="line">当簇数目小于k的时候：</span><br><span class="line">	对于每一个簇：</span><br><span class="line">		计算总误差</span><br><span class="line">		在给定的簇上面进行K-均值聚类k=2</span><br><span class="line">		计算该簇一分为二之后的总误差</span><br><span class="line">	选择一个总误差最小的簇继续划分</span><br></pre></td></tr></table></figure>
+<p>问题：如何进行二分呢？随机？</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">def biKmeans(dataSet, k, distMeas=distEclud):</span><br><span class="line">    m = shape(dataSet)[0]</span><br><span class="line">    clusterAssment = mat(zeros((m,2)))</span><br><span class="line">    centroid0 = mean(dataSet, axis=0).tolist()[0] # 创建一个初始的簇</span><br><span class="line">    centList =[centroid0] #create a list with one centroid</span><br><span class="line">    for j in range(m):#calc initial Error</span><br><span class="line">        clusterAssment[j,1] = distMeas(mat(centroid0), dataSet[j,:])**2</span><br><span class="line">    while (len(centList) &lt; k):</span><br><span class="line">        lowestSSE = inf</span><br><span class="line">        for i in range(len(centList)):</span><br><span class="line">            ptsInCurrCluster = dataSet[nonzero(clusterAssment[:,0].A==i)[0],:]</span><br><span class="line">            # get the data points currently in cluster i</span><br><span class="line">            centroidMat, splitClustAss = kMeans(ptsInCurrCluster, 2, distMeas)</span><br><span class="line">            sseSplit = sum(splitClustAss[:,1])</span><br><span class="line">	    # compare the SSE to the currrent minimum</span><br><span class="line">            sseNotSplit = sum(clusterAssment[nonzero(clusterAssment[:,0].A!=i)[0],1])</span><br><span class="line">            print &quot;sseSplit, and notSplit: &quot;,sseSplit,sseNotSplit</span><br><span class="line">            if (sseSplit + sseNotSplit) &lt; lowestSSE:</span><br><span class="line">                bestCentToSplit = i</span><br><span class="line">                bestNewCents = centroidMat</span><br><span class="line">                bestClustAss = splitClustAss.copy()</span><br><span class="line">                lowestSSE = sseSplit + sseNotSplit</span><br><span class="line">        bestClustAss[nonzero(bestClustAss[:,0].A == 1)[0],0] = len(centList)</span><br><span class="line">	# change 1 to 3,4, or whatever</span><br><span class="line">        bestClustAss[nonzero(bestClustAss[:,0].A == 0)[0],0] = bestCentToSplit</span><br><span class="line">        print &apos;the bestCentToSplit is: &apos;,bestCentToSplit</span><br><span class="line">        print &apos;the len of bestClustAss is: &apos;, len(bestClustAss)</span><br><span class="line">        centList[bestCentToSplit] = bestNewCents[0,:].tolist()[0]</span><br><span class="line">	# replace a centroid with two best centroids </span><br><span class="line">        centList.append(bestNewCents[1,:].tolist()[0])</span><br><span class="line">        clusterAssment[nonzero(clusterAssment[:,0].A == bestCentToSplit)[0],:]= bestClustAss#reassign new clusters, and SSE</span><br><span class="line">    return mat(centList), clusterAssment</span><br></pre></td></tr></table></figure>
+<h2 id="实战"><a href="#实战" class="headerlink" title="实战"></a>实战</h2><p>对地图上的点进行聚类</p>
+<p>书中假设的情况是：Drew要进城参加朋友的生日，其他人也会过去，所以提供一个方案，参加生日的人都给出一个想去的地方，然后这些地址组成一个列表，有70个位置。保存在portland_Clubs.txt。将这些地址进行聚类，然后来安排行程。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br></pre></td><td class="code"><pre><span class="line">import urllib</span><br><span class="line">import json</span><br><span class="line">def geoGrab(stAddress, city):</span><br><span class="line">    apiStem = &apos;http://where.yahooapis.com/geocode?&apos;</span><br><span class="line">    #create a dict and constants for the goecoder</span><br><span class="line">    params = &#123;&#125;</span><br><span class="line">    params[&apos;flags&apos;] = &apos;J&apos;#JSON return type</span><br><span class="line">    params[&apos;appid&apos;] = &apos;aaa0VN6k&apos;</span><br><span class="line">    params[&apos;location&apos;] = &apos;%s %s&apos; % (stAddress, city)</span><br><span class="line">    url_params = urllib.urlencode(params)</span><br><span class="line">    yahooApi = apiStem + url_params      #print url_params</span><br><span class="line">    print yahooApi</span><br><span class="line">    c=urllib.urlopen(yahooApi)</span><br><span class="line">    return json.loads(c.read())</span><br><span class="line"></span><br><span class="line">from time import sleep</span><br><span class="line">def massPlaceFind(fileName):</span><br><span class="line">    fw = open(&apos;places.txt&apos;, &apos;w&apos;)</span><br><span class="line">    for line in open(fileName).readlines():</span><br><span class="line">        line = line.strip()</span><br><span class="line">        lineArr = line.split(&apos;\t&apos;)</span><br><span class="line">        retDict = geoGrab(lineArr[1], lineArr[2])</span><br><span class="line">        if retDict[&apos;ResultSet&apos;][&apos;Error&apos;] == 0:</span><br><span class="line">            lat = float(retDict[&apos;ResultSet&apos;][&apos;Results&apos;][0][&apos;latitude&apos;])</span><br><span class="line">            lng = float(retDict[&apos;ResultSet&apos;][&apos;Results&apos;][0][&apos;longitude&apos;])</span><br><span class="line">            print &quot;%s\t%f\t%f&quot; % (lineArr[0], lat, lng)</span><br><span class="line">            fw.write(&apos;%s\t%f\t%f\n&apos; % (line, lat, lng))</span><br><span class="line">        else: print &quot;error fetching&quot;</span><br><span class="line">        sleep(1)</span><br><span class="line">    fw.close()</span><br><span class="line">    </span><br><span class="line">def distSLC(vecA, vecB):#Spherical Law of Cosines</span><br><span class="line">    a = sin(vecA[0,1]*pi/180) * sin(vecB[0,1]*pi/180)</span><br><span class="line">    b = cos(vecA[0,1]*pi/180) * cos(vecB[0,1]*pi/180) * \</span><br><span class="line">                      cos(pi * (vecB[0,0]-vecA[0,0]) /180)</span><br><span class="line">    return arccos(a + b)*6371.0 #pi is imported with numpy</span><br><span class="line"></span><br><span class="line">import matplotlib</span><br><span class="line">import matplotlib.pyplot as plt</span><br><span class="line">def clusterClubs(numClust=5):</span><br><span class="line">    datList = []</span><br><span class="line">    for line in open(&apos;places.txt&apos;).readlines():</span><br><span class="line">        lineArr = line.split(&apos;\t&apos;)</span><br><span class="line">        datList.append([float(lineArr[4]), float(lineArr[3])])</span><br><span class="line">    datMat = mat(datList)</span><br><span class="line">    myCentroids, clustAssing = biKmeans(datMat, numClust, distMeas=distSLC)</span><br><span class="line">    fig = plt.figure()</span><br><span class="line">    rect=[0.1,0.1,0.8,0.8]</span><br><span class="line">    scatterMarkers=[&apos;s&apos;, &apos;o&apos;, &apos;^&apos;, &apos;8&apos;, &apos;p&apos;, \</span><br><span class="line">                    &apos;d&apos;, &apos;v&apos;, &apos;h&apos;, &apos;&gt;&apos;, &apos;&lt;&apos;]</span><br><span class="line">    axprops = dict(xticks=[], yticks=[])</span><br><span class="line">    ax0=fig.add_axes(rect, label=&apos;ax0&apos;, **axprops)</span><br><span class="line">    imgP = plt.imread(&apos;Portland.png&apos;)</span><br><span class="line">    ax0.imshow(imgP)</span><br><span class="line">    ax1=fig.add_axes(rect, label=&apos;ax1&apos;, frameon=False)</span><br><span class="line">    for i in range(numClust):</span><br><span class="line">        ptsInCurrCluster = datMat[nonzero(clustAssing[:,0].A==i)[0],:]</span><br><span class="line">        markerStyle = scatterMarkers[i % len(scatterMarkers)]</span><br><span class="line">        ax1.scatter(ptsInCurrCluster[:,0].flatten().A[0],\</span><br><span class="line">        ptsInCurrCluster[:,1].flatten().A[0], marker=markerStyle, s=90)</span><br><span class="line">    ax1.scatter(myCentroids[:,0].flatten().A[0], \</span><br><span class="line">    myCentroids[:,1].flatten().A[0], marker=&apos;+&apos;, s=300)</span><br><span class="line">    plt.show()</span><br></pre></td></tr></table></figure>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>聚类是一个无监督的算法，无监督是事先不知道要寻找的内容，也就是没有目标变量。聚类将数据点归到多个簇中。</p>
+<p>下面是一个k-means的思维导图，来帮助回忆吧。</p>
+<p><img src="/assets/images/c10 kmeans algorithm.png" alt=""></p>
+
+            <div class="post-copyright">
+    <div class="content">
+        <p>最后更新： 2018年07月12日 13:52</p>
+        <p>原始链接： <a class="post-url" href="/2017/12/28/MLInaction_c10_kmeans/" title="K-means">http://zhangbuzola.cn/2017/12/28/MLInaction_c10_kmeans/</a></p>
+        <footer>
+            <a href="http://zhangbuzola.cn">
+                <img src="/images/pacman.jpg" alt="zolanunu">
+                zolanunu
+            </a>
+        </footer>
+    </div>
+</div>
+
+      
+        
+            
+
+        
+    </div>
+    <footer class="article-footer">
+        
+        <ul class="article-footer-menu">
+            
+            
+  <li class="article-footer-tags">
+    <i class="fa fa-tags"></i>
+      
+    <a href="/tags/算法和数据结构/" class="color3">算法和数据结构</a>
+      
+    <a href="/tags/机器学习/" class="color5">机器学习</a>
+      
+  </li>
+
+        </ul>
+        
+    </footer>
+  </div>
+</article>
+
+
+    <aside class="post-toc-pos post-toc-top" id="post-toc">
+        <nav class="post-toc-wrap">
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#利用K-均值聚类算法对未标注数据分组"><span class="post-toc-text">利用K-均值聚类算法对未标注数据分组</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#聚类"><span class="post-toc-text">聚类</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#K-均值聚类算法"><span class="post-toc-text">K-均值聚类算法</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#伪代码"><span class="post-toc-text">伪代码</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#python实践"><span class="post-toc-text">python实践</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#二分K-均值算法"><span class="post-toc-text">二分K-均值算法</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#伪代码-1"><span class="post-toc-text">伪代码</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#实战"><span class="post-toc-text">实战</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#总结"><span class="post-toc-text">总结</span></a></li></ol></li></ol>
+        </nav>
+    </aside>
+    
+
+<nav id="article-nav">
+  
+    <a href="/2017/12/29/MLInaction_c12_FPgrowth/" id="article-nav-newer" class="article-nav-link-wrap">
+
+      <span class="article-nav-title">
+        <i class="fa fa-hand-o-left" aria-hidden="true"></i>
+        
+          FP-growth算法
+        
+      </span>
+    </a>
+  
+  
+    <a href="/2017/12/28/MLInaction_c11_apriori/" id="article-nav-older" class="article-nav-link-wrap">
+      <span class="article-nav-title">Apriori算法</span>
+      <i class="fa fa-hand-o-right" aria-hidden="true"></i>
+    </a>
+  
+</nav>
+
+
+
+    
+        <link rel="stylesheet" href="//unpkg.com/gitment/style/default.css">
+    <script src="//unpkg.com/gitment/dist/gitment.browser.js"></script>
+    <script>
+        var gitment = new Gitment({
+            owner: 'true',
+            repo: 'zolanunu',
+            oauth: {
+                client_id: '1a04e8dee74a4b8634df',
+                client_secret: '9e3078ac89eb72f22abbdd11f7f0d11e2e1d7f7a',
+            },
+        })
+        gitment.render('comments')
+    </script>
+
+    
+</section>
+        
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+      <p>
+        Powered by  <a href="http://hexo.io/" target="_blank">Hexo</a>
+        Theme <a href="//github.com/wongminho/hexo-theme-miho" target="_blank">MiHo</a>
+      &copy; 2018 zolanunu<br>
+      </p>
+    </div>
+  </div>
+</footer>
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script>
+  var mihoConfig = {
+      root: "http://zhangbuzola.cn",
+      animate: true,
+      isHome: false,
+      share: false,
+      reward: 0
+  }
+</script>
+<div class="sidebar">
+    <div id="sidebar-search" title="Search">
+        <i class="fa fa-search"></i>
+    </div>
+    <div id="sidebar-category" title="Categories">
+        <i class="fa fa-book"></i>
+    </div>
+    <div id="sidebar-tag" title="Tags">
+        <i class="fa fa-tags"></i>
+    </div>
+    <div id="sidebar-top">
+        <span class="sidebar-top-icon"><i class="fa fa-angle-up"></i></span>
+    </div>
+</div>
+<div class="sidebar-menu-box" id="sidebar-menu-box">
+    <div class="sidebar-menu-box-container">
+        <div id="sidebar-menu-box-categories">
+            <a class="category-link" href="/categories/Java/">Java</a><a class="category-link" href="/categories/Java后台/">Java后台</a><a class="category-link" href="/categories/Python/">Python</a><a class="category-link" href="/categories/工具/">工具</a><a class="category-link" href="/categories/技术书/">技术书</a><a class="category-link" href="/categories/数据库/">数据库</a><a class="category-link" href="/categories/数据结构/">数据结构</a><a class="category-link" href="/categories/生活轨迹/">生活轨迹</a><a class="category-link" href="/categories/算法/">算法</a>
+        </div>
+        <div id="sidebar-menu-box-tags">
+            <a href="/tags/2018/" style="font-size: 11.43px;">2018</a> <a href="/tags/Collections/" style="font-size: 15.71px;">Collections</a> <a href="/tags/HashMap/" style="font-size: 10px;">HashMap</a> <a href="/tags/LinkedHashMap/" style="font-size: 10px;">LinkedHashMap</a> <a href="/tags/MySQL/" style="font-size: 17.14px;">MySQL</a> <a href="/tags/Mybatis/" style="font-size: 12.86px;">Mybatis</a> <a href="/tags/Object/" style="font-size: 10px;">Object</a> <a href="/tags/SSM/" style="font-size: 12.86px;">SSM</a> <a href="/tags/TreeMap/" style="font-size: 11.43px;">TreeMap</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/java基础/" style="font-size: 20px;">java基础</a> <a href="/tags/java并发编程实战/" style="font-size: 11.43px;">java并发编程实战</a> <a href="/tags/leetcode/" style="font-size: 17.14px;">leetcode</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/剑指offer/" style="font-size: 10px;">剑指offer</a> <a href="/tags/多线程/" style="font-size: 11.43px;">多线程</a> <a href="/tags/并发编程/" style="font-size: 10px;">并发编程</a> <a href="/tags/机器学习/" style="font-size: 12.86px;">机器学习</a> <a href="/tags/构造函数/" style="font-size: 10px;">构造函数</a> <a href="/tags/深入理解java虚拟机/" style="font-size: 10px;">深入理解java虚拟机</a> <a href="/tags/生活/" style="font-size: 10px;">生活</a> <a href="/tags/神经网络/" style="font-size: 10px;">神经网络</a> <a href="/tags/算法与数据结构/" style="font-size: 14.29px;">算法与数据结构</a> <a href="/tags/算法和数据结构/" style="font-size: 18.57px;">算法和数据结构</a> <a href="/tags/观影记/" style="font-size: 10px;">观影记</a> <a href="/tags/读书书单/" style="font-size: 10px;">读书书单</a>
+        </div>
+    </div>
+    <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
+</div>
+<div class="mobile-header-menu-nav" id="mobile-header-menu-nav">
+    <div class="mobile-header-menu-container">
+        <span class="title">Menus</span>
+        <ul class="mobile-header-menu-navbar">
+            
+            <li>
+                <a  href="/">
+                    <i class="fa fa-home"></i><span>Home</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/archives">
+                    <i class="fa fa-archive"></i><span>Archives</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/about">
+                    <i class="fa fa-user"></i><span>About</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    <div class="mobile-header-tag-container">
+        <span class="title">Tags</span>
+        <div id="mobile-header-container-tags">
+            <a href="/tags/2018/" style="font-size: 11.43px;">2018</a> <a href="/tags/Collections/" style="font-size: 15.71px;">Collections</a> <a href="/tags/HashMap/" style="font-size: 10px;">HashMap</a> <a href="/tags/LinkedHashMap/" style="font-size: 10px;">LinkedHashMap</a> <a href="/tags/MySQL/" style="font-size: 17.14px;">MySQL</a> <a href="/tags/Mybatis/" style="font-size: 12.86px;">Mybatis</a> <a href="/tags/Object/" style="font-size: 10px;">Object</a> <a href="/tags/SSM/" style="font-size: 12.86px;">SSM</a> <a href="/tags/TreeMap/" style="font-size: 11.43px;">TreeMap</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/java基础/" style="font-size: 20px;">java基础</a> <a href="/tags/java并发编程实战/" style="font-size: 11.43px;">java并发编程实战</a> <a href="/tags/leetcode/" style="font-size: 17.14px;">leetcode</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/剑指offer/" style="font-size: 10px;">剑指offer</a> <a href="/tags/多线程/" style="font-size: 11.43px;">多线程</a> <a href="/tags/并发编程/" style="font-size: 10px;">并发编程</a> <a href="/tags/机器学习/" style="font-size: 12.86px;">机器学习</a> <a href="/tags/构造函数/" style="font-size: 10px;">构造函数</a> <a href="/tags/深入理解java虚拟机/" style="font-size: 10px;">深入理解java虚拟机</a> <a href="/tags/生活/" style="font-size: 10px;">生活</a> <a href="/tags/神经网络/" style="font-size: 10px;">神经网络</a> <a href="/tags/算法与数据结构/" style="font-size: 14.29px;">算法与数据结构</a> <a href="/tags/算法和数据结构/" style="font-size: 18.57px;">算法和数据结构</a> <a href="/tags/观影记/" style="font-size: 10px;">观影记</a> <a href="/tags/读书书单/" style="font-size: 10px;">读书书单</a>
+        </div>
+    </div>
+</div>
+<div class="search-wrap">
+    <span class="search-close">&times;</span>
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+            <i class="icon icon-lg icon-chevron-left"></i>
+        </a>
+        <input class="search-field" placeholder="Search..." id="keywords">
+        <a id="search-submit" href="javascript:;">
+            <i class="fa fa-search"></i>
+        </a>
+    <div class="search-container" id="search-container">
+        <ul class="search-result" id="search-result">
+        </ul>
+    </div>
+</div>
+
+<div id="search-tpl">
+    <li class="search-result-item">
+        <a href="{url}" class="search-item-li">
+            <span class="search-item-li-title" title="{title}">{title}</span>
+        </a>
+    </li>
+</div>
+<script src="/js/search.js"></script>
+<script src="/js/main.js"></script>
+
+
+  <script src="//cdn.bootcss.com/particles.js/2.0.0/particles.min.js"></script>
+  <div id="particles"></div>
+  <script src="/js/particles.js"></script>
+
+
+
+
+
+
+
+  <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
+  <script src="//cdn.bootcss.com/scrollReveal.js/3.0.5/scrollreveal.js"></script>
+  <script src="/js/animate.js"></script>
+
+
+  <script src="/js/pop-img.js"></script>
+  <script>
+     $(".article-entry p img").popImg();
+  </script>
+
+  </div>
+</body>
+</html>

@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>java基础学习之类与对象 | zolanunu</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+    <meta name="keywords" content="zolanunu,zolanunu's blog" />
+  
+  <meta name="description" content="类与对象Class与ObjectClass类java在程序运行期间，系统会一直为所有的对象维护一个被称为运行时的类型标识。这个信息保存着每个对象所属的类足迹。通过专门的java类访问这些信息，保存这些信息的类被称为Class。 Object类中有一个getClass()方法会返回一个Class类的实例。Class 类是在Java语言中定义一个特定类的实现。一个类的定义包含成员变量，成员方法，还有这">
+<meta name="keywords" content="java基础">
+<meta property="og:type" content="article">
+<meta property="og:title" content="java基础学习之类与对象">
+<meta property="og:url" content="http://zhangbuzola.cn/2017/11/09/javabase_class/index.html">
+<meta property="og:site_name" content="zolanunu">
+<meta property="og:description" content="类与对象Class与ObjectClass类java在程序运行期间，系统会一直为所有的对象维护一个被称为运行时的类型标识。这个信息保存着每个对象所属的类足迹。通过专门的java类访问这些信息，保存这些信息的类被称为Class。 Object类中有一个getClass()方法会返回一个Class类的实例。Class 类是在Java语言中定义一个特定类的实现。一个类的定义包含成员变量，成员方法，还有这">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="http://zhangbuzola.cn/assets/images/javabase_Class1.png">
+<meta property="og:image" content="http://zhangbuzola.cn/assets/images/javabase_Class2.jpg">
+<meta property="og:image" content="http://zhangbuzola.cn/assets/images/javabase_Class3.jpg">
+<meta property="og:updated_time" content="2018-07-12T06:18:21.974Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="java基础学习之类与对象">
+<meta name="twitter:description" content="类与对象Class与ObjectClass类java在程序运行期间，系统会一直为所有的对象维护一个被称为运行时的类型标识。这个信息保存着每个对象所属的类足迹。通过专门的java类访问这些信息，保存这些信息的类被称为Class。 Object类中有一个getClass()方法会返回一个Class类的实例。Class 类是在Java语言中定义一个特定类的实现。一个类的定义包含成员变量，成员方法，还有这">
+<meta name="twitter:image" content="http://zhangbuzola.cn/assets/images/javabase_Class1.png">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="/js/pace.min.js"></script>
+  
+
+  
+	<script>
+	var _hmt = _hmt || [];
+	(function() {
+	  var hm = document.createElement("script");
+	  hm.src = "//hm.baidu.com/hm.js?a651034b7d11a367ae836642b29a3057";
+	  var s = document.getElementsByTagName("script")[0]; 
+	  s.parentNode.insertBefore(hm, s);
+	})();
+	</script>
+
+  
+
+</head>
+
+<body>
+  <div id="container">
+      <header id="header">
+    <div id="banner"></div>
+    <div id="header-outer">
+        <div id="header-menu" class="header-menu-pos animated">
+            <div class="header-menu-container">
+                <a href="/" class="left">
+                    <span class="site-title">zolanunu&#39;s Blog</span>
+                </a>
+                <nav id="header-menu-nav" class="right">
+                    
+                    <a  href="/">
+                        <i class="fa fa-home"></i>
+                        <span>Home</span>
+                    </a>
+                    
+                    <a  href="/archives">
+                        <i class="fa fa-archive"></i>
+                        <span>Archives</span>
+                    </a>
+                    
+                    <a  href="/about">
+                        <i class="fa fa-user"></i>
+                        <span>About</span>
+                    </a>
+                    
+                </nav>
+                <a class="mobile-header-menu-button">
+                    <i class="fa fa-bars"></i>
+                </a>
+            </div>
+        </div>
+        <div id="header-row">
+            <div id="logo">
+                <a href="/">
+                    <img src="/images/pacman.jpg" alt="logo">
+                </a>
+            </div>
+            <div class="header-info">
+                <div id="header-title">
+                    
+                    <h2>
+                        zolanunu&#39;s Blog
+                    </h2>
+                    
+                </div>
+                <div id="header-description">
+                    
+                    <h3>
+                        去努力尝试做一些你觉得你不会做或者不敢做的事情。
+                    </h3>
+                    
+                </div>
+            </div>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a title="zolanunu" target="_blank" href="//zhangbuzola.cn">
+                            <i class="fa fa-home fa-2x"></i></a>
+                    
+                        <a title="Github" target="_blank" href="//github.com/zolanunu">
+                            <i class="fa fa-github fa-2x"></i></a>
+                    
+                        <a title="Weibo" target="_blank" href="//weibo.com/zolanunu">
+                            <i class="fa fa-weibo fa-2x"></i></a>
+                    
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>
+      <div class="outer">
+        <section id="main" class="body-wrap"><article id="post-javabase_class" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="post-title" itemprop="name">
+      java基础学习之类与对象
+    </h1>
+    <div class="post-title-bar">
+      <ul>
+          
+              <li>
+                  <i class="fa fa-book"></i>
+                  
+                      <a href="/categories/Java/">Java</a>
+                  
+              </li>
+          
+        <li>
+          <i class="fa fa-calendar"></i>  2017-11-09
+        </li>
+        <li>
+          <i class="fa fa-eye"></i>
+          <span id="busuanzi_value_page_pv"></span>
+        </li>
+      </ul>
+    </div>
+  
+
+          
+      </header>
+    
+    <div class="article-entry post-content" itemprop="articleBody">
+      
+            
+            <h1 id="类与对象"><a href="#类与对象" class="headerlink" title="类与对象"></a>类与对象</h1><h2 id="Class与Object"><a href="#Class与Object" class="headerlink" title="Class与Object"></a>Class与Object</h2><h3 id="Class类"><a href="#Class类" class="headerlink" title="Class类"></a>Class类</h3><p>java在程序运行期间，系统会一直为所有的对象维护一个被称为运行时的类型标识。这个信息保存着每个对象所属的类足迹。通过专门的java类访问这些信息，保存这些信息的类被称为Class。</p>
+<p>Object类中有一个getClass()方法会返回一个Class类的实例。Class 类是在Java语言中定义一个特定类的实现。一个类的定义包含成员变量，成员方法，还有这个类实现的接口，以及这个类的父类。Class类的对象用于表示当前运行的 Java 应用程序中的类和接口。 比如：每个数组均属于一个 Class 类对象，所有具有相同元素类型和维数的数组共享一个Class 对象。基本的 Java 类型(boolean, byte, char, short,int, long, float 和 double) 和 void 类型也可表示为 Class 对象。</p>
+<p>所有的java类都是继承了object这个类，在object这个类中有一个方法：getclass().这个方法是用来取得该类已经被实例化了的对象的该类的引用，这个引用指向的是Class类的对象。我们自己无法生成一个Class对象（构造函数为private)，而这个Class类的对象是在当各类被调入时，由 Java 虚拟机自动创建 Class 对象，或通过类装载器中的 defineClass 方法生成。 我们生成的对象都会有个字段记录该对象所属类在CLass类的对象的所在位置。如下图所示：</p>
+<p><img src="/assets/images/javabase_Class1.png" alt=""></p>
+<p>jvm为每种类管理者独一的Class对象。因此我们可以用双等号操作符来比较对象：a1.getClass()==A.class;应该返回的是true。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">forName(String classname);</span><br><span class="line">forName(String classname，&#123;*&#125;boolean initialze,*ClassLoader *loader);</span><br></pre></td></tr></table></figure>
+<p>该方法返回给定串名相应的Class对象。若给定一个类或接口的完整路径名，那么此方法将试图定位、装载和连接该类。若成功，返回该类对象。否则，抛出ClassNotFoundException异常。例如，下面代码段返回名为java.lang.Thread的运行Class描述器。Classt=Class.forName(“java.lang.Thread”);此方法是需要指定类加载器的，当用到仅有一个String参数的forName方法时，Class对象将默认调用当前类加载器作为加载器和将第二参数为true。第二个参数说明：如果是false时，调用forName方法只是在命令类加载器载入该类，而不初始化该类的静态区块，只有当该类第一次实例化时，静态区块才被调用。当为true时，则载入时就调用静态区块。<br>Class类源码分析：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">/*</span><br><span class="line">     * Private constructor. </span><br><span class="line">     * Only the Java Virtual Machine</span><br><span class="line">     * creates Class objects.</span><br><span class="line">     */</span><br><span class="line">    private Class(ClassLoader loader) &#123;</span><br><span class="line">        classLoader = loader;</span><br><span class="line">    &#125;</span><br><span class="line">// Class类的构造方法，有删减</span><br></pre></td></tr></table></figure>
+<p>Class的构造方法是私有的，只有java虚拟机可以创建该类的对象，因此我们无法在代码中显式地声明一个Class对象。（不能new出一个Class对象）。但是有其他方式可以得到Class对象。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">class MyClass&#123;&#125;</span><br><span class="line"></span><br><span class="line">MyClass mClass1 = new MyClass();</span><br><span class="line">// 1. 其他类来得到Class的对象</span><br><span class="line">// 每个类都有一个静态成员class</span><br><span class="line">Class c1 = MyClass.class;</span><br><span class="line">// 2. 对象的getClass()方法</span><br><span class="line"></span><br><span class="line">Class c2 = mClass1.getClass();</span><br><span class="line">// 3. 通过 Class 类的静态方法 forName() 方法获取 Class 的对象</span><br><span class="line">// 区别于通过 new 创建对象（编译时静态加载），</span><br><span class="line">// 在开发时如果我们需要动态加载我们的功能模块，该方法可以帮助我们实现在程序运行时类的动态加载。</span><br><span class="line">try &#123;</span><br><span class="line">        //注意，forName()需要传入类的全路径</span><br><span class="line">        //如果当前类与参数类在同一包下即可省略包名</span><br><span class="line">        mClass = Class.forName(&quot;custom.OtherClass&quot;);</span><br><span class="line">    &#125; catch (ClassNotFoundException e) &#123;</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">    &#125;</span><br><span class="line">// 如果我们的程序中没有 OtherClass 这个类，使用 Class.forName() 动态加载时，</span><br><span class="line">// 在程序编译时刻是不会报错的，只有在运行时刻检测到没有该类才会出错。</span><br></pre></td></tr></table></figure>
+<p>通过类或类对象得到 Class 类的对象，反过来，我们也可以由 Class 类的对象得到类的对象。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">MyClass mClass2 = (MyClass)c2.newInstance();</span><br></pre></td></tr></table></figure>
+<p>c2.newInstance() 需要调用 MyClass 类的无参构造方法！如果 MyClass 类中存在显示的有参构造方法，会覆盖默认的无参构造方法，同时又没有显示的声明无参构造方法，那么执行这段代码时会直接导致程序Crash掉。</p>
+<p>Class类是反射机制的基础，所以关于反射机制的学习。参看另一篇java基础学习之反射机制。</p>
+<p>以及学习类加载器ClassLoader</p>
+<h2 id="finalize方法"><a href="#finalize方法" class="headerlink" title="finalize方法"></a>finalize方法</h2><ul>
+<li><p>finalize()是Object的protected方法，子类可以覆盖该方法以实现资源清理工作，GC在回收对象之前调用该方法。</p>
+</li>
+<li><p>finalize()与C++中的析构函数不是对应的。C++中的析构函数调用的时机是确定的（对象离开作用域或delete掉），但Java中的finalize的调用具有不确定性</p>
+</li>
+</ul>
+<h3 id="之前"><a href="#之前" class="headerlink" title="之前"></a>之前</h3><ul>
+<li><p>java的GC只负责内存相关的清理，所有其它资源的清理必须由程序员手工完成。要不然会引起资源泄露，有可能导致程序崩溃。 </p>
+</li>
+<li><p>调用GC并不保证GC实际执行。 </p>
+</li>
+<li><p>finalize抛出的未捕获异常只会导致该对象的finalize执行退出。 </p>
+</li>
+<li><p>用户可以自己调用对象的finalize方法，但是这种调用是正常的方法调用，和对象的销毁过程无关。</p>
+</li>
+<li><p>JVM保证在一个对象所占用的内存被回收之前，如果它实现了finalize方法，则该方法一定会被调用。Object的默认finalize什么都不做。为了效率，GC可以认为一个什么都不做的finalize不存在。 </p>
+</li>
+<li><p>对象的finalize调用链和clone调用链一样，必须手工构造。</p>
+</li>
+</ul>
+<h3 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h3><ul>
+<li><p>一些与finalize相关的方法，由于一些致命的缺陷，已经被废弃了，如System.runFinalizersOnExit()方法、Runtime.runFinalizersOnExit()方法。</p>
+</li>
+<li><p>System.gc()与System.runFinalization()方法增加了finalize方法执行的机会，但不可盲目依赖它们。</p>
+</li>
+<li><p>Java语言规范并不保证finalize方法会被及时地执行、而且根本不会保证它们会被执行。</p>
+</li>
+<li><p>finalize方法可能会带来性能问题。因为JVM通常在单独的低优先级线程中完成finalize的执行。</p>
+</li>
+<li><p>对象再生问题：finalize方法中，可将待回收对象赋值给GC Roots可达的对象引用，从而达到对象再生的目的。</p>
+</li>
+<li><p>finalize方法至多由GC执行一次(用户当然可以手动调用对象的finalize方法，但并不影响GC对finalize的行为)。</p>
+</li>
+</ul>
+<h3 id="执行过程"><a href="#执行过程" class="headerlink" title="执行过程"></a>执行过程</h3><p>(1) 首先，大致描述一下finalize流程：当对象变成(GC Roots)不可达时，GC会判断该对象是否覆盖了finalize方法，若未覆盖，则直接将其回收。否则，若对象未执行过finalize方法，将其放入F-Queue队列，由一低优先级线程执行该队列中对象的finalize方法。执行finalize方法完毕后，GC会再次判断该对象是否可达，若不可达，则进行回收，否则，对象“复活”。</p>
+<p>(2) 具体的finalize流程：</p>
+<p>对象可由两种状态，涉及到两类状态空间，一是终结状态空间 F = {unfinalized, finalizable, finalized}；二是可达状态空间 R = {reachable, finalizer-reachable, unreachable}。各状态含义如下：</p>
+<ul>
+<li><p>unfinalized: 新建对象会先进入此状态，GC并未准备执行其finalize方法，因为该对象是可达的</p>
+</li>
+<li><p>finalizable: 表示GC可对该对象执行finalize方法，GC已检测到该对象不可达。正如前面所述，GC通过F-Queue队列和一专用线程完成finalize的执行</p>
+</li>
+<li><p>finalized: 表示GC已经对该对象执行过finalize方法</p>
+</li>
+<li><p>reachable: 表示GC Roots引用可达</p>
+</li>
+<li><p>finalizer-reachable(f-reachable)：表示不是reachable，但可通过某个finalizable对象可达</p>
+</li>
+<li><p>unreachable：对象不可通过上面两种途径可达</p>
+</li>
+</ul>
+<p><img src="/assets/images/javabase_Class2.jpg" alt=""></p>
+<p>变迁说明：</p>
+<ul>
+<li><p>新建对象首先处于[reachable, unfinalized]状态(A)</p>
+</li>
+<li><p>随着程序的运行，一些引用关系会消失，导致状态变迁，从reachable状态变迁到f-reachable(B, C, D)或unreachable(E, F)状态</p>
+</li>
+<li><p>若JVM检测到处于unfinalized状态的对象变成f-reachable或unreachable，JVM会将其标记为finalizable状态(G,H)。若对象原处于[unreachable, unfinalized]状态，则同时将其标记为f-reachable(H)。</p>
+</li>
+<li><p>在某个时刻，JVM取出某个finalizable对象，将其标记为finalized并在某个线程中执行其finalize方法。由于是在活动线程中引用了该对象，该对象将变迁到(reachable, finalized)状态(K或J)。该动作将影响某些其他对象从f-reachable状态重新回到reachable状态(L, M, N)</p>
+</li>
+<li><p>处于finalizable状态的对象不能同时是unreahable的，由第4点可知，将对象finalizable对象标记为finalized时会由某个线程执行该对象的finalize方法，致使其变成reachable。这也是图中只有八个状态点的原因</p>
+</li>
+<li><p>程序员手动调用finalize方法并不会影响到上述内部标记的变化，因此JVM只会至多调用finalize一次，即使该对象“复活”也是如此。程序员手动调用多少次不影响JVM的行为</p>
+</li>
+<li><p>若JVM检测到finalized状态的对象变成unreachable，回收其内存(I)<br>若对象并未覆盖finalize方法，JVM会进行优化，直接回收对象（O）</p>
+</li>
+<li><p>注：System.runFinalizersOnExit()等方法可以使对象即使处于reachable状态，JVM仍对其执行finalize方法</p>
+</li>
+</ul>
+<h3 id="对象重生"><a href="#对象重生" class="headerlink" title="对象重生"></a>对象重生</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line">class C &#123;</span><br><span class="line">	static A a;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class A &#123;</span><br><span class="line">	B b;</span><br><span class="line"></span><br><span class="line">	public A(B b) &#123;</span><br><span class="line">		this.b = b;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	@Override</span><br><span class="line">	public void finalize() &#123;</span><br><span class="line">		System.out.println(&quot;A finalize&quot;);</span><br><span class="line">		C.a = this;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class B &#123;</span><br><span class="line">	String name;</span><br><span class="line">	int age;</span><br><span class="line"></span><br><span class="line">	public B(String name, int age) &#123;</span><br><span class="line">		this.name = name;</span><br><span class="line">		this.age = age;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	@Override</span><br><span class="line">	public void finalize() &#123;</span><br><span class="line">		System.out.println(&quot;B finalize&quot;);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	@Override</span><br><span class="line">	public String toString() &#123;</span><br><span class="line">		return name + &quot; is &quot; + age;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public class Main &#123;</span><br><span class="line">	public static void main(String[] args) throws Exception &#123;</span><br><span class="line">		A a = new A(new B(&quot;allen&quot;, 20));</span><br><span class="line">		a = null;</span><br><span class="line"></span><br><span class="line">		System.gc();</span><br><span class="line">		Thread.sleep(5000);</span><br><span class="line">		System.out.println(C.a.b);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// expected output</span><br><span class="line">A finalize </span><br><span class="line">B finalize </span><br><span class="line">allen is 20</span><br></pre></td></tr></table></figure>
+<h3 id="对象的finalize的执行顺序"><a href="#对象的finalize的执行顺序" class="headerlink" title="对象的finalize的执行顺序"></a>对象的finalize的执行顺序</h3><p>所有finalizable的对象的finalize的执行是不确定的，既不确定由哪个线程执行，也不确定执行的顺序。<br>考虑以下情况就明白为什么了，实例a,b,c是一组相互循环引用的finalizable对象。</p>
+<h3 id="何时及如何使用finalize"><a href="#何时及如何使用finalize" class="headerlink" title="何时及如何使用finalize"></a>何时及如何使用finalize</h3><p>从以上的分析得出，以下结论。</p>
+<ul>
+<li><p>最重要的，尽量不要用finalize，太复杂了，还是让系统照管比较好。可以定义其它的方法来释放非内存资源。</p>
+</li>
+<li><p>如果用，尽量简单。</p>
+</li>
+<li><p>如果用，避免对象再生，这个是自己给自己找麻烦。</p>
+</li>
+<li><p>可以用来保护非内存资源被释放。即使我们定义了其它的方法来释放非内存资源，但是其它人未必会调用该方法来释放。在finalize里面可以检查一下，如果没有释放就释放好了，晚释放总比不释放好。</p>
+</li>
+<li><p>即使对象的finalize已经运行了，不能保证该对象被销毁。要实现一些保证对象彻底被销毁时的动作，只能依赖于java.lang.ref里面的类和GC交互了。</p>
+</li>
+</ul>
+<h2 id="修饰符"><a href="#修饰符" class="headerlink" title="修饰符"></a>修饰符</h2><p>Java语言中提供的修饰符主要分为以下两类：</p>
+<ul>
+<li><p>访问修饰符</p>
+</li>
+<li><p>非访问修饰符</p>
+</li>
+</ul>
+<h3 id="访问修饰符"><a href="#访问修饰符" class="headerlink" title="访问修饰符"></a>访问修饰符</h3><p>Java中，可以使用访问控制符来保护对类、变量、方法和构造方法的访问。Java支持4种不同的访问权限。</p>
+<ul>
+<li><p>default：默认的，也称为default，在同一包内可见，不使用任何修饰符。</p>
+</li>
+<li><p>private：私有的，以private修饰符指定，在同一类内可见。</p>
+</li>
+</ul>
+<p>私有访问修饰符是最严格的访问级别，所以被声明为private的方法、变量和构造方法只能被所属类访问，并且类和接口不能声明为private。声明为私有访问类型的变量只能通过类中公共的getter方法被外部类访问。Private访问修饰符的使用主要用来隐藏类的实现细节和保护类的数据。</p>
+<ul>
+<li><p>public：共有的，以public修饰符指定，对所有类可见。</p>
+</li>
+<li><p>protected：受保护的，以protected修饰符指定，对同一包内的类和所有子类可见。</p>
+</li>
+</ul>
+<p>用的时候呢，尽量private;</p>
+<p>留给子类用，要用protected;</p>
+<p>确实要公开的，用public;</p>
+<p>默认的一般都不用实在不知道用啥，就用private，错了再改。</p>
+<p>贯彻一个宗旨:尽可能的封装</p>
+<p>或者:数据私有化，方法公有化</p>
+<h4 id="访问控制和继承"><a href="#访问控制和继承" class="headerlink" title="访问控制和继承"></a>访问控制和继承</h4><p>请注意以下方法继承的规则：</p>
+<ul>
+<li><p>父类中声明为public的方法在子类中也必须为public。</p>
+</li>
+<li><p>父类中声明为protected的方法在子类中要么声明为protected，要么声明为public。不能声明为private。</p>
+</li>
+<li><p>父类中默认修饰符声明的方法，能够在子类中声明为private。</p>
+</li>
+<li><p>父类中声明为private的方法，不能够被继承。</p>
+</li>
+</ul>
+<h3 id="非访问修饰符"><a href="#非访问修饰符" class="headerlink" title="非访问修饰符"></a>非访问修饰符</h3><h4 id="final"><a href="#final" class="headerlink" title="final"></a>final</h4><ul>
+<li>final变量</li>
+</ul>
+<p>Final变量能被显式地初始化并且只能初始化一次。被声明为final的对象的引用不能指向不同的对象。但是final对象里的数据可以被改变。也就是说final对象的引用不能改变，但是里面的值可以改变。</p>
+<p>Final修饰符通常和static修饰符一起使用来创建类常量。</p>
+<p>实例:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">public class Test&#123;</span><br><span class="line">  final int value = 10;</span><br><span class="line">  // 下面是声明常量的实例</span><br><span class="line">  public static final int BOXWIDTH = 6;</span><br><span class="line">  static final String TITLE = &quot;Manager&quot;;</span><br><span class="line"></span><br><span class="line">  public void changeValue()&#123;</span><br><span class="line">     value = 12; //将输出一个错误</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>final方法</li>
+</ul>
+<p>类中的Final方法可以被子类继承，但是不能被子类修改。</p>
+<p>声明final方法的主要目的是防止该方法的内容被修改。</p>
+<p>如下所示，使用final修饰符声明方法。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">public class Test&#123;</span><br><span class="line">    public final void changeName()&#123;</span><br><span class="line">       // 方法体</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>final类</li>
+</ul>
+<p>Final类不能被继承，没有类能够继承final类的任何特性。</p>
+<p>实例：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">public final class Test &#123;</span><br><span class="line">   // 类体</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="static"><a href="#static" class="headerlink" title="static"></a>static</h4><ul>
+<li><p>静态变量：Static关键字用来声明独立于对象的静态变量，无论一个类实例化多少对象，它的静态变量只有一份拷贝。 静态变量也被成为类变量。局部变量能被声明为static变量。</p>
+</li>
+<li><p>静态方法：Static关键字用来声明独立于对象的静态方法。静态方法不能使用类的非静态变量。静态方法从参数列表得到数据，然后计算这些数据。</p>
+</li>
+</ul>
+<p><img src="/assets/images/javabase_Class3.jpg" alt=""></p>
+<h4 id="abstract修饰符"><a href="#abstract修饰符" class="headerlink" title="abstract修饰符"></a>abstract修饰符</h4><ul>
+<li>抽象类</li>
+</ul>
+<p>抽象类不能用来实例化对象，声明抽象类的唯一目的是为了将来对该类进行扩充。</p>
+<p>一个类不能同时被abstract和final修饰。如果一个类包含抽象方法，那么该类<br>一定要声明为抽象类，否则将出现编译错误。</p>
+<p>抽象类可以包含抽象方法和非抽象方法。</p>
+<ul>
+<li>抽象方法</li>
+</ul>
+<p>抽象方法是一种没有任何实现的方法，该方法的的具体实现由子类提供。抽象方法不能被声明成final和strict。</p>
+<p>任何继承抽象类的子类必须实现父类的所有抽象方法，除非该子类也是抽象类。</p>
+<p>如果一个类包含若干个抽象方法，那么该类必须声明为抽象类。抽象类可以不包含抽象方法。</p>
+<p>抽象方法的声明以分号结尾，例如：public abstract sample();</p>
+<h4 id="Synchronized修饰符"><a href="#Synchronized修饰符" class="headerlink" title="Synchronized修饰符"></a>Synchronized修饰符</h4><p>Synchronized关键字声明的方法同一时间只能被一个线程访问。Synchronized修饰符可以应用于四个访问修饰符。</p>
+<p>实例：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">public synchronized void showDetails()&#123;</span><br><span class="line">.......</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="Transient修饰符"><a href="#Transient修饰符" class="headerlink" title="Transient修饰符"></a>Transient修饰符</h4><p>序列化的对象包含被transient修饰的实例变量时，java虚拟机(JVM)跳过该特定的变量。</p>
+<p>该修饰符包含在定义变量的语句中，用来预处理类和变量的数据类型。</p>
+<p>实例：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">public transient int limit = 55;   // will not persist</span><br><span class="line">public int b; // will persist</span><br></pre></td></tr></table></figure>
+<h4 id="volatile修饰符"><a href="#volatile修饰符" class="headerlink" title="volatile修饰符"></a>volatile修饰符</h4><p>Volatile修饰的成员变量在每次被线程访问时，都强迫从共享内存中重读该成员变量的值。而且，当成员变量发生变化时，强迫线程将变化值回写到共享内存。这样在任何时刻，两个不同的线程总是看到某个成员变量的同一个值。一个volatile对象引用可能是null。</p>
+<p>实例：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">public class MyRunnable implements Runnable</span><br><span class="line">&#123;</span><br><span class="line">    private volatile boolean active;</span><br><span class="line">    public void run()</span><br><span class="line">    &#123;</span><br><span class="line">        active = true;</span><br><span class="line">        while (active) // line 1</span><br><span class="line">        &#123;</span><br><span class="line">            // 代码</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    public void stop()</span><br><span class="line">    &#123;</span><br><span class="line">        active = false; // line 2</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>一般地，在一个线程中调用run()方法，在另一个线程中调用stop()方法。如果line 1中的active位于缓冲区的值被使用，那么当把line 2中的active设置成false时，循环也不会停止</p>
+<h2 id="继承"><a href="#继承" class="headerlink" title="继承"></a>继承</h2><h3 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h3><p>继承是一种构建新类的方式，他是基于已有的类的定义为基础，构建新的类，已有的类称为父类，新构建的类称为子类，子类能调用父类的非private修饰的成员，同时还可以自己添加一些新的成员，扩充父类，甚至重写父类已有的方法，更其表现符合子类的特征。让子类的表现更独特，更专业。</p>
+<h3 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h3><p><code>extends关键字</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line">public class Student &#123;</span><br><span class="line">    private String name;</span><br><span class="line">    private String age;</span><br><span class="line"></span><br><span class="line">    private String handleName(String name)&#123;</span><br><span class="line">       return &quot;I&apos;m &quot; + name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private String handleAge(String age) &#123;</span><br><span class="line">        return age + &quot; 岁&quot;;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public String getName() &#123;</span><br><span class="line">        return name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void setName(String name) &#123;</span><br><span class="line">        this.name = handleName(name);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public String getAge() &#123;</span><br><span class="line">        return age;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void setAge(String age) &#123;</span><br><span class="line">        this.age = handleAge(age);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public class Boys extends Student &#123;</span><br><span class="line">    @Override</span><br><span class="line">    public void setName(String name) &#123;</span><br><span class="line">        super.setName(name);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public String getAge() &#123;</span><br><span class="line">        return super.getAge();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public String getName() &#123;</span><br><span class="line">        return super.getName();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void setAge(String age) &#123;</span><br><span class="line">        super.setAge(age);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>关键字super，这个关键字与this相似，不过super表明调用方法的对象是父类的对象，那这段自动生成的代码的意思就是如果我们不添加新的内容，那么当我们子类调用这些方法的时候，执行的是父类的方法。同时我们在这个方法上面看见一个注解 @Override这表明这个方法是覆盖父类的方法，而不是方法重载。</p>
+<h2 id="多态"><a href="#多态" class="headerlink" title="多态"></a>多态</h2><h3 id="重载与重写"><a href="#重载与重写" class="headerlink" title="重载与重写"></a>重载与重写</h3><h4 id="重载overloading"><a href="#重载overloading" class="headerlink" title="重载overloading"></a>重载overloading</h4><ul>
+<li><p>方法重载是让类以统一的方式处理不同类型数据的一种手段。多个同名函数同时存在，具有不同的参数个数/类型。重载是一个类中多态性的一种表现。</p>
+</li>
+<li><p>Java的方法重载，就是在类中可以创建多个方法，它们具有相同的名字，但具有不同的参数和不同的定义。调用方法时通过传递给它们的不同参数个数和参数类型给它们的不同参数个数和参数类型给它们的不同参数个数和参数类型来决定具体使用哪个方法, 这就是多态性。</p>
+</li>
+<li><p>重载的时候，方法名要一样，但是参数类型和个数不一样，返回值类型可以相同也可以不相同。无法以返回型别作为重载函数的区分标准。</p>
+</li>
+</ul>
+<h4 id="重写override"><a href="#重写override" class="headerlink" title="重写override"></a>重写override</h4><ul>
+<li><p>父类与子类之间的多态性，对父类的函数进行重新定义。如果在子类中定义某方法与其父类有相同的名称和参数，我们说该方法被重写 (Override)。在Java中，子类可继承父类中的方法，而不需要重新编写相同的方法。但有时子类并不想原封不动地继承父类的方法，而是想作一定的修改，这就需要采用方法的重写。方法重写又称方法覆盖。</p>
+</li>
+<li><p>若子类中的方法与父类中的某一方法具有相同的方法名、返回类型和参数表，则新方法将覆盖原有的方法。如需父类中原有的方法，可使用super关键字，该关键字引用了当前类的父类。</p>
+</li>
+<li><p>子类函数的访问修饰权限不能少于父类的。</p>
+</li>
+</ul>
+<p>方法的重写Overriding和重载Overloading是Java多态性的不同表现。重写Overriding是父类与子类之间多态性的一种表现，重载Overloading是一个类中多态性的一种表现。如果在子类中定义某方法与其父类有相同的名称和参数，我们说该方法被重写 (Overriding)。子类的对象使用这个方法时，将调用子类中的定义，对它而言，父类中的定义如同被“屏蔽”了，而且如果子类的方法名和参数类型和个数都和父类相同，那么子类的返回值类型必须和父类的相同；如果在一个类中定义了多个同名的方法，它们或有不同的参数个数或有不同的参数类型，则称为方法的重载。Overloaded的方法是可以改变返回值的类型。也就是说，重载的返回值类型可以相同也可以不同。</p>
+<p>附录：动态绑定即调用对象方法的机制</p>
+<ul>
+<li><p>编译器检查对象声明的类型和方法名，从而获取所有候选方法。试着把上例Base类的test注释掉，这时再编译就无法通过。</p>
+</li>
+<li><p>重载决策：编译器检查方法调用的参数类型，从上述候选方法选出唯一的那一个（其间会有隐含类型转化）。如果编译器找到多于一个或者没找到，此时编译器就会报错。试着把上例Base类的test(byte b)注释掉，这时运行结果是1 1。</p>
+</li>
+<li><p>若方法类型为priavte static final ，java采用静态编译，编译器会准确知道该调用哪个方法。</p>
+</li>
+<li><p>当程序运行并且使用动态绑定来调用一个方法时，那么虚拟机必须调用对象的实际类型相匹配的方法版本。在例子中，b所指向的实际类型是TestOverriding，所以b.test(0)调用子类的test。但是，子类并没有重写test(byte b)，所以b.test((byte)0)调用的是父类的test(byte b)。如果把父类的(byte b)注释掉，则通过第二步隐含类型转化为int,最终调用的是子类的test(int i)。</p>
+</li>
+</ul>
+<h4 id="多态-1"><a href="#多态-1" class="headerlink" title="多态"></a>多态</h4><p>父类引用指向子类对象，调用方法时会调用子类的实现，而不是父类的实现，这叫多态。我理解的多态与继承体系有关，与方法覆盖有关，与方法重载无关。</p>
+<p>父类引用指向子类对象，调用方法时会调用子类的实现，而不是父类的实现，这叫多态。</p>
+<h3 id="动态绑定"><a href="#动态绑定" class="headerlink" title="动态绑定"></a>动态绑定</h3><p>动态绑定（后期绑定）是指：在程序运行过程中，根据具体的实例对象才能具体确定是哪个方法。</p>
+<p>动态绑定是多态性得以实现的重要因素，它通过方法表来实现：每个类被加载到虚拟机时，在方法区保存元数据，其中，包括一个叫做 方法表（method table）的东西，表中记录了这个类定义的方法的指针，每个表项指向一个具体的方法代码。如果这个类重写了父类中的某个方法，则对应表项指向新的代码实现处。从父类继承来的方法位于子类定义的方法的前面。</p>
+<p>动态绑定语句的编译、运行原理：我们假设 Father ft=new Son();  ft.say();  Son继承自Father，重写了say()。</p>
+<ul>
+<li>编译：我们知道，向上转型时，用父类引用执行子类对象，并可以用父类引用调用子类中重写了的同名方法。但是不能调用子类中新增的方法，为什么呢？</li>
+</ul>
+<p>因为在代码的编译阶段，编译器通过 声明对象的类型（即引用本身的类型） 在方法区中该类型的方法表中查找匹配的方法（最佳匹配法：参数类型最接近的被调用），如果有则编译通过。（这里是根据声明的对象类型来查找的，所以此处是查找 Father类的方法表，而Father类方法表中是没有子类新增的方法的，所以不能调用。）</p>
+<p>编译阶段是确保方法的存在性，保证程序能顺利、安全运行。</p>
+<ul>
+<li>运行：我们又知道，ft.say()调用的是Son中的say()，这不就与上面说的，查找Father类的方法表的匹配方法矛盾了吗？不，这里就是动态绑定机制的真正体现。</li>
+</ul>
+<p>上面编译阶段在 声明对象类型 的方法表中查找方法，只是为了安全地通过编译（也为了检验方法是否是存在的）。而在实际运行这条语句时，在执行 Father ft=new Son(); 这一句时创建了一个Son实例对象，然后在 ft.say() 调用方法时，JVM会把刚才的son对象压入操作数栈，用它来进行调用。而用实例对象进行方法调用的过程就是动态绑定：根据实例对象所属的类型去查找它的方法表，找到匹配的方法进行调用。我们知道，子类中如果重写了父类的方法，则方法表中同名表项会指向子类的方法代码；若无重写，则按照父类中的方法表顺序保存在子类方法表中。故此：动态绑定根据对象的类型的方法表查找方法是一定会匹配（因为编译时在父类方法表中以及查找并匹配成功了，说明方法是存在的。这也解释了为何向上转型时父类引用不能调用子类新增的方法：在父类方法表中必须先对这个方法的存在性进行检验，如果在运行时才检验就容易出危险——可能子类中也没有这个方法）。</p>
+<p>程序在JVM运行过程中，会把类的类型信息、static属性和方法、final常量等元数据加载到方法区，这些在类被加载时就已经知道，不需对象的创建就能访问的，就是静态绑定的内容；需要等对象创建出来，使用时根据堆中的实例对象的类型才进行取用的就是动态绑定的内容。</p>
+
+            <div class="post-copyright">
+    <div class="content">
+        <p>最后更新： 2018年07月12日 14:18</p>
+        <p>原始链接： <a class="post-url" href="/2017/11/09/javabase_class/" title="java基础学习之类与对象">http://zhangbuzola.cn/2017/11/09/javabase_class/</a></p>
+        <footer>
+            <a href="http://zhangbuzola.cn">
+                <img src="/images/pacman.jpg" alt="zolanunu">
+                zolanunu
+            </a>
+        </footer>
+    </div>
+</div>
+
+      
+        
+            
+
+        
+    </div>
+    <footer class="article-footer">
+        
+        <ul class="article-footer-menu">
+            
+            
+  <li class="article-footer-tags">
+    <i class="fa fa-tags"></i>
+      
+    <a href="/tags/java基础/" class="color2">java基础</a>
+      
+  </li>
+
+        </ul>
+        
+    </footer>
+  </div>
+</article>
+
+
+    <aside class="post-toc-pos post-toc-top" id="post-toc">
+        <nav class="post-toc-wrap">
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#类与对象"><span class="post-toc-text">类与对象</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Class与Object"><span class="post-toc-text">Class与Object</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Class类"><span class="post-toc-text">Class类</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#finalize方法"><span class="post-toc-text">finalize方法</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#之前"><span class="post-toc-text">之前</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#注意事项"><span class="post-toc-text">注意事项</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#执行过程"><span class="post-toc-text">执行过程</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#对象重生"><span class="post-toc-text">对象重生</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#对象的finalize的执行顺序"><span class="post-toc-text">对象的finalize的执行顺序</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#何时及如何使用finalize"><span class="post-toc-text">何时及如何使用finalize</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#修饰符"><span class="post-toc-text">修饰符</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#访问修饰符"><span class="post-toc-text">访问修饰符</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#访问控制和继承"><span class="post-toc-text">访问控制和继承</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#非访问修饰符"><span class="post-toc-text">非访问修饰符</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#final"><span class="post-toc-text">final</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#static"><span class="post-toc-text">static</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#abstract修饰符"><span class="post-toc-text">abstract修饰符</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#Synchronized修饰符"><span class="post-toc-text">Synchronized修饰符</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#Transient修饰符"><span class="post-toc-text">Transient修饰符</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#volatile修饰符"><span class="post-toc-text">volatile修饰符</span></a></li></ol></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#继承"><span class="post-toc-text">继承</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#概念"><span class="post-toc-text">概念</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#实现"><span class="post-toc-text">实现</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#多态"><span class="post-toc-text">多态</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#重载与重写"><span class="post-toc-text">重载与重写</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#重载overloading"><span class="post-toc-text">重载overloading</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#重写override"><span class="post-toc-text">重写override</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#多态-1"><span class="post-toc-text">多态</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#动态绑定"><span class="post-toc-text">动态绑定</span></a></li></ol></li></ol></li></ol>
+        </nav>
+    </aside>
+    
+
+<nav id="article-nav">
+  
+    <a href="/2017/11/10/java基础之初始化/" id="article-nav-newer" class="article-nav-link-wrap">
+
+      <span class="article-nav-title">
+        <i class="fa fa-hand-o-left" aria-hidden="true"></i>
+        
+          java基础学习之初始化
+        
+      </span>
+    </a>
+  
+  
+    <a href="/2017/10/24/javabase_jvm/" id="article-nav-older" class="article-nav-link-wrap">
+      <span class="article-nav-title">深入理解java虚拟机part1</span>
+      <i class="fa fa-hand-o-right" aria-hidden="true"></i>
+    </a>
+  
+</nav>
+
+
+
+    
+        <link rel="stylesheet" href="//unpkg.com/gitment/style/default.css">
+    <script src="//unpkg.com/gitment/dist/gitment.browser.js"></script>
+    <script>
+        var gitment = new Gitment({
+            owner: 'true',
+            repo: 'zolanunu',
+            oauth: {
+                client_id: '1a04e8dee74a4b8634df',
+                client_secret: '9e3078ac89eb72f22abbdd11f7f0d11e2e1d7f7a',
+            },
+        })
+        gitment.render('comments')
+    </script>
+
+    
+</section>
+        
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+      <p>
+        Powered by  <a href="http://hexo.io/" target="_blank">Hexo</a>
+        Theme <a href="//github.com/wongminho/hexo-theme-miho" target="_blank">MiHo</a>
+      &copy; 2018 zolanunu<br>
+      </p>
+    </div>
+  </div>
+</footer>
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script>
+  var mihoConfig = {
+      root: "http://zhangbuzola.cn",
+      animate: true,
+      isHome: false,
+      share: false,
+      reward: 0
+  }
+</script>
+<div class="sidebar">
+    <div id="sidebar-search" title="Search">
+        <i class="fa fa-search"></i>
+    </div>
+    <div id="sidebar-category" title="Categories">
+        <i class="fa fa-book"></i>
+    </div>
+    <div id="sidebar-tag" title="Tags">
+        <i class="fa fa-tags"></i>
+    </div>
+    <div id="sidebar-top">
+        <span class="sidebar-top-icon"><i class="fa fa-angle-up"></i></span>
+    </div>
+</div>
+<div class="sidebar-menu-box" id="sidebar-menu-box">
+    <div class="sidebar-menu-box-container">
+        <div id="sidebar-menu-box-categories">
+            <a class="category-link" href="/categories/Java/">Java</a><a class="category-link" href="/categories/Java后台/">Java后台</a><a class="category-link" href="/categories/Python/">Python</a><a class="category-link" href="/categories/工具/">工具</a><a class="category-link" href="/categories/技术书/">技术书</a><a class="category-link" href="/categories/数据库/">数据库</a><a class="category-link" href="/categories/数据结构/">数据结构</a><a class="category-link" href="/categories/生活轨迹/">生活轨迹</a><a class="category-link" href="/categories/算法/">算法</a>
+        </div>
+        <div id="sidebar-menu-box-tags">
+            <a href="/tags/2018/" style="font-size: 11.43px;">2018</a> <a href="/tags/Collections/" style="font-size: 15.71px;">Collections</a> <a href="/tags/HashMap/" style="font-size: 10px;">HashMap</a> <a href="/tags/LinkedHashMap/" style="font-size: 10px;">LinkedHashMap</a> <a href="/tags/MySQL/" style="font-size: 17.14px;">MySQL</a> <a href="/tags/Mybatis/" style="font-size: 12.86px;">Mybatis</a> <a href="/tags/Object/" style="font-size: 10px;">Object</a> <a href="/tags/SSM/" style="font-size: 12.86px;">SSM</a> <a href="/tags/TreeMap/" style="font-size: 11.43px;">TreeMap</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/java基础/" style="font-size: 20px;">java基础</a> <a href="/tags/java并发编程实战/" style="font-size: 11.43px;">java并发编程实战</a> <a href="/tags/leetcode/" style="font-size: 17.14px;">leetcode</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/剑指offer/" style="font-size: 10px;">剑指offer</a> <a href="/tags/多线程/" style="font-size: 11.43px;">多线程</a> <a href="/tags/并发编程/" style="font-size: 10px;">并发编程</a> <a href="/tags/机器学习/" style="font-size: 12.86px;">机器学习</a> <a href="/tags/构造函数/" style="font-size: 10px;">构造函数</a> <a href="/tags/深入理解java虚拟机/" style="font-size: 10px;">深入理解java虚拟机</a> <a href="/tags/生活/" style="font-size: 10px;">生活</a> <a href="/tags/神经网络/" style="font-size: 10px;">神经网络</a> <a href="/tags/算法与数据结构/" style="font-size: 14.29px;">算法与数据结构</a> <a href="/tags/算法和数据结构/" style="font-size: 18.57px;">算法和数据结构</a> <a href="/tags/观影记/" style="font-size: 10px;">观影记</a> <a href="/tags/读书书单/" style="font-size: 10px;">读书书单</a>
+        </div>
+    </div>
+    <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
+</div>
+<div class="mobile-header-menu-nav" id="mobile-header-menu-nav">
+    <div class="mobile-header-menu-container">
+        <span class="title">Menus</span>
+        <ul class="mobile-header-menu-navbar">
+            
+            <li>
+                <a  href="/">
+                    <i class="fa fa-home"></i><span>Home</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/archives">
+                    <i class="fa fa-archive"></i><span>Archives</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/about">
+                    <i class="fa fa-user"></i><span>About</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    <div class="mobile-header-tag-container">
+        <span class="title">Tags</span>
+        <div id="mobile-header-container-tags">
+            <a href="/tags/2018/" style="font-size: 11.43px;">2018</a> <a href="/tags/Collections/" style="font-size: 15.71px;">Collections</a> <a href="/tags/HashMap/" style="font-size: 10px;">HashMap</a> <a href="/tags/LinkedHashMap/" style="font-size: 10px;">LinkedHashMap</a> <a href="/tags/MySQL/" style="font-size: 17.14px;">MySQL</a> <a href="/tags/Mybatis/" style="font-size: 12.86px;">Mybatis</a> <a href="/tags/Object/" style="font-size: 10px;">Object</a> <a href="/tags/SSM/" style="font-size: 12.86px;">SSM</a> <a href="/tags/TreeMap/" style="font-size: 11.43px;">TreeMap</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/java基础/" style="font-size: 20px;">java基础</a> <a href="/tags/java并发编程实战/" style="font-size: 11.43px;">java并发编程实战</a> <a href="/tags/leetcode/" style="font-size: 17.14px;">leetcode</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/剑指offer/" style="font-size: 10px;">剑指offer</a> <a href="/tags/多线程/" style="font-size: 11.43px;">多线程</a> <a href="/tags/并发编程/" style="font-size: 10px;">并发编程</a> <a href="/tags/机器学习/" style="font-size: 12.86px;">机器学习</a> <a href="/tags/构造函数/" style="font-size: 10px;">构造函数</a> <a href="/tags/深入理解java虚拟机/" style="font-size: 10px;">深入理解java虚拟机</a> <a href="/tags/生活/" style="font-size: 10px;">生活</a> <a href="/tags/神经网络/" style="font-size: 10px;">神经网络</a> <a href="/tags/算法与数据结构/" style="font-size: 14.29px;">算法与数据结构</a> <a href="/tags/算法和数据结构/" style="font-size: 18.57px;">算法和数据结构</a> <a href="/tags/观影记/" style="font-size: 10px;">观影记</a> <a href="/tags/读书书单/" style="font-size: 10px;">读书书单</a>
+        </div>
+    </div>
+</div>
+<div class="search-wrap">
+    <span class="search-close">&times;</span>
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+            <i class="icon icon-lg icon-chevron-left"></i>
+        </a>
+        <input class="search-field" placeholder="Search..." id="keywords">
+        <a id="search-submit" href="javascript:;">
+            <i class="fa fa-search"></i>
+        </a>
+    <div class="search-container" id="search-container">
+        <ul class="search-result" id="search-result">
+        </ul>
+    </div>
+</div>
+
+<div id="search-tpl">
+    <li class="search-result-item">
+        <a href="{url}" class="search-item-li">
+            <span class="search-item-li-title" title="{title}">{title}</span>
+        </a>
+    </li>
+</div>
+<script src="/js/search.js"></script>
+<script src="/js/main.js"></script>
+
+
+  <script src="//cdn.bootcss.com/particles.js/2.0.0/particles.min.js"></script>
+  <div id="particles"></div>
+  <script src="/js/particles.js"></script>
+
+
+
+
+
+
+
+  <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
+  <script src="//cdn.bootcss.com/scrollReveal.js/3.0.5/scrollreveal.js"></script>
+  <script src="/js/animate.js"></script>
+
+
+  <script src="/js/pop-img.js"></script>
+  <script>
+     $(".article-entry p img").popImg();
+  </script>
+
+  </div>
+</body>
+</html>

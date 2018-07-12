@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>mysql实战part2 | zolanunu</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+    <meta name="keywords" content="zolanunu,zolanunu's blog" />
+  
+  <meta name="description" content="牛客 sql学习实践表123456789CREATE TABLE &amp;apos;employees&amp;apos; (	&amp;apos;emp_no&amp;apos; INT(11) NOT NULL,	&amp;apos;birth_date&amp;apos; DATE NOT NULL,	&amp;apos;first_name&amp;apos; VARCHAR(14) NOT NULL,	&amp;apos;last_name&amp;apos; V">
+<meta name="keywords" content="MySQL">
+<meta property="og:type" content="article">
+<meta property="og:title" content="mysql实战part2">
+<meta property="og:url" content="http://zhangbuzola.cn/2017/10/10/2018-03-19 mysql_4/index.html">
+<meta property="og:site_name" content="zolanunu">
+<meta property="og:description" content="牛客 sql学习实践表123456789CREATE TABLE &amp;apos;employees&amp;apos; (	&amp;apos;emp_no&amp;apos; INT(11) NOT NULL,	&amp;apos;birth_date&amp;apos; DATE NOT NULL,	&amp;apos;first_name&amp;apos; VARCHAR(14) NOT NULL,	&amp;apos;last_name&amp;apos; V">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2018-07-12T05:54:53.121Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="mysql实战part2">
+<meta name="twitter:description" content="牛客 sql学习实践表123456789CREATE TABLE &amp;apos;employees&amp;apos; (	&amp;apos;emp_no&amp;apos; INT(11) NOT NULL,	&amp;apos;birth_date&amp;apos; DATE NOT NULL,	&amp;apos;first_name&amp;apos; VARCHAR(14) NOT NULL,	&amp;apos;last_name&amp;apos; V">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="/js/pace.min.js"></script>
+  
+
+  
+	<script>
+	var _hmt = _hmt || [];
+	(function() {
+	  var hm = document.createElement("script");
+	  hm.src = "//hm.baidu.com/hm.js?a651034b7d11a367ae836642b29a3057";
+	  var s = document.getElementsByTagName("script")[0]; 
+	  s.parentNode.insertBefore(hm, s);
+	})();
+	</script>
+
+  
+
+</head>
+
+<body>
+  <div id="container">
+      <header id="header">
+    <div id="banner"></div>
+    <div id="header-outer">
+        <div id="header-menu" class="header-menu-pos animated">
+            <div class="header-menu-container">
+                <a href="/" class="left">
+                    <span class="site-title">zolanunu&#39;s Blog</span>
+                </a>
+                <nav id="header-menu-nav" class="right">
+                    
+                    <a  href="/">
+                        <i class="fa fa-home"></i>
+                        <span>Home</span>
+                    </a>
+                    
+                    <a  href="/archives">
+                        <i class="fa fa-archive"></i>
+                        <span>Archives</span>
+                    </a>
+                    
+                    <a  href="/about">
+                        <i class="fa fa-user"></i>
+                        <span>About</span>
+                    </a>
+                    
+                </nav>
+                <a class="mobile-header-menu-button">
+                    <i class="fa fa-bars"></i>
+                </a>
+            </div>
+        </div>
+        <div id="header-row">
+            <div id="logo">
+                <a href="/">
+                    <img src="/images/pacman.jpg" alt="logo">
+                </a>
+            </div>
+            <div class="header-info">
+                <div id="header-title">
+                    
+                    <h2>
+                        zolanunu&#39;s Blog
+                    </h2>
+                    
+                </div>
+                <div id="header-description">
+                    
+                    <h3>
+                        去努力尝试做一些你觉得你不会做或者不敢做的事情。
+                    </h3>
+                    
+                </div>
+            </div>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a title="zolanunu" target="_blank" href="//zhangbuzola.cn">
+                            <i class="fa fa-home fa-2x"></i></a>
+                    
+                        <a title="Github" target="_blank" href="//github.com/zolanunu">
+                            <i class="fa fa-github fa-2x"></i></a>
+                    
+                        <a title="Weibo" target="_blank" href="//weibo.com/zolanunu">
+                            <i class="fa fa-weibo fa-2x"></i></a>
+                    
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>
+      <div class="outer">
+        <section id="main" class="body-wrap"><article id="post-2018-03-19 mysql_4" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="post-title" itemprop="name">
+      mysql实战part2
+    </h1>
+    <div class="post-title-bar">
+      <ul>
+          
+              <li>
+                  <i class="fa fa-book"></i>
+                  
+                      <a href="/categories/数据库/">数据库</a>
+                  
+              </li>
+          
+        <li>
+          <i class="fa fa-calendar"></i>  2017-10-10
+        </li>
+        <li>
+          <i class="fa fa-eye"></i>
+          <span id="busuanzi_value_page_pv"></span>
+        </li>
+      </ul>
+    </div>
+  
+
+          
+      </header>
+    
+    <div class="article-entry post-content" itemprop="articleBody">
+      
+            
+            <h1 id="牛客-sql学习实践"><a href="#牛客-sql学习实践" class="headerlink" title="牛客 sql学习实践"></a>牛客 sql学习实践</h1><h2 id="表"><a href="#表" class="headerlink" title="表"></a>表</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLE &apos;employees&apos; (</span><br><span class="line">	&apos;emp_no&apos; INT(11) NOT NULL,</span><br><span class="line">	&apos;birth_date&apos; DATE NOT NULL,</span><br><span class="line">	&apos;first_name&apos; VARCHAR(14) NOT NULL,</span><br><span class="line">	&apos;last_name&apos; VARCHAR(16) NOT NULL,</span><br><span class="line">	&apos;gender&apos; CHAR(1) NOT NULL,</span><br><span class="line">	&apos;hire_date&apos; DATE NOT NULL,</span><br><span class="line">	PRIMARY KEY(&apos;emp_no&apos;)</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+<h2 id="操作"><a href="#操作" class="headerlink" title="操作"></a>操作</h2><h3 id="查找入职最晚的员工信息"><a href="#查找入职最晚的员工信息" class="headerlink" title="查找入职最晚的员工信息"></a>查找入职最晚的员工信息</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SELECT * FROM EMPLOYEES WHERE hire_date = (SELECT MAX(hire_date) FROM employees);</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>select 检索表中行列数据</p>
+</li>
+<li><p>where 之后接指定的搜索条件（知道sql语句中的一些函数）和order by 同时使用的时候，order by 紧随其后。</p>
+</li>
+</ul>
+<h3 id="查找入职时间倒数第三的人员信息"><a href="#查找入职时间倒数第三的人员信息" class="headerlink" title="查找入职时间倒数第三的人员信息"></a>查找入职时间倒数第三的人员信息</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SELECT * FROM employees ORDER BY hire_date DESC LIMIT 2, 1;</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>order by ‘column’ 对某列进行排序</p>
+</li>
+<li><p>desc 降序排序</p>
+</li>
+<li><p>limit &lt;位置偏移量&gt;, 行数</p>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">/*当没有指定位置偏移量时，只取4条时，可以这样写*/</span><br><span class="line">SELECT * FROM YourTableName LIMIT 4;</span><br><span class="line"> </span><br><span class="line">/*当指定了位置偏移量时，从第3条起取4条时，可以这样写*/</span><br><span class="line">/*因为索引是从0开始计数的，所以第3条对应的索引就是2*/</span><br><span class="line">SELECT * FROM YourTableName LIMIT 2,4;</span><br></pre></td></tr></table></figure>
+<h2 id="三"><a href="#三" class="headerlink" title="三"></a>三</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">查找各个部门当前(to_date=&apos;9999-01-01&apos;)领导当前薪水详情以及其对应部门编号dept_no</span><br><span class="line">CREATE TABLE `dept_manager` (</span><br><span class="line">`dept_no` char(4) NOT NULL,</span><br><span class="line">`emp_no` int(11) NOT NULL,</span><br><span class="line">`from_date` date NOT NULL,</span><br><span class="line">`to_date` date NOT NULL,</span><br><span class="line">PRIMARY KEY (`emp_no`,`dept_no`));</span><br><span class="line">CREATE TABLE `salaries` (</span><br><span class="line">`emp_no` int(11) NOT NULL,</span><br><span class="line">`salary` int(11) NOT NULL,</span><br><span class="line">`from_date` date NOT NULL,</span><br><span class="line">`to_date` date NOT NULL,</span><br><span class="line">PRIMARY KEY (`emp_no`,`from_date`));</span><br><span class="line"></span><br><span class="line">select salaries.*, dept_manager.dept_no from salaries, dept_manager</span><br><span class="line">where salaries.emp_no = dept_manager.emp_no</span><br><span class="line">and salaries.to_date = &quot;9999-01-01&quot;</span><br><span class="line">and dept_manager.to_date = &quot;9999-01-01&quot;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">查找所有员工的last_name和first_name以及对应部门编号dept_no，也包括展示没有分配具体部门的员工</span><br><span class="line">CREATE TABLE `dept_emp` (</span><br><span class="line">`emp_no` int(11) NOT NULL,</span><br><span class="line">`dept_no` char(4) NOT NULL,</span><br><span class="line">`from_date` date NOT NULL,</span><br><span class="line">`to_date` date NOT NULL,</span><br><span class="line">PRIMARY KEY (`emp_no`,`dept_no`));</span><br><span class="line">CREATE TABLE `employees` (</span><br><span class="line">`emp_no` int(11) NOT NULL,</span><br><span class="line">`birth_date` date NOT NULL,</span><br><span class="line">`first_name` varchar(14) NOT NULL,</span><br><span class="line">`last_name` varchar(16) NOT NULL,</span><br><span class="line">`gender` char(1) NOT NULL,</span><br><span class="line">`hire_date` date NOT NULL,</span><br><span class="line">PRIMARY KEY (`emp_no`));</span><br><span class="line"></span><br><span class="line">select e.last_name, e.first_name, d.dept_no</span><br><span class="line">from employees e</span><br><span class="line">left join dept_emp d</span><br><span class="line">on e.emp_no = d.emp_no</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">查找所有员工入职时候的薪水情况，给出emp_no以及salary， 并按照emp_no进行逆序</span><br><span class="line">CREATE TABLE `employees` (</span><br><span class="line">`emp_no` int(11) NOT NULL,</span><br><span class="line">`birth_date` date NOT NULL,</span><br><span class="line">`first_name` varchar(14) NOT NULL,</span><br><span class="line">`last_name` varchar(16) NOT NULL,</span><br><span class="line">`gender` char(1) NOT NULL,</span><br><span class="line">`hire_date` date NOT NULL,</span><br><span class="line">PRIMARY KEY (`emp_no`));</span><br><span class="line">CREATE TABLE `salaries` (</span><br><span class="line">`emp_no` int(11) NOT NULL,</span><br><span class="line">`salary` int(11) NOT NULL,</span><br><span class="line">`from_date` date NOT NULL,</span><br><span class="line">`to_date` date NOT NULL,</span><br><span class="line">PRIMARY KEY (`emp_no`,`from_date`));</span><br><span class="line"></span><br><span class="line">方法一：利用 INNER JOIN 连接两张表</span><br><span class="line"></span><br><span class="line">SELECT e.emp_no, s.salary FROM employees AS e INNER JOIN salaries AS s</span><br><span class="line">ON e.emp_no = s.emp_no AND e.hire_date = s.from_date</span><br><span class="line">ORDER BY e.emp_no DESC</span><br><span class="line">方法二：直接用逗号并列查询两张表</span><br><span class="line"></span><br><span class="line">SELECT e.emp_no, s.salary FROM employees AS e, salaries AS s</span><br><span class="line">WHERE e.emp_no = s.emp_no AND e.hire_date = s.from_date</span><br><span class="line">ORDER BY e.emp_no DESC</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">查找薪水涨幅超过15次的员工号emp_no以及其对应的涨幅次数t</span><br><span class="line">CREATE TABLE `salaries` (</span><br><span class="line">`emp_no` int(11) NOT NULL,</span><br><span class="line">`salary` int(11) NOT NULL,</span><br><span class="line">`from_date` date NOT NULL,</span><br><span class="line">`to_date` date NOT NULL,</span><br><span class="line">PRIMARY KEY (`emp_no`,`from_date`));</span><br><span class="line"></span><br><span class="line">select emp_no, count(emp_no) as t from salaries</span><br><span class="line">group by emp_no having t &gt; 15</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">找出所有员工当前(to_date=&apos;9999-01-01&apos;)具体的薪水salary情况，对于相同的薪水只显示一次,并按照逆序显示</span><br><span class="line">CREATE TABLE `salaries` (</span><br><span class="line">`emp_no` int(11) NOT NULL,</span><br><span class="line">`salary` int(11) NOT NULL,</span><br><span class="line">`from_date` date NOT NULL,</span><br><span class="line">`to_date` date NOT NULL,</span><br><span class="line">PRIMARY KEY (`emp_no`,`from_date`));</span><br><span class="line"></span><br><span class="line">select distinct(salary) from salaries</span><br><span class="line">where to_date = &quot;9999-01-01&quot;</span><br><span class="line">order by salary desc</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">获取所有部门当前manager的当前薪水情况，给出dept_no, emp_no以及salary，当前表示to_date=&apos;9999-01-01&apos;</span><br><span class="line">CREATE TABLE `dept_manager` (</span><br><span class="line">`dept_no` char(4) NOT NULL,</span><br><span class="line">`emp_no` int(11) NOT NULL,</span><br><span class="line">`from_date` date NOT NULL,</span><br><span class="line">`to_date` date NOT NULL,</span><br><span class="line">PRIMARY KEY (`emp_no`,`dept_no`));</span><br><span class="line">CREATE TABLE `salaries` (</span><br><span class="line">`emp_no` int(11) NOT NULL,</span><br><span class="line">`salary` int(11) NOT NULL,</span><br><span class="line">`from_date` date NOT NULL,</span><br><span class="line">`to_date` date NOT NULL,</span><br><span class="line">PRIMARY KEY (`emp_no`,`from_date`));</span><br><span class="line"></span><br><span class="line">select d.dept_no, d.emp_no,s.salary</span><br><span class="line">from salaries as s inner join dept_manager as d</span><br><span class="line">on d.emp_no = s.emp_no</span><br><span class="line">and d.to_date = &quot;9999-01-01&quot;</span><br><span class="line">and s.to_date = &quot;9999-01-01&quot;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">获取所有非manager的员工emp_no</span><br><span class="line">CREATE TABLE `dept_manager` (</span><br><span class="line">`dept_no` char(4) NOT NULL,</span><br><span class="line">`emp_no` int(11) NOT NULL,</span><br><span class="line">`from_date` date NOT NULL,</span><br><span class="line">`to_date` date NOT NULL,</span><br><span class="line">PRIMARY KEY (`emp_no`,`dept_no`));</span><br><span class="line">CREATE TABLE `employees` (</span><br><span class="line">`emp_no` int(11) NOT NULL,</span><br><span class="line">`birth_date` date NOT NULL,</span><br><span class="line">`first_name` varchar(14) NOT NULL,</span><br><span class="line">`last_name` varchar(16) NOT NULL,</span><br><span class="line">`gender` char(1) NOT NULL,</span><br><span class="line">`hire_date` date NOT NULL,</span><br><span class="line">PRIMARY KEY (`emp_no`));</span><br><span class="line"></span><br><span class="line">select a.emp_no</span><br><span class="line">from employees a</span><br><span class="line">where a.emp_no not in (select b.emp_no from  dept_manager b)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">获取所有员工当前的manager，如果当前的manager是自己的话结果不显示，当前表示to_date=&apos;9999-01-01&apos;。</span><br><span class="line">结果第一列给出当前员工的emp_no,第二列给出其manager对应的manager_no。</span><br><span class="line">CREATE TABLE `dept_emp` (</span><br><span class="line">`emp_no` int(11) NOT NULL,</span><br><span class="line">`dept_no` char(4) NOT NULL,</span><br><span class="line">`from_date` date NOT NULL,</span><br><span class="line">`to_date` date NOT NULL,</span><br><span class="line">PRIMARY KEY (`emp_no`,`dept_no`));</span><br><span class="line">CREATE TABLE `dept_manager` (</span><br><span class="line">`dept_no` char(4) NOT NULL,</span><br><span class="line">`emp_no` int(11) NOT NULL,</span><br><span class="line">`from_date` date NOT NULL,</span><br><span class="line">`to_date` date NOT NULL,</span><br><span class="line">PRIMARY KEY (`emp_no`,`dept_no`));</span><br><span class="line"></span><br><span class="line">select de.emp_no, dm.emp_no as manager_no</span><br><span class="line">from dept_emp de, dept_manager dm</span><br><span class="line">where de.to_date = &quot;9999-01-01&quot; and dm.to_date = &quot;9999-01-01&quot;</span><br><span class="line">and de.dept_no = dm.dept_no and dm.emp_no != de.emp_no</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">获取所有部门中当前员工薪水最高的相关信息，给出dept_no, emp_no以及其对应的salary</span><br><span class="line">CREATE TABLE `dept_emp` (</span><br><span class="line">`emp_no` int(11) NOT NULL,</span><br><span class="line">`dept_no` char(4) NOT NULL,</span><br><span class="line">`from_date` date NOT NULL,</span><br><span class="line">`to_date` date NOT NULL,</span><br><span class="line">PRIMARY KEY (`emp_no`,`dept_no`));</span><br><span class="line">CREATE TABLE `salaries` (</span><br><span class="line">`emp_no` int(11) NOT NULL,</span><br><span class="line">`salary` int(11) NOT NULL,</span><br><span class="line">`from_date` date NOT NULL,</span><br><span class="line">`to_date` date NOT NULL,</span><br><span class="line">PRIMARY KEY (`emp_no`,`from_date`));</span><br><span class="line"></span><br><span class="line">SELECT d.dept_no,d.emp_no,MAX(s.salary) AS salary</span><br><span class="line">FROM salaries AS s inner join dept_emp AS d</span><br><span class="line">ON d.emp_no=s.emp_no</span><br><span class="line">WHERE d.to_date=&apos;9999-01-01&apos; AND s.to_date=&apos;9999-01-01&apos;</span><br><span class="line">GROUP BY d.dept_no</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">从titles表获取按照title进行分组，每组个数大于等于2，给出title以及对应的数目t。</span><br><span class="line">CREATE TABLE IF NOT EXISTS &quot;titles&quot; (</span><br><span class="line">`emp_no` int(11) NOT NULL,</span><br><span class="line">`title` varchar(50) NOT NULL,</span><br><span class="line">`from_date` date NOT NULL,</span><br><span class="line">`to_date` date DEFAULT NULL);</span><br><span class="line"></span><br><span class="line">SELECT title, COUNT(emp_no) AS t FROM titles</span><br><span class="line">GROUP BY title HAVING t &gt;= 2</span><br></pre></td></tr></table></figure>
+            <div class="post-copyright">
+    <div class="content">
+        <p>最后更新： 2018年07月12日 13:54</p>
+        <p>原始链接： <a class="post-url" href="/2017/10/10/2018-03-19 mysql_4/" title="mysql实战part2">http://zhangbuzola.cn/2017/10/10/2018-03-19 mysql_4/</a></p>
+        <footer>
+            <a href="http://zhangbuzola.cn">
+                <img src="/images/pacman.jpg" alt="zolanunu">
+                zolanunu
+            </a>
+        </footer>
+    </div>
+</div>
+
+      
+        
+            
+
+        
+    </div>
+    <footer class="article-footer">
+        
+        <ul class="article-footer-menu">
+            
+            
+  <li class="article-footer-tags">
+    <i class="fa fa-tags"></i>
+      
+    <a href="/tags/MySQL/" class="color1">MySQL</a>
+      
+  </li>
+
+        </ul>
+        
+    </footer>
+  </div>
+</article>
+
+
+    <aside class="post-toc-pos post-toc-top" id="post-toc">
+        <nav class="post-toc-wrap">
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#牛客-sql学习实践"><span class="post-toc-text">牛客 sql学习实践</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#表"><span class="post-toc-text">表</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#操作"><span class="post-toc-text">操作</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#查找入职最晚的员工信息"><span class="post-toc-text">查找入职最晚的员工信息</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#查找入职时间倒数第三的人员信息"><span class="post-toc-text">查找入职时间倒数第三的人员信息</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#三"><span class="post-toc-text">三</span></a></li></ol></li></ol>
+        </nav>
+    </aside>
+    
+
+<nav id="article-nav">
+  
+    <a href="/2017/10/10/java基础之封装与继承/" id="article-nav-newer" class="article-nav-link-wrap">
+
+      <span class="article-nav-title">
+        <i class="fa fa-hand-o-left" aria-hidden="true"></i>
+        
+          java基础学习之封装与继承
+        
+      </span>
+    </a>
+  
+  
+</nav>
+
+
+
+    
+        <link rel="stylesheet" href="//unpkg.com/gitment/style/default.css">
+    <script src="//unpkg.com/gitment/dist/gitment.browser.js"></script>
+    <script>
+        var gitment = new Gitment({
+            owner: 'true',
+            repo: 'zolanunu',
+            oauth: {
+                client_id: '1a04e8dee74a4b8634df',
+                client_secret: '9e3078ac89eb72f22abbdd11f7f0d11e2e1d7f7a',
+            },
+        })
+        gitment.render('comments')
+    </script>
+
+    
+</section>
+        
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+      <p>
+        Powered by  <a href="http://hexo.io/" target="_blank">Hexo</a>
+        Theme <a href="//github.com/wongminho/hexo-theme-miho" target="_blank">MiHo</a>
+      &copy; 2018 zolanunu<br>
+      </p>
+    </div>
+  </div>
+</footer>
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script>
+  var mihoConfig = {
+      root: "http://zhangbuzola.cn",
+      animate: true,
+      isHome: false,
+      share: false,
+      reward: 0
+  }
+</script>
+<div class="sidebar">
+    <div id="sidebar-search" title="Search">
+        <i class="fa fa-search"></i>
+    </div>
+    <div id="sidebar-category" title="Categories">
+        <i class="fa fa-book"></i>
+    </div>
+    <div id="sidebar-tag" title="Tags">
+        <i class="fa fa-tags"></i>
+    </div>
+    <div id="sidebar-top">
+        <span class="sidebar-top-icon"><i class="fa fa-angle-up"></i></span>
+    </div>
+</div>
+<div class="sidebar-menu-box" id="sidebar-menu-box">
+    <div class="sidebar-menu-box-container">
+        <div id="sidebar-menu-box-categories">
+            <a class="category-link" href="/categories/Java/">Java</a><a class="category-link" href="/categories/Java后台/">Java后台</a><a class="category-link" href="/categories/Python/">Python</a><a class="category-link" href="/categories/工具/">工具</a><a class="category-link" href="/categories/技术书/">技术书</a><a class="category-link" href="/categories/数据库/">数据库</a><a class="category-link" href="/categories/数据结构/">数据结构</a><a class="category-link" href="/categories/生活轨迹/">生活轨迹</a><a class="category-link" href="/categories/算法/">算法</a>
+        </div>
+        <div id="sidebar-menu-box-tags">
+            <a href="/tags/2018/" style="font-size: 11.43px;">2018</a> <a href="/tags/Collections/" style="font-size: 15.71px;">Collections</a> <a href="/tags/HashMap/" style="font-size: 10px;">HashMap</a> <a href="/tags/LinkedHashMap/" style="font-size: 10px;">LinkedHashMap</a> <a href="/tags/MySQL/" style="font-size: 17.14px;">MySQL</a> <a href="/tags/Mybatis/" style="font-size: 12.86px;">Mybatis</a> <a href="/tags/Object/" style="font-size: 10px;">Object</a> <a href="/tags/SSM/" style="font-size: 12.86px;">SSM</a> <a href="/tags/TreeMap/" style="font-size: 11.43px;">TreeMap</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/java基础/" style="font-size: 20px;">java基础</a> <a href="/tags/java并发编程实战/" style="font-size: 11.43px;">java并发编程实战</a> <a href="/tags/leetcode/" style="font-size: 17.14px;">leetcode</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/剑指offer/" style="font-size: 10px;">剑指offer</a> <a href="/tags/多线程/" style="font-size: 11.43px;">多线程</a> <a href="/tags/并发编程/" style="font-size: 10px;">并发编程</a> <a href="/tags/机器学习/" style="font-size: 12.86px;">机器学习</a> <a href="/tags/构造函数/" style="font-size: 10px;">构造函数</a> <a href="/tags/深入理解java虚拟机/" style="font-size: 10px;">深入理解java虚拟机</a> <a href="/tags/生活/" style="font-size: 10px;">生活</a> <a href="/tags/神经网络/" style="font-size: 10px;">神经网络</a> <a href="/tags/算法与数据结构/" style="font-size: 14.29px;">算法与数据结构</a> <a href="/tags/算法和数据结构/" style="font-size: 18.57px;">算法和数据结构</a> <a href="/tags/观影记/" style="font-size: 10px;">观影记</a> <a href="/tags/读书书单/" style="font-size: 10px;">读书书单</a>
+        </div>
+    </div>
+    <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
+</div>
+<div class="mobile-header-menu-nav" id="mobile-header-menu-nav">
+    <div class="mobile-header-menu-container">
+        <span class="title">Menus</span>
+        <ul class="mobile-header-menu-navbar">
+            
+            <li>
+                <a  href="/">
+                    <i class="fa fa-home"></i><span>Home</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/archives">
+                    <i class="fa fa-archive"></i><span>Archives</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/about">
+                    <i class="fa fa-user"></i><span>About</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    <div class="mobile-header-tag-container">
+        <span class="title">Tags</span>
+        <div id="mobile-header-container-tags">
+            <a href="/tags/2018/" style="font-size: 11.43px;">2018</a> <a href="/tags/Collections/" style="font-size: 15.71px;">Collections</a> <a href="/tags/HashMap/" style="font-size: 10px;">HashMap</a> <a href="/tags/LinkedHashMap/" style="font-size: 10px;">LinkedHashMap</a> <a href="/tags/MySQL/" style="font-size: 17.14px;">MySQL</a> <a href="/tags/Mybatis/" style="font-size: 12.86px;">Mybatis</a> <a href="/tags/Object/" style="font-size: 10px;">Object</a> <a href="/tags/SSM/" style="font-size: 12.86px;">SSM</a> <a href="/tags/TreeMap/" style="font-size: 11.43px;">TreeMap</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/java基础/" style="font-size: 20px;">java基础</a> <a href="/tags/java并发编程实战/" style="font-size: 11.43px;">java并发编程实战</a> <a href="/tags/leetcode/" style="font-size: 17.14px;">leetcode</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/剑指offer/" style="font-size: 10px;">剑指offer</a> <a href="/tags/多线程/" style="font-size: 11.43px;">多线程</a> <a href="/tags/并发编程/" style="font-size: 10px;">并发编程</a> <a href="/tags/机器学习/" style="font-size: 12.86px;">机器学习</a> <a href="/tags/构造函数/" style="font-size: 10px;">构造函数</a> <a href="/tags/深入理解java虚拟机/" style="font-size: 10px;">深入理解java虚拟机</a> <a href="/tags/生活/" style="font-size: 10px;">生活</a> <a href="/tags/神经网络/" style="font-size: 10px;">神经网络</a> <a href="/tags/算法与数据结构/" style="font-size: 14.29px;">算法与数据结构</a> <a href="/tags/算法和数据结构/" style="font-size: 18.57px;">算法和数据结构</a> <a href="/tags/观影记/" style="font-size: 10px;">观影记</a> <a href="/tags/读书书单/" style="font-size: 10px;">读书书单</a>
+        </div>
+    </div>
+</div>
+<div class="search-wrap">
+    <span class="search-close">&times;</span>
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+            <i class="icon icon-lg icon-chevron-left"></i>
+        </a>
+        <input class="search-field" placeholder="Search..." id="keywords">
+        <a id="search-submit" href="javascript:;">
+            <i class="fa fa-search"></i>
+        </a>
+    <div class="search-container" id="search-container">
+        <ul class="search-result" id="search-result">
+        </ul>
+    </div>
+</div>
+
+<div id="search-tpl">
+    <li class="search-result-item">
+        <a href="{url}" class="search-item-li">
+            <span class="search-item-li-title" title="{title}">{title}</span>
+        </a>
+    </li>
+</div>
+<script src="/js/search.js"></script>
+<script src="/js/main.js"></script>
+
+
+  <script src="//cdn.bootcss.com/particles.js/2.0.0/particles.min.js"></script>
+  <div id="particles"></div>
+  <script src="/js/particles.js"></script>
+
+
+
+
+
+
+
+  <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
+  <script src="//cdn.bootcss.com/scrollReveal.js/3.0.5/scrollreveal.js"></script>
+  <script src="/js/animate.js"></script>
+
+
+  <script src="/js/pop-img.js"></script>
+  <script>
+     $(".article-entry p img").popImg();
+  </script>
+
+  </div>
+</body>
+</html>

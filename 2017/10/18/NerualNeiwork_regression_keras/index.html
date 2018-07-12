@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>神经网络初探 | zolanunu</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+    <meta name="keywords" content="zolanunu,zolanunu's blog" />
+  
+  <meta name="description" content="人工神经网络和生物神经网络什么是神经网络我们这里所要谈论的神经网络不是动物或者人类的神经。。，而是为计算机量身定制的神经系统，计算机神经网络是一种模仿生物神经网络的计算机模型。神经网络由大量的人工神经元连接进行计算，大多数情况下，计算机神经网络能够在外界信息的基础上改变内部结构，是一种自己适应的逐渐的过程。现代神经网络是基于传统统计学建模的工具，常用来在输入和输出之间复杂的关系进行建模，或者来探索">
+<meta name="keywords" content="神经网络">
+<meta property="og:type" content="article">
+<meta property="og:title" content="神经网络初探">
+<meta property="og:url" content="http://zhangbuzola.cn/2017/10/18/NerualNeiwork_regression_keras/index.html">
+<meta property="og:site_name" content="zolanunu">
+<meta property="og:description" content="人工神经网络和生物神经网络什么是神经网络我们这里所要谈论的神经网络不是动物或者人类的神经。。，而是为计算机量身定制的神经系统，计算机神经网络是一种模仿生物神经网络的计算机模型。神经网络由大量的人工神经元连接进行计算，大多数情况下，计算机神经网络能够在外界信息的基础上改变内部结构，是一种自己适应的逐渐的过程。现代神经网络是基于传统统计学建模的工具，常用来在输入和输出之间复杂的关系进行建模，或者来探索">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="http://zhangbuzola.cn/2017/10/18/NerualNeiwork_regression_keras/assets/images/NerualNeiwork_regression_keras1.jpg">
+<meta property="og:image" content="http://zhangbuzola.cn/2017/10/18/NerualNeiwork_regression_keras/assets/images/NerualNeiwork_regression_keras2.jpg">
+<meta property="og:image" content="http://zhangbuzola.cn/2017/10/18/NerualNeiwork_regression_keras/assets/images/NerualNeiwork_regression_keras3.jpg">
+<meta property="og:image" content="http://zhangbuzola.cn/2017/10/18/NerualNeiwork_regression_keras/assets/images/NerualNeiwork_regression_keras4.jpg">
+<meta property="og:updated_time" content="2018-07-12T05:55:02.730Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="神经网络初探">
+<meta name="twitter:description" content="人工神经网络和生物神经网络什么是神经网络我们这里所要谈论的神经网络不是动物或者人类的神经。。，而是为计算机量身定制的神经系统，计算机神经网络是一种模仿生物神经网络的计算机模型。神经网络由大量的人工神经元连接进行计算，大多数情况下，计算机神经网络能够在外界信息的基础上改变内部结构，是一种自己适应的逐渐的过程。现代神经网络是基于传统统计学建模的工具，常用来在输入和输出之间复杂的关系进行建模，或者来探索">
+<meta name="twitter:image" content="http://zhangbuzola.cn/2017/10/18/NerualNeiwork_regression_keras/assets/images/NerualNeiwork_regression_keras1.jpg">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="/js/pace.min.js"></script>
+  
+
+  
+	<script>
+	var _hmt = _hmt || [];
+	(function() {
+	  var hm = document.createElement("script");
+	  hm.src = "//hm.baidu.com/hm.js?a651034b7d11a367ae836642b29a3057";
+	  var s = document.getElementsByTagName("script")[0]; 
+	  s.parentNode.insertBefore(hm, s);
+	})();
+	</script>
+
+  
+
+</head>
+
+<body>
+  <div id="container">
+      <header id="header">
+    <div id="banner"></div>
+    <div id="header-outer">
+        <div id="header-menu" class="header-menu-pos animated">
+            <div class="header-menu-container">
+                <a href="/" class="left">
+                    <span class="site-title">zolanunu&#39;s Blog</span>
+                </a>
+                <nav id="header-menu-nav" class="right">
+                    
+                    <a  href="/">
+                        <i class="fa fa-home"></i>
+                        <span>Home</span>
+                    </a>
+                    
+                    <a  href="/archives">
+                        <i class="fa fa-archive"></i>
+                        <span>Archives</span>
+                    </a>
+                    
+                    <a  href="/about">
+                        <i class="fa fa-user"></i>
+                        <span>About</span>
+                    </a>
+                    
+                </nav>
+                <a class="mobile-header-menu-button">
+                    <i class="fa fa-bars"></i>
+                </a>
+            </div>
+        </div>
+        <div id="header-row">
+            <div id="logo">
+                <a href="/">
+                    <img src="/images/pacman.jpg" alt="logo">
+                </a>
+            </div>
+            <div class="header-info">
+                <div id="header-title">
+                    
+                    <h2>
+                        zolanunu&#39;s Blog
+                    </h2>
+                    
+                </div>
+                <div id="header-description">
+                    
+                    <h3>
+                        去努力尝试做一些你觉得你不会做或者不敢做的事情。
+                    </h3>
+                    
+                </div>
+            </div>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a title="zolanunu" target="_blank" href="//zhangbuzola.cn">
+                            <i class="fa fa-home fa-2x"></i></a>
+                    
+                        <a title="Github" target="_blank" href="//github.com/zolanunu">
+                            <i class="fa fa-github fa-2x"></i></a>
+                    
+                        <a title="Weibo" target="_blank" href="//weibo.com/zolanunu">
+                            <i class="fa fa-weibo fa-2x"></i></a>
+                    
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>
+      <div class="outer">
+        <section id="main" class="body-wrap"><article id="post-NerualNeiwork_regression_keras" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="post-title" itemprop="name">
+      神经网络初探
+    </h1>
+    <div class="post-title-bar">
+      <ul>
+          
+              <li>
+                  <i class="fa fa-book"></i>
+                  
+                      <a href="/categories/工具/">工具</a>
+                  
+              </li>
+          
+        <li>
+          <i class="fa fa-calendar"></i>  2017-10-18
+        </li>
+        <li>
+          <i class="fa fa-eye"></i>
+          <span id="busuanzi_value_page_pv"></span>
+        </li>
+      </ul>
+    </div>
+  
+
+          
+      </header>
+    
+    <div class="article-entry post-content" itemprop="articleBody">
+      
+            
+            <h1 id="人工神经网络和生物神经网络"><a href="#人工神经网络和生物神经网络" class="headerlink" title="人工神经网络和生物神经网络"></a>人工神经网络和生物神经网络</h1><h1 id="什么是神经网络"><a href="#什么是神经网络" class="headerlink" title="什么是神经网络"></a>什么是神经网络</h1><p>我们这里所要谈论的神经网络不是动物或者人类的神经。。，而是为计算机量身定制的神经系统，计算机神经网络是一种模仿生物神经网络的计算机模型。神经网络由大量的人工神经元连接进行计算，大多数情况下，计算机神经网络能够在外界信息的基础上改变内部结构，是一种自己适应的逐渐的过程。现代神经网络是基于传统统计学建模的工具，常用来在输入和输出之间复杂的关系进行建模，或者来探索数据之间的模式。</p>
+<p>神经网络是一种运算模型，有大量的节点或者神经元和其之间的联系构成组成，正如人类神经系统之间的神经元一样，是负责传递和加工信息的。神经元也可以被训练或者强化，形成固定的意识形态，对特殊的信息会有更强的反应。</p>
+<p><img src="./assets/images/NerualNeiwork_regression_keras1.jpg" alt=""></p>
+<p>目前的百度搜索和google系统的识别图片能力，都是得力于神经网路的不断发展。</p>
+<p><img src="./assets/images/NerualNeiwork_regression_keras2.jpg" alt=""></p>
+<p>上面就是对一个神经网路进行可视化。可以看出：一个复杂的神经网络大致组成主要有：</p>
+<ul>
+<li><p>input layer： 直接接受信息的神经层</p>
+</li>
+<li><p>output layer：是最初信息在神经元间经过传输，中转，分析，权衡而形成的输出结果，通过这一层输出的结果，我们就可以看出计算机对事物的认知。</p>
+</li>
+<li><p>hidden layer: 对信息的加工处理过程</p>
+</li>
+</ul>
+<p>具体来说，神经网络是怎么样被训练的，如果我们想让计算机能够准确判断猫或者狗狗，就需要很多数据，就需要准备上千万张具有标签的猫猫狗狗的图片，然后经过上千万的训练，训练时间随着计算机硬件的不断发展，处理时间也大大缩短，不需要担心训练费时的问题。</p>
+<p>但是同样，给计算机一张猫猫的图片，计算机会认为是狗，这是一个错误的区分，但是这种错误的区分，可以通过反向传播方法，进行改进，这就是知错能改。在这样一次一次受教训的训练过程，计算机就能更加准确地判断图片中的事物了。</p>
+<p>现在我们进一步看神经网络是怎样被训练的，在神经网络的每个神经元里都是一个激活函数，利用激活函数，当我们向计算机第一次传入一张猫咪的图片时，神经网络中众多的神经元只有部分神经元被激活，这时候，输出结果与原始label不符合，所有神经元的参数就会被调整，这时有的神经元会变得迟钝，有的神经元会变得敏感，这就说明了所有神经元的参数正在被改变，变得对图片中重要的特征信息敏感。从而能达到对预测结果的准确性。</p>
+<h1 id="梯度下降"><a href="#梯度下降" class="headerlink" title="梯度下降"></a>梯度下降</h1><p>神经网络是当今最为流行的深度学习框架。他的基本原理也很简单，就是梯度下降机制。</p>
+<p>学习机器学习的时候，都经常会看到：</p>
+<p><img src="./assets/images/NerualNeiwork_regression_keras3.jpg" alt=""></p>
+<p>具体相关的数学推导可以在详细做笔记。这里断一下。</p>
+<p>视频中简单明了的介绍了梯度下降机制，帮助初学者理解。</p>
+<h1 id="神经网络的黑盒不黑"><a href="#神经网络的黑盒不黑" class="headerlink" title="神经网络的黑盒不黑"></a>神经网络的黑盒不黑</h1><p>视频中为了都说神经网络在做什么，对神经网络这一个黑盒的正确打开方式。当然这不是一个人类的复杂神经网络，这里指的是计算机中的神经网络。都说神经网络是一个黑盒，如果我们将一个不明物体放入黑盒，你会得到另一个和不明物体有某种联系的另一个信息。</p>
+<p>一般来说，神经网络是一连串的神经层，将输入进行加工处理，再进行输出。加工过程就是黑盒。</p>
+<p><img src="./assets/images/NerualNeiwork_regression_keras4.jpg" alt=""></p>
+<p>feature, feature representation</p>
+<p>神经网络就是一次一次特征转换的过程，从而能够让计算机识别出原始食物标签的系统。</p>
+<p>手写识别例子：</p>
+<p>输出是用三个信息来代表整张图片数字的像素特征。</p>
+<p>迁移学习</p>
+
+            <div class="post-copyright">
+    <div class="content">
+        <p>最后更新： 2018年07月12日 13:55</p>
+        <p>原始链接： <a class="post-url" href="/2017/10/18/NerualNeiwork_regression_keras/" title="神经网络初探">http://zhangbuzola.cn/2017/10/18/NerualNeiwork_regression_keras/</a></p>
+        <footer>
+            <a href="http://zhangbuzola.cn">
+                <img src="/images/pacman.jpg" alt="zolanunu">
+                zolanunu
+            </a>
+        </footer>
+    </div>
+</div>
+
+      
+        
+            
+
+        
+    </div>
+    <footer class="article-footer">
+        
+        <ul class="article-footer-menu">
+            
+            
+  <li class="article-footer-tags">
+    <i class="fa fa-tags"></i>
+      
+    <a href="/tags/神经网络/" class="color5">神经网络</a>
+      
+  </li>
+
+        </ul>
+        
+    </footer>
+  </div>
+</article>
+
+
+    <aside class="post-toc-pos post-toc-top" id="post-toc">
+        <nav class="post-toc-wrap">
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#人工神经网络和生物神经网络"><span class="post-toc-text">人工神经网络和生物神经网络</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#什么是神经网络"><span class="post-toc-text">什么是神经网络</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#梯度下降"><span class="post-toc-text">梯度下降</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#神经网络的黑盒不黑"><span class="post-toc-text">神经网络的黑盒不黑</span></a></li></ol>
+        </nav>
+    </aside>
+    
+
+<nav id="article-nav">
+  
+    <a href="/2017/10/18/java基础之同步方法/" id="article-nav-newer" class="article-nav-link-wrap">
+
+      <span class="article-nav-title">
+        <i class="fa fa-hand-o-left" aria-hidden="true"></i>
+        
+          java基础学习之同步方法
+        
+      </span>
+    </a>
+  
+  
+    <a href="/2017/10/15/mysql_practice/" id="article-nav-older" class="article-nav-link-wrap">
+      <span class="article-nav-title">mysql实战part1</span>
+      <i class="fa fa-hand-o-right" aria-hidden="true"></i>
+    </a>
+  
+</nav>
+
+
+
+    
+        <link rel="stylesheet" href="//unpkg.com/gitment/style/default.css">
+    <script src="//unpkg.com/gitment/dist/gitment.browser.js"></script>
+    <script>
+        var gitment = new Gitment({
+            owner: 'true',
+            repo: 'zolanunu',
+            oauth: {
+                client_id: '1a04e8dee74a4b8634df',
+                client_secret: '9e3078ac89eb72f22abbdd11f7f0d11e2e1d7f7a',
+            },
+        })
+        gitment.render('comments')
+    </script>
+
+    
+</section>
+        
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+      <p>
+        Powered by  <a href="http://hexo.io/" target="_blank">Hexo</a>
+        Theme <a href="//github.com/wongminho/hexo-theme-miho" target="_blank">MiHo</a>
+      &copy; 2018 zolanunu<br>
+      </p>
+    </div>
+  </div>
+</footer>
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script>
+  var mihoConfig = {
+      root: "http://zhangbuzola.cn",
+      animate: true,
+      isHome: false,
+      share: false,
+      reward: 0
+  }
+</script>
+<div class="sidebar">
+    <div id="sidebar-search" title="Search">
+        <i class="fa fa-search"></i>
+    </div>
+    <div id="sidebar-category" title="Categories">
+        <i class="fa fa-book"></i>
+    </div>
+    <div id="sidebar-tag" title="Tags">
+        <i class="fa fa-tags"></i>
+    </div>
+    <div id="sidebar-top">
+        <span class="sidebar-top-icon"><i class="fa fa-angle-up"></i></span>
+    </div>
+</div>
+<div class="sidebar-menu-box" id="sidebar-menu-box">
+    <div class="sidebar-menu-box-container">
+        <div id="sidebar-menu-box-categories">
+            <a class="category-link" href="/categories/Java/">Java</a><a class="category-link" href="/categories/Java后台/">Java后台</a><a class="category-link" href="/categories/Python/">Python</a><a class="category-link" href="/categories/工具/">工具</a><a class="category-link" href="/categories/技术书/">技术书</a><a class="category-link" href="/categories/数据库/">数据库</a><a class="category-link" href="/categories/数据结构/">数据结构</a><a class="category-link" href="/categories/生活轨迹/">生活轨迹</a><a class="category-link" href="/categories/算法/">算法</a>
+        </div>
+        <div id="sidebar-menu-box-tags">
+            <a href="/tags/2018/" style="font-size: 11.43px;">2018</a> <a href="/tags/Collections/" style="font-size: 15.71px;">Collections</a> <a href="/tags/HashMap/" style="font-size: 10px;">HashMap</a> <a href="/tags/LinkedHashMap/" style="font-size: 10px;">LinkedHashMap</a> <a href="/tags/MySQL/" style="font-size: 17.14px;">MySQL</a> <a href="/tags/Mybatis/" style="font-size: 12.86px;">Mybatis</a> <a href="/tags/Object/" style="font-size: 10px;">Object</a> <a href="/tags/SSM/" style="font-size: 12.86px;">SSM</a> <a href="/tags/TreeMap/" style="font-size: 11.43px;">TreeMap</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/java基础/" style="font-size: 20px;">java基础</a> <a href="/tags/java并发编程实战/" style="font-size: 11.43px;">java并发编程实战</a> <a href="/tags/leetcode/" style="font-size: 17.14px;">leetcode</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/剑指offer/" style="font-size: 10px;">剑指offer</a> <a href="/tags/多线程/" style="font-size: 11.43px;">多线程</a> <a href="/tags/并发编程/" style="font-size: 10px;">并发编程</a> <a href="/tags/机器学习/" style="font-size: 12.86px;">机器学习</a> <a href="/tags/构造函数/" style="font-size: 10px;">构造函数</a> <a href="/tags/深入理解java虚拟机/" style="font-size: 10px;">深入理解java虚拟机</a> <a href="/tags/生活/" style="font-size: 10px;">生活</a> <a href="/tags/神经网络/" style="font-size: 10px;">神经网络</a> <a href="/tags/算法与数据结构/" style="font-size: 14.29px;">算法与数据结构</a> <a href="/tags/算法和数据结构/" style="font-size: 18.57px;">算法和数据结构</a> <a href="/tags/观影记/" style="font-size: 10px;">观影记</a> <a href="/tags/读书书单/" style="font-size: 10px;">读书书单</a>
+        </div>
+    </div>
+    <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
+</div>
+<div class="mobile-header-menu-nav" id="mobile-header-menu-nav">
+    <div class="mobile-header-menu-container">
+        <span class="title">Menus</span>
+        <ul class="mobile-header-menu-navbar">
+            
+            <li>
+                <a  href="/">
+                    <i class="fa fa-home"></i><span>Home</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/archives">
+                    <i class="fa fa-archive"></i><span>Archives</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/about">
+                    <i class="fa fa-user"></i><span>About</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    <div class="mobile-header-tag-container">
+        <span class="title">Tags</span>
+        <div id="mobile-header-container-tags">
+            <a href="/tags/2018/" style="font-size: 11.43px;">2018</a> <a href="/tags/Collections/" style="font-size: 15.71px;">Collections</a> <a href="/tags/HashMap/" style="font-size: 10px;">HashMap</a> <a href="/tags/LinkedHashMap/" style="font-size: 10px;">LinkedHashMap</a> <a href="/tags/MySQL/" style="font-size: 17.14px;">MySQL</a> <a href="/tags/Mybatis/" style="font-size: 12.86px;">Mybatis</a> <a href="/tags/Object/" style="font-size: 10px;">Object</a> <a href="/tags/SSM/" style="font-size: 12.86px;">SSM</a> <a href="/tags/TreeMap/" style="font-size: 11.43px;">TreeMap</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/java基础/" style="font-size: 20px;">java基础</a> <a href="/tags/java并发编程实战/" style="font-size: 11.43px;">java并发编程实战</a> <a href="/tags/leetcode/" style="font-size: 17.14px;">leetcode</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/剑指offer/" style="font-size: 10px;">剑指offer</a> <a href="/tags/多线程/" style="font-size: 11.43px;">多线程</a> <a href="/tags/并发编程/" style="font-size: 10px;">并发编程</a> <a href="/tags/机器学习/" style="font-size: 12.86px;">机器学习</a> <a href="/tags/构造函数/" style="font-size: 10px;">构造函数</a> <a href="/tags/深入理解java虚拟机/" style="font-size: 10px;">深入理解java虚拟机</a> <a href="/tags/生活/" style="font-size: 10px;">生活</a> <a href="/tags/神经网络/" style="font-size: 10px;">神经网络</a> <a href="/tags/算法与数据结构/" style="font-size: 14.29px;">算法与数据结构</a> <a href="/tags/算法和数据结构/" style="font-size: 18.57px;">算法和数据结构</a> <a href="/tags/观影记/" style="font-size: 10px;">观影记</a> <a href="/tags/读书书单/" style="font-size: 10px;">读书书单</a>
+        </div>
+    </div>
+</div>
+<div class="search-wrap">
+    <span class="search-close">&times;</span>
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+            <i class="icon icon-lg icon-chevron-left"></i>
+        </a>
+        <input class="search-field" placeholder="Search..." id="keywords">
+        <a id="search-submit" href="javascript:;">
+            <i class="fa fa-search"></i>
+        </a>
+    <div class="search-container" id="search-container">
+        <ul class="search-result" id="search-result">
+        </ul>
+    </div>
+</div>
+
+<div id="search-tpl">
+    <li class="search-result-item">
+        <a href="{url}" class="search-item-li">
+            <span class="search-item-li-title" title="{title}">{title}</span>
+        </a>
+    </li>
+</div>
+<script src="/js/search.js"></script>
+<script src="/js/main.js"></script>
+
+
+  <script src="//cdn.bootcss.com/particles.js/2.0.0/particles.min.js"></script>
+  <div id="particles"></div>
+  <script src="/js/particles.js"></script>
+
+
+
+
+
+
+
+  <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
+  <script src="//cdn.bootcss.com/scrollReveal.js/3.0.5/scrollreveal.js"></script>
+  <script src="/js/animate.js"></script>
+
+
+  <script src="/js/pop-img.js"></script>
+  <script>
+     $(".article-entry p img").popImg();
+  </script>
+
+  </div>
+</body>
+</html>

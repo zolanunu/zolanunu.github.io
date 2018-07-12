@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>java集合之TreeMap(二) | zolanunu</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+    <meta name="keywords" content="zolanunu,zolanunu's blog" />
+  
+  <meta name="description" content="TreeMap简介 TreeMap是一个有序的key-value集合，是通过红黑树实现的。HahMap是Key无序的，而TreeMap是Key有序的。  TreeMap继承于AbstractMap，所以它是一个Map，也就是一个key-value集合。  TreeMap继承了NavigableMap，而NavigableMap继承自SortedMap，为SortedMap添加了搜索选项，Navig">
+<meta name="keywords" content="Collections,TreeMap">
+<meta property="og:type" content="article">
+<meta property="og:title" content="java集合之TreeMap(二)">
+<meta property="og:url" content="http://zhangbuzola.cn/2018/04/27/java集合之TreeMap/index.html">
+<meta property="og:site_name" content="zolanunu">
+<meta property="og:description" content="TreeMap简介 TreeMap是一个有序的key-value集合，是通过红黑树实现的。HahMap是Key无序的，而TreeMap是Key有序的。  TreeMap继承于AbstractMap，所以它是一个Map，也就是一个key-value集合。  TreeMap继承了NavigableMap，而NavigableMap继承自SortedMap，为SortedMap添加了搜索选项，Navig">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="http://zhangbuzola.cn/assets/images/javaCollection-TreeMap.png">
+<meta property="og:updated_time" content="2018-07-12T06:08:52.747Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="java集合之TreeMap(二)">
+<meta name="twitter:description" content="TreeMap简介 TreeMap是一个有序的key-value集合，是通过红黑树实现的。HahMap是Key无序的，而TreeMap是Key有序的。  TreeMap继承于AbstractMap，所以它是一个Map，也就是一个key-value集合。  TreeMap继承了NavigableMap，而NavigableMap继承自SortedMap，为SortedMap添加了搜索选项，Navig">
+<meta name="twitter:image" content="http://zhangbuzola.cn/assets/images/javaCollection-TreeMap.png">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="/js/pace.min.js"></script>
+  
+
+  
+	<script>
+	var _hmt = _hmt || [];
+	(function() {
+	  var hm = document.createElement("script");
+	  hm.src = "//hm.baidu.com/hm.js?a651034b7d11a367ae836642b29a3057";
+	  var s = document.getElementsByTagName("script")[0]; 
+	  s.parentNode.insertBefore(hm, s);
+	})();
+	</script>
+
+  
+
+</head>
+
+<body>
+  <div id="container">
+      <header id="header">
+    <div id="banner"></div>
+    <div id="header-outer">
+        <div id="header-menu" class="header-menu-pos animated">
+            <div class="header-menu-container">
+                <a href="/" class="left">
+                    <span class="site-title">zolanunu&#39;s Blog</span>
+                </a>
+                <nav id="header-menu-nav" class="right">
+                    
+                    <a  href="/">
+                        <i class="fa fa-home"></i>
+                        <span>Home</span>
+                    </a>
+                    
+                    <a  href="/archives">
+                        <i class="fa fa-archive"></i>
+                        <span>Archives</span>
+                    </a>
+                    
+                    <a  href="/about">
+                        <i class="fa fa-user"></i>
+                        <span>About</span>
+                    </a>
+                    
+                </nav>
+                <a class="mobile-header-menu-button">
+                    <i class="fa fa-bars"></i>
+                </a>
+            </div>
+        </div>
+        <div id="header-row">
+            <div id="logo">
+                <a href="/">
+                    <img src="/images/pacman.jpg" alt="logo">
+                </a>
+            </div>
+            <div class="header-info">
+                <div id="header-title">
+                    
+                    <h2>
+                        zolanunu&#39;s Blog
+                    </h2>
+                    
+                </div>
+                <div id="header-description">
+                    
+                    <h3>
+                        去努力尝试做一些你觉得你不会做或者不敢做的事情。
+                    </h3>
+                    
+                </div>
+            </div>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a title="zolanunu" target="_blank" href="//zhangbuzola.cn">
+                            <i class="fa fa-home fa-2x"></i></a>
+                    
+                        <a title="Github" target="_blank" href="//github.com/zolanunu">
+                            <i class="fa fa-github fa-2x"></i></a>
+                    
+                        <a title="Weibo" target="_blank" href="//weibo.com/zolanunu">
+                            <i class="fa fa-weibo fa-2x"></i></a>
+                    
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>
+      <div class="outer">
+        <section id="main" class="body-wrap"><article id="post-java集合之TreeMap" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="post-title" itemprop="name">
+      java集合之TreeMap(二)
+    </h1>
+    <div class="post-title-bar">
+      <ul>
+          
+              <li>
+                  <i class="fa fa-book"></i>
+                  
+                      <a href="/categories/Java/">Java</a>
+                  
+              </li>
+          
+        <li>
+          <i class="fa fa-calendar"></i>  2018-04-27
+        </li>
+        <li>
+          <i class="fa fa-eye"></i>
+          <span id="busuanzi_value_page_pv"></span>
+        </li>
+      </ul>
+    </div>
+  
+
+          
+      </header>
+    
+    <div class="article-entry post-content" itemprop="articleBody">
+      
+            
+            <h1 id="TreeMap简介"><a href="#TreeMap简介" class="headerlink" title="TreeMap简介"></a>TreeMap简介</h1><ul>
+<li><p>TreeMap是一个<strong>有序的key-value集合</strong>，是通过红黑树实现的。HahMap是Key无序的，而TreeMap是Key有序的。</p>
+</li>
+<li><p>TreeMap继承于AbstractMap，所以它是一个Map，也就是一个key-value集合。</p>
+</li>
+<li><p>TreeMap继承了NavigableMap，而NavigableMap继承自SortedMap，为SortedMap添加了搜索选项，NavigableMap有几种方法，分别是不同的比较要求：floorKey是小于等于，ceilingKey是大于等于，lowerKey是小于，higherKey是大于。</p>
+</li>
+</ul>
+<h2 id="TreeMap的成员变量"><a href="#TreeMap的成员变量" class="headerlink" title="TreeMap的成员变量"></a>TreeMap的成员变量</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">public class TreeMap&lt;K,V&gt;</span><br><span class="line">    extends AbstractMap&lt;K,V&gt;</span><br><span class="line">    implements NavigableMap&lt;K,V&gt;, Cloneable, java.io.Serializable</span><br><span class="line">&#123;</span><br><span class="line">    private final Comparator&lt;? super K&gt; comparator;</span><br><span class="line">    private transient Entry&lt;K,V&gt; root = null;</span><br><span class="line">    private transient int size = 0;</span><br><span class="line">    private transient int modCount = 0;</span><br><span class="line">    public TreeMap() &#123;</span><br><span class="line">        comparator = null;</span><br><span class="line">    &#125;    </span><br><span class="line">    public TreeMap(Comparator&lt;? super K&gt; comparator) &#123;</span><br><span class="line">        this.comparator = comparator;</span><br><span class="line">    &#125;</span><br><span class="line">    //后面省略</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">static final class Entry&lt;K,V&gt; implements Map.Entry&lt;K,V&gt; &#123;</span><br><span class="line">    K key;</span><br><span class="line">    V value;</span><br><span class="line">    Entry&lt;K,V&gt; left = null;</span><br><span class="line">    Entry&lt;K,V&gt; right = null;</span><br><span class="line">    Entry&lt;K,V&gt; parent;</span><br><span class="line">    boolean color = BLACK;</span><br><span class="line">    //后续省略</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="TreeMap的构造方法"><a href="#TreeMap的构造方法" class="headerlink" title="TreeMap的构造方法"></a>TreeMap的构造方法</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">public TreeMap()</span><br><span class="line">public TreeMap(Comparator&lt;? super K&gt; comparator) &#123;</span><br><span class="line">	this.comparator = comparator;</span><br><span class="line">&#125;</span><br><span class="line">public TreeMap(Map&lt;? extends K,? extends V&gt; m)</span><br><span class="line">public TreeMap(SortedMap&lt;K,? extends V&gt; m) &#123;</span><br><span class="line">	comparator = m.comparator();</span><br><span class="line">  try &#123;</span><br><span class="line">    buildFromSorted(m.size(), m.entrySet().iterator(), null, null);</span><br><span class="line">  &#125; catch (java.io.IOException cannotHappen) &#123;</span><br><span class="line">  &#125; catch (ClassNotFoundException cannotHappen) &#123;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line">* size: map里键值对的数量</span><br><span class="line">* it: 传入的map的entries迭代器</span><br><span class="line">* str: 如果不为空，则从流里读取key-value</span><br><span class="line">* defaultVal：见名知意，不为空，则value都用这个值</span><br><span class="line">*/</span><br><span class="line">private void buildFromSorted(int size, Iterator&lt;?&gt; it,</span><br><span class="line">                                 java.io.ObjectInputStream str,</span><br><span class="line">                                 V defaultVal)</span><br><span class="line">  throws  java.io.IOException, ClassNotFoundException &#123;</span><br><span class="line">  this.size = size;</span><br><span class="line">  root = buildFromSorted(0, 0, size-1, computeRedLevel(size),</span><br><span class="line">                         it, str, defaultVal);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">private static int computeRedLevel(int sz) &#123;</span><br><span class="line">  int level = 0;</span><br><span class="line">  for (int m = sz - 1; m &gt;= 0; m = m / 2 - 1)</span><br><span class="line">    level++;</span><br><span class="line">  return level;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">public TreeMap(Map&lt;? extends K, ? extends V&gt; m) &#123;</span><br><span class="line">  comparator = null;</span><br><span class="line">  putAll(m);</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line">public void putAll(Map&lt;? extends K, ? extends V&gt; map) &#123;</span><br><span class="line">  int mapSize = map.size();</span><br><span class="line">  //判断map是否SortedMap，不是则采用AbstractMap的putAll</span><br><span class="line">  if (size==0 &amp;&amp; mapSize!=0 &amp;&amp; map instanceof SortedMap) &#123;</span><br><span class="line">    Comparator&lt;?&gt; c = ((SortedMap&lt;?,?&gt;)map).comparator();</span><br><span class="line">    //同为null或者不为null，类型相同，则进入有序map的构造</span><br><span class="line">    if (c == comparator || (c != null &amp;&amp; c.equals(comparator))) &#123;</span><br><span class="line">      ++modCount;</span><br><span class="line">      try &#123;</span><br><span class="line">        buildFromSorted(mapSize, map.entrySet().iterator(),</span><br><span class="line">                        null, null);</span><br><span class="line">      &#125; catch (java.io.IOException cannotHappen) &#123;</span><br><span class="line">      &#125; catch (ClassNotFoundException cannotHappen) &#123;</span><br><span class="line">      &#125;</span><br><span class="line">      return;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  super.putAll(map);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Map的单元是对键值对的处理，之前分析过的两种Map,HashMap和LinkedHashMap都是用哈希值去寻找我们想要的键值对，优点是由O(1)的查找速度。</p>
+<p>那如果我们在一个对查找性能要求不那么高，反而对有序性要求比较高的应用场景呢？</p>
+<p>这个时候HashMap就不再适用了，我们需要一种新的Map，在JDK中提供了一个接口：SortedMap,我想分析一下具体的实现中的一种：TreeMap。</p>
+<h2 id="TreeMap的继承结构"><a href="#TreeMap的继承结构" class="headerlink" title="TreeMap的继承结构"></a>TreeMap的继承结构</h2><p><img src="/assets/images/javaCollection-TreeMap.png" alt=""></p>
+<h1 id="实现相关接口"><a href="#实现相关接口" class="headerlink" title="实现相关接口"></a>实现相关接口</h1><h2 id="SortedMap接口"><a href="#SortedMap接口" class="headerlink" title="SortedMap接口"></a>SortedMap接口</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">public interface SortedMap&lt;K,V&gt; extends Map&lt;K,V&gt; &#123;</span><br><span class="line">	//返回用于对键的进行排序的比较器，如果此映射使用其键的自然排序，则为null</span><br><span class="line">	Comparator&lt;? super K&gt; comparator();</span><br><span class="line">	//返回从fromKey（包括）到toKey（不包括）之间的map</span><br><span class="line">	SortedMap&lt;K,V&gt; subMap(K fromKey, K toKey);</span><br><span class="line">	//返回小于toKey的map</span><br><span class="line">	SortedMap&lt;K,V&gt; headMap(K toKey);</span><br><span class="line">	//返回大于或等于fromKey的map</span><br><span class="line">	SortedMap&lt;K,V&gt; tailMap(K fromKey);</span><br><span class="line">	//返回map中第一个（最低）键</span><br><span class="line">	K firstKey();</span><br><span class="line">	//返回map中最后一个（最高）键</span><br><span class="line">	K lastKey();</span><br><span class="line">	Set&lt;K&gt; keySet();</span><br><span class="line">	Collection&lt;V&gt; values();</span><br><span class="line">	Set&lt;Map.Entry&lt;K, V&gt;&gt; entrySet();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>SortedMap的接口比较简单，没有很特别的地方，唯一比较特别的就是返回Comparator这个接口，可以设想实现排序功能的秘密或许就藏在此处。下面让我们来看一下Comparator和Comparable接口，两者之间有点关联，可以理解为Comparable自带了比较功能，而Comparator是赋予没有比较能力的对象一种比较能力。举个简单例子：面对一道计算题，小明天生口算能力很强，看一眼就能算出来答案。而小李没有这种能力，需要借助计算器才能得出答案。</p>
+<h2 id="Comparable接口"><a href="#Comparable接口" class="headerlink" title="Comparable接口"></a>Comparable接口</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">public interface Comparable&lt;T&gt; &#123;</span><br><span class="line">  //如果小于o，返回负数；等于o，返回0；大于o返回正数。</span><br><span class="line">  public int compareTo(T o);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>对，就是这么简单，里面传入一个泛型T的对象o，对o进行比较。如果小于o，返回负数；等于o，返回0；大于o返回正数。</p>
+<p>我们熟悉的很多对象如String，Integer，Double等都实现了这个接口。</p>
+<h2 id="Comparator接口"><a href="#Comparator接口" class="headerlink" title="Comparator接口"></a>Comparator接口</h2><p>照例先来看一下代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">@FunctionalInterface</span><br><span class="line">public interface Comparator&lt;T&gt; &#123;</span><br><span class="line">  // 核心方法，用来比较两个对象，如果o1小于o2，返回负数；等于o2，返回0；大于o2返回正数</span><br><span class="line">  int compare(T o1, T o2);</span><br><span class="line">  // 好像很少用到，一般都用对象自带的equals</span><br><span class="line">  boolean equals(Object obj);</span><br><span class="line">   </span><br><span class="line">  /**-----------下面的都是JDK1.8新增的接口，挑几个放进去----------*/</span><br><span class="line"> </span><br><span class="line">  //返回反向排序比较器</span><br><span class="line">  default Comparator&lt;T&gt; reversed() &#123;</span><br><span class="line">    return Collections.reverseOrder(this);</span><br><span class="line">  &#125;</span><br><span class="line">  //根据名字知道，先进行compare比较后，再进行一次比较</span><br><span class="line">  default Comparator&lt;T&gt; thenComparing(Comparator&lt;? super T&gt; other) &#123;</span><br><span class="line">    Objects.requireNonNull(other);</span><br><span class="line">    return (Comparator&lt;T&gt; &amp; Serializable) (c1, c2) -&gt; &#123;</span><br><span class="line">      int res = compare(c1, c2);</span><br><span class="line">      return (res != 0) ? res : other.compare(c1, c2);</span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;</span><br><span class="line">  //对int类型的key进行比较</span><br><span class="line">  public static &lt;T&gt; Comparator&lt;T&gt; comparingInt(ToIntFunction&lt;? super T&gt; keyExtractor) &#123;</span><br><span class="line">    Objects.requireNonNull(keyExtractor);</span><br><span class="line">    return (Comparator&lt;T&gt; &amp; Serializable)</span><br><span class="line">      (c1, c2) -&gt; Integer.compare(keyExtractor.applyAsInt(c1), keyExtractor.applyAsInt(c2));</span><br><span class="line">  &#125;</span><br><span class="line">  //返回正常顺序的比较器</span><br><span class="line">  public static &lt;T extends Comparable&lt;? super T&gt;&gt; Comparator&lt;T&gt; naturalOrder() &#123;</span><br><span class="line">    return (Comparator&lt;T&gt;) Comparators.NaturalOrderComparator.INSTANCE;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>一起来看一下如何使用，先来看一下JDK1.8以前的用法：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">public class SimpleComparator implements Comparator&lt;Item&gt; &#123;</span><br><span class="line">  @Override</span><br><span class="line">  public int compare(Item o1, Item o2) &#123;</span><br><span class="line">    return o1.price - o2.price;</span><br><span class="line">  &#125;</span><br><span class="line">   </span><br><span class="line">  public static void main(String[] args) &#123;</span><br><span class="line">    List&lt;Item&gt; items = Arrays.asList(new Item(&quot;banana&quot;, 200), new Item(&quot;apple&quot;, 400), new Item(&quot;Orange&quot;, 100));</span><br><span class="line">    Collections.sort(items, new SimpleComparator());</span><br><span class="line">    System.out.println(items);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上述main函数的输出是：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[Item&#123;name=&apos;Orange&apos;, price=100&#125;, Item&#123;name=&apos;banana&apos;, price=200&#125;, Item&#123;name=&apos;apple&apos;, price=400&#125;]</span><br></pre></td></tr></table></figure>
+<p>JDK1.8以前的用法要自己手动实现Comparator接口，然后调用Collections.sort()，传入实现类来完成排序，非常麻烦，而JDK1.8则相对来说简单了很多：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">public static void main(String[] args) &#123;</span><br><span class="line">  List&lt;Item&gt; items = Arrays.asList(new Item(&quot;banana&quot;, 200), new Item(&quot;apple&quot;, 400), new Item(&quot;Orange&quot;, 100));</span><br><span class="line">  Collections.sort(items, (Item a, Item b) -&gt; a.price - b.price);</span><br><span class="line">  System.out.println(items);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>甚至，我们可以不使用Collections.sort：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">public static void main(String[] args) &#123;</span><br><span class="line">  List&lt;Item&gt; items = Arrays.asList(new Item(&quot;banana&quot;, 100), new Item(&quot;Orange&quot;, 100), new Item(&quot;apple&quot;, 400), new Item(&quot;Orange&quot;, 50));</span><br><span class="line">  items.sort((Item a, Item b) -&gt; a.price - b.price);</span><br><span class="line">  System.out.println(items);</span><br><span class="line">  //使用上面的thenComparing</span><br><span class="line">  items.sort(Comparator.comparing(Item::getName).thenComparing(Comparator.comparingInt(Item::getPrice)));</span><br><span class="line">  System.out.println(&quot;after using thenComparing: &quot; + items); </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上述main函数的输出：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[Item&#123;name=&apos;orange&apos;, price=50&#125;, Item&#123;name=&apos;banana&apos;, price=100&#125;, Item&#123;name=&apos;orange&apos;, price=100&#125;, Item&#123;name=&apos;apple&apos;, price=400&#125;]</span><br><span class="line">after using thenComparing: [Item&#123;name=&apos;apple&apos;, price=400&#125;, Item&#123;name=&apos;banana&apos;, price=100&#125;, Item&#123;name=&apos;orange&apos;, price=50&#125;, Item&#123;name=&apos;orange&apos;, price=100&#125;]</span><br></pre></td></tr></table></figure>
+<h2 id="NavigableMap接口"><a href="#NavigableMap接口" class="headerlink" title="NavigableMap接口"></a>NavigableMap接口</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line">public interface NavigableMap&lt;K,V&gt; extends SortedMap&lt;K,V&gt; &#123;</span><br><span class="line">  //返回键小于且最接近Key（不包含等于）的键值对，没有返回null</span><br><span class="line">  Map.Entry&lt;K,V&gt; lowerEntry(K key);</span><br><span class="line">  //返回小于且最接近（不包含等于）Key的键，没有返回null</span><br><span class="line">  K lowerKey(K key);</span><br><span class="line">  //返回键小于且最接近（包含等于）Key的键值对，没有返回null</span><br><span class="line">  Map.Entry&lt;K,V&gt; floorEntry(K key);</span><br><span class="line">  //返回小于且最接近（包含等于）Key的键，没有返回null</span><br><span class="line">  K floorKey(K key);</span><br><span class="line">  //返回大于且最接近（包含等于）给定key的键值对，没有返回null</span><br><span class="line">  Map.Entry&lt;K,V&gt; ceilingEntry(K key);</span><br><span class="line">  //同上</span><br><span class="line">  K ceilingKey(K key);</span><br><span class="line">  //返回大于且最接近（不包含等于）给定key的键值对</span><br><span class="line">  Map.Entry&lt;K,V&gt; higherEntry(K key);</span><br><span class="line">  //同上</span><br><span class="line">  K higherKey(K key);</span><br><span class="line">  //返回第一个Entry</span><br><span class="line">  Map.Entry&lt;K,V&gt; firstEntry();</span><br><span class="line">  //返回最后一个Entry</span><br><span class="line">  Map.Entry&lt;K,V&gt; lastEntry();</span><br><span class="line">  //移除并返回第一个Entry</span><br><span class="line">  Map.Entry&lt;K,V&gt; pollFirstEntry();</span><br><span class="line">  //同上</span><br><span class="line">  Map.Entry&lt;K,V&gt; pollLastEntry();</span><br><span class="line">  //返回map中包含的映射关系的逆序视图</span><br><span class="line">  NavigableMap&lt;K,V&gt; descendingMap();</span><br><span class="line">  //返回map中包含的键的NavigableSet视图。 set的迭代器按key的升序</span><br><span class="line">  NavigableSet&lt;K&gt; navigableKeySet();</span><br><span class="line">  //逆序</span><br><span class="line">  NavigableSet&lt;K&gt; descendingKeySet();</span><br><span class="line">  //根据fromKey和toKey来返回子map，两个boolean参数用于是否包含该key</span><br><span class="line">  NavigableMap&lt;K,V&gt; subMap(K fromKey, boolean fromInclusive,</span><br><span class="line">                             K toKey,   boolean toInclusive);</span><br><span class="line">  //返回小于（或等于,根据inclusive）toKey的map</span><br><span class="line">  NavigableMap&lt;K,V&gt; headMap(K toKey, boolean inclusive);</span><br><span class="line">  //返回大于（或等于,根据inclusive）fromKey的map</span><br><span class="line">  NavigableMap&lt;K,V&gt; tailMap(K fromKey, boolean inclusive);</span><br><span class="line">  SortedMap&lt;K,V&gt; subMap(K fromKey, K toKey);</span><br><span class="line">  SortedMap&lt;K,V&gt; headMap(K toKey);</span><br><span class="line">  SortedMap&lt;K,V&gt; tailMap(K fromKey);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>注意：上述返回的map与原map是相互影响的。</p>
+<h1 id="主要方法"><a href="#主要方法" class="headerlink" title="主要方法"></a>主要方法</h1><p>详细的看下面的参考链接吧。</p>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p><a href="http://www.cnblogs.com/joemsu/p/7940843.html" target="_blank" rel="noopener">http://www.cnblogs.com/joemsu/p/7940843.html</a></p>
+
+            <div class="post-copyright">
+    <div class="content">
+        <p>最后更新： 2018年07月12日 14:08</p>
+        <p>原始链接： <a class="post-url" href="/2018/04/27/java集合之TreeMap/" title="java集合之TreeMap(二)">http://zhangbuzola.cn/2018/04/27/java集合之TreeMap/</a></p>
+        <footer>
+            <a href="http://zhangbuzola.cn">
+                <img src="/images/pacman.jpg" alt="zolanunu">
+                zolanunu
+            </a>
+        </footer>
+    </div>
+</div>
+
+      
+        
+            
+
+        
+    </div>
+    <footer class="article-footer">
+        
+        <ul class="article-footer-menu">
+            
+            
+  <li class="article-footer-tags">
+    <i class="fa fa-tags"></i>
+      
+    <a href="/tags/Collections/" class="color2">Collections</a>
+      
+    <a href="/tags/TreeMap/" class="color3">TreeMap</a>
+      
+  </li>
+
+        </ul>
+        
+    </footer>
+  </div>
+</article>
+
+
+    <aside class="post-toc-pos post-toc-top" id="post-toc">
+        <nav class="post-toc-wrap">
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#TreeMap简介"><span class="post-toc-text">TreeMap简介</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#TreeMap的成员变量"><span class="post-toc-text">TreeMap的成员变量</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#TreeMap的构造方法"><span class="post-toc-text">TreeMap的构造方法</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#TreeMap的继承结构"><span class="post-toc-text">TreeMap的继承结构</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#实现相关接口"><span class="post-toc-text">实现相关接口</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#SortedMap接口"><span class="post-toc-text">SortedMap接口</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Comparable接口"><span class="post-toc-text">Comparable接口</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Comparator接口"><span class="post-toc-text">Comparator接口</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#NavigableMap接口"><span class="post-toc-text">NavigableMap接口</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#主要方法"><span class="post-toc-text">主要方法</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#参考"><span class="post-toc-text">参考</span></a></li></ol>
+        </nav>
+    </aside>
+    
+
+<nav id="article-nav">
+  
+    <a href="/2018/04/27/java集合之Map下接口及直接实现类/" id="article-nav-newer" class="article-nav-link-wrap">
+
+      <span class="article-nav-title">
+        <i class="fa fa-hand-o-left" aria-hidden="true"></i>
+        
+          java集合之Map下的相关接口及直接实现类
+        
+      </span>
+    </a>
+  
+  
+    <a href="/2018/04/27/java集合之Map等接口/" id="article-nav-older" class="article-nav-link-wrap">
+      <span class="article-nav-title">java集合之Map等接口</span>
+      <i class="fa fa-hand-o-right" aria-hidden="true"></i>
+    </a>
+  
+</nav>
+
+
+
+    
+        <link rel="stylesheet" href="//unpkg.com/gitment/style/default.css">
+    <script src="//unpkg.com/gitment/dist/gitment.browser.js"></script>
+    <script>
+        var gitment = new Gitment({
+            owner: 'true',
+            repo: 'zolanunu',
+            oauth: {
+                client_id: '1a04e8dee74a4b8634df',
+                client_secret: '9e3078ac89eb72f22abbdd11f7f0d11e2e1d7f7a',
+            },
+        })
+        gitment.render('comments')
+    </script>
+
+    
+</section>
+        
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+      <p>
+        Powered by  <a href="http://hexo.io/" target="_blank">Hexo</a>
+        Theme <a href="//github.com/wongminho/hexo-theme-miho" target="_blank">MiHo</a>
+      &copy; 2018 zolanunu<br>
+      </p>
+    </div>
+  </div>
+</footer>
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script>
+  var mihoConfig = {
+      root: "http://zhangbuzola.cn",
+      animate: true,
+      isHome: false,
+      share: false,
+      reward: 0
+  }
+</script>
+<div class="sidebar">
+    <div id="sidebar-search" title="Search">
+        <i class="fa fa-search"></i>
+    </div>
+    <div id="sidebar-category" title="Categories">
+        <i class="fa fa-book"></i>
+    </div>
+    <div id="sidebar-tag" title="Tags">
+        <i class="fa fa-tags"></i>
+    </div>
+    <div id="sidebar-top">
+        <span class="sidebar-top-icon"><i class="fa fa-angle-up"></i></span>
+    </div>
+</div>
+<div class="sidebar-menu-box" id="sidebar-menu-box">
+    <div class="sidebar-menu-box-container">
+        <div id="sidebar-menu-box-categories">
+            <a class="category-link" href="/categories/Java/">Java</a><a class="category-link" href="/categories/Java后台/">Java后台</a><a class="category-link" href="/categories/Python/">Python</a><a class="category-link" href="/categories/工具/">工具</a><a class="category-link" href="/categories/技术书/">技术书</a><a class="category-link" href="/categories/数据库/">数据库</a><a class="category-link" href="/categories/数据结构/">数据结构</a><a class="category-link" href="/categories/生活轨迹/">生活轨迹</a><a class="category-link" href="/categories/算法/">算法</a>
+        </div>
+        <div id="sidebar-menu-box-tags">
+            <a href="/tags/2018/" style="font-size: 11.43px;">2018</a> <a href="/tags/Collections/" style="font-size: 15.71px;">Collections</a> <a href="/tags/HashMap/" style="font-size: 10px;">HashMap</a> <a href="/tags/LinkedHashMap/" style="font-size: 10px;">LinkedHashMap</a> <a href="/tags/MySQL/" style="font-size: 17.14px;">MySQL</a> <a href="/tags/Mybatis/" style="font-size: 12.86px;">Mybatis</a> <a href="/tags/Object/" style="font-size: 10px;">Object</a> <a href="/tags/SSM/" style="font-size: 12.86px;">SSM</a> <a href="/tags/TreeMap/" style="font-size: 11.43px;">TreeMap</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/java基础/" style="font-size: 20px;">java基础</a> <a href="/tags/java并发编程实战/" style="font-size: 11.43px;">java并发编程实战</a> <a href="/tags/leetcode/" style="font-size: 17.14px;">leetcode</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/剑指offer/" style="font-size: 10px;">剑指offer</a> <a href="/tags/多线程/" style="font-size: 11.43px;">多线程</a> <a href="/tags/并发编程/" style="font-size: 10px;">并发编程</a> <a href="/tags/机器学习/" style="font-size: 12.86px;">机器学习</a> <a href="/tags/构造函数/" style="font-size: 10px;">构造函数</a> <a href="/tags/深入理解java虚拟机/" style="font-size: 10px;">深入理解java虚拟机</a> <a href="/tags/生活/" style="font-size: 10px;">生活</a> <a href="/tags/神经网络/" style="font-size: 10px;">神经网络</a> <a href="/tags/算法与数据结构/" style="font-size: 14.29px;">算法与数据结构</a> <a href="/tags/算法和数据结构/" style="font-size: 18.57px;">算法和数据结构</a> <a href="/tags/观影记/" style="font-size: 10px;">观影记</a> <a href="/tags/读书书单/" style="font-size: 10px;">读书书单</a>
+        </div>
+    </div>
+    <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
+</div>
+<div class="mobile-header-menu-nav" id="mobile-header-menu-nav">
+    <div class="mobile-header-menu-container">
+        <span class="title">Menus</span>
+        <ul class="mobile-header-menu-navbar">
+            
+            <li>
+                <a  href="/">
+                    <i class="fa fa-home"></i><span>Home</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/archives">
+                    <i class="fa fa-archive"></i><span>Archives</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/about">
+                    <i class="fa fa-user"></i><span>About</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    <div class="mobile-header-tag-container">
+        <span class="title">Tags</span>
+        <div id="mobile-header-container-tags">
+            <a href="/tags/2018/" style="font-size: 11.43px;">2018</a> <a href="/tags/Collections/" style="font-size: 15.71px;">Collections</a> <a href="/tags/HashMap/" style="font-size: 10px;">HashMap</a> <a href="/tags/LinkedHashMap/" style="font-size: 10px;">LinkedHashMap</a> <a href="/tags/MySQL/" style="font-size: 17.14px;">MySQL</a> <a href="/tags/Mybatis/" style="font-size: 12.86px;">Mybatis</a> <a href="/tags/Object/" style="font-size: 10px;">Object</a> <a href="/tags/SSM/" style="font-size: 12.86px;">SSM</a> <a href="/tags/TreeMap/" style="font-size: 11.43px;">TreeMap</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/java基础/" style="font-size: 20px;">java基础</a> <a href="/tags/java并发编程实战/" style="font-size: 11.43px;">java并发编程实战</a> <a href="/tags/leetcode/" style="font-size: 17.14px;">leetcode</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/剑指offer/" style="font-size: 10px;">剑指offer</a> <a href="/tags/多线程/" style="font-size: 11.43px;">多线程</a> <a href="/tags/并发编程/" style="font-size: 10px;">并发编程</a> <a href="/tags/机器学习/" style="font-size: 12.86px;">机器学习</a> <a href="/tags/构造函数/" style="font-size: 10px;">构造函数</a> <a href="/tags/深入理解java虚拟机/" style="font-size: 10px;">深入理解java虚拟机</a> <a href="/tags/生活/" style="font-size: 10px;">生活</a> <a href="/tags/神经网络/" style="font-size: 10px;">神经网络</a> <a href="/tags/算法与数据结构/" style="font-size: 14.29px;">算法与数据结构</a> <a href="/tags/算法和数据结构/" style="font-size: 18.57px;">算法和数据结构</a> <a href="/tags/观影记/" style="font-size: 10px;">观影记</a> <a href="/tags/读书书单/" style="font-size: 10px;">读书书单</a>
+        </div>
+    </div>
+</div>
+<div class="search-wrap">
+    <span class="search-close">&times;</span>
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+            <i class="icon icon-lg icon-chevron-left"></i>
+        </a>
+        <input class="search-field" placeholder="Search..." id="keywords">
+        <a id="search-submit" href="javascript:;">
+            <i class="fa fa-search"></i>
+        </a>
+    <div class="search-container" id="search-container">
+        <ul class="search-result" id="search-result">
+        </ul>
+    </div>
+</div>
+
+<div id="search-tpl">
+    <li class="search-result-item">
+        <a href="{url}" class="search-item-li">
+            <span class="search-item-li-title" title="{title}">{title}</span>
+        </a>
+    </li>
+</div>
+<script src="/js/search.js"></script>
+<script src="/js/main.js"></script>
+
+
+  <script src="//cdn.bootcss.com/particles.js/2.0.0/particles.min.js"></script>
+  <div id="particles"></div>
+  <script src="/js/particles.js"></script>
+
+
+
+
+
+
+
+  <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
+  <script src="//cdn.bootcss.com/scrollReveal.js/3.0.5/scrollreveal.js"></script>
+  <script src="/js/animate.js"></script>
+
+
+  <script src="/js/pop-img.js"></script>
+  <script>
+     $(".article-entry p img").popImg();
+  </script>
+
+  </div>
+</body>
+</html>

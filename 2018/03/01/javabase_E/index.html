@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>java基础学习之泛型 | zolanunu</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+    <meta name="keywords" content="zolanunu,zolanunu's blog" />
+  
+  <meta name="description" content="泛型程序设计泛型泛型就是：任意的数据类型。 泛型是把类型参数化，用来规定一个类、接口或者方法所能接受的数据的类型，就像在声明方法时指定参数一样，我们在声明一个类、接口或者方法的时候，也可以指定其类型参数。 出现原因：java数据类型：基本类型与包装类  自动装箱  把基本类型用她们对应的引用类型包装起来，使她们具有对象的特质。可以调用toString(),hashCode()等类方法 12345I">
+<meta name="keywords" content="java基础">
+<meta property="og:type" content="article">
+<meta property="og:title" content="java基础学习之泛型">
+<meta property="og:url" content="http://zhangbuzola.cn/2018/03/01/javabase_E/index.html">
+<meta property="og:site_name" content="zolanunu">
+<meta property="og:description" content="泛型程序设计泛型泛型就是：任意的数据类型。 泛型是把类型参数化，用来规定一个类、接口或者方法所能接受的数据的类型，就像在声明方法时指定参数一样，我们在声明一个类、接口或者方法的时候，也可以指定其类型参数。 出现原因：java数据类型：基本类型与包装类  自动装箱  把基本类型用她们对应的引用类型包装起来，使她们具有对象的特质。可以调用toString(),hashCode()等类方法 12345I">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2018-07-12T05:52:25.680Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="java基础学习之泛型">
+<meta name="twitter:description" content="泛型程序设计泛型泛型就是：任意的数据类型。 泛型是把类型参数化，用来规定一个类、接口或者方法所能接受的数据的类型，就像在声明方法时指定参数一样，我们在声明一个类、接口或者方法的时候，也可以指定其类型参数。 出现原因：java数据类型：基本类型与包装类  自动装箱  把基本类型用她们对应的引用类型包装起来，使她们具有对象的特质。可以调用toString(),hashCode()等类方法 12345I">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="/js/pace.min.js"></script>
+  
+
+  
+	<script>
+	var _hmt = _hmt || [];
+	(function() {
+	  var hm = document.createElement("script");
+	  hm.src = "//hm.baidu.com/hm.js?a651034b7d11a367ae836642b29a3057";
+	  var s = document.getElementsByTagName("script")[0]; 
+	  s.parentNode.insertBefore(hm, s);
+	})();
+	</script>
+
+  
+
+</head>
+
+<body>
+  <div id="container">
+      <header id="header">
+    <div id="banner"></div>
+    <div id="header-outer">
+        <div id="header-menu" class="header-menu-pos animated">
+            <div class="header-menu-container">
+                <a href="/" class="left">
+                    <span class="site-title">zolanunu&#39;s Blog</span>
+                </a>
+                <nav id="header-menu-nav" class="right">
+                    
+                    <a  href="/">
+                        <i class="fa fa-home"></i>
+                        <span>Home</span>
+                    </a>
+                    
+                    <a  href="/archives">
+                        <i class="fa fa-archive"></i>
+                        <span>Archives</span>
+                    </a>
+                    
+                    <a  href="/about">
+                        <i class="fa fa-user"></i>
+                        <span>About</span>
+                    </a>
+                    
+                </nav>
+                <a class="mobile-header-menu-button">
+                    <i class="fa fa-bars"></i>
+                </a>
+            </div>
+        </div>
+        <div id="header-row">
+            <div id="logo">
+                <a href="/">
+                    <img src="/images/pacman.jpg" alt="logo">
+                </a>
+            </div>
+            <div class="header-info">
+                <div id="header-title">
+                    
+                    <h2>
+                        zolanunu&#39;s Blog
+                    </h2>
+                    
+                </div>
+                <div id="header-description">
+                    
+                    <h3>
+                        去努力尝试做一些你觉得你不会做或者不敢做的事情。
+                    </h3>
+                    
+                </div>
+            </div>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a title="zolanunu" target="_blank" href="//zhangbuzola.cn">
+                            <i class="fa fa-home fa-2x"></i></a>
+                    
+                        <a title="Github" target="_blank" href="//github.com/zolanunu">
+                            <i class="fa fa-github fa-2x"></i></a>
+                    
+                        <a title="Weibo" target="_blank" href="//weibo.com/zolanunu">
+                            <i class="fa fa-weibo fa-2x"></i></a>
+                    
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>
+      <div class="outer">
+        <section id="main" class="body-wrap"><article id="post-javabase_E" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="post-title" itemprop="name">
+      java基础学习之泛型
+    </h1>
+    <div class="post-title-bar">
+      <ul>
+          
+              <li>
+                  <i class="fa fa-book"></i>
+                  
+                      <a href="/categories/Java/">Java</a>
+                  
+              </li>
+          
+        <li>
+          <i class="fa fa-calendar"></i>  2018-03-01
+        </li>
+        <li>
+          <i class="fa fa-eye"></i>
+          <span id="busuanzi_value_page_pv"></span>
+        </li>
+      </ul>
+    </div>
+  
+
+          
+      </header>
+    
+    <div class="article-entry post-content" itemprop="articleBody">
+      
+            
+            <h1 id="泛型程序设计"><a href="#泛型程序设计" class="headerlink" title="泛型程序设计"></a>泛型程序设计</h1><h2 id="泛型"><a href="#泛型" class="headerlink" title="泛型"></a>泛型</h2><p>泛型就是：任意的数据类型。</p>
+<p>泛型是把类型参数化，用来规定一个类、接口或者方法所能接受的数据的类型，就像在声明方法时指定参数一样，我们在声明一个类、接口或者方法的时候，也可以指定其类型参数。</p>
+<h3 id="出现原因："><a href="#出现原因：" class="headerlink" title="出现原因："></a>出现原因：</h3><p>java数据类型：基本类型与包装类</p>
+<ul>
+<li>自动装箱</li>
+</ul>
+<p>把基本类型用她们对应的引用类型包装起来，使她们具有对象的特质。可以调用toString(),hashCode()等类方法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Integer i = 1;</span><br><span class="line"></span><br><span class="line">// 编译器会调用valueOf方法</span><br><span class="line"></span><br><span class="line">Integer i = Integer.valueOf(1);</span><br></pre></td></tr></table></figure>
+<ul>
+<li>拆箱</li>
+</ul>
+<p>跟自动装箱的方向相反，将引用类型转换为基本类型。</p>
+<p>自动装箱和拆箱都由编译器来完成。</p>
+<ul>
+<li>向上转型</li>
+</ul>
+<p>任何的一个类都可以向上转型为其父类，直到Object类。但是向上转型会失去一些方法。？向上转型是如何发生的，编译器为什么认可这种丢失犯法的行为。</p>
+<p>原因就是这种丢失是安全的，父类所有的public方法，都会在子类实现（重写或者继承），所以一个子类转型到父类类型之后，可以当做一个正常的父类对象使用，不需要担心某个方法未被实现。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Father f1 = new Son(); // 向上转型</span><br></pre></td></tr></table></figure>
+<ul>
+<li>向下转型</li>
+</ul>
+<p>父类对象转换为子类对象</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Father f1 = new Son();</span><br><span class="line">Son s1 = (Son)f1;   // 这就叫 downcasting (向下转型)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line">package com.wensefu.other1;  </span><br><span class="line">public class Girl &#123;  </span><br><span class="line">public void smile()&#123;  </span><br><span class="line">       System.out.println(&quot;girl smile()...&quot;);  </span><br><span class="line">   &#125;  </span><br><span class="line">&#125;  </span><br><span class="line">class MMGirl extends Girl&#123;  </span><br><span class="line"></span><br><span class="line">@Override </span><br><span class="line">public void smile() &#123;  </span><br><span class="line"></span><br><span class="line">       System.out.println(&quot;MMirl smile sounds sweet...&quot;);  </span><br><span class="line">   &#125;  </span><br><span class="line">public void c()&#123;  </span><br><span class="line">       System.out.println(&quot;MMirl c()...&quot;);  </span><br><span class="line">   &#125;  </span><br><span class="line">&#125;  </span><br><span class="line">class Main&#123;  </span><br><span class="line"></span><br><span class="line">public static void main(String[] args) &#123;  </span><br><span class="line"></span><br><span class="line">       Girl g1=new MMGirl(); //向上转型 </span><br><span class="line">       g1.smile();  </span><br><span class="line"></span><br><span class="line">       MMGirl mmg=(MMGirl)g1; //向下转型,编译和运行皆不会出错 </span><br><span class="line">       mmg.smile();  </span><br><span class="line">       mmg.c();  </span><br><span class="line"></span><br><span class="line"></span><br><span class="line">       Girl g2=new Girl();  </span><br><span class="line">//      MMGirl mmg1=(MMGirl)g2; //不安全的向下转型,编译无错但会运行会出错 </span><br><span class="line">//      mmg1.smile(); </span><br><span class="line">//      mmg1.c(); </span><br><span class="line">/*output: </span><br><span class="line">* CGirl smile sounds sweet... </span><br><span class="line">* CGirl smile sounds sweet... </span><br><span class="line">* CGirl c()... </span><br><span class="line">* Exception in thread &quot;main&quot; java.lang.ClassCastException: com.wensefu.other1.Girl </span><br><span class="line">* at com.wensefu.other1.Main.main(Girl.java:36) </span><br><span class="line">*/ </span><br><span class="line">if(g2 instanceof MMGirl)&#123;  </span><br><span class="line">           MMGirl mmg1=(MMGirl)g2;   </span><br><span class="line">           mmg1.smile();  </span><br><span class="line">           mmg1.c();  </span><br><span class="line">       &#125;  </span><br><span class="line"></span><br><span class="line">   &#125;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="好处"><a href="#好处" class="headerlink" title="好处"></a>好处</h3><ul>
+<li><p>提高安全性：将运行期间的错误转换到编译器，如果我们在对一个对象所赋的值不符合其泛型的贵姓，就会编译错误。</p>
+</li>
+<li><p>避免强转：比如我们在使用List的时候，如果我们不使用泛型，当从List中取出元素的时候，其类型会是默认的Object，我们必须向下转型为String才能使用。</p>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">List l = new ArrayList();</span><br><span class="line">l.add(&quot;abc&quot;);</span><br><span class="line">String s = (String)l.get(0);</span><br></pre></td></tr></table></figure>
+<p>而使用泛型，就可以保证存入和取出的都是String类型, 不必在进行cast了。比如:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">List&lt;String&gt; l = new ArrayList&lt;&gt;();</span><br><span class="line">l.add(&quot;abc&quot;);</span><br><span class="line">String s = l.get(0);</span><br></pre></td></tr></table></figure>
+<p>举例：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">// 设计一个简单的Box类</span><br><span class="line"></span><br><span class="line">public class Box &#123;</span><br><span class="line">	private String object;</span><br><span class="line">	public void set(String object) &#123;</span><br><span class="line">		this.object = object;</span><br><span class="line">	&#125;</span><br><span class="line">	public String get() &#123;</span><br><span class="line">		return object;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">/**Box类中只能装String类型的元素，</span><br><span class="line"> * 但是如果我们希望Box能装下不止String一种类型的元素，</span><br><span class="line"> * 我们就需要重写很多个Box类去适应不同的数据类型。代码得不到复用。</span><br><span class="line"> *泛型**可以很好的解决这个问题**/</span><br><span class="line"></span><br><span class="line">public Class Box&lt;T&gt; &#123;</span><br><span class="line">	private T t;</span><br><span class="line">	public void set(T t) &#123;</span><br><span class="line">		this.t = t;</span><br><span class="line">	&#125;</span><br><span class="line">	public T get() &#123;</span><br><span class="line">		return t;	</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="泛型类和泛型方法"><a href="#泛型类和泛型方法" class="headerlink" title="泛型类和泛型方法"></a>泛型类和泛型方法</h2><p>类型参数（又称类型变量）用作占位符，指示在运行时为类分配类型。根据需要，可能有一个或多个类型参数，并且可以用于整个类。根据惯例，类型参数是单个大写字母，该字母用于指示所定义的参数类型。下面列出每个用例的标准类型参数：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">E：元素</span><br><span class="line">K：键</span><br><span class="line">N：数字</span><br><span class="line">T：类型</span><br><span class="line">V：值</span><br><span class="line">S、U、V 等：多参数情况中的第 2、3、4 个类型</span><br><span class="line">? 表示不确定的java类型（无限制通配符类型）</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">public class Util &#123;</span><br><span class="line">    public static &lt;K, V&gt; boolean compare(Pair&lt;K, V&gt; p1, Pair&lt;K, V&gt; p2) &#123;</span><br><span class="line">        return p1.getKey().equals(p2.getKey()) &amp;&amp;</span><br><span class="line">               p1.getValue().equals(p2.getValue());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">public class Pair&lt;K, V&gt; &#123;</span><br><span class="line">    private K key;</span><br><span class="line">    private V value;</span><br><span class="line">    public Pair(K key, V value) &#123;</span><br><span class="line">        this.key = key;</span><br><span class="line">        this.value = value;</span><br><span class="line">    &#125;</span><br><span class="line">    public void setKey(K key) &#123; this.key = key; &#125;</span><br><span class="line">    public void setValue(V value) &#123; this.value = value; &#125;</span><br><span class="line">    public K getKey()   &#123; return key; &#125;</span><br><span class="line">    public V getValue() &#123; return value; &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>说明</li>
+</ul>
+<p>泛型方法的声明，必须在方法的修饰符之后，返回值之前。</p>
+<p>方法参数列表，以及方法体中用到的所有泛型变量，都必须声明。</p>
+<h2 id="边界符"><a href="#边界符" class="headerlink" title="边界符"></a>边界符</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">public static &lt;T&gt; int countGreaterThan(T[] anArray, T elem) &#123;</span><br><span class="line">    int count = 0;</span><br><span class="line">    for (T e : anArray)</span><br><span class="line">        if (e &gt; elem)  // compiler error</span><br><span class="line">            ++count;</span><br><span class="line">    return count;</span><br><span class="line">&#125;</span><br><span class="line">// 如此做是错误的。因为除了一些原始类型，其他类是不能使用操作符&gt;&lt;等的。</span><br><span class="line">// 所以编译器会报错。解决方法，使用边界符</span><br><span class="line"></span><br><span class="line">public static &lt;T&gt; int countGreaterThan(T[] anArray, T elem) &#123;</span><br><span class="line">    int count = 0;</span><br><span class="line">    for (T e : anArray)</span><br><span class="line">        if (e &gt; elem)  // compiler error</span><br><span class="line">            ++count;</span><br><span class="line">    return count;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public static &lt;T extends Comparable&lt;T&gt;&gt; int countGreaterThan(T[] anArray, T elem) &#123;</span><br><span class="line">    int count = 0;</span><br><span class="line">    for (T e : anArray)</span><br><span class="line">        if (e.compareTo(elem) &gt; 0)</span><br><span class="line">            ++count;</span><br><span class="line">    return count;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="通配符"><a href="#通配符" class="headerlink" title="通配符"></a>通配符</h2><ul>
+<li><p>无边界通配符(&lt;?&gt;)</p>
+</li>
+<li><p>固定上边界通配符(&lt;? extends E&gt;)</p>
+</li>
+<li><p>固定下边界通配符(&lt;? super E&gt;)</p>
+</li>
+</ul>
+<p>通配符&lt;?&gt;和参数类型<t>的区别在于：对编译器来说，所有的T代表的都是同一种类型，比如<code>public &lt;T&gt; List&lt;T&gt; fill(T ... t);</code>中的T都是代表同一种类型。要么是String，要么是Integer。</t></p>
+<p>但是&lt;?&gt;没有这种限制，Plate&lt;?&gt;单纯的表示：盘子里面放了一个东西，是什么我不知道。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">// 例子</span><br><span class="line">class Fruit &#123;&#125;</span><br><span class="line">class Apple extends Fruit &#123;&#125;</span><br><span class="line">class Orange extends Fruit &#123;&#125;</span><br><span class="line">// Fruit有两个子类：Apple和Orange</span><br><span class="line">public class GenericReading &#123;</span><br><span class="line">    static List&lt;Apple&gt; apples = Arrays.asList(new Apple());</span><br><span class="line">    static List&lt;Fruit&gt; fruit = Arrays.asList(new Fruit());</span><br><span class="line">    static class Reader&lt;T&gt; &#123;</span><br><span class="line">        T readExact(List&lt;T&gt; list) &#123;</span><br><span class="line">            return list.get(0);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    static void f1() &#123;</span><br><span class="line">        Reader&lt;Fruit&gt; fruitReader = new Reader&lt;Fruit&gt;();</span><br><span class="line">        // Errors: List&lt;Fruit&gt; cannot be applied to List&lt;Apple&gt;.</span><br><span class="line">        // Fruit f = fruitReader.readExact(apples);</span><br><span class="line">    &#125;</span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        f1();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">// 上面f1函数中，获取子类的相关信息，编译器会报错，原因是：List&lt;Apple&gt;和List&lt;Orange&gt;是没有任何的关系的。</span><br><span class="line">// 如何解决</span><br><span class="line"></span><br><span class="line">static class CovariantReader&lt;T&gt; &#123;</span><br><span class="line">    T readCovariant(List&lt;? extends T&gt; list) &#123;</span><br><span class="line">        return list.get(0);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">static void f2() &#123;</span><br><span class="line">    CovariantReader&lt;Fruit&gt; fruitReader = new CovariantReader&lt;Fruit&gt;();</span><br><span class="line">    Fruit f = fruitReader.readCovariant(fruit);</span><br><span class="line">    Fruit a = fruitReader.readCovariant(apples);</span><br><span class="line">&#125;</span><br><span class="line">public static void main(String[] args) &#123;</span><br><span class="line">    f2();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 使用通配符</span><br></pre></td></tr></table></figure>
+<h2 id="PECS原则"><a href="#PECS原则" class="headerlink" title="PECS原则"></a>PECS原则</h2><p>&lt;? extends T&gt; 可以成功的从list里面取get元素，但是能不能add添加元素呢？</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">public class GenericsAndCovariance &#123;</span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        // Wildcards allow covariance:</span><br><span class="line">        List&lt;? extends Fruit&gt; flist = new ArrayList&lt;Apple&gt;();</span><br><span class="line">        // Compile Error: can&apos;t add any type of object:</span><br><span class="line">        // flist.add(new Apple())</span><br><span class="line">        // flist.add(new Orange())</span><br><span class="line">        // flist.add(new Fruit())</span><br><span class="line">        // flist.add(new Object())</span><br><span class="line">        flist.add(null); // Legal but uninteresting</span><br><span class="line">        // We Know that it returns at least Fruit:</span><br><span class="line">        Fruit f = flist.get(0);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>答案是否定，Java编译器不允许我们这样做，为什么呢？对于这个问题我们不妨从编译器的角度去考虑。因为List&lt;? extends Fruit&gt; flist它自身可以有多种含义。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">List&lt;? extends Fruit&gt; flist = new ArrayList&lt;Fruit&gt;();</span><br><span class="line">List&lt;? extends Fruit&gt; flist = new ArrayList&lt;Apple&gt;();</span><br><span class="line">List&lt;? extends Fruit&gt; flist = new ArrayList&lt;Orange&gt;();</span><br></pre></td></tr></table></figure>
+<p>当我们add一个元素的时候，flist可能指向的是apple或者orange。当我们尝试add一个Fruit的时候，这个Fruit可以是任何类型的Fruit，而flist可能只想某种特定类型的Fruit，编译器无法识别所以会报错。</p>
+<p>所以对于实现了&lt;? extends T&gt;的集合类只能将它视为Producer向外提供(get)元素，而不能作为Consumer来对外获取(add)元素。</p>
+<p>如果要add元素，解决办法是&lt;? super T&gt;</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">public class GenericWriting &#123;</span><br><span class="line">    static List&lt;Apple&gt; apples = new ArrayList&lt;Apple&gt;();</span><br><span class="line">    static List&lt;Fruit&gt; fruit = new ArrayList&lt;Fruit&gt;();</span><br><span class="line">    static &lt;T&gt; void writeExact(List&lt;T&gt; list, T item) &#123;</span><br><span class="line">        list.add(item);</span><br><span class="line">    &#125;</span><br><span class="line">    static void f1() &#123;</span><br><span class="line">        writeExact(apples, new Apple());</span><br><span class="line">        writeExact(fruit, new Apple());</span><br><span class="line">    &#125;</span><br><span class="line">    static &lt;T&gt; void writeWithWildcard(List&lt;? super T&gt; list, T item) &#123;</span><br><span class="line">        list.add(item)</span><br><span class="line">    &#125;</span><br><span class="line">    static void f2() &#123;</span><br><span class="line">        writeWithWildcard(apples, new Apple());</span><br><span class="line">        writeWithWildcard(fruit, new Apple());</span><br><span class="line">    &#125;</span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        f1(); f2();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这样我们可以往容器里面添加元素了，但是使用super的坏处是以后不能get容器里面的元素了，原因很简单，我们继续从编译器的角度考虑这个问题，对于List&lt;? super Apple&gt; list，它可以有下面几种含义：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">List&lt;? super Apple&gt; list = new ArrayList&lt;Apple&gt;();</span><br><span class="line">List&lt;? super Apple&gt; list = new ArrayList&lt;Fruit&gt;();</span><br><span class="line">List&lt;? super Apple&gt; list = new ArrayList&lt;Object&gt;();</span><br></pre></td></tr></table></figure>
+<p>当我们尝试通过list来get一个Apple的时候，可能会get得到一个Fruit，这个Fruit可以是Orange等其他类型的Fruit。</p>
+<p>所以PECS原则就是：</p>
+<p>“Producer Extends, Consumer Super”</p>
+<h2 id="类型擦除"><a href="#类型擦除" class="headerlink" title="类型擦除"></a>类型擦除</h2><p>类型擦除就是说Java泛型只能用于在编译期间的静态类型检查，然后编译器生成的代码会擦除相应的类型信息，这样到了运行期间实际上JVM已经知道泛型所代表的具体类型。</p>
+<p>编译通过后，准备进入JVM运行时，就不再有类型参数的概念，换句话说：每定义一个泛型类型，JVM会自动提供一个对应的原生类；</p>
+<h3 id="为什么会用类型擦除"><a href="#为什么会用类型擦除" class="headerlink" title="为什么会用类型擦除"></a>为什么会用类型擦除</h3><ul>
+<li><p>在Java诞生10年后，才想实现类似于C++模板的概念，即泛型；</p>
+</li>
+<li><p>Java的类库是Java生态中非常宝贵的财富，必须保证向后兼容（即现有的代码和类文件依旧合法）和迁移兼容（泛化的代码和非泛化的代码可互相调用）基于上面这两个背景和考虑，Java设计者采取了“类型擦除”这种折中的实现方式。</p>
+</li>
+</ul>
+<p>java泛型依赖编译器实现，只存在于编译期间，JVM中没有泛型的概念。编译器的工作就是：set方法编译期检查；get方法返回值进行转型，编译器插入一个checkcast语句。</p>
+<h3 id="类型擦除-1"><a href="#类型擦除-1" class="headerlink" title="类型擦除"></a>类型擦除</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">public class Node&lt;T&gt; &#123;</span><br><span class="line">	private T data;  </span><br><span class="line">	private Node&lt;T&gt; next;</span><br><span class="line">	public Node(T data, Node&lt;T&gt; next) &#123;</span><br><span class="line">		this.data = data;</span><br><span class="line">		this.next = next;</span><br><span class="line">	&#125;</span><br><span class="line">	public T getData() &#123;</span><br><span class="line">		return data;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line">// 编译器做完相关的类型检查之后，实际上到了运行期间就编程了：</span><br><span class="line"></span><br><span class="line">public class Node &#123;</span><br><span class="line">    private Object data;</span><br><span class="line">    private Node next;</span><br><span class="line">    public Node(Object data, Node next) &#123;</span><br><span class="line">        this.data = data;</span><br><span class="line">        this.next = next;</span><br><span class="line">    &#125;</span><br><span class="line">    public Object getData() &#123; return data; &#125;</span><br><span class="line">    // ...</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 意味着声明Node&lt;String&gt;或者是Node&lt;Integer&gt;，到了运行期间，JVM统统视为Node&lt;Object&gt;。</span><br></pre></td></tr></table></figure>
+<p>类型擦除会带来一些问题。</p>
+<h3 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h3><ul>
+<li>问题一</li>
+</ul>
+<p>java不允许创建泛型数组，类似下面这样的做法编译器会报错</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">List&lt;Integer&gt;[] arrayOfLists = new List&lt;Integer&gt;[2];</span><br><span class="line">// compile-time error</span><br></pre></td></tr></table></figure>
+<p>为什么呢？采用逆向思维，站在编译器的角度考虑问题</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Object[] strings = new String[2];</span><br><span class="line">strings[0] = &quot;hi&quot;;   // OK</span><br><span class="line">strings[1] = 100;    // An ArrayStoreException is thrown.</span><br></pre></td></tr></table></figure>
+<p>字符串数组不能存在整型元素，而且这样的错误往往要在运行期间才能被发现，编译器是无法识别的。假设java支持泛型数组的创建会有什么后果。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Object[] stringLists = new List&lt;String&gt;[];  // compiler error, but pretend it&apos;s allowed</span><br><span class="line">stringLists[0] = new ArrayList&lt;String&gt;();   // OK</span><br><span class="line">// An ArrayStoreException should be thrown, but the runtime can&apos;t detect it.</span><br><span class="line">stringLists[1] = new ArrayList&lt;Integer&gt;()</span><br></pre></td></tr></table></figure>
+<p>假设我们支持泛型数组的创建，由于运行时期类型信息已经被擦除，JVM实际上根本就不知道new ArrayList<string>()和new ArrayList<integer>()的区别。类似这样的错误假如出现才实际的应用场景中，将非常难以察觉。</integer></string></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">public class ErasedTypeEquivalence &#123;</span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        Class c1 = new ArrayList&lt;String&gt;().getClass();</span><br><span class="line">        Class c2 = new ArrayList&lt;Integer&gt;().getClass();</span><br><span class="line">        System.out.println(c1 == c2); // true</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>问题二</li>
+</ul>
+<p>继续复用我们上面的Node的类，对于泛型代码，Java编译器实际上还会偷偷帮我们实现一个Bridge method。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">public class Node&lt;T&gt; &#123;</span><br><span class="line">    public T data;</span><br><span class="line">    public Node(T data) &#123; this.data = data; &#125;</span><br><span class="line">    public void setData(T data) &#123;</span><br><span class="line">        System.out.println(&quot;Node.setData&quot;);</span><br><span class="line">        this.data = data;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">public class MyNode extends Node&lt;Integer&gt; &#123;</span><br><span class="line">    public MyNode(Integer data) &#123; super(data); &#125;</span><br><span class="line">    public void setData(Integer data) &#123;</span><br><span class="line">        System.out.println(&quot;MyNode.setData&quot;);</span><br><span class="line">        super.setData(data);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>看完上面的分析之后，你可能会认为在类型擦除后，编译器会将Node和MyNode变成下面这样：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">public class Node &#123;</span><br><span class="line">    public Object data;</span><br><span class="line">    public Node(Object data) &#123; this.data = data; &#125;</span><br><span class="line">    public void setData(Object data) &#123;</span><br><span class="line">        System.out.println(&quot;Node.setData&quot;);</span><br><span class="line">        this.data = data;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">public class MyNode extends Node &#123;</span><br><span class="line">    public MyNode(Integer data) &#123; super(data); &#125;</span><br><span class="line">    public void setData(Integer data) &#123;</span><br><span class="line">        System.out.println(&quot;MyNode.setData&quot;);</span><br><span class="line">        super.setData(data);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>实际上不是这样的，我们先来看一下下面这段代码，这段代码运行的时候会抛出ClassCastException异常，提示String无法转换成Integer：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">MyNode mn = new MyNode(5);</span><br><span class="line">Node n = mn; // A raw type - compiler throws an unchecked warning</span><br><span class="line">n.setData(&quot;Hello&quot;); // Causes a ClassCastException to be thrown.</span><br><span class="line">// Integer x = mn.data;</span><br></pre></td></tr></table></figure>
+<p>如果按照我们上面生成的代码，运行到第3行的时候不应该报错(注意我注释掉了第4行)，因为MyNode中不存在setData(String data)方法，所以只能调用父类Node的setData(Object data)方法，既然这样上面的第3行代码不应该报错，因为String当然可以转换成Object了，那ClassCastException到底是怎么抛出的？</p>
+<p>实际上Java编译器对上面代码自动还做了一个处理：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">class MyNode extends Node &#123;</span><br><span class="line">    // Bridge method generated by the compiler</span><br><span class="line">    public void setData(Object data) &#123;</span><br><span class="line">        setData((Integer) data);</span><br><span class="line">    &#125;</span><br><span class="line">    public void setData(Integer data) &#123;</span><br><span class="line">        System.out.println(&quot;MyNode.setData&quot;);</span><br><span class="line">        super.setData(data);</span><br><span class="line">    &#125;</span><br><span class="line">    // ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这也就是为什么上面会报错的原因了，setData((Integer) data);的时候String无法转换成Integer。所以上面第2行编译器提示unchecked warning的时候，我们不能选择忽略，不然要等到运行期间才能发现异常。如果我们一开始加上Node<integer> n = mn就好了，这样编译器就可以提前帮我们发现错误。</integer></p>
+<ul>
+<li>问题三</li>
+</ul>
+<p>正如我们上面提到的，Java泛型很大程度上只能提供静态类型检查，然后类型的信息就会被擦除，所以像下面这样利用类型参数创建实例的做法编译器不会通过：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">public static &lt;E&gt; void append(List&lt;E&gt; list) &#123;</span><br><span class="line">    E elem = new E();  // compile-time error</span><br><span class="line">    list.add(elem);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>但是如果某些场景我们想要需要利用类型参数创建实例，我们应该怎么做呢？可以利用反射解决这个问题：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">public static &lt;E&gt; void append(List&lt;E&gt; list, Class&lt;E&gt; cls) throws Exception &#123;</span><br><span class="line">    E elem = cls.newInstance();   // OK</span><br><span class="line">    list.add(elem);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>我们可以像下面这样调用：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">List&lt;String&gt; ls = new ArrayList&lt;&gt;();</span><br><span class="line">append(ls, String.class);</span><br></pre></td></tr></table></figure>
+<p>实际上对于上面这个问题，还可以采用Factory和Template两种<strong>设计模式</strong>解决，感兴趣的朋友不妨去看一下Thinking in Java中第15章中关于Creating instance of types(英文版第664页)的讲解，这里我们就不深入了。</p>
+<ul>
+<li>问题四</li>
+</ul>
+<p>我们无法对泛型代码直接使用instanceof关键字，因为Java编译器在生成代码的时候会擦除所有相关泛型的类型信息，正如我们上面验证过的JVM在运行时期无法识别出ArrayList<integer>和ArrayList<string>的之间的区别：</string></integer></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">public static &lt;E&gt; void rtti(List&lt;E&gt; list) &#123;</span><br><span class="line">    if (list instanceof ArrayList&lt;Integer&gt;) &#123;  // compile-time error</span><br><span class="line">        // ...</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">=&gt; &#123; ArrayList&lt;Integer&gt;, ArrayList&lt;String&gt;, LinkedList&lt;Character&gt;, ... &#125;</span><br></pre></td></tr></table></figure>
+<p>和上面一样，我们可以使用通配符重新设置bounds来解决这个问题：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">public static void rtti(List&lt;?&gt; list) &#123;</span><br><span class="line">    if (list instanceof ArrayList&lt;?&gt;) &#123;  // OK; instanceof requires a reifiable type</span><br><span class="line">        // ...</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="工厂模式"><a href="#工厂模式" class="headerlink" title="工厂模式"></a>工厂模式</h3><p>接下来我们利用泛型来简单的实现一下工厂模式，首先我们先声明一个接口Factory：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">package typeinfo.factory;</span><br><span class="line">public interface Factory&lt;T&gt; &#123;</span><br><span class="line">    T create();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>接下来我们来创建几个实体类FuelFilter和AirFilter以及FanBelt和GeneratorBelt。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">class Filter extends Part &#123;&#125;</span><br><span class="line">class FuelFilter extends Filter &#123;</span><br><span class="line">    public static class Factory implements typeinfo.factory.Factory&lt;FuelFilter&gt; &#123;</span><br><span class="line">        public FuelFilter create() &#123;</span><br><span class="line">            return new FuelFilter();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">class AirFilter extends Filter &#123;</span><br><span class="line">    public static class Factory implements typeinfo.factory.Factory&lt;AirFilter&gt; &#123;</span><br><span class="line">        public AirFilter create() &#123;</span><br><span class="line">            return new AirFilter();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">class Belt extends Part &#123;&#125;</span><br><span class="line">class FanBelt extends Belt &#123;</span><br><span class="line">    public static class Factory implements typeinfo.factory.Factory&lt;FanBelt&gt; &#123;</span><br><span class="line">        public FanBelt create() &#123;</span><br><span class="line">            return new FanBelt();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">class GeneratorBelt extends Belt &#123;</span><br><span class="line">    public static class Factory implements typeinfo.factory.Factory&lt;GeneratorBelt&gt; &#123;</span><br><span class="line">        public GeneratorBelt create() &#123;</span><br><span class="line">            return new GeneratorBelt();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Part类的实现如下，注意我们上面的实体类都是Part类的间接子类。在Part类我们注册了我们上面的声明的实体类。所以以后我们如果要创建相关的实体类的话，只需要在调用Part类的相关方法了。这么做的一个好处就是如果的业务中出现了CabinAirFilter或者PowerSteeringBelt的话，我们不需要修改太多的代码，只需要在Part类中将它们注册即可。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">class Part &#123;</span><br><span class="line">    static List&lt;Factory&lt;? extends Part&gt;&gt; partFactories =</span><br><span class="line">        new ArrayList&lt;Factory&lt;? extends Part&gt;&gt;();</span><br><span class="line">    static &#123;</span><br><span class="line">        partFactories.add(new FuelFilter.Factory());</span><br><span class="line">        partFactories.add(new AirFilter.Factory());</span><br><span class="line">        partFactories.add(new FanBelt.Factory());</span><br><span class="line">        partFactories.add(new PowerSteeringBelt.Factory());</span><br><span class="line">    &#125;</span><br><span class="line">    private static Random rand = new Random(47);</span><br><span class="line">    public static Part createRandom() &#123;</span><br><span class="line">        int n = rand.nextInt(partFactories.size());</span><br><span class="line">        return partFactories.get(n).create();</span><br><span class="line">    &#125;</span><br><span class="line">    public String toString() &#123;</span><br><span class="line">        return getClass().getSimpleName();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>最后我们来测试一下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">public class RegisteredFactories &#123;</span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        for (int i = 0; i &lt; 10; i++) &#123;</span><br><span class="line">            System.out.println(Part.createRandom());</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+            <div class="post-copyright">
+    <div class="content">
+        <p>最后更新： 2018年07月12日 13:52</p>
+        <p>原始链接： <a class="post-url" href="/2018/03/01/javabase_E/" title="java基础学习之泛型">http://zhangbuzola.cn/2018/03/01/javabase_E/</a></p>
+        <footer>
+            <a href="http://zhangbuzola.cn">
+                <img src="/images/pacman.jpg" alt="zolanunu">
+                zolanunu
+            </a>
+        </footer>
+    </div>
+</div>
+
+      
+        
+            
+
+        
+    </div>
+    <footer class="article-footer">
+        
+        <ul class="article-footer-menu">
+            
+            
+  <li class="article-footer-tags">
+    <i class="fa fa-tags"></i>
+      
+    <a href="/tags/java基础/" class="color2">java基础</a>
+      
+  </li>
+
+        </ul>
+        
+    </footer>
+  </div>
+</article>
+
+
+    <aside class="post-toc-pos post-toc-top" id="post-toc">
+        <nav class="post-toc-wrap">
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#泛型程序设计"><span class="post-toc-text">泛型程序设计</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#泛型"><span class="post-toc-text">泛型</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#出现原因："><span class="post-toc-text">出现原因：</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#好处"><span class="post-toc-text">好处</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#泛型类和泛型方法"><span class="post-toc-text">泛型类和泛型方法</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#边界符"><span class="post-toc-text">边界符</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#通配符"><span class="post-toc-text">通配符</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#PECS原则"><span class="post-toc-text">PECS原则</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#类型擦除"><span class="post-toc-text">类型擦除</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#为什么会用类型擦除"><span class="post-toc-text">为什么会用类型擦除</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#类型擦除-1"><span class="post-toc-text">类型擦除</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#问题"><span class="post-toc-text">问题</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#工厂模式"><span class="post-toc-text">工厂模式</span></a></li></ol></li></ol></li></ol>
+        </nav>
+    </aside>
+    
+
+<nav id="article-nav">
+  
+    <a href="/2018/03/01/javabase_IO/" id="article-nav-newer" class="article-nav-link-wrap">
+
+      <span class="article-nav-title">
+        <i class="fa fa-hand-o-left" aria-hidden="true"></i>
+        
+          java基础学习之IO流
+        
+      </span>
+    </a>
+  
+  
+    <a href="/2018/02/28/java基础之valitile/" id="article-nav-older" class="article-nav-link-wrap">
+      <span class="article-nav-title">java基础之volatile关键字</span>
+      <i class="fa fa-hand-o-right" aria-hidden="true"></i>
+    </a>
+  
+</nav>
+
+
+
+    
+        <link rel="stylesheet" href="//unpkg.com/gitment/style/default.css">
+    <script src="//unpkg.com/gitment/dist/gitment.browser.js"></script>
+    <script>
+        var gitment = new Gitment({
+            owner: 'true',
+            repo: 'zolanunu',
+            oauth: {
+                client_id: '1a04e8dee74a4b8634df',
+                client_secret: '9e3078ac89eb72f22abbdd11f7f0d11e2e1d7f7a',
+            },
+        })
+        gitment.render('comments')
+    </script>
+
+    
+</section>
+        
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+      <p>
+        Powered by  <a href="http://hexo.io/" target="_blank">Hexo</a>
+        Theme <a href="//github.com/wongminho/hexo-theme-miho" target="_blank">MiHo</a>
+      &copy; 2018 zolanunu<br>
+      </p>
+    </div>
+  </div>
+</footer>
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script>
+  var mihoConfig = {
+      root: "http://zhangbuzola.cn",
+      animate: true,
+      isHome: false,
+      share: false,
+      reward: 0
+  }
+</script>
+<div class="sidebar">
+    <div id="sidebar-search" title="Search">
+        <i class="fa fa-search"></i>
+    </div>
+    <div id="sidebar-category" title="Categories">
+        <i class="fa fa-book"></i>
+    </div>
+    <div id="sidebar-tag" title="Tags">
+        <i class="fa fa-tags"></i>
+    </div>
+    <div id="sidebar-top">
+        <span class="sidebar-top-icon"><i class="fa fa-angle-up"></i></span>
+    </div>
+</div>
+<div class="sidebar-menu-box" id="sidebar-menu-box">
+    <div class="sidebar-menu-box-container">
+        <div id="sidebar-menu-box-categories">
+            <a class="category-link" href="/categories/Java/">Java</a><a class="category-link" href="/categories/Java后台/">Java后台</a><a class="category-link" href="/categories/Python/">Python</a><a class="category-link" href="/categories/工具/">工具</a><a class="category-link" href="/categories/技术书/">技术书</a><a class="category-link" href="/categories/数据库/">数据库</a><a class="category-link" href="/categories/数据结构/">数据结构</a><a class="category-link" href="/categories/生活轨迹/">生活轨迹</a><a class="category-link" href="/categories/算法/">算法</a>
+        </div>
+        <div id="sidebar-menu-box-tags">
+            <a href="/tags/2018/" style="font-size: 11.43px;">2018</a> <a href="/tags/Collections/" style="font-size: 15.71px;">Collections</a> <a href="/tags/HashMap/" style="font-size: 10px;">HashMap</a> <a href="/tags/LinkedHashMap/" style="font-size: 10px;">LinkedHashMap</a> <a href="/tags/MySQL/" style="font-size: 17.14px;">MySQL</a> <a href="/tags/Mybatis/" style="font-size: 12.86px;">Mybatis</a> <a href="/tags/Object/" style="font-size: 10px;">Object</a> <a href="/tags/SSM/" style="font-size: 12.86px;">SSM</a> <a href="/tags/TreeMap/" style="font-size: 11.43px;">TreeMap</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/java基础/" style="font-size: 20px;">java基础</a> <a href="/tags/java并发编程实战/" style="font-size: 11.43px;">java并发编程实战</a> <a href="/tags/leetcode/" style="font-size: 17.14px;">leetcode</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/剑指offer/" style="font-size: 10px;">剑指offer</a> <a href="/tags/多线程/" style="font-size: 11.43px;">多线程</a> <a href="/tags/并发编程/" style="font-size: 10px;">并发编程</a> <a href="/tags/机器学习/" style="font-size: 12.86px;">机器学习</a> <a href="/tags/构造函数/" style="font-size: 10px;">构造函数</a> <a href="/tags/深入理解java虚拟机/" style="font-size: 10px;">深入理解java虚拟机</a> <a href="/tags/生活/" style="font-size: 10px;">生活</a> <a href="/tags/神经网络/" style="font-size: 10px;">神经网络</a> <a href="/tags/算法与数据结构/" style="font-size: 14.29px;">算法与数据结构</a> <a href="/tags/算法和数据结构/" style="font-size: 18.57px;">算法和数据结构</a> <a href="/tags/观影记/" style="font-size: 10px;">观影记</a> <a href="/tags/读书书单/" style="font-size: 10px;">读书书单</a>
+        </div>
+    </div>
+    <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
+</div>
+<div class="mobile-header-menu-nav" id="mobile-header-menu-nav">
+    <div class="mobile-header-menu-container">
+        <span class="title">Menus</span>
+        <ul class="mobile-header-menu-navbar">
+            
+            <li>
+                <a  href="/">
+                    <i class="fa fa-home"></i><span>Home</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/archives">
+                    <i class="fa fa-archive"></i><span>Archives</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/about">
+                    <i class="fa fa-user"></i><span>About</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    <div class="mobile-header-tag-container">
+        <span class="title">Tags</span>
+        <div id="mobile-header-container-tags">
+            <a href="/tags/2018/" style="font-size: 11.43px;">2018</a> <a href="/tags/Collections/" style="font-size: 15.71px;">Collections</a> <a href="/tags/HashMap/" style="font-size: 10px;">HashMap</a> <a href="/tags/LinkedHashMap/" style="font-size: 10px;">LinkedHashMap</a> <a href="/tags/MySQL/" style="font-size: 17.14px;">MySQL</a> <a href="/tags/Mybatis/" style="font-size: 12.86px;">Mybatis</a> <a href="/tags/Object/" style="font-size: 10px;">Object</a> <a href="/tags/SSM/" style="font-size: 12.86px;">SSM</a> <a href="/tags/TreeMap/" style="font-size: 11.43px;">TreeMap</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/java基础/" style="font-size: 20px;">java基础</a> <a href="/tags/java并发编程实战/" style="font-size: 11.43px;">java并发编程实战</a> <a href="/tags/leetcode/" style="font-size: 17.14px;">leetcode</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/剑指offer/" style="font-size: 10px;">剑指offer</a> <a href="/tags/多线程/" style="font-size: 11.43px;">多线程</a> <a href="/tags/并发编程/" style="font-size: 10px;">并发编程</a> <a href="/tags/机器学习/" style="font-size: 12.86px;">机器学习</a> <a href="/tags/构造函数/" style="font-size: 10px;">构造函数</a> <a href="/tags/深入理解java虚拟机/" style="font-size: 10px;">深入理解java虚拟机</a> <a href="/tags/生活/" style="font-size: 10px;">生活</a> <a href="/tags/神经网络/" style="font-size: 10px;">神经网络</a> <a href="/tags/算法与数据结构/" style="font-size: 14.29px;">算法与数据结构</a> <a href="/tags/算法和数据结构/" style="font-size: 18.57px;">算法和数据结构</a> <a href="/tags/观影记/" style="font-size: 10px;">观影记</a> <a href="/tags/读书书单/" style="font-size: 10px;">读书书单</a>
+        </div>
+    </div>
+</div>
+<div class="search-wrap">
+    <span class="search-close">&times;</span>
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+            <i class="icon icon-lg icon-chevron-left"></i>
+        </a>
+        <input class="search-field" placeholder="Search..." id="keywords">
+        <a id="search-submit" href="javascript:;">
+            <i class="fa fa-search"></i>
+        </a>
+    <div class="search-container" id="search-container">
+        <ul class="search-result" id="search-result">
+        </ul>
+    </div>
+</div>
+
+<div id="search-tpl">
+    <li class="search-result-item">
+        <a href="{url}" class="search-item-li">
+            <span class="search-item-li-title" title="{title}">{title}</span>
+        </a>
+    </li>
+</div>
+<script src="/js/search.js"></script>
+<script src="/js/main.js"></script>
+
+
+  <script src="//cdn.bootcss.com/particles.js/2.0.0/particles.min.js"></script>
+  <div id="particles"></div>
+  <script src="/js/particles.js"></script>
+
+
+
+
+
+
+
+  <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
+  <script src="//cdn.bootcss.com/scrollReveal.js/3.0.5/scrollreveal.js"></script>
+  <script src="/js/animate.js"></script>
+
+
+  <script src="/js/pop-img.js"></script>
+  <script>
+     $(".article-entry p img").popImg();
+  </script>
+
+  </div>
+</body>
+</html>

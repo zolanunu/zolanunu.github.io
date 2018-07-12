@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>python之多线程学习 | zolanunu</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+    <meta name="keywords" content="zolanunu,zolanunu's blog" />
+  
+  <meta name="description" content="python 基础之 多线程什么是多进程 多线程：我可以分配python分批量完成多个任务，并且能够在同一时间处理这些任务，大大提高了CPU的利用率及节省了计算机的计算时间，比如说：海量数据处理，如果利用计算机中的核去处理这些数据，可能会花上十秒左右的时间，但是如果利用多线程，将这批海量数据人为或者经过某种策略分割成几部分，我们将这几部分数据放在不同的线程中处理，这样，多线程同时运行，如此，处理的">
+<meta name="keywords" content="多线程,python">
+<meta property="og:type" content="article">
+<meta property="og:title" content="python之多线程学习">
+<meta property="og:url" content="http://zhangbuzola.cn/2017/10/14/python_thread/index.html">
+<meta property="og:site_name" content="zolanunu">
+<meta property="og:description" content="python 基础之 多线程什么是多进程 多线程：我可以分配python分批量完成多个任务，并且能够在同一时间处理这些任务，大大提高了CPU的利用率及节省了计算机的计算时间，比如说：海量数据处理，如果利用计算机中的核去处理这些数据，可能会花上十秒左右的时间，但是如果利用多线程，将这批海量数据人为或者经过某种策略分割成几部分，我们将这几部分数据放在不同的线程中处理，这样，多线程同时运行，如此，处理的">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="http://zhangbuzola.cn/2017/10/14/python_thread/assets/images/python_thread1.jpg">
+<meta property="og:updated_time" content="2018-07-12T06:10:03.091Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="python之多线程学习">
+<meta name="twitter:description" content="python 基础之 多线程什么是多进程 多线程：我可以分配python分批量完成多个任务，并且能够在同一时间处理这些任务，大大提高了CPU的利用率及节省了计算机的计算时间，比如说：海量数据处理，如果利用计算机中的核去处理这些数据，可能会花上十秒左右的时间，但是如果利用多线程，将这批海量数据人为或者经过某种策略分割成几部分，我们将这几部分数据放在不同的线程中处理，这样，多线程同时运行，如此，处理的">
+<meta name="twitter:image" content="http://zhangbuzola.cn/2017/10/14/python_thread/assets/images/python_thread1.jpg">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="/js/pace.min.js"></script>
+  
+
+  
+	<script>
+	var _hmt = _hmt || [];
+	(function() {
+	  var hm = document.createElement("script");
+	  hm.src = "//hm.baidu.com/hm.js?a651034b7d11a367ae836642b29a3057";
+	  var s = document.getElementsByTagName("script")[0]; 
+	  s.parentNode.insertBefore(hm, s);
+	})();
+	</script>
+
+  
+
+</head>
+
+<body>
+  <div id="container">
+      <header id="header">
+    <div id="banner"></div>
+    <div id="header-outer">
+        <div id="header-menu" class="header-menu-pos animated">
+            <div class="header-menu-container">
+                <a href="/" class="left">
+                    <span class="site-title">zolanunu&#39;s Blog</span>
+                </a>
+                <nav id="header-menu-nav" class="right">
+                    
+                    <a  href="/">
+                        <i class="fa fa-home"></i>
+                        <span>Home</span>
+                    </a>
+                    
+                    <a  href="/archives">
+                        <i class="fa fa-archive"></i>
+                        <span>Archives</span>
+                    </a>
+                    
+                    <a  href="/about">
+                        <i class="fa fa-user"></i>
+                        <span>About</span>
+                    </a>
+                    
+                </nav>
+                <a class="mobile-header-menu-button">
+                    <i class="fa fa-bars"></i>
+                </a>
+            </div>
+        </div>
+        <div id="header-row">
+            <div id="logo">
+                <a href="/">
+                    <img src="/images/pacman.jpg" alt="logo">
+                </a>
+            </div>
+            <div class="header-info">
+                <div id="header-title">
+                    
+                    <h2>
+                        zolanunu&#39;s Blog
+                    </h2>
+                    
+                </div>
+                <div id="header-description">
+                    
+                    <h3>
+                        去努力尝试做一些你觉得你不会做或者不敢做的事情。
+                    </h3>
+                    
+                </div>
+            </div>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a title="zolanunu" target="_blank" href="//zhangbuzola.cn">
+                            <i class="fa fa-home fa-2x"></i></a>
+                    
+                        <a title="Github" target="_blank" href="//github.com/zolanunu">
+                            <i class="fa fa-github fa-2x"></i></a>
+                    
+                        <a title="Weibo" target="_blank" href="//weibo.com/zolanunu">
+                            <i class="fa fa-weibo fa-2x"></i></a>
+                    
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>
+      <div class="outer">
+        <section id="main" class="body-wrap"><article id="post-python_thread" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="post-title" itemprop="name">
+      python之多线程学习
+    </h1>
+    <div class="post-title-bar">
+      <ul>
+          
+              <li>
+                  <i class="fa fa-book"></i>
+                  
+                      <a href="/categories/Python/">Python</a>
+                  
+              </li>
+          
+        <li>
+          <i class="fa fa-calendar"></i>  2017-10-14
+        </li>
+        <li>
+          <i class="fa fa-eye"></i>
+          <span id="busuanzi_value_page_pv"></span>
+        </li>
+      </ul>
+    </div>
+  
+
+          
+      </header>
+    
+    <div class="article-entry post-content" itemprop="articleBody">
+      
+            
+            <h1 id="python-基础之-多线程"><a href="#python-基础之-多线程" class="headerlink" title="python 基础之 多线程"></a>python 基础之 多线程</h1><h2 id="什么是多进程"><a href="#什么是多进程" class="headerlink" title="什么是多进程"></a>什么是多进程</h2><ul>
+<li>多线程：我可以分配python分批量完成多个任务，并且能够在同一时间处理这些任务，大大提高了CPU的利用率及节省了计算机的计算时间，比如说：海量数据处理，如果利用计算机中的核去处理这些数据，可能会花上十秒左右的时间，但是如果利用多线程，将这批海量数据人为或者经过某种策略分割成几部分，我们将这几部分数据放在不同的线程中处理，这样，多线程同时运行，如此，处理的时间大大减少了。</li>
+</ul>
+<h2 id="添加线程"><a href="#添加线程" class="headerlink" title="添加线程"></a>添加线程</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"># -*- coding=utf-8 -*-</span><br><span class="line"># </span><br><span class="line">import threading</span><br><span class="line"></span><br><span class="line">def thread_job():</span><br><span class="line">	print(&quot;this is an added thread, number is %s&quot; % threading.current_thread())</span><br><span class="line">def main():</span><br><span class="line">	added_thread = threading.Thread(target = thread_job)</span><br><span class="line">	added_thread.start()</span><br><span class="line">	print(threading.active_count()) # 2 表示目前有两个线程被激活了</span><br><span class="line">	print(threading.enumerate())</span><br><span class="line">	print(threading.current_thread())</span><br><span class="line">if __name__ == &quot;__main__&quot;:</span><br><span class="line">	main()</span><br></pre></td></tr></table></figure>
+<h2 id="join功能"><a href="#join功能" class="headerlink" title="join功能"></a>join功能</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"># 无join</span><br><span class="line"># -*- coding=utf-8 -*-</span><br><span class="line"># </span><br><span class="line">import threading</span><br><span class="line">import time</span><br><span class="line">def thread_job():</span><br><span class="line">	#print(&quot;this is an added thread, number is %s&quot; % threading.current_thread())</span><br><span class="line">	print(&quot;T1 start...\n&quot;)</span><br><span class="line">	for i in range(10):</span><br><span class="line">		time.sleep(0.1)</span><br><span class="line">	print(&quot;T1 finished...\n&quot;)</span><br><span class="line"></span><br><span class="line">def main():</span><br><span class="line">	added_thread = threading.Thread(target = thread_job, name = &quot;T1&quot;)</span><br><span class="line">	added_thread.start()</span><br><span class="line">	</span><br><span class="line">	print(&quot;all done...\n&quot;)</span><br><span class="line">	print(threading.active_count()) # 2 表示目前有两个线程被激活了</span><br><span class="line">	print(threading.enumerate())</span><br><span class="line">	print(threading.current_thread())</span><br><span class="line">if __name__ == &quot;__main__&quot;:</span><br><span class="line">	main()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">--------------------------------------------</span><br><span class="line">T1 start...</span><br><span class="line">all done...</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">2</span><br><span class="line">[&lt;Thread(T1, started 33208)&gt;, &lt;_MainThread(MainThread, started 55396)&gt;]</span><br><span class="line">&lt;_MainThread(MainThread, started 55396)&gt;</span><br><span class="line">T1 finished...</span><br></pre></td></tr></table></figure>
+<p>注意线程的执行顺序及最后输出结果的顺序</p>
+<p>如果想线程都结束后再执行线程外的程序，这个时候就要用到join语句了。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"># -*- coding=utf-8 -*-</span><br><span class="line"># </span><br><span class="line">import threading</span><br><span class="line">import time</span><br><span class="line">def thread_job():</span><br><span class="line">	#print(&quot;this is an added thread, number is %s&quot; % threading.current_thread())</span><br><span class="line">	print(&quot;T1 start...\n&quot;)</span><br><span class="line">	for i in range(10):</span><br><span class="line">		time.sleep(0.1)</span><br><span class="line">	print(&quot;T1 finished...\n&quot;)</span><br><span class="line"></span><br><span class="line">def main():</span><br><span class="line">	added_thread = threading.Thread(target = thread_job, name = &quot;T1&quot;)</span><br><span class="line">	added_thread.start()</span><br><span class="line">	added_thread.join()</span><br><span class="line">	print(&quot;all done...\n&quot;)</span><br><span class="line">	print(threading.active_count()) # 2 表示目前有两个线程被激活了</span><br><span class="line">	print(threading.enumerate())</span><br><span class="line">	print(threading.current_thread())</span><br><span class="line">if __name__ == &quot;__main__&quot;:</span><br><span class="line">	main()</span><br><span class="line">-----------------------------------</span><br><span class="line"></span><br><span class="line">T1 start...</span><br><span class="line"></span><br><span class="line">T1 finished...</span><br><span class="line"></span><br><span class="line">all done...</span><br></pre></td></tr></table></figure>
+<p>如果在添加线程任务的话</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"># -*- coding=utf-8 -*-</span><br><span class="line"># </span><br><span class="line">import threading</span><br><span class="line">import time</span><br><span class="line">def thread_job():</span><br><span class="line">	#print(&quot;this is an added thread, number is %s&quot; % threading.current_thread())</span><br><span class="line">	print(&quot;T1 start...\n&quot;)</span><br><span class="line">	for i in range(10):</span><br><span class="line">		time.sleep(0.1)</span><br><span class="line">	print(&quot;T1 finished...\n&quot;)</span><br><span class="line"></span><br><span class="line">def T2_job():</span><br><span class="line">	print(&quot;T2 start....\n&quot;)</span><br><span class="line">	print(&quot;T2 finished....\n&quot;)</span><br><span class="line">def main():</span><br><span class="line">	added_thread = threading.Thread(target = thread_job, name = &quot;T1&quot;)</span><br><span class="line">	added_thread2 = threading.Thread(target = T2_job, name = &quot;T2&quot;)</span><br><span class="line">	</span><br><span class="line">	added_thread.start()</span><br><span class="line">	added_thread2.start()</span><br><span class="line">	#added_thread.join()</span><br><span class="line">	print(&quot;all done...\n&quot;)</span><br><span class="line">	print(threading.active_count()) # 2 表示目前有两个线程被激活了</span><br><span class="line">	print(threading.enumerate())</span><br><span class="line">	print(threading.current_thread())</span><br><span class="line">if __name__ == &quot;__main__&quot;:</span><br><span class="line">	main()</span><br><span class="line">-------------------------------------</span><br><span class="line">T1 start...</span><br><span class="line"></span><br><span class="line">T2 start....</span><br><span class="line"></span><br><span class="line">all done...</span><br><span class="line">T2 finished....</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">3</span><br><span class="line">[&lt;Thread(T1, started 3000)&gt;, &lt;_MainThread(MainThread, started 37460)&gt;]</span><br><span class="line">&lt;_MainThread(MainThread, started 37460)&gt;</span><br><span class="line">T1 finished...</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"># T2 join</span><br><span class="line"># -*- coding=utf-8 -*-</span><br><span class="line"># </span><br><span class="line">import threading</span><br><span class="line">import time</span><br><span class="line">def thread_job():</span><br><span class="line">	#print(&quot;this is an added thread, number is %s&quot; % threading.current_thread())</span><br><span class="line">	print(&quot;T1 start...\n&quot;)</span><br><span class="line">	for i in range(10):</span><br><span class="line">		time.sleep(0.1)</span><br><span class="line">	print(&quot;T1 finished...\n&quot;)</span><br><span class="line"></span><br><span class="line">def T2_job():</span><br><span class="line">	print(&quot;T2 start....\n&quot;)</span><br><span class="line">	print(&quot;T2 finished....\n&quot;)</span><br><span class="line">def main():</span><br><span class="line">	added_thread = threading.Thread(target = thread_job, name = &quot;T1&quot;)</span><br><span class="line">	added_thread2 = threading.Thread(target = T2_job, name = &quot;T2&quot;)</span><br><span class="line">	</span><br><span class="line">	added_thread.start()</span><br><span class="line">	added_thread2.start()</span><br><span class="line">	added_thread2.join()</span><br><span class="line">	print(&quot;all done...\n&quot;)</span><br><span class="line">	print(threading.active_count()) # 2 表示目前有两个线程被激活了</span><br><span class="line">	print(threading.enumerate())</span><br><span class="line">	print(threading.current_thread())</span><br><span class="line">if __name__ == &quot;__main__&quot;:</span><br><span class="line">	main()</span><br><span class="line">------------------------------------</span><br><span class="line">T1 start...</span><br><span class="line"></span><br><span class="line">T2 start....</span><br><span class="line"></span><br><span class="line">T2 finished....</span><br><span class="line"></span><br><span class="line">all done...</span><br><span class="line"></span><br><span class="line">2</span><br><span class="line">[&lt;_MainThread(MainThread, started 4072)&gt;, &lt;Thread(T1, started 16804)&gt;]</span><br><span class="line">&lt;_MainThread(MainThread, started 4072)&gt;</span><br><span class="line">T1 finished...</span><br></pre></td></tr></table></figure>
+<h2 id="Queue功能"><a href="#Queue功能" class="headerlink" title="Queue功能"></a>Queue功能</h2><p>因为多线程涉及功能是没有返回值的，所以，需要将多线程的运算结果放在队列中，然后对每个线程的队列在主线程在依次出队列进行操作结果。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">def queue_job_cal(l, q):</span><br><span class="line">	for i in range(len(l)):</span><br><span class="line">		l[i] = l[i] ** 2</span><br><span class="line">	q.put(l)</span><br><span class="line">	return l</span><br><span class="line">def multiple_thread_queue(data):</span><br><span class="line">	q = Queue.Queue()</span><br><span class="line">	threads = [] # 所有线程列表</span><br><span class="line">	#data = [[1,2,3], [4,5,6], [7,8,9], [2,3,2]]</span><br><span class="line">	for i in range(4): #4个线程</span><br><span class="line">		t = threading.Thread(target = queue_job_cal, args = (data[i], q))</span><br><span class="line">		t.start()</span><br><span class="line">		threads.append(t)</span><br><span class="line">	for thread in threads:</span><br><span class="line">		thread.join() # 加载在主线程中，等待当前线程运行结束完执行其他</span><br><span class="line">	results = []</span><br><span class="line"></span><br><span class="line">	for result in range(4):</span><br><span class="line">		results.append(q.get())</span><br><span class="line">	print(results)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">if __name__ == &quot;__main__&quot;:</span><br><span class="line">	data = [[1,2,3], [4,5,6], [7,8,9], [2,3,2]]</span><br><span class="line">	multiple_thread_queue(data)</span><br><span class="line">------------------------------------------------</span><br><span class="line">[[1, 4, 9], [16, 25, 36], [49, 64, 81], [4, 9, 4]]</span><br></pre></td></tr></table></figure>
+<h2 id="不一定有效率"><a href="#不一定有效率" class="headerlink" title="不一定有效率"></a>不一定有效率</h2><p>多线程：一个任务分给了很多人去做，工作效率大大提高了。但是在python中，并不是平均分配任务，对于资源的利用及线程的运行是需要考量的。</p>
+<p>python其实是在同一个时间只处理一个线程，这个时候会对共有资源上锁，只不过切换的速度够快，让用户有一种错觉，觉得多线程任务在同一时间处理了。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"># 比一定有效率</span><br><span class="line"># </span><br><span class="line">import threading</span><br><span class="line">import Queue</span><br><span class="line">import copy</span><br><span class="line">import time</span><br><span class="line"></span><br><span class="line">def job(l, q):</span><br><span class="line">    res = sum(l)</span><br><span class="line">    q.put(res)</span><br><span class="line"></span><br><span class="line">def multithreading(l):</span><br><span class="line">    q = Queue.Queue()</span><br><span class="line">    threads = []</span><br><span class="line">    for i in range(4):</span><br><span class="line">        t = threading.Thread(target=job, args=(copy.copy(l), q), name=&apos;T%i&apos; % i)</span><br><span class="line">        t.start()</span><br><span class="line">        threads.append(t)</span><br><span class="line">    [t.join() for t in threads]</span><br><span class="line">    total = 0</span><br><span class="line">    for _ in range(4):</span><br><span class="line">        total += q.get()</span><br><span class="line">    print(total)</span><br><span class="line"></span><br><span class="line">def normal(l):</span><br><span class="line">    total = sum(l)</span><br><span class="line">    print(total)</span><br><span class="line"></span><br><span class="line">if __name__ == &apos;__main__&apos;:</span><br><span class="line">    l = list(range(1000000))</span><br><span class="line">    s_t = time.time()</span><br><span class="line">    normal(l*4)</span><br><span class="line">    print(&apos;normal: &apos;,time.time()-s_t)</span><br><span class="line">    s_t = time.time()</span><br><span class="line">    multithreading(l)</span><br><span class="line">    print(&apos;multithreading: &apos;, time.time()-s_t)</span><br><span class="line"></span><br><span class="line">-----------------------------------------------------</span><br><span class="line">1999998000000</span><br><span class="line">(&apos;normal: &apos;, 0.2349998950958252)</span><br><span class="line">1999998000000</span><br><span class="line">(&apos;multithreading: &apos;, 0.22099995613098145) # 只是稍微快了一点</span><br></pre></td></tr></table></figure>
+<p><img src="./assets/images/python_thread1.jpg" alt=""></p>
+<p>这个时间段是有三个线程在运算，但是实际上只有一个线程在run，在读写期间，GIL会将任务丢给thread2，依次，其他线程也这样得到时间片运行。<br>为什么整任务的运行时间比没有多线程还是减少了呢，因为读写的时间节省下来，在读写时间上，时间片会交给其他线程运行。所以在小型任务中，可能运行时间并不会有明显的区别。但是在大数据处理的时候，多线程的又是就会显示出来。</p>
+<p>多核的运算，不会受到GIL的影响</p>
+<h2 id="锁lock"><a href="#锁lock" class="headerlink" title="锁lock"></a>锁lock</h2><p>如果想让第一个线程处理完的结果拿去第二个线程去再次处理。这是对共有资源的处理才会涉及锁的问题。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"># 对公共资源不上锁</span><br><span class="line"></span><br><span class="line"># Lock</span><br><span class="line"># </span><br><span class="line">def job1():</span><br><span class="line">	global Area</span><br><span class="line">	for i in range(10):</span><br><span class="line">		Area = Area + 1</span><br><span class="line">		print(&quot;job1:&quot;, Area)</span><br><span class="line">def job2():</span><br><span class="line">	global Area</span><br><span class="line">	for i in range(10):</span><br><span class="line">		Area = Area + 10</span><br><span class="line">		print(&quot;job2:&quot;, Area)</span><br><span class="line"></span><br><span class="line">if __name__ == &apos;__main__&apos;:</span><br><span class="line">	Area = 0</span><br><span class="line">	t1 = threading.Thread(target=job1)</span><br><span class="line">	t2 = threading.Thread(target=job2)</span><br><span class="line">	t1.start()</span><br><span class="line">	t2.start()</span><br><span class="line">	t1.join()</span><br><span class="line">	t2.join()</span><br><span class="line"></span><br><span class="line">--------------------------------------</span><br><span class="line">job1: 1</span><br><span class="line">job1: 2</span><br><span class="line">job1:job2:  1313</span><br><span class="line"></span><br><span class="line">job1:job2:  2424</span><br><span class="line"></span><br><span class="line">job1:job2:  3535</span><br><span class="line"></span><br><span class="line">job1:job2: 46</span><br><span class="line">job1:  4647</span><br><span class="line"></span><br><span class="line">job2:job1:  5858</span><br><span class="line"></span><br><span class="line">job2:job1:  6969</span><br><span class="line"></span><br><span class="line">job2:job1:  8080</span><br><span class="line"></span><br><span class="line">job2: 90</span><br><span class="line">job2: 100</span><br><span class="line">job2: 110</span><br></pre></td></tr></table></figure>
+<p>对公共资源加锁</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"># Lock</span><br><span class="line"># </span><br><span class="line">def job1():</span><br><span class="line">	global Area, lock</span><br><span class="line">	lock.acquire() # 开始加锁</span><br><span class="line">	for i in range(10):</span><br><span class="line">		Area = Area + 1</span><br><span class="line">		print &quot;job1:&quot;, Area</span><br><span class="line">	lock.release() # 在释放锁之前，job2都不能读写Area</span><br><span class="line">def job2():</span><br><span class="line">	global Area, lock</span><br><span class="line">	lock.acquire() # 开始加锁</span><br><span class="line">	for i in range(10):</span><br><span class="line">		Area = Area + 10</span><br><span class="line">		print &quot;job2:&quot;, Area</span><br><span class="line">	lock.release() # 在释放锁之前，job1都不能读写Area</span><br><span class="line">if __name__ == &apos;__main__&apos;:</span><br><span class="line">	lock = threading.Lock()</span><br><span class="line">	Area = 0</span><br><span class="line">	t1 = threading.Thread(target=job1)</span><br><span class="line">	t2 = threading.Thread(target=job2)</span><br><span class="line">	t1.start()</span><br><span class="line">	t2.start()</span><br><span class="line">	t1.join()</span><br><span class="line">	t2.join()</span><br><span class="line"></span><br><span class="line">-------------------------------------------------</span><br><span class="line">job1: 1</span><br><span class="line">job1: 2</span><br><span class="line">job1: 3</span><br><span class="line">job1: 4</span><br><span class="line">job1: 5</span><br><span class="line">job1: 6</span><br><span class="line">job1: 7</span><br><span class="line">job1: 8</span><br><span class="line">job1: 9</span><br><span class="line">job1: 10</span><br><span class="line">job2: 20</span><br><span class="line">job2: 30</span><br><span class="line">job2: 40</span><br><span class="line">job2: 50</span><br><span class="line">job2: 60</span><br><span class="line">job2: 70</span><br><span class="line">job2: 80</span><br><span class="line">job2: 90</span><br><span class="line">job2: 100</span><br><span class="line">job2: 110</span><br></pre></td></tr></table></figure>
+
+            <div class="post-copyright">
+    <div class="content">
+        <p>最后更新： 2018年07月12日 14:10</p>
+        <p>原始链接： <a class="post-url" href="/2017/10/14/python_thread/" title="python之多线程学习">http://zhangbuzola.cn/2017/10/14/python_thread/</a></p>
+        <footer>
+            <a href="http://zhangbuzola.cn">
+                <img src="/images/pacman.jpg" alt="zolanunu">
+                zolanunu
+            </a>
+        </footer>
+    </div>
+</div>
+
+      
+        
+            
+
+        
+    </div>
+    <footer class="article-footer">
+        
+        <ul class="article-footer-menu">
+            
+            
+  <li class="article-footer-tags">
+    <i class="fa fa-tags"></i>
+      
+    <a href="/tags/多线程/" class="color4">多线程</a>
+      
+    <a href="/tags/python/" class="color2">python</a>
+      
+  </li>
+
+        </ul>
+        
+    </footer>
+  </div>
+</article>
+
+
+    <aside class="post-toc-pos post-toc-top" id="post-toc">
+        <nav class="post-toc-wrap">
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#python-基础之-多线程"><span class="post-toc-text">python 基础之 多线程</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#什么是多进程"><span class="post-toc-text">什么是多进程</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#添加线程"><span class="post-toc-text">添加线程</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#join功能"><span class="post-toc-text">join功能</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Queue功能"><span class="post-toc-text">Queue功能</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#不一定有效率"><span class="post-toc-text">不一定有效率</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#锁lock"><span class="post-toc-text">锁lock</span></a></li></ol></li></ol>
+        </nav>
+    </aside>
+    
+
+<nav id="article-nav">
+  
+    <a href="/2017/10/15/java基础之构造函数/" id="article-nav-newer" class="article-nav-link-wrap">
+
+      <span class="article-nav-title">
+        <i class="fa fa-hand-o-left" aria-hidden="true"></i>
+        
+          java基础学习之构造函数
+        
+      </span>
+    </a>
+  
+  
+    <a href="/2017/10/10/java基础之封装与继承/" id="article-nav-older" class="article-nav-link-wrap">
+      <span class="article-nav-title">java基础学习之封装与继承</span>
+      <i class="fa fa-hand-o-right" aria-hidden="true"></i>
+    </a>
+  
+</nav>
+
+
+
+    
+        <link rel="stylesheet" href="//unpkg.com/gitment/style/default.css">
+    <script src="//unpkg.com/gitment/dist/gitment.browser.js"></script>
+    <script>
+        var gitment = new Gitment({
+            owner: 'true',
+            repo: 'zolanunu',
+            oauth: {
+                client_id: '1a04e8dee74a4b8634df',
+                client_secret: '9e3078ac89eb72f22abbdd11f7f0d11e2e1d7f7a',
+            },
+        })
+        gitment.render('comments')
+    </script>
+
+    
+</section>
+        
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+      <p>
+        Powered by  <a href="http://hexo.io/" target="_blank">Hexo</a>
+        Theme <a href="//github.com/wongminho/hexo-theme-miho" target="_blank">MiHo</a>
+      &copy; 2018 zolanunu<br>
+      </p>
+    </div>
+  </div>
+</footer>
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script>
+  var mihoConfig = {
+      root: "http://zhangbuzola.cn",
+      animate: true,
+      isHome: false,
+      share: false,
+      reward: 0
+  }
+</script>
+<div class="sidebar">
+    <div id="sidebar-search" title="Search">
+        <i class="fa fa-search"></i>
+    </div>
+    <div id="sidebar-category" title="Categories">
+        <i class="fa fa-book"></i>
+    </div>
+    <div id="sidebar-tag" title="Tags">
+        <i class="fa fa-tags"></i>
+    </div>
+    <div id="sidebar-top">
+        <span class="sidebar-top-icon"><i class="fa fa-angle-up"></i></span>
+    </div>
+</div>
+<div class="sidebar-menu-box" id="sidebar-menu-box">
+    <div class="sidebar-menu-box-container">
+        <div id="sidebar-menu-box-categories">
+            <a class="category-link" href="/categories/Java/">Java</a><a class="category-link" href="/categories/Java后台/">Java后台</a><a class="category-link" href="/categories/Python/">Python</a><a class="category-link" href="/categories/工具/">工具</a><a class="category-link" href="/categories/技术书/">技术书</a><a class="category-link" href="/categories/数据库/">数据库</a><a class="category-link" href="/categories/数据结构/">数据结构</a><a class="category-link" href="/categories/生活轨迹/">生活轨迹</a><a class="category-link" href="/categories/算法/">算法</a>
+        </div>
+        <div id="sidebar-menu-box-tags">
+            <a href="/tags/2018/" style="font-size: 11.43px;">2018</a> <a href="/tags/Collections/" style="font-size: 15.71px;">Collections</a> <a href="/tags/HashMap/" style="font-size: 10px;">HashMap</a> <a href="/tags/LinkedHashMap/" style="font-size: 10px;">LinkedHashMap</a> <a href="/tags/MySQL/" style="font-size: 17.14px;">MySQL</a> <a href="/tags/Mybatis/" style="font-size: 12.86px;">Mybatis</a> <a href="/tags/Object/" style="font-size: 10px;">Object</a> <a href="/tags/SSM/" style="font-size: 12.86px;">SSM</a> <a href="/tags/TreeMap/" style="font-size: 11.43px;">TreeMap</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/java基础/" style="font-size: 20px;">java基础</a> <a href="/tags/java并发编程实战/" style="font-size: 11.43px;">java并发编程实战</a> <a href="/tags/leetcode/" style="font-size: 17.14px;">leetcode</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/剑指offer/" style="font-size: 10px;">剑指offer</a> <a href="/tags/多线程/" style="font-size: 11.43px;">多线程</a> <a href="/tags/并发编程/" style="font-size: 10px;">并发编程</a> <a href="/tags/机器学习/" style="font-size: 12.86px;">机器学习</a> <a href="/tags/构造函数/" style="font-size: 10px;">构造函数</a> <a href="/tags/深入理解java虚拟机/" style="font-size: 10px;">深入理解java虚拟机</a> <a href="/tags/生活/" style="font-size: 10px;">生活</a> <a href="/tags/神经网络/" style="font-size: 10px;">神经网络</a> <a href="/tags/算法与数据结构/" style="font-size: 14.29px;">算法与数据结构</a> <a href="/tags/算法和数据结构/" style="font-size: 18.57px;">算法和数据结构</a> <a href="/tags/观影记/" style="font-size: 10px;">观影记</a> <a href="/tags/读书书单/" style="font-size: 10px;">读书书单</a>
+        </div>
+    </div>
+    <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
+</div>
+<div class="mobile-header-menu-nav" id="mobile-header-menu-nav">
+    <div class="mobile-header-menu-container">
+        <span class="title">Menus</span>
+        <ul class="mobile-header-menu-navbar">
+            
+            <li>
+                <a  href="/">
+                    <i class="fa fa-home"></i><span>Home</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/archives">
+                    <i class="fa fa-archive"></i><span>Archives</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/about">
+                    <i class="fa fa-user"></i><span>About</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    <div class="mobile-header-tag-container">
+        <span class="title">Tags</span>
+        <div id="mobile-header-container-tags">
+            <a href="/tags/2018/" style="font-size: 11.43px;">2018</a> <a href="/tags/Collections/" style="font-size: 15.71px;">Collections</a> <a href="/tags/HashMap/" style="font-size: 10px;">HashMap</a> <a href="/tags/LinkedHashMap/" style="font-size: 10px;">LinkedHashMap</a> <a href="/tags/MySQL/" style="font-size: 17.14px;">MySQL</a> <a href="/tags/Mybatis/" style="font-size: 12.86px;">Mybatis</a> <a href="/tags/Object/" style="font-size: 10px;">Object</a> <a href="/tags/SSM/" style="font-size: 12.86px;">SSM</a> <a href="/tags/TreeMap/" style="font-size: 11.43px;">TreeMap</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/java基础/" style="font-size: 20px;">java基础</a> <a href="/tags/java并发编程实战/" style="font-size: 11.43px;">java并发编程实战</a> <a href="/tags/leetcode/" style="font-size: 17.14px;">leetcode</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/剑指offer/" style="font-size: 10px;">剑指offer</a> <a href="/tags/多线程/" style="font-size: 11.43px;">多线程</a> <a href="/tags/并发编程/" style="font-size: 10px;">并发编程</a> <a href="/tags/机器学习/" style="font-size: 12.86px;">机器学习</a> <a href="/tags/构造函数/" style="font-size: 10px;">构造函数</a> <a href="/tags/深入理解java虚拟机/" style="font-size: 10px;">深入理解java虚拟机</a> <a href="/tags/生活/" style="font-size: 10px;">生活</a> <a href="/tags/神经网络/" style="font-size: 10px;">神经网络</a> <a href="/tags/算法与数据结构/" style="font-size: 14.29px;">算法与数据结构</a> <a href="/tags/算法和数据结构/" style="font-size: 18.57px;">算法和数据结构</a> <a href="/tags/观影记/" style="font-size: 10px;">观影记</a> <a href="/tags/读书书单/" style="font-size: 10px;">读书书单</a>
+        </div>
+    </div>
+</div>
+<div class="search-wrap">
+    <span class="search-close">&times;</span>
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+            <i class="icon icon-lg icon-chevron-left"></i>
+        </a>
+        <input class="search-field" placeholder="Search..." id="keywords">
+        <a id="search-submit" href="javascript:;">
+            <i class="fa fa-search"></i>
+        </a>
+    <div class="search-container" id="search-container">
+        <ul class="search-result" id="search-result">
+        </ul>
+    </div>
+</div>
+
+<div id="search-tpl">
+    <li class="search-result-item">
+        <a href="{url}" class="search-item-li">
+            <span class="search-item-li-title" title="{title}">{title}</span>
+        </a>
+    </li>
+</div>
+<script src="/js/search.js"></script>
+<script src="/js/main.js"></script>
+
+
+  <script src="//cdn.bootcss.com/particles.js/2.0.0/particles.min.js"></script>
+  <div id="particles"></div>
+  <script src="/js/particles.js"></script>
+
+
+
+
+
+
+
+  <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
+  <script src="//cdn.bootcss.com/scrollReveal.js/3.0.5/scrollreveal.js"></script>
+  <script src="/js/animate.js"></script>
+
+
+  <script src="/js/pop-img.js"></script>
+  <script>
+     $(".article-entry p img").popImg();
+  </script>
+
+  </div>
+</body>
+</html>

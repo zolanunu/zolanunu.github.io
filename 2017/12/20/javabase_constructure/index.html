@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>java基础学习之构造函数 | zolanunu</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+    <meta name="keywords" content="zolanunu,zolanunu's blog" />
+  
+  <meta name="description" content="构造方法构造方法函数123456789101112131415161718192021public class Car_1 &amp;#123;	private String color;	private String brand;	public Car_1() &amp;#123;		this.color = &amp;quot;blue&amp;quot;;		this.brand = &amp;quot;aodi&amp;quot;;	&amp;">
+<meta name="keywords" content="java基础">
+<meta property="og:type" content="article">
+<meta property="og:title" content="java基础学习之构造函数">
+<meta property="og:url" content="http://zhangbuzola.cn/2017/12/20/javabase_constructure/index.html">
+<meta property="og:site_name" content="zolanunu">
+<meta property="og:description" content="构造方法构造方法函数123456789101112131415161718192021public class Car_1 &amp;#123;	private String color;	private String brand;	public Car_1() &amp;#123;		this.color = &amp;quot;blue&amp;quot;;		this.brand = &amp;quot;aodi&amp;quot;;	&amp;">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2018-07-12T06:18:28.819Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="java基础学习之构造函数">
+<meta name="twitter:description" content="构造方法构造方法函数123456789101112131415161718192021public class Car_1 &amp;#123;	private String color;	private String brand;	public Car_1() &amp;#123;		this.color = &amp;quot;blue&amp;quot;;		this.brand = &amp;quot;aodi&amp;quot;;	&amp;">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="/js/pace.min.js"></script>
+  
+
+  
+	<script>
+	var _hmt = _hmt || [];
+	(function() {
+	  var hm = document.createElement("script");
+	  hm.src = "//hm.baidu.com/hm.js?a651034b7d11a367ae836642b29a3057";
+	  var s = document.getElementsByTagName("script")[0]; 
+	  s.parentNode.insertBefore(hm, s);
+	})();
+	</script>
+
+  
+
+</head>
+
+<body>
+  <div id="container">
+      <header id="header">
+    <div id="banner"></div>
+    <div id="header-outer">
+        <div id="header-menu" class="header-menu-pos animated">
+            <div class="header-menu-container">
+                <a href="/" class="left">
+                    <span class="site-title">zolanunu&#39;s Blog</span>
+                </a>
+                <nav id="header-menu-nav" class="right">
+                    
+                    <a  href="/">
+                        <i class="fa fa-home"></i>
+                        <span>Home</span>
+                    </a>
+                    
+                    <a  href="/archives">
+                        <i class="fa fa-archive"></i>
+                        <span>Archives</span>
+                    </a>
+                    
+                    <a  href="/about">
+                        <i class="fa fa-user"></i>
+                        <span>About</span>
+                    </a>
+                    
+                </nav>
+                <a class="mobile-header-menu-button">
+                    <i class="fa fa-bars"></i>
+                </a>
+            </div>
+        </div>
+        <div id="header-row">
+            <div id="logo">
+                <a href="/">
+                    <img src="/images/pacman.jpg" alt="logo">
+                </a>
+            </div>
+            <div class="header-info">
+                <div id="header-title">
+                    
+                    <h2>
+                        zolanunu&#39;s Blog
+                    </h2>
+                    
+                </div>
+                <div id="header-description">
+                    
+                    <h3>
+                        去努力尝试做一些你觉得你不会做或者不敢做的事情。
+                    </h3>
+                    
+                </div>
+            </div>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a title="zolanunu" target="_blank" href="//zhangbuzola.cn">
+                            <i class="fa fa-home fa-2x"></i></a>
+                    
+                        <a title="Github" target="_blank" href="//github.com/zolanunu">
+                            <i class="fa fa-github fa-2x"></i></a>
+                    
+                        <a title="Weibo" target="_blank" href="//weibo.com/zolanunu">
+                            <i class="fa fa-weibo fa-2x"></i></a>
+                    
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>
+      <div class="outer">
+        <section id="main" class="body-wrap"><article id="post-javabase_constructure" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="post-title" itemprop="name">
+      java基础学习之构造函数
+    </h1>
+    <div class="post-title-bar">
+      <ul>
+          
+              <li>
+                  <i class="fa fa-book"></i>
+                  
+                      <a href="/categories/Java/">Java</a>
+                  
+              </li>
+          
+        <li>
+          <i class="fa fa-calendar"></i>  2017-12-20
+        </li>
+        <li>
+          <i class="fa fa-eye"></i>
+          <span id="busuanzi_value_page_pv"></span>
+        </li>
+      </ul>
+    </div>
+  
+
+          
+      </header>
+    
+    <div class="article-entry post-content" itemprop="articleBody">
+      
+            
+            <h1 id="构造方法"><a href="#构造方法" class="headerlink" title="构造方法"></a>构造方法</h1><h2 id="构造方法函数"><a href="#构造方法函数" class="headerlink" title="构造方法函数"></a>构造方法函数</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">public class Car_1 &#123;</span><br><span class="line">	private String color;</span><br><span class="line">	private String brand;</span><br><span class="line">	public Car_1() &#123;</span><br><span class="line">		this.color = &quot;blue&quot;;</span><br><span class="line">		this.brand = &quot;aodi&quot;;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	public Car_1(String color, String brand) &#123;</span><br><span class="line">		this.color = color;</span><br><span class="line">		this.brand = brand;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line">// 构造函数，构造名字与类名一致</span><br><span class="line">// 在创建对象的时候，对象成员可以由构造函数方法进行初始化</span><br><span class="line">// new对象时，都是用构造方法进行实例化的；</span><br><span class="line"></span><br><span class="line">Test test = new Test（&quot;a&quot;）；</span><br><span class="line"></span><br><span class="line">//Test（&quot;a&quot;）；其中这个就是构造函数，“a”为构造方法的形参；</span><br><span class="line">// 构造函数的任务是初始化一个对象内部的状态</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">构造方法的方法名必须与类名一样。</span><br><span class="line">构造方法没有返回类型，也不能定义为void，在方法名前面不声明方法类型。</span><br><span class="line">构造方法不能作用是完成对象的初始化工作，他能够把定义对象时的参数传递给对象的域。</span><br><span class="line">构造方法不能由编程人员调用，而要系统调用。</span><br><span class="line">构造方法可以重载，以参数的个数，类型，或排序顺序区分</span><br></pre></td></tr></table></figure>
+<h2 id="多个构造函数"><a href="#多个构造函数" class="headerlink" title="多个构造函数"></a>多个构造函数</h2><p>重载构造函数</p>
+<h2 id="继承中的构造函数"><a href="#继承中的构造函数" class="headerlink" title="继承中的构造函数"></a>继承中的构造函数</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">public Class Parent&#123;</span><br><span class="line">	public Parent() &#123;</span><br><span class="line">		sysout(&quot;constructure in parent...&quot;)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line">public Class SubParent extends Parent&#123;</span><br><span class="line">	public SubParent() &#123;</span><br><span class="line">		sysout(&quot;constructure in SubParent, SubParent extends Parent...&quot;)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line">public Class Subtine extends SubParent&#123;</span><br><span class="line">	public Subtine() &#123;</span><br><span class="line">		sysout(&quot;constructur in Subtine, Subtine extend SubParent...&quot;)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line">// output</span><br><span class="line"></span><br><span class="line">constructure in parent...</span><br><span class="line">constructure in SubParent, SubParent extends Parent...</span><br><span class="line">constructur in Subtine, Subtine extend SubParent...</span><br></pre></td></tr></table></figure>
+<p>在Subtine的主方法中只调用子类构造方法，实例化子类对象并且在子类构造方法中，没有调用父类的构造方法的任何语句。但是在实例化对象时，它相应的调用了父类构造方法，在结果中还可以看到调用构造方法的顺序，首先是顶级，再继续往下直达本身类。也就是说实例化子类的时候，要首先实例化父类对象，然后在实例化子类对象，所以在子类构造方法调用父类构造方法前，父类已经实例化了。 </p>
+<p>但是对于有参数的构造函数，就不一样了。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">public class Parent &#123;</span><br><span class="line">    Parent(int a)&#123;//就是将无参数构造方法改成有参数的。</span><br><span class="line">        System.out.println(&quot;调用父类Parent构造方法&quot; + a);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">public class Subparent extends Parent&#123;</span><br><span class="line">    Subparent()&#123;</span><br><span class="line">        System.out.println(&quot;调用子类Subparent的构造方法&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">public class Subtine extends Subparent&#123;</span><br><span class="line">    Subtine()&#123;</span><br><span class="line">        System.out.println(&quot;调用子类Subtine构造方法&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">public class Main &#123;</span><br><span class="line">    public static void main(String[] args)&#123;</span><br><span class="line">        Subtine subtine = new Subtine();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上面的代码会报错，原因就是在子类调用构造函数的时候，必须先调用父类构造函数，因为无参数构造函数，编译器会自动调用，也就是第一种情况就不会报错。但是对于有参数的，就必须利用Super的方法来调用。如果不进行调用那么将会报错。其实意思就是你需要在子类中明显显示调用父类的构造方法，除了无参构造。不论是在子类的有参构造还是无参构造当中，都需要显式地调用父类有参构造函数。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">public class Subparent extends Parent&#123;</span><br><span class="line">    Subparent()&#123;</span><br><span class="line">        super(5);//调用了其父类就不会报错了。</span><br><span class="line">        System.out.println(&quot;调用子类Subparent的构造方法&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">//备注一下，调用父类构造方法就是；super()；//就ok了。</span><br></pre></td></tr></table></figure>
+<p>还补充一点，关于构造方法的可扩展性；</p>
+<p>查看过源码的应该都发现过jdk的编码人员会在一个类中建立多个构造方法；然而他的作用就是提高可扩展性；</p>
+<p>这么多构造方法，他们之间并且还有联系；通过this（）来调用自己类的其他构造方法，来减少代码的复制，增大程序的可读性；</p>
+<ul>
+<li><p>测试1-如果父类不主动创建构造函数则子类创建构造函数没有限制。</p>
+</li>
+<li><p>测试2-如果父类创建不含参构造函数则子类创建构造函数没有限制且先执行父类的构造函数。</p>
+</li>
+<li><p>测试3-如果父类创建含参构造函数则子类创建构造函数需要先super父类函数且先执行父类的构造函数。</p>
+</li>
+<li><p>测试4-如果父类创建多个含参构造函数则子类创建构造函数需要先super指定的父类函数（如父类包含无参构造函数则子类可以不super父类函数同测试2）。</p>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">public class Father &#123;</span><br><span class="line"></span><br><span class="line">    public Father(int a) &#123;</span><br><span class="line">        System.out.println(&quot;这是父类的构造函数1&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">    public Father(String b) &#123;</span><br><span class="line">        System.out.println(&quot;这是父类的构造函数2&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">public class Child extends Father &#123;</span><br><span class="line"></span><br><span class="line">    public Child()&#123;</span><br><span class="line">        super(&quot;a&quot;);</span><br><span class="line">        System.out.println(&quot;这是子类的构造函数调用2&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">    public Child(String a, int b) &#123;</span><br><span class="line">        super(1);</span><br><span class="line">        System.out.println(&quot;这是子类的构造函数调用1&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line"></span><br><span class="line">        Child t3 = new Child(&quot;xx&quot;,1);</span><br><span class="line">        Child t4 = new Child();</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">//output</span><br><span class="line">这是父类的构造函数1</span><br><span class="line">这是子类的构造函数调用1</span><br><span class="line">这是父类的构造函数2</span><br><span class="line">这是子类的构造函数调用2</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>如果父类不主动创建构造函数或者父类有无参的构造函数则子类可以不考虑父类的构造函数。 </p>
+</li>
+<li><p>如果子类需要继承父类的含参构造函数则需要使用super命令（如果父类包含多个含参构造函数则依据参数使用super命令）<br>3、如果父类建立了构造函数且都含有参数，则子类必须使用super命令。</p>
+</li>
+</ul>
+<h2 id="构造函数能否被继承"><a href="#构造函数能否被继承" class="headerlink" title="构造函数能否被继承"></a>构造函数能否被继承</h2><p>不能，因为子类继承父类的时候，先运行父类构造函数；具体的说就是运行父类时就会先“调用”父类的构造函数，注意“调用”和继承不是一个含义，实质上是“自动运行”。</p>
+<p>继承（extends）的含义其实是“扩展”，子类完全没必要扩展父类的构造函数，因为反正每次调子类的时候都会“自动运行”它父类的构造函数，如果真的需要子类构造函数特殊的形式，子类直接修改或重载自己的构造函数就好了。</p>
+<p>估计是你对“构造函数”的意义本身不理解，“调用”一个类有“继承”和“组合（说白了new 一个类）”两种方式，当你“调用”一个类的时候就会“自动运行”它的“构造函数”</p>
+
+            <div class="post-copyright">
+    <div class="content">
+        <p>最后更新： 2018年07月12日 14:18</p>
+        <p>原始链接： <a class="post-url" href="/2017/12/20/javabase_constructure/" title="java基础学习之构造函数">http://zhangbuzola.cn/2017/12/20/javabase_constructure/</a></p>
+        <footer>
+            <a href="http://zhangbuzola.cn">
+                <img src="/images/pacman.jpg" alt="zolanunu">
+                zolanunu
+            </a>
+        </footer>
+    </div>
+</div>
+
+      
+        
+            
+
+        
+    </div>
+    <footer class="article-footer">
+        
+        <ul class="article-footer-menu">
+            
+            
+  <li class="article-footer-tags">
+    <i class="fa fa-tags"></i>
+      
+    <a href="/tags/java基础/" class="color2">java基础</a>
+      
+  </li>
+
+        </ul>
+        
+    </footer>
+  </div>
+</article>
+
+
+    <aside class="post-toc-pos post-toc-top" id="post-toc">
+        <nav class="post-toc-wrap">
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#构造方法"><span class="post-toc-text">构造方法</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#构造方法函数"><span class="post-toc-text">构造方法函数</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#多个构造函数"><span class="post-toc-text">多个构造函数</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#继承中的构造函数"><span class="post-toc-text">继承中的构造函数</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#构造函数能否被继承"><span class="post-toc-text">构造函数能否被继承</span></a></li></ol></li></ol>
+        </nav>
+    </aside>
+    
+
+<nav id="article-nav">
+  
+    <a href="/2017/12/20/leetcode-Array-4/" id="article-nav-newer" class="article-nav-link-wrap">
+
+      <span class="article-nav-title">
+        <i class="fa fa-hand-o-left" aria-hidden="true"></i>
+        
+          leetcode刷题四
+        
+      </span>
+    </a>
+  
+  
+    <a href="/2017/12/19/leetcode-Array-3/" id="article-nav-older" class="article-nav-link-wrap">
+      <span class="article-nav-title">leetcode刷题三</span>
+      <i class="fa fa-hand-o-right" aria-hidden="true"></i>
+    </a>
+  
+</nav>
+
+
+
+    
+        <link rel="stylesheet" href="//unpkg.com/gitment/style/default.css">
+    <script src="//unpkg.com/gitment/dist/gitment.browser.js"></script>
+    <script>
+        var gitment = new Gitment({
+            owner: 'true',
+            repo: 'zolanunu',
+            oauth: {
+                client_id: '1a04e8dee74a4b8634df',
+                client_secret: '9e3078ac89eb72f22abbdd11f7f0d11e2e1d7f7a',
+            },
+        })
+        gitment.render('comments')
+    </script>
+
+    
+</section>
+        
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+      <p>
+        Powered by  <a href="http://hexo.io/" target="_blank">Hexo</a>
+        Theme <a href="//github.com/wongminho/hexo-theme-miho" target="_blank">MiHo</a>
+      &copy; 2018 zolanunu<br>
+      </p>
+    </div>
+  </div>
+</footer>
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script>
+  var mihoConfig = {
+      root: "http://zhangbuzola.cn",
+      animate: true,
+      isHome: false,
+      share: false,
+      reward: 0
+  }
+</script>
+<div class="sidebar">
+    <div id="sidebar-search" title="Search">
+        <i class="fa fa-search"></i>
+    </div>
+    <div id="sidebar-category" title="Categories">
+        <i class="fa fa-book"></i>
+    </div>
+    <div id="sidebar-tag" title="Tags">
+        <i class="fa fa-tags"></i>
+    </div>
+    <div id="sidebar-top">
+        <span class="sidebar-top-icon"><i class="fa fa-angle-up"></i></span>
+    </div>
+</div>
+<div class="sidebar-menu-box" id="sidebar-menu-box">
+    <div class="sidebar-menu-box-container">
+        <div id="sidebar-menu-box-categories">
+            <a class="category-link" href="/categories/Java/">Java</a><a class="category-link" href="/categories/Java后台/">Java后台</a><a class="category-link" href="/categories/Python/">Python</a><a class="category-link" href="/categories/工具/">工具</a><a class="category-link" href="/categories/技术书/">技术书</a><a class="category-link" href="/categories/数据库/">数据库</a><a class="category-link" href="/categories/数据结构/">数据结构</a><a class="category-link" href="/categories/生活轨迹/">生活轨迹</a><a class="category-link" href="/categories/算法/">算法</a>
+        </div>
+        <div id="sidebar-menu-box-tags">
+            <a href="/tags/2018/" style="font-size: 11.43px;">2018</a> <a href="/tags/Collections/" style="font-size: 15.71px;">Collections</a> <a href="/tags/HashMap/" style="font-size: 10px;">HashMap</a> <a href="/tags/LinkedHashMap/" style="font-size: 10px;">LinkedHashMap</a> <a href="/tags/MySQL/" style="font-size: 17.14px;">MySQL</a> <a href="/tags/Mybatis/" style="font-size: 12.86px;">Mybatis</a> <a href="/tags/Object/" style="font-size: 10px;">Object</a> <a href="/tags/SSM/" style="font-size: 12.86px;">SSM</a> <a href="/tags/TreeMap/" style="font-size: 11.43px;">TreeMap</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/java基础/" style="font-size: 20px;">java基础</a> <a href="/tags/java并发编程实战/" style="font-size: 11.43px;">java并发编程实战</a> <a href="/tags/leetcode/" style="font-size: 17.14px;">leetcode</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/剑指offer/" style="font-size: 10px;">剑指offer</a> <a href="/tags/多线程/" style="font-size: 11.43px;">多线程</a> <a href="/tags/并发编程/" style="font-size: 10px;">并发编程</a> <a href="/tags/机器学习/" style="font-size: 12.86px;">机器学习</a> <a href="/tags/构造函数/" style="font-size: 10px;">构造函数</a> <a href="/tags/深入理解java虚拟机/" style="font-size: 10px;">深入理解java虚拟机</a> <a href="/tags/生活/" style="font-size: 10px;">生活</a> <a href="/tags/神经网络/" style="font-size: 10px;">神经网络</a> <a href="/tags/算法与数据结构/" style="font-size: 14.29px;">算法与数据结构</a> <a href="/tags/算法和数据结构/" style="font-size: 18.57px;">算法和数据结构</a> <a href="/tags/观影记/" style="font-size: 10px;">观影记</a> <a href="/tags/读书书单/" style="font-size: 10px;">读书书单</a>
+        </div>
+    </div>
+    <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
+</div>
+<div class="mobile-header-menu-nav" id="mobile-header-menu-nav">
+    <div class="mobile-header-menu-container">
+        <span class="title">Menus</span>
+        <ul class="mobile-header-menu-navbar">
+            
+            <li>
+                <a  href="/">
+                    <i class="fa fa-home"></i><span>Home</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/archives">
+                    <i class="fa fa-archive"></i><span>Archives</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/about">
+                    <i class="fa fa-user"></i><span>About</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    <div class="mobile-header-tag-container">
+        <span class="title">Tags</span>
+        <div id="mobile-header-container-tags">
+            <a href="/tags/2018/" style="font-size: 11.43px;">2018</a> <a href="/tags/Collections/" style="font-size: 15.71px;">Collections</a> <a href="/tags/HashMap/" style="font-size: 10px;">HashMap</a> <a href="/tags/LinkedHashMap/" style="font-size: 10px;">LinkedHashMap</a> <a href="/tags/MySQL/" style="font-size: 17.14px;">MySQL</a> <a href="/tags/Mybatis/" style="font-size: 12.86px;">Mybatis</a> <a href="/tags/Object/" style="font-size: 10px;">Object</a> <a href="/tags/SSM/" style="font-size: 12.86px;">SSM</a> <a href="/tags/TreeMap/" style="font-size: 11.43px;">TreeMap</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/java基础/" style="font-size: 20px;">java基础</a> <a href="/tags/java并发编程实战/" style="font-size: 11.43px;">java并发编程实战</a> <a href="/tags/leetcode/" style="font-size: 17.14px;">leetcode</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/剑指offer/" style="font-size: 10px;">剑指offer</a> <a href="/tags/多线程/" style="font-size: 11.43px;">多线程</a> <a href="/tags/并发编程/" style="font-size: 10px;">并发编程</a> <a href="/tags/机器学习/" style="font-size: 12.86px;">机器学习</a> <a href="/tags/构造函数/" style="font-size: 10px;">构造函数</a> <a href="/tags/深入理解java虚拟机/" style="font-size: 10px;">深入理解java虚拟机</a> <a href="/tags/生活/" style="font-size: 10px;">生活</a> <a href="/tags/神经网络/" style="font-size: 10px;">神经网络</a> <a href="/tags/算法与数据结构/" style="font-size: 14.29px;">算法与数据结构</a> <a href="/tags/算法和数据结构/" style="font-size: 18.57px;">算法和数据结构</a> <a href="/tags/观影记/" style="font-size: 10px;">观影记</a> <a href="/tags/读书书单/" style="font-size: 10px;">读书书单</a>
+        </div>
+    </div>
+</div>
+<div class="search-wrap">
+    <span class="search-close">&times;</span>
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+            <i class="icon icon-lg icon-chevron-left"></i>
+        </a>
+        <input class="search-field" placeholder="Search..." id="keywords">
+        <a id="search-submit" href="javascript:;">
+            <i class="fa fa-search"></i>
+        </a>
+    <div class="search-container" id="search-container">
+        <ul class="search-result" id="search-result">
+        </ul>
+    </div>
+</div>
+
+<div id="search-tpl">
+    <li class="search-result-item">
+        <a href="{url}" class="search-item-li">
+            <span class="search-item-li-title" title="{title}">{title}</span>
+        </a>
+    </li>
+</div>
+<script src="/js/search.js"></script>
+<script src="/js/main.js"></script>
+
+
+  <script src="//cdn.bootcss.com/particles.js/2.0.0/particles.min.js"></script>
+  <div id="particles"></div>
+  <script src="/js/particles.js"></script>
+
+
+
+
+
+
+
+  <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
+  <script src="//cdn.bootcss.com/scrollReveal.js/3.0.5/scrollreveal.js"></script>
+  <script src="/js/animate.js"></script>
+
+
+  <script src="/js/pop-img.js"></script>
+  <script>
+     $(".article-entry p img").popImg();
+  </script>
+
+  </div>
+</body>
+</html>

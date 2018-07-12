@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>java基础学习之IO流 | zolanunu</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+    <meta name="keywords" content="zolanunu,zolanunu's blog" />
+  
+  <meta name="description" content="IO流 字节流字符流字符流中的对象融合了编码表，也就是系统默认的编码表，系统默认的是GBK编码。 字符流只用来处理文本数据，字节流用来处理媒体数据。 数据最常见的表现方式是文件，字符流用于操作文件的子类一般是FileReader和FileWriter。 注意事项：  写入文件必须flush  close  使用流对象要抛出IO异常  定义文件路径的时候：可以用’/‘或者’\‘   缓存区字符流的缓">
+<meta name="keywords" content="java基础">
+<meta property="og:type" content="article">
+<meta property="og:title" content="java基础学习之IO流">
+<meta property="og:url" content="http://zhangbuzola.cn/2018/03/01/javabase_IO/index.html">
+<meta property="og:site_name" content="zolanunu">
+<meta property="og:description" content="IO流 字节流字符流字符流中的对象融合了编码表，也就是系统默认的编码表，系统默认的是GBK编码。 字符流只用来处理文本数据，字节流用来处理媒体数据。 数据最常见的表现方式是文件，字符流用于操作文件的子类一般是FileReader和FileWriter。 注意事项：  写入文件必须flush  close  使用流对象要抛出IO异常  定义文件路径的时候：可以用’/‘或者’\‘   缓存区字符流的缓">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="http://zhangbuzola.cn/assets/images/javabase_IO1.jpg">
+<meta property="og:updated_time" content="2018-07-12T05:52:35.352Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="java基础学习之IO流">
+<meta name="twitter:description" content="IO流 字节流字符流字符流中的对象融合了编码表，也就是系统默认的编码表，系统默认的是GBK编码。 字符流只用来处理文本数据，字节流用来处理媒体数据。 数据最常见的表现方式是文件，字符流用于操作文件的子类一般是FileReader和FileWriter。 注意事项：  写入文件必须flush  close  使用流对象要抛出IO异常  定义文件路径的时候：可以用’/‘或者’\‘   缓存区字符流的缓">
+<meta name="twitter:image" content="http://zhangbuzola.cn/assets/images/javabase_IO1.jpg">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="/js/pace.min.js"></script>
+  
+
+  
+	<script>
+	var _hmt = _hmt || [];
+	(function() {
+	  var hm = document.createElement("script");
+	  hm.src = "//hm.baidu.com/hm.js?a651034b7d11a367ae836642b29a3057";
+	  var s = document.getElementsByTagName("script")[0]; 
+	  s.parentNode.insertBefore(hm, s);
+	})();
+	</script>
+
+  
+
+</head>
+
+<body>
+  <div id="container">
+      <header id="header">
+    <div id="banner"></div>
+    <div id="header-outer">
+        <div id="header-menu" class="header-menu-pos animated">
+            <div class="header-menu-container">
+                <a href="/" class="left">
+                    <span class="site-title">zolanunu&#39;s Blog</span>
+                </a>
+                <nav id="header-menu-nav" class="right">
+                    
+                    <a  href="/">
+                        <i class="fa fa-home"></i>
+                        <span>Home</span>
+                    </a>
+                    
+                    <a  href="/archives">
+                        <i class="fa fa-archive"></i>
+                        <span>Archives</span>
+                    </a>
+                    
+                    <a  href="/about">
+                        <i class="fa fa-user"></i>
+                        <span>About</span>
+                    </a>
+                    
+                </nav>
+                <a class="mobile-header-menu-button">
+                    <i class="fa fa-bars"></i>
+                </a>
+            </div>
+        </div>
+        <div id="header-row">
+            <div id="logo">
+                <a href="/">
+                    <img src="/images/pacman.jpg" alt="logo">
+                </a>
+            </div>
+            <div class="header-info">
+                <div id="header-title">
+                    
+                    <h2>
+                        zolanunu&#39;s Blog
+                    </h2>
+                    
+                </div>
+                <div id="header-description">
+                    
+                    <h3>
+                        去努力尝试做一些你觉得你不会做或者不敢做的事情。
+                    </h3>
+                    
+                </div>
+            </div>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a title="zolanunu" target="_blank" href="//zhangbuzola.cn">
+                            <i class="fa fa-home fa-2x"></i></a>
+                    
+                        <a title="Github" target="_blank" href="//github.com/zolanunu">
+                            <i class="fa fa-github fa-2x"></i></a>
+                    
+                        <a title="Weibo" target="_blank" href="//weibo.com/zolanunu">
+                            <i class="fa fa-weibo fa-2x"></i></a>
+                    
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>
+      <div class="outer">
+        <section id="main" class="body-wrap"><article id="post-javabase_IO" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="post-title" itemprop="name">
+      java基础学习之IO流
+    </h1>
+    <div class="post-title-bar">
+      <ul>
+          
+              <li>
+                  <i class="fa fa-book"></i>
+                  
+                      <a href="/categories/Java/">Java</a>
+                  
+              </li>
+          
+        <li>
+          <i class="fa fa-calendar"></i>  2018-03-01
+        </li>
+        <li>
+          <i class="fa fa-eye"></i>
+          <span id="busuanzi_value_page_pv"></span>
+        </li>
+      </ul>
+    </div>
+  
+
+          
+      </header>
+    
+    <div class="article-entry post-content" itemprop="articleBody">
+      
+            
+            <h2 id="IO流"><a href="#IO流" class="headerlink" title="IO流"></a>IO流</h2><p><img src="/assets/images/javabase_IO1.jpg" alt=""></p>
+<h3 id="字节流"><a href="#字节流" class="headerlink" title="字节流"></a>字节流</h3><h3 id="字符流"><a href="#字符流" class="headerlink" title="字符流"></a>字符流</h3><p>字符流中的对象融合了编码表，也就是系统默认的编码表，系统默认的是GBK编码。</p>
+<p>字符流只用来处理文本数据，字节流用来处理媒体数据。</p>
+<p>数据最常见的表现方式是文件，字符流用于操作文件的子类一般是FileReader和FileWriter。</p>
+<p>注意事项：</p>
+<ul>
+<li><p>写入文件必须flush</p>
+</li>
+<li><p>close</p>
+</li>
+<li><p>使用流对象要抛出IO异常</p>
+</li>
+<li><p>定义文件路径的时候：可以用’/‘或者’\‘</p>
+</li>
+</ul>
+<h3 id="缓存区"><a href="#缓存区" class="headerlink" title="缓存区"></a>缓存区</h3><h4 id="字符流的缓存区"><a href="#字符流的缓存区" class="headerlink" title="字符流的缓存区"></a>字符流的缓存区</h4><ul>
+<li><p>缓冲区的出现时为了提高流的操作效率而出现的.</p>
+</li>
+<li><p>需要被提高效率的流作为参数传递给缓冲区的构造函数</p>
+</li>
+<li><p>在缓冲区中封装了一个数组，存入数据后一次取出</p>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br></pre></td><td class="code"><pre><span class="line">import java.io.*;  </span><br><span class="line">  </span><br><span class="line">  </span><br><span class="line">class BufferedReaderDemo &#123;  </span><br><span class="line">    public static void main(String[] args)  throws IOException &#123;  </span><br><span class="line">  </span><br><span class="line">        //创建一个字符读取流流对象，和文件关联  </span><br><span class="line">        FileReader rw = new FileReader(&quot;buf.txt&quot;);  </span><br><span class="line">  </span><br><span class="line">        //只要将需要被提高效率的流作为参数传递给缓冲区的构造函数即可  </span><br><span class="line">        BufferedReader brw = new BufferedReader(rw);  </span><br><span class="line">  </span><br><span class="line">          </span><br><span class="line">        for(;;) &#123;  </span><br><span class="line">            String s = brw.readLine();  </span><br><span class="line">            if(s==null) break;  </span><br><span class="line">            System.out.println(s);  </span><br><span class="line">        &#125;  </span><br><span class="line">          </span><br><span class="line">        brw.close();//关闭输入流对象  </span><br><span class="line">  //创建一个字符写入流对象  </span><br><span class="line">        FileWriter fw = new FileWriter(&quot;buf.txt&quot;);  </span><br><span class="line">  </span><br><span class="line">        //为了提高字符写入效率，加入了缓冲技术。  </span><br><span class="line">        //只要将需要被提高效率的流作为参数传递给缓冲区的构造函数即可  </span><br><span class="line">        BufferedWriter bfw = new BufferedWriter(fw);  </span><br><span class="line">  </span><br><span class="line">        //bfw.write(&quot;abc\r\nde&quot;);  </span><br><span class="line">        //bfw.newLine();               这行代码等价于bfw.write(&quot;\r\n&quot;),相当于一个跨平台的换行符  </span><br><span class="line">        //用到缓冲区就必须要刷新  </span><br><span class="line">        for(int x = 1; x &lt; 5; x++) &#123;  </span><br><span class="line">            bfw.write(&quot;abc&quot;);  </span><br><span class="line">            bfw.newLine();                  //java提供了一个跨平台的换行符newLine();  </span><br><span class="line">            bfw.flush();  </span><br><span class="line">        &#125;  </span><br><span class="line">  </span><br><span class="line">  </span><br><span class="line">  </span><br><span class="line">        bfw.flush();                                                //刷新缓冲区  </span><br><span class="line">        bfw.close();                                                //关闭缓冲区，但是必须要先刷新  </span><br><span class="line">  </span><br><span class="line">        //注意，关闭缓冲区就是在关闭缓冲中的流对象  </span><br><span class="line">        fw.close();                                                 //关闭输入流对象  </span><br><span class="line">  </span><br><span class="line">    &#125;  </span><br><span class="line">&#125;  </span><br><span class="line"></span><br><span class="line"></span><br><span class="line">流操作的基本规律。  </span><br><span class="line">一、两个明确：(明确体系)  </span><br><span class="line">1. 明确源和目的  </span><br><span class="line">    源：输入流  InputStream  Reader  </span><br><span class="line">    目的：输出流  OutputStream Writer  </span><br><span class="line">  </span><br><span class="line">2. 操作的数据是否是纯文本  </span><br><span class="line">    是： 字符流  </span><br><span class="line">    否： 字节流  </span><br><span class="line">二、明确体系后要明确具体使用的对象  </span><br><span class="line">    通过设备区分：内存，硬盘，键盘  </span><br><span class="line">    目的设备：内存，硬盘，控制台  </span><br><span class="line">  </span><br><span class="line">  </span><br><span class="line">示例1：将一个文本文件中的数据存储到另一个文件中: 复制文件  </span><br><span class="line">    一、明确体系  </span><br><span class="line">        源：文件--&gt;读取流--&gt;(InputStream和Reader)  </span><br><span class="line">        是否是文本：是--&gt;Reader  </span><br><span class="line">          </span><br><span class="line">          </span><br><span class="line">        目的：文件--&gt;写入流--&gt;(OutputStream Writer)  </span><br><span class="line">        是否纯文本：是--&gt;Writer  </span><br><span class="line">      </span><br><span class="line">    二、 明确设备  </span><br><span class="line">        源：Reader  </span><br><span class="line">            设备：硬盘上一个文本文件 --&gt; 子类对象为：FileReader  </span><br><span class="line">                FileReader fr = new FileReader(&quot;Goods.txt&quot;);  </span><br><span class="line">              </span><br><span class="line">            是否提高效率：是--&gt;加入Reader中的缓冲区：BufferedReader  </span><br><span class="line">                BufferedReader bufr = new BufferedReader(fr);  </span><br><span class="line">                  </span><br><span class="line">        目的：Writer  </span><br><span class="line">            设备：键盘上一个文本文件 --&gt; 子类对象：FileWriter  </span><br><span class="line">                FileWriter fw = new FileWriter(&quot;goods1.txt&quot;);  </span><br><span class="line">            是否提高效率：是--&gt;加入Writer的缓冲区：BufferedWriter  </span><br><span class="line">                BufferedWriter bufw = new BufferedWriter(fw);  </span><br><span class="line">              </span><br><span class="line">              </span><br><span class="line">              </span><br><span class="line">示例2：将一个图片文件数据复制到另一个文件中：复制文件  </span><br><span class="line">    一、明确体系  </span><br><span class="line">        源：文件--&gt;读取流--&gt;(InputStream和Reader)  </span><br><span class="line">        是否是文本：否--&gt;InputStream  </span><br><span class="line">          </span><br><span class="line">          </span><br><span class="line">        目的：文件--&gt;写入流--&gt;(OutputStream Writer)  </span><br><span class="line">        是否纯文本：否--&gt;OutputStream  </span><br><span class="line">      </span><br><span class="line">    二、 明确设备  </span><br><span class="line">        源：InputStream  </span><br><span class="line">            设备：硬盘上一个媒体文件 --&gt; 子类对象为：FileInputStream  </span><br><span class="line">                FileInputStream fis = new FileInputStream(&quot;Goods.txt&quot;);  </span><br><span class="line">              </span><br><span class="line">            是否提高效率：是--&gt;加入InputStream中的缓冲区：BufferedInputStream  </span><br><span class="line">                BufferedInputStream bufi = new BufferedInputStream(fis);  </span><br><span class="line">                  </span><br><span class="line">        目的：OutputStream  </span><br><span class="line">            设备：键盘上一个媒体文件 --&gt; 子类对象：FileOutputStream  </span><br><span class="line">                FileOutputStream fos = new FileOutputStream(&quot;goods1.txt&quot;);  </span><br><span class="line">            是否提高效率：是--&gt;加入OutputStream的缓冲区：BufferedOutputStream  </span><br><span class="line">                BufferedOutputStream bufo = new BufferedOutputStream(fw);  </span><br><span class="line">  </span><br><span class="line">示例3：将键盘录入的数据保存到一个文本文件中  </span><br><span class="line">    </span><br><span class="line">一、明确体系  </span><br><span class="line">        源：键盘--&gt;读取流--&gt;(InputStream和Reader)  </span><br><span class="line">        是否是文本：是--&gt;Reader  </span><br><span class="line">          </span><br><span class="line">          </span><br><span class="line">        目的：文件--&gt;写入流--&gt;(OutputStream Writer)  </span><br><span class="line">        是否纯文本：是--&gt;Writer  </span><br><span class="line">      </span><br><span class="line">    二、 明确设备  </span><br><span class="line">        源：InputStream  </span><br><span class="line">            设备：键盘 --&gt; 对用对象为：System.in --&gt; InputStream  </span><br><span class="line">                为了操作方便，转成字符流Reader --&gt; 使用Reader中的转换流：InputStreamReader  </span><br><span class="line">                InputStreamReader isr = new InputStreamReader(System.in);  </span><br><span class="line">              </span><br><span class="line">            是否提高效率：是--&gt;加入Reader中的缓冲区：BufferedReader  </span><br><span class="line">                BufferedReader bufr = new BufferedReader(isr);  </span><br><span class="line">                  </span><br><span class="line">        目的：Writer  </span><br><span class="line">            设备：键盘上一个文本文件 --&gt; 子类对象：FileWriter  </span><br><span class="line">                FileWriter fw = new FileWriter(&quot;goods1.txt&quot;);  </span><br><span class="line">            是否提高效率：是--&gt;加入Writer的缓冲区：BufferedWriter  </span><br><span class="line">                BufferedWriter bufw = new BufferedWriter(fw);</span><br></pre></td></tr></table></figure>
+<h4 id="置顶编码表"><a href="#置顶编码表" class="headerlink" title="置顶编码表"></a>置顶编码表</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">import java.io.*;  </span><br><span class="line">public class IOStreamLaw &#123;  </span><br><span class="line">  </span><br><span class="line">    /** </span><br><span class="line">     * @param args </span><br><span class="line">     */  </span><br><span class="line">    public static void main(String[] args) throws IOException &#123;  </span><br><span class="line">                //键盘的最常见写法  </span><br><span class="line">                BufferedReader bufr = new BufferedReader(new InputStreamReader(System.in));  </span><br><span class="line">                BufferedWriter bufw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(&quot;goods1.txt&quot;),&quot;UTF-8&quot;));  </span><br><span class="line">                String line = null;  </span><br><span class="line">                while((line=bufr.readLine())!=null)&#123;  </span><br><span class="line">                    if(&quot;over&quot;.equals(line)) break;  </span><br><span class="line">                    bufw.write(line.toUpperCase());  </span><br><span class="line">                    bufw.newLine();  </span><br><span class="line">                    bufw.flush();  </span><br><span class="line">                &#125;  </span><br><span class="line">                bufr.close();  </span><br><span class="line">    &#125;  </span><br><span class="line">  </span><br><span class="line">  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="字节流-1"><a href="#字节流-1" class="headerlink" title="字节流"></a>字节流</h3><h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><code>https://www.jianshu.com/p/c4d3ef8004a7</code></p>
+
+            <div class="post-copyright">
+    <div class="content">
+        <p>最后更新： 2018年07月12日 13:52</p>
+        <p>原始链接： <a class="post-url" href="/2018/03/01/javabase_IO/" title="java基础学习之IO流">http://zhangbuzola.cn/2018/03/01/javabase_IO/</a></p>
+        <footer>
+            <a href="http://zhangbuzola.cn">
+                <img src="/images/pacman.jpg" alt="zolanunu">
+                zolanunu
+            </a>
+        </footer>
+    </div>
+</div>
+
+      
+        
+            
+
+        
+    </div>
+    <footer class="article-footer">
+        
+        <ul class="article-footer-menu">
+            
+            
+  <li class="article-footer-tags">
+    <i class="fa fa-tags"></i>
+      
+    <a href="/tags/java基础/" class="color2">java基础</a>
+      
+  </li>
+
+        </ul>
+        
+    </footer>
+  </div>
+</article>
+
+
+    <aside class="post-toc-pos post-toc-top" id="post-toc">
+        <nav class="post-toc-wrap">
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#IO流"><span class="post-toc-text">IO流</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#字节流"><span class="post-toc-text">字节流</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#字符流"><span class="post-toc-text">字符流</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#缓存区"><span class="post-toc-text">缓存区</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#字符流的缓存区"><span class="post-toc-text">字符流的缓存区</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#置顶编码表"><span class="post-toc-text">置顶编码表</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#字节流-1"><span class="post-toc-text">字节流</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#参考"><span class="post-toc-text">参考</span></a></li></ol></li></ol>
+        </nav>
+    </aside>
+    
+
+<nav id="article-nav">
+  
+    <a href="/2018/03/23/javaConcurrencyInPractice_c16/" id="article-nav-newer" class="article-nav-link-wrap">
+
+      <span class="article-nav-title">
+        <i class="fa fa-hand-o-left" aria-hidden="true"></i>
+        
+          Java并发编程实战之java内存模型
+        
+      </span>
+    </a>
+  
+  
+    <a href="/2018/03/01/javabase_E/" id="article-nav-older" class="article-nav-link-wrap">
+      <span class="article-nav-title">java基础学习之泛型</span>
+      <i class="fa fa-hand-o-right" aria-hidden="true"></i>
+    </a>
+  
+</nav>
+
+
+
+    
+        <link rel="stylesheet" href="//unpkg.com/gitment/style/default.css">
+    <script src="//unpkg.com/gitment/dist/gitment.browser.js"></script>
+    <script>
+        var gitment = new Gitment({
+            owner: 'true',
+            repo: 'zolanunu',
+            oauth: {
+                client_id: '1a04e8dee74a4b8634df',
+                client_secret: '9e3078ac89eb72f22abbdd11f7f0d11e2e1d7f7a',
+            },
+        })
+        gitment.render('comments')
+    </script>
+
+    
+</section>
+        
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+      <p>
+        Powered by  <a href="http://hexo.io/" target="_blank">Hexo</a>
+        Theme <a href="//github.com/wongminho/hexo-theme-miho" target="_blank">MiHo</a>
+      &copy; 2018 zolanunu<br>
+      </p>
+    </div>
+  </div>
+</footer>
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script>
+  var mihoConfig = {
+      root: "http://zhangbuzola.cn",
+      animate: true,
+      isHome: false,
+      share: false,
+      reward: 0
+  }
+</script>
+<div class="sidebar">
+    <div id="sidebar-search" title="Search">
+        <i class="fa fa-search"></i>
+    </div>
+    <div id="sidebar-category" title="Categories">
+        <i class="fa fa-book"></i>
+    </div>
+    <div id="sidebar-tag" title="Tags">
+        <i class="fa fa-tags"></i>
+    </div>
+    <div id="sidebar-top">
+        <span class="sidebar-top-icon"><i class="fa fa-angle-up"></i></span>
+    </div>
+</div>
+<div class="sidebar-menu-box" id="sidebar-menu-box">
+    <div class="sidebar-menu-box-container">
+        <div id="sidebar-menu-box-categories">
+            <a class="category-link" href="/categories/Java/">Java</a><a class="category-link" href="/categories/Java后台/">Java后台</a><a class="category-link" href="/categories/Python/">Python</a><a class="category-link" href="/categories/工具/">工具</a><a class="category-link" href="/categories/技术书/">技术书</a><a class="category-link" href="/categories/数据库/">数据库</a><a class="category-link" href="/categories/数据结构/">数据结构</a><a class="category-link" href="/categories/生活轨迹/">生活轨迹</a><a class="category-link" href="/categories/算法/">算法</a>
+        </div>
+        <div id="sidebar-menu-box-tags">
+            <a href="/tags/2018/" style="font-size: 11.43px;">2018</a> <a href="/tags/Collections/" style="font-size: 15.71px;">Collections</a> <a href="/tags/HashMap/" style="font-size: 10px;">HashMap</a> <a href="/tags/LinkedHashMap/" style="font-size: 10px;">LinkedHashMap</a> <a href="/tags/MySQL/" style="font-size: 17.14px;">MySQL</a> <a href="/tags/Mybatis/" style="font-size: 12.86px;">Mybatis</a> <a href="/tags/Object/" style="font-size: 10px;">Object</a> <a href="/tags/SSM/" style="font-size: 12.86px;">SSM</a> <a href="/tags/TreeMap/" style="font-size: 11.43px;">TreeMap</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/java基础/" style="font-size: 20px;">java基础</a> <a href="/tags/java并发编程实战/" style="font-size: 11.43px;">java并发编程实战</a> <a href="/tags/leetcode/" style="font-size: 17.14px;">leetcode</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/剑指offer/" style="font-size: 10px;">剑指offer</a> <a href="/tags/多线程/" style="font-size: 11.43px;">多线程</a> <a href="/tags/并发编程/" style="font-size: 10px;">并发编程</a> <a href="/tags/机器学习/" style="font-size: 12.86px;">机器学习</a> <a href="/tags/构造函数/" style="font-size: 10px;">构造函数</a> <a href="/tags/深入理解java虚拟机/" style="font-size: 10px;">深入理解java虚拟机</a> <a href="/tags/生活/" style="font-size: 10px;">生活</a> <a href="/tags/神经网络/" style="font-size: 10px;">神经网络</a> <a href="/tags/算法与数据结构/" style="font-size: 14.29px;">算法与数据结构</a> <a href="/tags/算法和数据结构/" style="font-size: 18.57px;">算法和数据结构</a> <a href="/tags/观影记/" style="font-size: 10px;">观影记</a> <a href="/tags/读书书单/" style="font-size: 10px;">读书书单</a>
+        </div>
+    </div>
+    <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
+</div>
+<div class="mobile-header-menu-nav" id="mobile-header-menu-nav">
+    <div class="mobile-header-menu-container">
+        <span class="title">Menus</span>
+        <ul class="mobile-header-menu-navbar">
+            
+            <li>
+                <a  href="/">
+                    <i class="fa fa-home"></i><span>Home</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/archives">
+                    <i class="fa fa-archive"></i><span>Archives</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/about">
+                    <i class="fa fa-user"></i><span>About</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    <div class="mobile-header-tag-container">
+        <span class="title">Tags</span>
+        <div id="mobile-header-container-tags">
+            <a href="/tags/2018/" style="font-size: 11.43px;">2018</a> <a href="/tags/Collections/" style="font-size: 15.71px;">Collections</a> <a href="/tags/HashMap/" style="font-size: 10px;">HashMap</a> <a href="/tags/LinkedHashMap/" style="font-size: 10px;">LinkedHashMap</a> <a href="/tags/MySQL/" style="font-size: 17.14px;">MySQL</a> <a href="/tags/Mybatis/" style="font-size: 12.86px;">Mybatis</a> <a href="/tags/Object/" style="font-size: 10px;">Object</a> <a href="/tags/SSM/" style="font-size: 12.86px;">SSM</a> <a href="/tags/TreeMap/" style="font-size: 11.43px;">TreeMap</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/java基础/" style="font-size: 20px;">java基础</a> <a href="/tags/java并发编程实战/" style="font-size: 11.43px;">java并发编程实战</a> <a href="/tags/leetcode/" style="font-size: 17.14px;">leetcode</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/剑指offer/" style="font-size: 10px;">剑指offer</a> <a href="/tags/多线程/" style="font-size: 11.43px;">多线程</a> <a href="/tags/并发编程/" style="font-size: 10px;">并发编程</a> <a href="/tags/机器学习/" style="font-size: 12.86px;">机器学习</a> <a href="/tags/构造函数/" style="font-size: 10px;">构造函数</a> <a href="/tags/深入理解java虚拟机/" style="font-size: 10px;">深入理解java虚拟机</a> <a href="/tags/生活/" style="font-size: 10px;">生活</a> <a href="/tags/神经网络/" style="font-size: 10px;">神经网络</a> <a href="/tags/算法与数据结构/" style="font-size: 14.29px;">算法与数据结构</a> <a href="/tags/算法和数据结构/" style="font-size: 18.57px;">算法和数据结构</a> <a href="/tags/观影记/" style="font-size: 10px;">观影记</a> <a href="/tags/读书书单/" style="font-size: 10px;">读书书单</a>
+        </div>
+    </div>
+</div>
+<div class="search-wrap">
+    <span class="search-close">&times;</span>
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+            <i class="icon icon-lg icon-chevron-left"></i>
+        </a>
+        <input class="search-field" placeholder="Search..." id="keywords">
+        <a id="search-submit" href="javascript:;">
+            <i class="fa fa-search"></i>
+        </a>
+    <div class="search-container" id="search-container">
+        <ul class="search-result" id="search-result">
+        </ul>
+    </div>
+</div>
+
+<div id="search-tpl">
+    <li class="search-result-item">
+        <a href="{url}" class="search-item-li">
+            <span class="search-item-li-title" title="{title}">{title}</span>
+        </a>
+    </li>
+</div>
+<script src="/js/search.js"></script>
+<script src="/js/main.js"></script>
+
+
+  <script src="//cdn.bootcss.com/particles.js/2.0.0/particles.min.js"></script>
+  <div id="particles"></div>
+  <script src="/js/particles.js"></script>
+
+
+
+
+
+
+
+  <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
+  <script src="//cdn.bootcss.com/scrollReveal.js/3.0.5/scrollreveal.js"></script>
+  <script src="/js/animate.js"></script>
+
+
+  <script src="/js/pop-img.js"></script>
+  <script>
+     $(".article-entry p img").popImg();
+  </script>
+
+  </div>
+</body>
+</html>

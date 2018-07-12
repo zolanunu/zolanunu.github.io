@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>leetcode刷题5 | zolanunu</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+    <meta name="keywords" content="zolanunu,zolanunu's blog" />
+  
+  <meta name="description" content="755. Pour Water题目描述We are given an elevation map, heights[i] representing the height of the terrain at that index. The width at each index is 1. After V units of water fall at index K, how much water">
+<meta name="keywords" content="算法和数据结构,leetcode">
+<meta property="og:type" content="article">
+<meta property="og:title" content="leetcode刷题5">
+<meta property="og:url" content="http://zhangbuzola.cn/2018/01/17/leetcode-Array-5/index.html">
+<meta property="og:site_name" content="zolanunu">
+<meta property="og:description" content="755. Pour Water题目描述We are given an elevation map, heights[i] representing the height of the terrain at that index. The width at each index is 1. After V units of water fall at index K, how much water">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2018-07-12T05:53:07.966Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="leetcode刷题5">
+<meta name="twitter:description" content="755. Pour Water题目描述We are given an elevation map, heights[i] representing the height of the terrain at that index. The width at each index is 1. After V units of water fall at index K, how much water">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="/js/pace.min.js"></script>
+  
+
+  
+	<script>
+	var _hmt = _hmt || [];
+	(function() {
+	  var hm = document.createElement("script");
+	  hm.src = "//hm.baidu.com/hm.js?a651034b7d11a367ae836642b29a3057";
+	  var s = document.getElementsByTagName("script")[0]; 
+	  s.parentNode.insertBefore(hm, s);
+	})();
+	</script>
+
+  
+
+</head>
+
+<body>
+  <div id="container">
+      <header id="header">
+    <div id="banner"></div>
+    <div id="header-outer">
+        <div id="header-menu" class="header-menu-pos animated">
+            <div class="header-menu-container">
+                <a href="/" class="left">
+                    <span class="site-title">zolanunu&#39;s Blog</span>
+                </a>
+                <nav id="header-menu-nav" class="right">
+                    
+                    <a  href="/">
+                        <i class="fa fa-home"></i>
+                        <span>Home</span>
+                    </a>
+                    
+                    <a  href="/archives">
+                        <i class="fa fa-archive"></i>
+                        <span>Archives</span>
+                    </a>
+                    
+                    <a  href="/about">
+                        <i class="fa fa-user"></i>
+                        <span>About</span>
+                    </a>
+                    
+                </nav>
+                <a class="mobile-header-menu-button">
+                    <i class="fa fa-bars"></i>
+                </a>
+            </div>
+        </div>
+        <div id="header-row">
+            <div id="logo">
+                <a href="/">
+                    <img src="/images/pacman.jpg" alt="logo">
+                </a>
+            </div>
+            <div class="header-info">
+                <div id="header-title">
+                    
+                    <h2>
+                        zolanunu&#39;s Blog
+                    </h2>
+                    
+                </div>
+                <div id="header-description">
+                    
+                    <h3>
+                        去努力尝试做一些你觉得你不会做或者不敢做的事情。
+                    </h3>
+                    
+                </div>
+            </div>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a title="zolanunu" target="_blank" href="//zhangbuzola.cn">
+                            <i class="fa fa-home fa-2x"></i></a>
+                    
+                        <a title="Github" target="_blank" href="//github.com/zolanunu">
+                            <i class="fa fa-github fa-2x"></i></a>
+                    
+                        <a title="Weibo" target="_blank" href="//weibo.com/zolanunu">
+                            <i class="fa fa-weibo fa-2x"></i></a>
+                    
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>
+      <div class="outer">
+        <section id="main" class="body-wrap"><article id="post-leetcode-Array-5" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="post-title" itemprop="name">
+      leetcode刷题5
+    </h1>
+    <div class="post-title-bar">
+      <ul>
+          
+              <li>
+                  <i class="fa fa-book"></i>
+                  
+                      <a href="/categories/算法/">算法</a>
+                  
+              </li>
+          
+        <li>
+          <i class="fa fa-calendar"></i>  2018-01-17
+        </li>
+        <li>
+          <i class="fa fa-eye"></i>
+          <span id="busuanzi_value_page_pv"></span>
+        </li>
+      </ul>
+    </div>
+  
+
+          
+      </header>
+    
+    <div class="article-entry post-content" itemprop="articleBody">
+      
+            
+            <h1 id="755-Pour-Water"><a href="#755-Pour-Water" class="headerlink" title="755. Pour Water"></a>755. Pour Water</h1><h2 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h2><p>We are given an elevation map, heights[i] representing the height of the terrain at that index. The width at each index is 1. After V units of water fall at index K, how much water is at each index?</p>
+<p>Water first drops at index K and rests on top of the highest terrain or water at that index. Then, it flows according to the following rules:</p>
+<ul>
+<li><p>If the droplet would eventually fall by moving left, then move left.</p>
+</li>
+<li><p>Otherwise, if the droplet would eventually fall by moving right, then move right.</p>
+</li>
+<li><p>Otherwise, rise at it’s current position.</p>
+</li>
+</ul>
+<p>Here, “eventually fall” means that the droplet will eventually be at a lower level if it moves in that direction. Also, “level” means the height of the terrain plus any water in that column.<br>We can assume there’s infinitely high terrain on the two sides out of bounds of the array. Also, there could not be partial water being spread out evenly on more than 1 grid block - each unit of water has to be in exactly one block.</p>
+<p>Example:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br></pre></td><td class="code"><pre><span class="line">Input: heights = [2,1,1,2,1,2,2], V = 4, K = 3</span><br><span class="line">Output: [2,2,2,3,2,2,2]</span><br><span class="line">Explanation:</span><br><span class="line">#       #</span><br><span class="line">#       #</span><br><span class="line">#  # ##</span><br><span class="line">#########</span><br><span class="line"> 0123456    &lt;- index</span><br><span class="line"></span><br><span class="line">The first drop of water lands at index K = 3:</span><br><span class="line"></span><br><span class="line">#       #</span><br><span class="line">#   w   #</span><br><span class="line">#  # ##</span><br><span class="line">#########</span><br><span class="line"> 0123456    </span><br><span class="line"></span><br><span class="line">When moving left or right, the water can only move to the same level or a lower level.</span><br><span class="line">(By level, we mean the total height of the terrain plus any water in that column.)</span><br><span class="line">Since moving left will eventually make it fall, it moves left.</span><br><span class="line">(A droplet &quot;made to fall&quot; means go to a lower height than it was at previously.)</span><br><span class="line"></span><br><span class="line">#       #</span><br><span class="line">#       #</span><br><span class="line"># w# ##</span><br><span class="line">#########</span><br><span class="line"> 0123456    </span><br><span class="line"></span><br><span class="line">Since moving left will not make it fall, it stays in place.  The next droplet falls:</span><br><span class="line"></span><br><span class="line">#       #</span><br><span class="line">#   w   #</span><br><span class="line"># w# ##</span><br><span class="line">#########</span><br><span class="line"> 0123456  </span><br><span class="line"></span><br><span class="line">Since the new droplet moving left will eventually make it fall, it moves left.</span><br><span class="line">Notice that the droplet still preferred to move left,</span><br><span class="line">even though it could move right (and moving right makes it fall quicker.)</span><br><span class="line"></span><br><span class="line">#       #</span><br><span class="line">#  w    #</span><br><span class="line"># w# ##</span><br><span class="line">#########</span><br><span class="line"> 0123456  </span><br><span class="line"></span><br><span class="line">#       #</span><br><span class="line">#       #</span><br><span class="line">#ww# ##</span><br><span class="line">#########</span><br><span class="line"> 0123456  </span><br><span class="line"></span><br><span class="line">After those steps, the third droplet falls.</span><br><span class="line">Since moving left would not eventually make it fall, it tries to move right.</span><br><span class="line">Since moving right would eventually make it fall, it moves right.</span><br><span class="line"></span><br><span class="line">#       #</span><br><span class="line">#   w   #</span><br><span class="line">#ww# ##</span><br><span class="line">#########</span><br><span class="line"> 0123456  </span><br><span class="line"></span><br><span class="line">#       #</span><br><span class="line">#       #</span><br><span class="line">#ww#w##</span><br><span class="line">#########</span><br><span class="line"> 0123456  </span><br><span class="line"></span><br><span class="line">Finally, the fourth droplet falls.</span><br><span class="line">Since moving left would not eventually make it fall, it tries to move right.</span><br><span class="line">Since moving right would not eventually make it fall, it stays in place:</span><br><span class="line"></span><br><span class="line">#       #</span><br><span class="line">#   w   #</span><br><span class="line">#ww#w##</span><br><span class="line">#########</span><br><span class="line"> 0123456  </span><br><span class="line"></span><br><span class="line">The final answer is [2,2,2,3,2,2,2]:</span><br><span class="line">    #    </span><br><span class="line"> ####### </span><br><span class="line"> ####### </span><br><span class="line"> 0123456</span><br></pre></td></tr></table></figure>
+<p>Example:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Input: heights = [1,2,3,4], V = 2, K = 2</span><br><span class="line">Output: [2,3,3,4]</span><br><span class="line">Explanation:</span><br><span class="line">The last droplet settles at index 1, since moving further</span><br><span class="line">left would not cause it to eventually fall to a lower height.</span><br></pre></td></tr></table></figure>
+<p>Example:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Input: heights = [3,1,3], V = 5, K = 1</span><br><span class="line">Output: [4,4,4]</span><br></pre></td></tr></table></figure>
+<p>Note:</p>
+<ul>
+<li><p>heights will have length in [1, 100] and contain integers in [0, 99].</p>
+</li>
+<li><p>V will be in range [0, 2000].</p>
+</li>
+<li><p>K will be in range [0, heights.length - 1].</p>
+</li>
+</ul>
+<p>题目大意：</p>
+<p>给定一个组高度值，代表一个水槽的底部高度分布情况。在K点处倒入V体积的水，求倒水之后的高度分布。</p>
+<p>倒入的每一体积的水按照如下规则进行流动</p>
+<p>如果在K点左侧存在地势较低且可达的位置，则水优先向左流动。否则，在K点右侧存在地势较低且可达的位置，则水向右侧流动。否则，水停留在K处。</p>
+<h2 id="解题思路"><a href="#解题思路" class="headerlink" title="解题思路"></a>解题思路</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br></pre></td><td class="code"><pre><span class="line">package com.leetcode.coding;</span><br><span class="line"></span><br><span class="line">public class PourWater &#123;</span><br><span class="line">	/**</span><br><span class="line">	 * 底部高度分布不同的水槽中倒水，求最后的水槽高度分布</span><br><span class="line">	 * */</span><br><span class="line">	/**</span><br><span class="line">	 * 思路：倒入的每一体积的水按照如下规则进行流动</span><br><span class="line">	 * 如果在K点左侧存在地势较低且可达的位置，则水优先向左流动。</span><br><span class="line">	 * 否则，在K点右侧存在地势较低且可达的位置，则水向右侧流动。</span><br><span class="line">	 * 否则，水停留在K处。</span><br><span class="line">	 * */</span><br><span class="line">	</span><br><span class="line">	</span><br><span class="line">	/**</span><br><span class="line">	 * @Title: findLeftIndex </span><br><span class="line">	 * @Description: 找到左端的低处</span><br><span class="line">	 * @param: </span><br><span class="line">	 * @return:</span><br><span class="line">	 * @throws</span><br><span class="line">	 */</span><br><span class="line">	public int findLeftMinIndex(int[] heights, int k) &#123;</span><br><span class="line">		int minIndex = k, minHeight = heights[k];</span><br><span class="line">		for(int i = k-1; i &gt;= 0; i--) &#123;</span><br><span class="line">			if(heights[i] &lt; minHeight) &#123;</span><br><span class="line">				minIndex = i;</span><br><span class="line">				minHeight = heights[i];</span><br><span class="line">			&#125; else if(heights[i] &gt; minHeight) &#123;</span><br><span class="line">				break;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		return minIndex;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	/**</span><br><span class="line">	 * @Title: findRightMinIndex   </span><br><span class="line">	 * @Description: TODO(这里用一句话描述这个方法的作用)   </span><br><span class="line">	 * @param:       </span><br><span class="line">	 * @return: void      </span><br><span class="line">	 * @throws   </span><br><span class="line">	 */</span><br><span class="line">	public int findRightMinIndex(int[] heights, int k) &#123;</span><br><span class="line">		// TODO Auto-generated method stub</span><br><span class="line">		int minIndex = k, minHeight = heights[k];</span><br><span class="line">		for(int i = k+1; i &lt; heights.length; i++) &#123;</span><br><span class="line">			if(heights[i] &lt; minHeight) &#123;</span><br><span class="line">				minIndex = i;</span><br><span class="line">				minHeight = heights[i];</span><br><span class="line">			&#125; else if(heights[i] &gt; minHeight) &#123;</span><br><span class="line">				break;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		return minIndex;</span><br><span class="line">	&#125;</span><br><span class="line">	public int[] pourWater(int[] heights, int V, int K) &#123;</span><br><span class="line">		for(int i = 0; i &lt; V; i++) &#123;</span><br><span class="line">			int leftMinIndex = findLeftMinIndex(heights, K);</span><br><span class="line">			if(leftMinIndex &lt; K) &#123;</span><br><span class="line">				heights[leftMinIndex]++;</span><br><span class="line">			&#125; else &#123;</span><br><span class="line">				int rightMinIndex = findRightMinIndex(heights, K);</span><br><span class="line">				if(rightMinIndex &gt; K) &#123;</span><br><span class="line">					heights[rightMinIndex]++;</span><br><span class="line">				&#125; else &#123;</span><br><span class="line">					heights[K]++;</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		return heights;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="747-Largest-Number-At-Least-Twice-of-Others"><a href="#747-Largest-Number-At-Least-Twice-of-Others" class="headerlink" title="747. Largest Number At Least Twice of Others"></a>747. Largest Number At Least Twice of Others</h1><h2 id="题目描述-1"><a href="#题目描述-1" class="headerlink" title="题目描述"></a>题目描述</h2><p>In a given integer array nums, there is always exactly one largest element.</p>
+<p>Find whether the largest element in the array is at least twice as much as every other number in the array.</p>
+<p>If it is, return the index of the largest element, otherwise return -1.</p>
+<p>Example 1:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Input: nums = [3, 6, 1, 0]</span><br><span class="line">Output: 1</span><br><span class="line">Explanation: 6 is the largest integer, and for every other number in the array x,</span><br><span class="line">6 is more than twice as big as x.  The index of value 6 is 1, so we return 1.</span><br></pre></td></tr></table></figure>
+<p>Example 2:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Input: nums = [1, 2, 3, 4]</span><br><span class="line">Output: -1</span><br><span class="line">Explanation: 4 isn&apos;t at least as big as twice the value of 3, so we return -1.</span><br></pre></td></tr></table></figure>
+<p>Note:</p>
+<ul>
+<li><p>nums will have a length in the range [1, 50].</p>
+</li>
+<li><p>Every nums[i] will be an integer in the range [0, 99].</p>
+</li>
+</ul>
+<p>题意：找到数组中最大元素，并且确定最大元素至少比其他元素大两倍以上，满足则返回最大元素的下标，否则，返回-1。</p>
+<h2 id="解题思路-1"><a href="#解题思路-1" class="headerlink" title="解题思路"></a>解题思路</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * </span><br><span class="line"> */</span><br><span class="line">package com.leetcode.coding;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * @author Skygazer</span><br><span class="line"> *</span><br><span class="line"> */</span><br><span class="line">public class LargestNumberTwiceThanOthers &#123;</span><br><span class="line">	public int domainantIndex(int[] nums) &#123;</span><br><span class="line">		int maxIndex = max(nums);</span><br><span class="line">		System.out.println(maxIndex);</span><br><span class="line">		for(int i = 0; i &lt; nums.length; i++) &#123;</span><br><span class="line">			if(i != maxIndex) &#123;</span><br><span class="line">				if(nums[i] * 2 &gt; nums[maxIndex]) &#123;</span><br><span class="line">					return -1;</span><br><span class="line">				&#125;</span><br><span class="line">			&#125; else &#123;</span><br><span class="line">				continue;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		return maxIndex;</span><br><span class="line">	&#125;</span><br><span class="line">	/**</span><br><span class="line">	 * 思路一： 蛮力法，找到最大元素以后，再一一比对是否满足条件</span><br><span class="line">	 * 思路二： 排序后，如果最大元素能大于或者等于第二大的元素的两倍，则满足条件。</span><br><span class="line">	 * */</span><br><span class="line">	public int max(int[] nums) &#123;</span><br><span class="line">		int maxIndex = 0;</span><br><span class="line">		for(int i = 1; i &lt; nums.length; i++) &#123;</span><br><span class="line">			if(nums[i] &gt; nums[maxIndex]) &#123;</span><br><span class="line">				maxIndex = i;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		return maxIndex;</span><br><span class="line">	&#125;</span><br><span class="line">	public static void main(String[] args) &#123;</span><br><span class="line">		LargestNumberTwiceThanOthers l = new LargestNumberTwiceThanOthers();</span><br><span class="line">		int[] nums = &#123;0,0,0,1&#125;;</span><br><span class="line">		int i = l.domainantIndex(nums);</span><br><span class="line">		System.out.println(i);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="561-Array-Partition-I"><a href="#561-Array-Partition-I" class="headerlink" title="561. Array Partition I"></a>561. Array Partition I</h1><h2 id="题目描述-2"><a href="#题目描述-2" class="headerlink" title="题目描述"></a>题目描述</h2><p>Given an array of 2n integers, your task is to group these integers into n pairs of integer, say (a1, b1), (a2, b2), …, (an, bn) which makes sum of min(ai, bi) for all i from 1 to n as large as possible.</p>
+<p>Example 1:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Input: [1,4,3,2]</span><br><span class="line">Output: 4</span><br><span class="line">Explanation: n is 2, and the maximum sum of pairs is 4 = min(1, 2) + min(3, 4).</span><br></pre></td></tr></table></figure>
+<p>Note:</p>
+<ul>
+<li><p>n is a positive integer, which is in the range of [1, 10000].</p>
+</li>
+<li><p>All the integers in the array will be in the range of [-10000, 10000].</p>
+</li>
+</ul>
+<h2 id="解题思路-2"><a href="#解题思路-2" class="headerlink" title="解题思路"></a>解题思路</h2><p>排序，下标为偶数的元素求和即为所求。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * </span><br><span class="line"> */</span><br><span class="line">package com.leetcode.coding;</span><br><span class="line"></span><br><span class="line">import org.omg.CORBA.PUBLIC_MEMBER;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * @author zolanunu</span><br><span class="line"> *</span><br><span class="line"> */</span><br><span class="line">public class ArrayPartitionI &#123;</span><br><span class="line">	public int arrayPartitionI(int[] nums) &#123;</span><br><span class="line">		heapSort(nums);</span><br><span class="line">		int sum = 0;</span><br><span class="line">		for(int i = 0; i &lt; nums.length; i += 2) &#123;</span><br><span class="line">			sum = sum + nums[i];</span><br><span class="line">		&#125;</span><br><span class="line">		return sum;</span><br><span class="line">	&#125;</span><br><span class="line">	public int[] sort(int[] nums) &#123;</span><br><span class="line">		// 排序，利用简单选择排序</span><br><span class="line">		return sort(nums, nums.length);</span><br><span class="line">		</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	public int[] sort(int[] nums, int n) &#123;</span><br><span class="line">		int key, temp;</span><br><span class="line">		if(nums.length &lt;= 1) &#123;</span><br><span class="line">			return nums;</span><br><span class="line">		&#125;</span><br><span class="line">		for(int i = 0; i &lt; n; i++) &#123;</span><br><span class="line">			key = selectMinK(nums, n, i);</span><br><span class="line">			if(key != i) &#123;</span><br><span class="line">				temp = nums[i];</span><br><span class="line">				nums[i] = nums[key];</span><br><span class="line">				nums[key] = temp;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		return nums;</span><br><span class="line">	&#125;</span><br><span class="line">	public int selectMinK(int[] nums, int n, int i) &#123;</span><br><span class="line">		int k = i;</span><br><span class="line">		for(int j = i + 1; j &lt; n; j++) &#123;</span><br><span class="line">			if(nums[j] &lt; nums[k]) &#123;</span><br><span class="line">				k = j;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		return k; // 几下最小元素的下标</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	// 堆排序</span><br><span class="line">	</span><br><span class="line">	public void heapAdjust(int[] a, int p, int len) &#123;</span><br><span class="line">		int temp = a[p]; //保存当前父亲节点</span><br><span class="line">		int child = 2 * p + 1; // 左孩子</span><br><span class="line">		while(child &lt; len) &#123;</span><br><span class="line">			// 如果有右孩子节点，并且右孩子节点的值大于左孩子节点，则选择右孩子节点</span><br><span class="line">			if(child + 1&lt;len &amp;&amp;a[child] &lt; a[child + 1]) &#123;</span><br><span class="line">				child++;</span><br><span class="line">			&#125;</span><br><span class="line">			// 如果父亲节点的值已经大于孩子节点的值，则直接结束</span><br><span class="line">			if(temp &gt;= a[child]) &#123;</span><br><span class="line">				break;</span><br><span class="line">			&#125;</span><br><span class="line">			// 把孩子节点的值赋值给父亲节点</span><br><span class="line">			a[p] = a[child];</span><br><span class="line">			p = child;</span><br><span class="line">			child = 2 * child + 1;</span><br><span class="line">		&#125;</span><br><span class="line">		a[p] = temp;</span><br><span class="line">	&#125;</span><br><span class="line">	public  void heapSort(int[] a) &#123;</span><br><span class="line">		for(int i = a.length / 2; i &gt;= 0; i--) &#123;</span><br><span class="line">			heapAdjust(a, i, a.length);</span><br><span class="line">		&#125;</span><br><span class="line">		// 进行第n-1次循环，完成排序</span><br><span class="line">		for(int i = a.length -1; i &gt; 0; i--) &#123;</span><br><span class="line">			// 最后一个元素和第一个元素交换</span><br><span class="line">			int temp = a[i];</span><br><span class="line">			a[i] = a[0];</span><br><span class="line">			a[0] = temp;</span><br><span class="line">			// 筛选R[0]节点，得到第i-1个节点的堆</span><br><span class="line">			heapAdjust(a, 0, i);</span><br><span class="line">			//System.out.format(&quot;第%d趟： \t&quot;, a.length-i);</span><br><span class="line">			//printPart(a, 0, a.length-1);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	public static void main(String[] args) &#123;</span><br><span class="line">		ArrayPartitionI arrayPartitionI = new ArrayPartitionI();</span><br><span class="line">		int[] nums = &#123;5, 4, 2, 3&#125;;</span><br><span class="line">		int sum = arrayPartitionI.arrayPartitionI(nums);</span><br><span class="line">		System.out.println(&quot;sum = &quot; + sum);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="MinCostClimbingStairs"><a href="#MinCostClimbingStairs" class="headerlink" title="MinCostClimbingStairs"></a>MinCostClimbingStairs</h1><h2 id="题目描述-3"><a href="#题目描述-3" class="headerlink" title="题目描述"></a>题目描述</h2><p>On a staircase, the i-th step has some non-negative cost cost[i] assigned (0 indexed).</p>
+<p>Once you pay the cost, you can either climb one or two steps. You need to find minimum cost to reach the top of the floor, and you can either start from the step with index 0, or the step with index 1.</p>
+<p>Example 1:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Input: cost = [10, 15, 20]</span><br><span class="line">Output: 15</span><br><span class="line">Explanation: Cheapest is start on cost[1], pay that cost and go to the top.</span><br></pre></td></tr></table></figure>
+<p>Example 2:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Input: cost = [1, 100, 1, 1, 1, 100, 1, 1, 100, 1]</span><br><span class="line">Output: 6</span><br><span class="line">Explanation: Cheapest is start on cost[0], and only step on 1s, skipping cost[3].</span><br></pre></td></tr></table></figure>
+<p>Note:</p>
+<ul>
+<li><p>cost will have a length in the range [2, 1000].</p>
+</li>
+<li><p>Every cost[i] will be an integer in the range [0, 999].</p>
+</li>
+</ul>
+<p>题意：有n级台阶，每次可以向上跳1至2级，上台阶的总花费为sum(cost[i])， i为所有踩过的台阶。</p>
+<p>求最小花费。</p>
+<h2 id="解题思路-3"><a href="#解题思路-3" class="headerlink" title="解题思路"></a>解题思路</h2><p>利用动态规划</p>
+<p>dp[x] = min(dp[x-1], dp[x-2])+cost[x]</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * </span><br><span class="line"> */</span><br><span class="line">package com.leetcode.coding;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * @author zolanunu</span><br><span class="line"> *</span><br><span class="line"> */</span><br><span class="line">public class MinCostClimbingStairs &#123;</span><br><span class="line">	public int minCostClimbingStairs(int[] cost) &#123;</span><br><span class="line">		int[] dp = new int[cost.length];</span><br><span class="line">		dp[0] = cost[0];</span><br><span class="line">		dp[1] = cost[1];</span><br><span class="line">		for(int i = 2; i &lt; cost.length; i++) &#123;</span><br><span class="line">			dp[i] = Math.min(dp[i-1], dp[i-2]) + cost[i];</span><br><span class="line">		&#125;</span><br><span class="line">		return Math.min(dp[cost.length-1], dp[cost.length-2]);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="661-Image-Smoother"><a href="#661-Image-Smoother" class="headerlink" title="661. Image Smoother"></a>661. Image Smoother</h1><h2 id="题目描述-4"><a href="#题目描述-4" class="headerlink" title="题目描述"></a>题目描述</h2><p>Given a 2D integer matrix M representing the gray scale of an image, you need to design a smoother to make the gray scale of each cell becomes the average gray scale (rounding down) of all the 8 surrounding cells and itself. If a cell has less than 8 surrounding cells, then use as many as you can.</p>
+<p>Example 1:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">Input:</span><br><span class="line">[[1,1,1],</span><br><span class="line"> [1,0,1],</span><br><span class="line"> [1,1,1]]</span><br><span class="line">Output:</span><br><span class="line">[[0, 0, 0],</span><br><span class="line"> [0, 0, 0],</span><br><span class="line"> [0, 0, 0]]</span><br><span class="line">Explanation:</span><br><span class="line">For the point (0,0), (0,2), (2,0), (2,2): floor(3/4) = floor(0.75) = 0</span><br><span class="line">For the point (0,1), (1,0), (1,2), (2,1): floor(5/6) = floor(0.83333333) = 0</span><br><span class="line">For the point (1,1): floor(8/9) = floor(0.88888889) = 0</span><br></pre></td></tr></table></figure>
+<p>Note:</p>
+<ul>
+<li><p>The value in the given matrix is in the range of [0, 255].</p>
+</li>
+<li><p>The length and width of the given matrix are in the range of [1, 150].</p>
+</li>
+</ul>
+<p>大意：给定二维矩阵，表示图像的灰度。对图像进行平滑处理，将每一个像素的值换成其周围9个单元格的平均值。</p>
+<h2 id="解题思路-4"><a href="#解题思路-4" class="headerlink" title="解题思路"></a>解题思路</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">class Solution &#123;</span><br><span class="line">    public int[][] imageSmoother(int[][] M) &#123;</span><br><span class="line">        if (M == null) return null;</span><br><span class="line">        int rows = M.length;</span><br><span class="line">        if (rows == 0) return new int[0][];</span><br><span class="line">        int cols = M[0].length;</span><br><span class="line"></span><br><span class="line">        int result[][] = new int[rows][cols];</span><br><span class="line"></span><br><span class="line">        for (int row = 0; row &lt; rows; row++) &#123;</span><br><span class="line">            for (int col = 0; col &lt; cols; col++) &#123;</span><br><span class="line">                int count = 0;</span><br><span class="line">                int sum = 0;</span><br><span class="line">                for (int incR : new int[]&#123;-1, 0, 1&#125;) &#123;</span><br><span class="line">                    for (int incC : new int[]&#123;-1, 0, 1&#125;) &#123;</span><br><span class="line">                        if (isValid(row + incR, col + incC, rows, cols)) &#123;</span><br><span class="line">                            count++;</span><br><span class="line">                            sum += M[row + incR][col + incC];</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">                result[row][col] = sum / count;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        return result;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private boolean isValid(int x, int y, int rows, int cols) &#123;</span><br><span class="line">        return x &gt;= 0 &amp;&amp; x &lt; rows &amp;&amp; y &gt;= 0 &amp;&amp; y &lt; cols;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="643-Maximum-Average-Subarray-I"><a href="#643-Maximum-Average-Subarray-I" class="headerlink" title="643. Maximum Average Subarray I"></a>643. Maximum Average Subarray I</h1><h2 id="题目描述-5"><a href="#题目描述-5" class="headerlink" title="题目描述"></a>题目描述</h2><p>Given an array consisting of n integers, find the contiguous subarray of given length k that has the maximum average value. And you need to output the maximum average value.</p>
+<p>Example 1:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Input: [1,12,-5,-6,50,3], k = 4</span><br><span class="line">Output: 12.75</span><br><span class="line">Explanation: Maximum average is (12-5-6+50)/4 = 51/4 = 12.75</span><br></pre></td></tr></table></figure>
+<p>Note:</p>
+<ul>
+<li><p>1 &lt;= k &lt;= n &lt;= 30,000.</p>
+</li>
+<li><p>Elements of the given array will be in the range [-10,000, 10,000].</p>
+</li>
+</ul>
+<h2 id="解题思路-5"><a href="#解题思路-5" class="headerlink" title="解题思路"></a>解题思路</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * </span><br><span class="line"> */</span><br><span class="line">package com.leetcode.coding;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * @author zolanunu</span><br><span class="line"> *</span><br><span class="line"> */</span><br><span class="line">public class MaximumAverageSubarrayI &#123;</span><br><span class="line">	public static double findMaxAverage(int[] nums, int k) &#123;</span><br><span class="line">		if(k &gt; nums.length || nums.length == 0 || k &lt;= 0) &#123;</span><br><span class="line">			return 0.0;</span><br><span class="line">		&#125;</span><br><span class="line">		double maxAverage = Integer.MIN_VALUE;</span><br><span class="line">		for(int i = 0; i &lt; nums.length-k+1; i++) &#123;</span><br><span class="line">			int sum = 0;</span><br><span class="line">			//System.out.println(i + &quot;, &quot; + maxAverage);</span><br><span class="line">			for(int j = i; j &lt; i+k; j++) &#123;</span><br><span class="line">				sum = sum + nums[j];</span><br><span class="line">			&#125;</span><br><span class="line">			//System.out.println(i + &quot;, &quot;+ sum);</span><br><span class="line">			if(sum / (double)k &gt; maxAverage) &#123;</span><br><span class="line">				maxAverage = sum / (double)k;</span><br><span class="line">				</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		return maxAverage;</span><br><span class="line">	&#125;</span><br><span class="line">	public double findMaxAverage1(int[] nums, int k) &#123;</span><br><span class="line">		double sum = 0.0;</span><br><span class="line">		for(int i =0; i &lt; k; i++) &#123;</span><br><span class="line">			sum = sum + nums[i];</span><br><span class="line">		&#125;</span><br><span class="line">		double res = sum;</span><br><span class="line">		for(int i =k; i &lt; nums.length; i++) &#123;</span><br><span class="line">			sum += nums[i] - nums[i -k];</span><br><span class="line">			res = Math.max(res, sum);</span><br><span class="line">		&#125;</span><br><span class="line">		return res/(double)k;</span><br><span class="line">	&#125;</span><br><span class="line">	public static void main(String[] args) &#123;</span><br><span class="line">		int[] nums = &#123;1,12,-5,-6,50,3&#125;;</span><br><span class="line">		double x = findMaxAverage(nums, 4);</span><br><span class="line">		System.out.println(x);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="628-Maximum-Product-of-Three-Numbers"><a href="#628-Maximum-Product-of-Three-Numbers" class="headerlink" title="628. Maximum Product of Three Numbers"></a>628. Maximum Product of Three Numbers</h1><h2 id="题目描述-6"><a href="#题目描述-6" class="headerlink" title="题目描述"></a>题目描述</h2><p>Given an integer array, find three numbers whose product is maximum and output the maximum product.</p>
+<p>Example 1:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Input: [1,2,3]</span><br><span class="line">Output: 6</span><br></pre></td></tr></table></figure>
+<p>Example 2:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Input: [1,2,3,4]</span><br><span class="line">Output: 24</span><br></pre></td></tr></table></figure>
+<p>Note:</p>
+<ul>
+<li><p>The length of the given array will be in range [3,104] and all elements are in the range [-1000, 1000].</p>
+</li>
+<li><p>Multiplication of any three numbers in the input won’t exceed the range of 32-bit signed integer.</p>
+</li>
+</ul>
+<h2 id="解题思路-6"><a href="#解题思路-6" class="headerlink" title="解题思路"></a>解题思路</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * </span><br><span class="line"> */</span><br><span class="line">package com.leetcode.coding;</span><br><span class="line"></span><br><span class="line">import java.util.Arrays;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * @author zolanunu</span><br><span class="line"> *</span><br><span class="line"> */</span><br><span class="line">public class MaximumProductofThreeNumbers &#123;</span><br><span class="line">	public int maximumProduct(int[] nums) &#123;</span><br><span class="line">		if(nums.length &lt; 3) &#123;</span><br><span class="line">			return 0;</span><br><span class="line">		&#125;</span><br><span class="line">		// 首先对数组进行排序</span><br><span class="line">		Arrays.sort(nums);</span><br><span class="line">		return Math.max(nums[0]*nums[1]*nums[nums.length-1], nums[nums.length-1]*nums[nums.length-2]*nums[nums.length-3]);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="560-Subarray-Sum-Equals-K"><a href="#560-Subarray-Sum-Equals-K" class="headerlink" title="560. Subarray Sum Equals K"></a>560. Subarray Sum Equals K</h1><h2 id="题目描述-7"><a href="#题目描述-7" class="headerlink" title="题目描述"></a>题目描述</h2><p>Given an array of integers and an integer k, you need to find the total number of continuous subarrays whose sum equals to k.</p>
+<p>Example 1:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Input:nums = [1,1,1], k = 2</span><br><span class="line">Output: 2</span><br></pre></td></tr></table></figure>
+<p>Note:</p>
+<ul>
+<li>The length of the array is in range [1, 20,000].</li>
+</ul>
+<h2 id="解题思路-7"><a href="#解题思路-7" class="headerlink" title="解题思路"></a>解题思路</h2><p>最直观的想法是遍历数组并依次加当前位置的数字，同时用数组sum记录下当前位置之前所有数字的相加和，这样下标[i, j)之间的数字之和就可以用sum[j]-sum[i]来计算，然后通过双层循环，遍历所有情况来统计满足条件的子数组个数。具体代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">public int subarraySum(int[] nums, int k) &#123;</span><br><span class="line">	if(nums.length == 0) &#123;</span><br><span class="line">		return 0;</span><br><span class="line">	&#125;</span><br><span class="line">	//int num = 0;</span><br><span class="line">	int se = nums.length, cnt = 0;</span><br><span class="line">	int[] sum = new int[se+1];</span><br><span class="line">	for(int i = 0; i &lt; se; i++) &#123;</span><br><span class="line">		sum[i+1] = sum[i] + nums[i];</span><br><span class="line">	&#125;</span><br><span class="line">	for(int i = 0; i &lt; se; i++) &#123;</span><br><span class="line">		for(int j = i + 1; j &lt;= se; j++) &#123;</span><br><span class="line">			if(sum[j] - sum[i] == k) &#123;</span><br><span class="line">				cnt++;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	return cnt;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>用sum表示从数组开始位置到当前位置的数字相加和，有了第523题的经验，我们还可以用Hash Table来存储sum出现的次数，如果当前位置之前有相加和为sum-k的位置，则这两个位置之间的数字相加和为k，以当前位置结尾的相加和为k的子数组个数为hash[sum-k]，这样遍历整个数组即可得出满足条件的子数组个数。具体代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">class Solution &#123;  </span><br><span class="line">public:  </span><br><span class="line">    int subarraySum(vector&lt;int&gt;&amp; nums, int k) &#123;  </span><br><span class="line">        int sum = 0, cnt = 0;  </span><br><span class="line">        unordered_map&lt;int, int&gt; hash;  </span><br><span class="line">          </span><br><span class="line">        hash[0] = 1;  </span><br><span class="line">        for(auto n:nums) &#123;  </span><br><span class="line">            sum += n;  </span><br><span class="line">            cnt += hash[sum-k];  </span><br><span class="line">            ++hash[sum];  </span><br><span class="line">        &#125;  </span><br><span class="line">          </span><br><span class="line">        return cnt;  </span><br><span class="line">    &#125;  </span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h1 id="611-Valid-Triangle-Number"><a href="#611-Valid-Triangle-Number" class="headerlink" title="611. Valid Triangle Number"></a>611. Valid Triangle Number</h1><p>## </p>
+<p>Given an array consists of non-negative integers, your task is to count the number of triplets chosen from the array that can make triangles if we take them as side lengths of a triangle.</p>
+<p>Example 1:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Input: [2,2,3,4]</span><br><span class="line">Output: 3</span><br><span class="line">Explanation:</span><br><span class="line">Valid combinations are: </span><br><span class="line">2,3,4 (using the first 2)</span><br><span class="line">2,3,4 (using the second 2)</span><br><span class="line">2,2,3</span><br></pre></td></tr></table></figure>
+<p>Note:</p>
+<ul>
+<li><p>The length of the given array won’t exceed 1000.</p>
+</li>
+<li><p>The integers in the given array are in the range of [0, 1000].</p>
+</li>
+</ul>
+<h2 id="解题思路-8"><a href="#解题思路-8" class="headerlink" title="解题思路"></a>解题思路</h2><p>这道题是让找能够组成三角形的三个数，如果出现重复的数字，把它们当作不同的数字对待，像例子中的2，2，3，4，第一个2与第二个2分别与3,4,组成三角形。可以用三个指针来遍历这个数组，分别是i,j,k开始的时候j=i+1，k=i+2，当nums[i]+nums[j]&gt;nums[k]时，开始计数，每一轮k都加1，并且res每次增加k-j，因为开始的时候对nums数组排序，则数组中的数字是递增的（不一定单调），那么nums[i]+nums[j]&gt;nums[k]时，必然有nums[i]+nums[j+1]&gt;nusm[k]，nums[i]+nums[j+2]&gt;nums[k]….直到j=k-1，所以res增加k-j，最后返回结果即可，时间复杂度为O（n*n)。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * </span><br><span class="line"> */</span><br><span class="line">package com.leetcode.coding;</span><br><span class="line"></span><br><span class="line">import java.util.Arrays;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * @author zolanunu</span><br><span class="line"> *</span><br><span class="line"> */</span><br><span class="line">public class ValidTrangleNumber &#123;</span><br><span class="line">	public int triangleNumber(int[] nums) &#123;</span><br><span class="line">		Arrays.sort(nums);</span><br><span class="line">		int size = nums.length;</span><br><span class="line">		int ans = 0;</span><br><span class="line">		for (int i = 0; i &lt; size - 2; i++) &#123;</span><br><span class="line">			for (int j = i + 1; j &lt; size - 1; j++) &#123;</span><br><span class="line">				int k = binarySearch(nums, j + 1, nums[i] + nums[j]);</span><br><span class="line">				ans += k - j - 1;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		return ans;</span><br><span class="line">	&#125;</span><br><span class="line">	public int binarySearch(int[] nums, int start, int target) &#123;</span><br><span class="line">		int left = start, right = nums.length - 1;</span><br><span class="line">		while (left &lt;= right) &#123;</span><br><span class="line">			int mid = (left + right) / 2;</span><br><span class="line">			if (nums[mid] &gt;= target) right = mid - 1;</span><br><span class="line">			else left = mid + 1;</span><br><span class="line">		&#125;</span><br><span class="line">		return left;</span><br><span class="line">	&#125;		</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+            <div class="post-copyright">
+    <div class="content">
+        <p>最后更新： 2018年07月12日 13:53</p>
+        <p>原始链接： <a class="post-url" href="/2018/01/17/leetcode-Array-5/" title="leetcode刷题5">http://zhangbuzola.cn/2018/01/17/leetcode-Array-5/</a></p>
+        <footer>
+            <a href="http://zhangbuzola.cn">
+                <img src="/images/pacman.jpg" alt="zolanunu">
+                zolanunu
+            </a>
+        </footer>
+    </div>
+</div>
+
+      
+        
+            
+
+        
+    </div>
+    <footer class="article-footer">
+        
+        <ul class="article-footer-menu">
+            
+            
+  <li class="article-footer-tags">
+    <i class="fa fa-tags"></i>
+      
+    <a href="/tags/算法和数据结构/" class="color3">算法和数据结构</a>
+      
+    <a href="/tags/leetcode/" class="color4">leetcode</a>
+      
+  </li>
+
+        </ul>
+        
+    </footer>
+  </div>
+</article>
+
+
+    <aside class="post-toc-pos post-toc-top" id="post-toc">
+        <nav class="post-toc-wrap">
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#755-Pour-Water"><span class="post-toc-text">755. Pour Water</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#题目描述"><span class="post-toc-text">题目描述</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#解题思路"><span class="post-toc-text">解题思路</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#747-Largest-Number-At-Least-Twice-of-Others"><span class="post-toc-text">747. Largest Number At Least Twice of Others</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#题目描述-1"><span class="post-toc-text">题目描述</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#解题思路-1"><span class="post-toc-text">解题思路</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#561-Array-Partition-I"><span class="post-toc-text">561. Array Partition I</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#题目描述-2"><span class="post-toc-text">题目描述</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#解题思路-2"><span class="post-toc-text">解题思路</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#MinCostClimbingStairs"><span class="post-toc-text">MinCostClimbingStairs</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#题目描述-3"><span class="post-toc-text">题目描述</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#解题思路-3"><span class="post-toc-text">解题思路</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#661-Image-Smoother"><span class="post-toc-text">661. Image Smoother</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#题目描述-4"><span class="post-toc-text">题目描述</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#解题思路-4"><span class="post-toc-text">解题思路</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#643-Maximum-Average-Subarray-I"><span class="post-toc-text">643. Maximum Average Subarray I</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#题目描述-5"><span class="post-toc-text">题目描述</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#解题思路-5"><span class="post-toc-text">解题思路</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#628-Maximum-Product-of-Three-Numbers"><span class="post-toc-text">628. Maximum Product of Three Numbers</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#题目描述-6"><span class="post-toc-text">题目描述</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#解题思路-6"><span class="post-toc-text">解题思路</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#560-Subarray-Sum-Equals-K"><span class="post-toc-text">560. Subarray Sum Equals K</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#题目描述-7"><span class="post-toc-text">题目描述</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#解题思路-7"><span class="post-toc-text">解题思路</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#611-Valid-Triangle-Number"><span class="post-toc-text">611. Valid Triangle Number</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#解题思路-8"><span class="post-toc-text">解题思路</span></a></li></ol></li></ol>
+        </nav>
+    </aside>
+    
+
+<nav id="article-nav">
+  
+    <a href="/2018/01/21/java集合之HashMap/" id="article-nav-newer" class="article-nav-link-wrap">
+
+      <span class="article-nav-title">
+        <i class="fa fa-hand-o-left" aria-hidden="true"></i>
+        
+          java集合框架学习之HashMap
+        
+      </span>
+    </a>
+  
+  
+    <a href="/2018/01/17/javabase_thread/" id="article-nav-older" class="article-nav-link-wrap">
+      <span class="article-nav-title">java基础学习之多线程</span>
+      <i class="fa fa-hand-o-right" aria-hidden="true"></i>
+    </a>
+  
+</nav>
+
+
+
+    
+        <link rel="stylesheet" href="//unpkg.com/gitment/style/default.css">
+    <script src="//unpkg.com/gitment/dist/gitment.browser.js"></script>
+    <script>
+        var gitment = new Gitment({
+            owner: 'true',
+            repo: 'zolanunu',
+            oauth: {
+                client_id: '1a04e8dee74a4b8634df',
+                client_secret: '9e3078ac89eb72f22abbdd11f7f0d11e2e1d7f7a',
+            },
+        })
+        gitment.render('comments')
+    </script>
+
+    
+</section>
+        
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+      <p>
+        Powered by  <a href="http://hexo.io/" target="_blank">Hexo</a>
+        Theme <a href="//github.com/wongminho/hexo-theme-miho" target="_blank">MiHo</a>
+      &copy; 2018 zolanunu<br>
+      </p>
+    </div>
+  </div>
+</footer>
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script>
+  var mihoConfig = {
+      root: "http://zhangbuzola.cn",
+      animate: true,
+      isHome: false,
+      share: false,
+      reward: 0
+  }
+</script>
+<div class="sidebar">
+    <div id="sidebar-search" title="Search">
+        <i class="fa fa-search"></i>
+    </div>
+    <div id="sidebar-category" title="Categories">
+        <i class="fa fa-book"></i>
+    </div>
+    <div id="sidebar-tag" title="Tags">
+        <i class="fa fa-tags"></i>
+    </div>
+    <div id="sidebar-top">
+        <span class="sidebar-top-icon"><i class="fa fa-angle-up"></i></span>
+    </div>
+</div>
+<div class="sidebar-menu-box" id="sidebar-menu-box">
+    <div class="sidebar-menu-box-container">
+        <div id="sidebar-menu-box-categories">
+            <a class="category-link" href="/categories/Java/">Java</a><a class="category-link" href="/categories/Java后台/">Java后台</a><a class="category-link" href="/categories/Python/">Python</a><a class="category-link" href="/categories/工具/">工具</a><a class="category-link" href="/categories/技术书/">技术书</a><a class="category-link" href="/categories/数据库/">数据库</a><a class="category-link" href="/categories/数据结构/">数据结构</a><a class="category-link" href="/categories/生活轨迹/">生活轨迹</a><a class="category-link" href="/categories/算法/">算法</a>
+        </div>
+        <div id="sidebar-menu-box-tags">
+            <a href="/tags/2018/" style="font-size: 11.43px;">2018</a> <a href="/tags/Collections/" style="font-size: 15.71px;">Collections</a> <a href="/tags/HashMap/" style="font-size: 10px;">HashMap</a> <a href="/tags/LinkedHashMap/" style="font-size: 10px;">LinkedHashMap</a> <a href="/tags/MySQL/" style="font-size: 17.14px;">MySQL</a> <a href="/tags/Mybatis/" style="font-size: 12.86px;">Mybatis</a> <a href="/tags/Object/" style="font-size: 10px;">Object</a> <a href="/tags/SSM/" style="font-size: 12.86px;">SSM</a> <a href="/tags/TreeMap/" style="font-size: 11.43px;">TreeMap</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/java基础/" style="font-size: 20px;">java基础</a> <a href="/tags/java并发编程实战/" style="font-size: 11.43px;">java并发编程实战</a> <a href="/tags/leetcode/" style="font-size: 17.14px;">leetcode</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/剑指offer/" style="font-size: 10px;">剑指offer</a> <a href="/tags/多线程/" style="font-size: 11.43px;">多线程</a> <a href="/tags/并发编程/" style="font-size: 10px;">并发编程</a> <a href="/tags/机器学习/" style="font-size: 12.86px;">机器学习</a> <a href="/tags/构造函数/" style="font-size: 10px;">构造函数</a> <a href="/tags/深入理解java虚拟机/" style="font-size: 10px;">深入理解java虚拟机</a> <a href="/tags/生活/" style="font-size: 10px;">生活</a> <a href="/tags/神经网络/" style="font-size: 10px;">神经网络</a> <a href="/tags/算法与数据结构/" style="font-size: 14.29px;">算法与数据结构</a> <a href="/tags/算法和数据结构/" style="font-size: 18.57px;">算法和数据结构</a> <a href="/tags/观影记/" style="font-size: 10px;">观影记</a> <a href="/tags/读书书单/" style="font-size: 10px;">读书书单</a>
+        </div>
+    </div>
+    <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
+</div>
+<div class="mobile-header-menu-nav" id="mobile-header-menu-nav">
+    <div class="mobile-header-menu-container">
+        <span class="title">Menus</span>
+        <ul class="mobile-header-menu-navbar">
+            
+            <li>
+                <a  href="/">
+                    <i class="fa fa-home"></i><span>Home</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/archives">
+                    <i class="fa fa-archive"></i><span>Archives</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/about">
+                    <i class="fa fa-user"></i><span>About</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    <div class="mobile-header-tag-container">
+        <span class="title">Tags</span>
+        <div id="mobile-header-container-tags">
+            <a href="/tags/2018/" style="font-size: 11.43px;">2018</a> <a href="/tags/Collections/" style="font-size: 15.71px;">Collections</a> <a href="/tags/HashMap/" style="font-size: 10px;">HashMap</a> <a href="/tags/LinkedHashMap/" style="font-size: 10px;">LinkedHashMap</a> <a href="/tags/MySQL/" style="font-size: 17.14px;">MySQL</a> <a href="/tags/Mybatis/" style="font-size: 12.86px;">Mybatis</a> <a href="/tags/Object/" style="font-size: 10px;">Object</a> <a href="/tags/SSM/" style="font-size: 12.86px;">SSM</a> <a href="/tags/TreeMap/" style="font-size: 11.43px;">TreeMap</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/java基础/" style="font-size: 20px;">java基础</a> <a href="/tags/java并发编程实战/" style="font-size: 11.43px;">java并发编程实战</a> <a href="/tags/leetcode/" style="font-size: 17.14px;">leetcode</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/剑指offer/" style="font-size: 10px;">剑指offer</a> <a href="/tags/多线程/" style="font-size: 11.43px;">多线程</a> <a href="/tags/并发编程/" style="font-size: 10px;">并发编程</a> <a href="/tags/机器学习/" style="font-size: 12.86px;">机器学习</a> <a href="/tags/构造函数/" style="font-size: 10px;">构造函数</a> <a href="/tags/深入理解java虚拟机/" style="font-size: 10px;">深入理解java虚拟机</a> <a href="/tags/生活/" style="font-size: 10px;">生活</a> <a href="/tags/神经网络/" style="font-size: 10px;">神经网络</a> <a href="/tags/算法与数据结构/" style="font-size: 14.29px;">算法与数据结构</a> <a href="/tags/算法和数据结构/" style="font-size: 18.57px;">算法和数据结构</a> <a href="/tags/观影记/" style="font-size: 10px;">观影记</a> <a href="/tags/读书书单/" style="font-size: 10px;">读书书单</a>
+        </div>
+    </div>
+</div>
+<div class="search-wrap">
+    <span class="search-close">&times;</span>
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+            <i class="icon icon-lg icon-chevron-left"></i>
+        </a>
+        <input class="search-field" placeholder="Search..." id="keywords">
+        <a id="search-submit" href="javascript:;">
+            <i class="fa fa-search"></i>
+        </a>
+    <div class="search-container" id="search-container">
+        <ul class="search-result" id="search-result">
+        </ul>
+    </div>
+</div>
+
+<div id="search-tpl">
+    <li class="search-result-item">
+        <a href="{url}" class="search-item-li">
+            <span class="search-item-li-title" title="{title}">{title}</span>
+        </a>
+    </li>
+</div>
+<script src="/js/search.js"></script>
+<script src="/js/main.js"></script>
+
+
+  <script src="//cdn.bootcss.com/particles.js/2.0.0/particles.min.js"></script>
+  <div id="particles"></div>
+  <script src="/js/particles.js"></script>
+
+
+
+
+
+
+
+  <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
+  <script src="//cdn.bootcss.com/scrollReveal.js/3.0.5/scrollreveal.js"></script>
+  <script src="/js/animate.js"></script>
+
+
+  <script src="/js/pop-img.js"></script>
+  <script>
+     $(".article-entry p img").popImg();
+  </script>
+
+  </div>
+</body>
+</html>

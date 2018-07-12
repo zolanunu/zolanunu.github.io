@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>排序算法二 | zolanunu</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+    <meta name="keywords" content="zolanunu,zolanunu's blog" />
+  
+  <meta name="description" content="前面已经解释了插入排序的基本算法，并没有优化，后面再说吧 下面是有关选择排序的内容了，同样有两个简单的算法 简单选择排序算法贴图 操作方法： 第一趟，从n 个记录中找出关键码最小的记录与第一个记录交换； 第二趟，从第二个记录开始的n-1 个记录中再选出关键码最小的记录与第二个记录交换； 以此类推….. 第i 趟，则从第i 个记录开始的n-i+1 个记录中选出关键码最小的记录与第i 个记录交换，直到">
+<meta name="keywords" content="算法和数据结构">
+<meta property="og:type" content="article">
+<meta property="og:title" content="排序算法二">
+<meta property="og:url" content="http://zhangbuzola.cn/2017/11/21/java 排序算法二/index.html">
+<meta property="og:site_name" content="zolanunu">
+<meta property="og:description" content="前面已经解释了插入排序的基本算法，并没有优化，后面再说吧 下面是有关选择排序的内容了，同样有两个简单的算法 简单选择排序算法贴图 操作方法： 第一趟，从n 个记录中找出关键码最小的记录与第一个记录交换； 第二趟，从第二个记录开始的n-1 个记录中再选出关键码最小的记录与第二个记录交换； 以此类推….. 第i 趟，则从第i 个记录开始的n-i+1 个记录中选出关键码最小的记录与第i 个记录交换，直到">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="http://zhangbuzola.cn/assets/images/simpleselect.jpg">
+<meta property="og:image" content="http://zhangbuzola.cn/assets/images/heap.png">
+<meta property="og:image" content="http://zhangbuzola.cn/assets/images/heapsort.png">
+<meta property="og:image" content="http://zhangbuzola.cn/assets/images/heapsort1.png">
+<meta property="og:image" content="http://zhangbuzola.cn/assets/images/binaryheap.png">
+<meta property="og:image" content="http://zhangbuzola.cn/assets/images/swim.png">
+<meta property="og:image" content="http://zhangbuzola.cn/assets/images/heap-insert.png">
+<meta property="og:image" content="http://zhangbuzola.cn/assets/images/heap-insert.gif">
+<meta property="og:image" content="http://zhangbuzola.cn/assets/images/sink.png">
+<meta property="og:image" content="http://zhangbuzola.cn/assets/images/heap-remove.png">
+<meta property="og:updated_time" content="2018-07-12T06:17:37.397Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="排序算法二">
+<meta name="twitter:description" content="前面已经解释了插入排序的基本算法，并没有优化，后面再说吧 下面是有关选择排序的内容了，同样有两个简单的算法 简单选择排序算法贴图 操作方法： 第一趟，从n 个记录中找出关键码最小的记录与第一个记录交换； 第二趟，从第二个记录开始的n-1 个记录中再选出关键码最小的记录与第二个记录交换； 以此类推….. 第i 趟，则从第i 个记录开始的n-i+1 个记录中选出关键码最小的记录与第i 个记录交换，直到">
+<meta name="twitter:image" content="http://zhangbuzola.cn/assets/images/simpleselect.jpg">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="/js/pace.min.js"></script>
+  
+
+  
+	<script>
+	var _hmt = _hmt || [];
+	(function() {
+	  var hm = document.createElement("script");
+	  hm.src = "//hm.baidu.com/hm.js?a651034b7d11a367ae836642b29a3057";
+	  var s = document.getElementsByTagName("script")[0]; 
+	  s.parentNode.insertBefore(hm, s);
+	})();
+	</script>
+
+  
+
+</head>
+
+<body>
+  <div id="container">
+      <header id="header">
+    <div id="banner"></div>
+    <div id="header-outer">
+        <div id="header-menu" class="header-menu-pos animated">
+            <div class="header-menu-container">
+                <a href="/" class="left">
+                    <span class="site-title">zolanunu&#39;s Blog</span>
+                </a>
+                <nav id="header-menu-nav" class="right">
+                    
+                    <a  href="/">
+                        <i class="fa fa-home"></i>
+                        <span>Home</span>
+                    </a>
+                    
+                    <a  href="/archives">
+                        <i class="fa fa-archive"></i>
+                        <span>Archives</span>
+                    </a>
+                    
+                    <a  href="/about">
+                        <i class="fa fa-user"></i>
+                        <span>About</span>
+                    </a>
+                    
+                </nav>
+                <a class="mobile-header-menu-button">
+                    <i class="fa fa-bars"></i>
+                </a>
+            </div>
+        </div>
+        <div id="header-row">
+            <div id="logo">
+                <a href="/">
+                    <img src="/images/pacman.jpg" alt="logo">
+                </a>
+            </div>
+            <div class="header-info">
+                <div id="header-title">
+                    
+                    <h2>
+                        zolanunu&#39;s Blog
+                    </h2>
+                    
+                </div>
+                <div id="header-description">
+                    
+                    <h3>
+                        去努力尝试做一些你觉得你不会做或者不敢做的事情。
+                    </h3>
+                    
+                </div>
+            </div>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a title="zolanunu" target="_blank" href="//zhangbuzola.cn">
+                            <i class="fa fa-home fa-2x"></i></a>
+                    
+                        <a title="Github" target="_blank" href="//github.com/zolanunu">
+                            <i class="fa fa-github fa-2x"></i></a>
+                    
+                        <a title="Weibo" target="_blank" href="//weibo.com/zolanunu">
+                            <i class="fa fa-weibo fa-2x"></i></a>
+                    
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>
+      <div class="outer">
+        <section id="main" class="body-wrap"><article id="post-java 排序算法二" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="post-title" itemprop="name">
+      排序算法二
+    </h1>
+    <div class="post-title-bar">
+      <ul>
+          
+              <li>
+                  <i class="fa fa-book"></i>
+                  
+                      <a href="/categories/算法/">算法</a>
+                  
+              </li>
+          
+        <li>
+          <i class="fa fa-calendar"></i>  2017-11-21
+        </li>
+        <li>
+          <i class="fa fa-eye"></i>
+          <span id="busuanzi_value_page_pv"></span>
+        </li>
+      </ul>
+    </div>
+  
+
+          
+      </header>
+    
+    <div class="article-entry post-content" itemprop="articleBody">
+      
+            
+            <p>前面已经解释了插入排序的基本算法，并没有优化，后面再说吧</p>
+<p>下面是有关选择排序的内容了，同样有两个简单的算法</p>
+<h1 id="简单选择排序算法"><a href="#简单选择排序算法" class="headerlink" title="简单选择排序算法"></a>简单选择排序算法</h1><h2 id="贴图"><a href="#贴图" class="headerlink" title="贴图"></a>贴图</h2><p><img src="/assets/images/simpleselect.jpg" alt=""></p>
+<p>操作方法：</p>
+<p>第一趟，从n 个记录中找出关键码最小的记录与第一个记录交换；</p>
+<p>第二趟，从第二个记录开始的n-1 个记录中再选出关键码最小的记录与第二个记录交换；</p>
+<p>以此类推…..</p>
+<p>第i 趟，则从第i 个记录开始的n-i+1 个记录中选出关键码最小的记录与第i 个记录交换，直到整个序列按关键码有序。</p>
+<h2 id="复杂度分析"><a href="#复杂度分析" class="headerlink" title="复杂度分析"></a>复杂度分析</h2><h2 id="贴代码"><a href="#贴代码" class="headerlink" title="贴代码"></a>贴代码</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">public class SimpleSelectSort &#123;</span><br><span class="line">	public static int selectMink(int[] a, int n, int i) &#123;</span><br><span class="line">		int k = i;</span><br><span class="line">		for(int j = i + 1; j &lt; n; j++) &#123;</span><br><span class="line">			if(a[k] &gt; a[j]) &#123;</span><br><span class="line">				k = j;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		return k;</span><br><span class="line">	&#125;</span><br><span class="line">	public static int[] simpleSelectSort(int[] a, int n) &#123;</span><br><span class="line">		int key, temp;</span><br><span class="line">		for(int i = 0; i &lt; n; i++) &#123;</span><br><span class="line">			key = selectMink(a, n, i);</span><br><span class="line">			if(key != i) &#123;</span><br><span class="line">				temp = a[i];</span><br><span class="line">				a[i] = a[key];</span><br><span class="line">				a[key] = temp;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		return a;</span><br><span class="line">	&#125;</span><br><span class="line">	public static void main(String[] args) &#123;</span><br><span class="line">		int[] a = &#123;3,1,5,7,2,4,9,6&#125;;</span><br><span class="line">		a = simpleSelectSort(a, a.length);</span><br><span class="line">		for(int i = 0; i &lt; a.length; i++) &#123;</span><br><span class="line">			System.out.print(a[i] + &quot; &quot;);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="堆排序"><a href="#堆排序" class="headerlink" title="堆排序"></a>堆排序</h1><p>堆是一棵顺序存储的二叉排序树；有小根堆和大根堆</p>
+<h2 id="贴图-1"><a href="#贴图-1" class="headerlink" title="贴图"></a>贴图</h2><p>假设有一个无序序列：{1,3,4,5,2,6,9,7,8,0}</p>
+<p><img src="/assets/images/heap.png" alt=""></p>
+<p>下面是堆排序的过程：主题思想已经贴在代码中了</p>
+<p><img src="/assets/images/heapsort.png" alt=""></p>
+<p>下面是详细的堆排序过程：</p>
+<p><img src="/assets/images/heapsort1.png" alt=""></p>
+<h2 id="复杂度分析-1"><a href="#复杂度分析-1" class="headerlink" title="复杂度分析"></a>复杂度分析</h2><h2 id="贴代码-1"><a href="#贴代码-1" class="headerlink" title="贴代码"></a>贴代码</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">public class HeapSort &#123;</span><br><span class="line">	/**</span><br><span class="line">	 * 堆排序</span><br><span class="line">	 * 主要思想：</span><br><span class="line">	 * 首先根据初始的数组去构造大根堆或者小根堆，这里是大根堆（构建一个完全二叉树，保证所有的父亲节点比孩子节点大）</span><br><span class="line">	 * 每次交换第一个和最后一个元素,输出最后一个元素，（max） 然后再把剩下的元素重新调整为大根堆</span><br><span class="line">	 * */</span><br><span class="line">	public void heapAdjust(int[] a, int p, int len) &#123;</span><br><span class="line">		int temp = a[p]; //保存当前父亲节点</span><br><span class="line">		int child = 2 * p + 1; // 左孩子</span><br><span class="line">		while(child &lt; len) &#123;</span><br><span class="line">			// 如果有右孩子节点，并且右孩子节点的值大于左孩子节点，则选择右孩子节点</span><br><span class="line">			if(child + 1&lt;len &amp;&amp;a[child] &lt; a[child + 1]) &#123;</span><br><span class="line">				child++;</span><br><span class="line">			&#125;</span><br><span class="line">			// 如果父亲节点的值已经大于孩子节点的值，则直接结束</span><br><span class="line">			if(temp &gt;= a[child]) &#123;</span><br><span class="line">				break;</span><br><span class="line">			&#125;</span><br><span class="line">			// 把孩子节点的值赋值给父亲节点</span><br><span class="line">			a[p] = a[child];</span><br><span class="line">			p = child;</span><br><span class="line">			child = 2 * child + 1;</span><br><span class="line">		&#125;</span><br><span class="line">		a[p] = temp;</span><br><span class="line">	&#125;</span><br><span class="line">	public  void heapSort(int[] a) &#123;</span><br><span class="line">		for(int i = a.length / 2; i &gt;= 0; i--) &#123;</span><br><span class="line">			heapAdjust(a, i, a.length);</span><br><span class="line">		&#125;</span><br><span class="line">		// 进行第n-1次循环，完成排序</span><br><span class="line">		for(int i = a.length -1; i &gt; 0; i--) &#123;</span><br><span class="line">			// 最后一个元素和第一个元素交换</span><br><span class="line">			int temp = a[i];</span><br><span class="line">			a[i] = a[0];</span><br><span class="line">			a[0] = temp;</span><br><span class="line">			// 筛选R[0]节点，得到第i-1个节点的堆</span><br><span class="line">			heapAdjust(a, 0, i);</span><br><span class="line">			System.out.format(&quot;第%d趟： \t&quot;, a.length-i);</span><br><span class="line">			printPart(a, 0, a.length-1);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	 // 打印序列</span><br><span class="line">    public void printPart(int[] list, int begin, int end) &#123;</span><br><span class="line">        for (int i = 0; i &lt; begin; i++) &#123;</span><br><span class="line">            System.out.print(&quot;\t&quot;);</span><br><span class="line">        &#125;</span><br><span class="line">        for (int i = begin; i &lt;= end; i++) &#123;</span><br><span class="line">            System.out.print(list[i] + &quot;\t&quot;);</span><br><span class="line">        &#125;</span><br><span class="line">        System.out.println();</span><br><span class="line">    &#125;</span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        // 初始化一个序列</span><br><span class="line">        int[] array = &#123;1, 3, 4, 5, 2, 6, 9, 7, 8, 0&#125;;</span><br><span class="line">        // 调用快速排序方法</span><br><span class="line">        HeapSort heap = new HeapSort();</span><br><span class="line">        System.out.print(&quot;排序前:\t&quot;);</span><br><span class="line">        heap.printPart(array, 0, array.length - 1);</span><br><span class="line">        heap.heapSort(array);</span><br><span class="line">        System.out.print(&quot;排序后:\t&quot;);</span><br><span class="line">        heap.printPart(array, 0, array.length - 1);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="二叉堆"><a href="#二叉堆" class="headerlink" title="二叉堆"></a>二叉堆</h2><h5 id="基本操作"><a href="#基本操作" class="headerlink" title="基本操作"></a>基本操作</h5><p>二叉堆是一个近似完全二叉树的结构，并同时满足堆积的性质：子节点的键值或者索引总是小于或者小于它的父节点。</p>
+<p>二叉堆的表现形式:使用数组索引来表示元素在二叉堆的位置。</p>
+<p><img src="/assets/images/binaryheap.png" alt=""></p>
+<p>从二叉堆中，我们可以得出：</p>
+<ul>
+<li><p>元素k的父节点所在的位置为[k/2]</p>
+</li>
+<li><p>元素k的子节点所在的位置为2k和2k+1</p>
+</li>
+</ul>
+<p>跟据以上规则，我们可以使用二维数组的索引来表示二叉堆。通过二叉堆，我们可以实现插入和删除最大值都达到O(nlogn)的时间复杂度。</p>
+<p>对于堆来说，最大元素已经位于根节点，那么删除操作就是移除并返回根节点元素，这时候二叉堆就需要重新排列；当插入新的元素的时候，也需要重新排列二叉堆以满足二叉堆的定义。现在就来看这两种操作。</p>
+<p>从下至上的重新建堆操作: 如果一个节点的值大于其父节点的值，那么该节点就需要上移，一直到满足该节点大于其两个子节点，而小于其根节点为止，从而达到使整个堆实现二叉堆的要求。</p>
+<ul>
+<li>button-up reheapify</li>
+</ul>
+<p>如果一个节点的值大于其父亲节点的值，那么该节点就需要上移，重复直到满足所有父亲节点小于其根节点，从而达到使整个二叉堆的要求</p>
+<p><img src="/assets/images/swim.png" alt=""></p>
+<p>从上面的图呈现的就是从下往上建堆的过程，我们只需要将该元素k和其父元素k/2进行比较，如果比父元素大，则交换，然后迭代，一直到比父元素小为止。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">private void swim(int k) &#123; // k子节点的索引</span><br><span class="line">	while(k &gt; 1 &amp;&amp; less(k/2, k)) &#123;</span><br><span class="line">		exch(k, k/2);</span><br><span class="line">		k = k / 2;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>因此，如果要往堆中插入新的元素变成了从下往上重新建堆。</p>
+<p><img src="/assets/images/heap-insert.png" alt=""></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">public static void Insert(T s) &#123;</span><br><span class="line">	pq[++N] = s;</span><br><span class="line">	swim(N);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>动画过程:</p>
+<p><img src="/assets/images/heap-insert.gif" alt=""></p>
+<ul>
+<li>top-down heapify</li>
+</ul>
+<p>当一个节点比其子节点要小的时候，就违反了二叉堆的定义，需要重新建堆</p>
+<p><img src="/assets/images/sink.png" alt=""></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">private void sink(int k) &#123;</span><br><span class="line">   while (2 * k &lt;= N) &#123;</span><br><span class="line">      int j = 2 * k;</span><br><span class="line">      if (j &lt; N &amp;&amp; less(j, j+1)) j++;</span><br><span class="line">      if (!less(k, j)) break;</span><br><span class="line">      exch(k, j);</span><br><span class="line">      k = j;</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这样，移除并返回最大元素操作DelMax可以变为：</p>
+<ol>
+<li><p>移除二叉堆根节点元素，并返回</p>
+</li>
+<li><p>将数组中最后一个元素放到根节点位置</p>
+</li>
+<li><p>然后对新的根节点元素进行Sink操作，直到满足二叉堆要求。</p>
+</li>
+</ol>
+<p>移除最大值并返回的操作如下图所示：</p>
+<p><img src="/assets/images/heap-remove.png" alt=""></p>
+
+            <div class="post-copyright">
+    <div class="content">
+        <p>最后更新： 2018年07月12日 14:17</p>
+        <p>原始链接： <a class="post-url" href="/2017/11/21/java 排序算法二/" title="排序算法二">http://zhangbuzola.cn/2017/11/21/java 排序算法二/</a></p>
+        <footer>
+            <a href="http://zhangbuzola.cn">
+                <img src="/images/pacman.jpg" alt="zolanunu">
+                zolanunu
+            </a>
+        </footer>
+    </div>
+</div>
+
+      
+        
+            
+
+        
+    </div>
+    <footer class="article-footer">
+        
+        <ul class="article-footer-menu">
+            
+            
+  <li class="article-footer-tags">
+    <i class="fa fa-tags"></i>
+      
+    <a href="/tags/算法和数据结构/" class="color3">算法和数据结构</a>
+      
+  </li>
+
+        </ul>
+        
+    </footer>
+  </div>
+</article>
+
+
+    <aside class="post-toc-pos post-toc-top" id="post-toc">
+        <nav class="post-toc-wrap">
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#简单选择排序算法"><span class="post-toc-text">简单选择排序算法</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#贴图"><span class="post-toc-text">贴图</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#复杂度分析"><span class="post-toc-text">复杂度分析</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#贴代码"><span class="post-toc-text">贴代码</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#堆排序"><span class="post-toc-text">堆排序</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#贴图-1"><span class="post-toc-text">贴图</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#复杂度分析-1"><span class="post-toc-text">复杂度分析</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#贴代码-1"><span class="post-toc-text">贴代码</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#二叉堆"><span class="post-toc-text">二叉堆</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#基本操作"><span class="post-toc-text">基本操作</span></a></li></ol></li></ol></li></ol></li></ol></li></ol>
+        </nav>
+    </aside>
+    
+
+<nav id="article-nav">
+  
+    <a href="/2017/11/22/java基础之引用/" id="article-nav-newer" class="article-nav-link-wrap">
+
+      <span class="article-nav-title">
+        <i class="fa fa-hand-o-left" aria-hidden="true"></i>
+        
+          java基础学习之引用
+        
+      </span>
+    </a>
+  
+  
+    <a href="/2017/11/21/java_SSM环境框架按键与配置详解/" id="article-nav-older" class="article-nav-link-wrap">
+      <span class="article-nav-title">SSM框架搭建实践篇</span>
+      <i class="fa fa-hand-o-right" aria-hidden="true"></i>
+    </a>
+  
+</nav>
+
+
+
+    
+        <link rel="stylesheet" href="//unpkg.com/gitment/style/default.css">
+    <script src="//unpkg.com/gitment/dist/gitment.browser.js"></script>
+    <script>
+        var gitment = new Gitment({
+            owner: 'true',
+            repo: 'zolanunu',
+            oauth: {
+                client_id: '1a04e8dee74a4b8634df',
+                client_secret: '9e3078ac89eb72f22abbdd11f7f0d11e2e1d7f7a',
+            },
+        })
+        gitment.render('comments')
+    </script>
+
+    
+</section>
+        
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+      <p>
+        Powered by  <a href="http://hexo.io/" target="_blank">Hexo</a>
+        Theme <a href="//github.com/wongminho/hexo-theme-miho" target="_blank">MiHo</a>
+      &copy; 2018 zolanunu<br>
+      </p>
+    </div>
+  </div>
+</footer>
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script>
+  var mihoConfig = {
+      root: "http://zhangbuzola.cn",
+      animate: true,
+      isHome: false,
+      share: false,
+      reward: 0
+  }
+</script>
+<div class="sidebar">
+    <div id="sidebar-search" title="Search">
+        <i class="fa fa-search"></i>
+    </div>
+    <div id="sidebar-category" title="Categories">
+        <i class="fa fa-book"></i>
+    </div>
+    <div id="sidebar-tag" title="Tags">
+        <i class="fa fa-tags"></i>
+    </div>
+    <div id="sidebar-top">
+        <span class="sidebar-top-icon"><i class="fa fa-angle-up"></i></span>
+    </div>
+</div>
+<div class="sidebar-menu-box" id="sidebar-menu-box">
+    <div class="sidebar-menu-box-container">
+        <div id="sidebar-menu-box-categories">
+            <a class="category-link" href="/categories/Java/">Java</a><a class="category-link" href="/categories/Java后台/">Java后台</a><a class="category-link" href="/categories/Python/">Python</a><a class="category-link" href="/categories/工具/">工具</a><a class="category-link" href="/categories/技术书/">技术书</a><a class="category-link" href="/categories/数据库/">数据库</a><a class="category-link" href="/categories/数据结构/">数据结构</a><a class="category-link" href="/categories/生活轨迹/">生活轨迹</a><a class="category-link" href="/categories/算法/">算法</a>
+        </div>
+        <div id="sidebar-menu-box-tags">
+            <a href="/tags/2018/" style="font-size: 11.43px;">2018</a> <a href="/tags/Collections/" style="font-size: 15.71px;">Collections</a> <a href="/tags/HashMap/" style="font-size: 10px;">HashMap</a> <a href="/tags/LinkedHashMap/" style="font-size: 10px;">LinkedHashMap</a> <a href="/tags/MySQL/" style="font-size: 17.14px;">MySQL</a> <a href="/tags/Mybatis/" style="font-size: 12.86px;">Mybatis</a> <a href="/tags/Object/" style="font-size: 10px;">Object</a> <a href="/tags/SSM/" style="font-size: 12.86px;">SSM</a> <a href="/tags/TreeMap/" style="font-size: 11.43px;">TreeMap</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/java基础/" style="font-size: 20px;">java基础</a> <a href="/tags/java并发编程实战/" style="font-size: 11.43px;">java并发编程实战</a> <a href="/tags/leetcode/" style="font-size: 17.14px;">leetcode</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/剑指offer/" style="font-size: 10px;">剑指offer</a> <a href="/tags/多线程/" style="font-size: 11.43px;">多线程</a> <a href="/tags/并发编程/" style="font-size: 10px;">并发编程</a> <a href="/tags/机器学习/" style="font-size: 12.86px;">机器学习</a> <a href="/tags/构造函数/" style="font-size: 10px;">构造函数</a> <a href="/tags/深入理解java虚拟机/" style="font-size: 10px;">深入理解java虚拟机</a> <a href="/tags/生活/" style="font-size: 10px;">生活</a> <a href="/tags/神经网络/" style="font-size: 10px;">神经网络</a> <a href="/tags/算法与数据结构/" style="font-size: 14.29px;">算法与数据结构</a> <a href="/tags/算法和数据结构/" style="font-size: 18.57px;">算法和数据结构</a> <a href="/tags/观影记/" style="font-size: 10px;">观影记</a> <a href="/tags/读书书单/" style="font-size: 10px;">读书书单</a>
+        </div>
+    </div>
+    <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
+</div>
+<div class="mobile-header-menu-nav" id="mobile-header-menu-nav">
+    <div class="mobile-header-menu-container">
+        <span class="title">Menus</span>
+        <ul class="mobile-header-menu-navbar">
+            
+            <li>
+                <a  href="/">
+                    <i class="fa fa-home"></i><span>Home</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/archives">
+                    <i class="fa fa-archive"></i><span>Archives</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/about">
+                    <i class="fa fa-user"></i><span>About</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    <div class="mobile-header-tag-container">
+        <span class="title">Tags</span>
+        <div id="mobile-header-container-tags">
+            <a href="/tags/2018/" style="font-size: 11.43px;">2018</a> <a href="/tags/Collections/" style="font-size: 15.71px;">Collections</a> <a href="/tags/HashMap/" style="font-size: 10px;">HashMap</a> <a href="/tags/LinkedHashMap/" style="font-size: 10px;">LinkedHashMap</a> <a href="/tags/MySQL/" style="font-size: 17.14px;">MySQL</a> <a href="/tags/Mybatis/" style="font-size: 12.86px;">Mybatis</a> <a href="/tags/Object/" style="font-size: 10px;">Object</a> <a href="/tags/SSM/" style="font-size: 12.86px;">SSM</a> <a href="/tags/TreeMap/" style="font-size: 11.43px;">TreeMap</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/java基础/" style="font-size: 20px;">java基础</a> <a href="/tags/java并发编程实战/" style="font-size: 11.43px;">java并发编程实战</a> <a href="/tags/leetcode/" style="font-size: 17.14px;">leetcode</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/剑指offer/" style="font-size: 10px;">剑指offer</a> <a href="/tags/多线程/" style="font-size: 11.43px;">多线程</a> <a href="/tags/并发编程/" style="font-size: 10px;">并发编程</a> <a href="/tags/机器学习/" style="font-size: 12.86px;">机器学习</a> <a href="/tags/构造函数/" style="font-size: 10px;">构造函数</a> <a href="/tags/深入理解java虚拟机/" style="font-size: 10px;">深入理解java虚拟机</a> <a href="/tags/生活/" style="font-size: 10px;">生活</a> <a href="/tags/神经网络/" style="font-size: 10px;">神经网络</a> <a href="/tags/算法与数据结构/" style="font-size: 14.29px;">算法与数据结构</a> <a href="/tags/算法和数据结构/" style="font-size: 18.57px;">算法和数据结构</a> <a href="/tags/观影记/" style="font-size: 10px;">观影记</a> <a href="/tags/读书书单/" style="font-size: 10px;">读书书单</a>
+        </div>
+    </div>
+</div>
+<div class="search-wrap">
+    <span class="search-close">&times;</span>
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+            <i class="icon icon-lg icon-chevron-left"></i>
+        </a>
+        <input class="search-field" placeholder="Search..." id="keywords">
+        <a id="search-submit" href="javascript:;">
+            <i class="fa fa-search"></i>
+        </a>
+    <div class="search-container" id="search-container">
+        <ul class="search-result" id="search-result">
+        </ul>
+    </div>
+</div>
+
+<div id="search-tpl">
+    <li class="search-result-item">
+        <a href="{url}" class="search-item-li">
+            <span class="search-item-li-title" title="{title}">{title}</span>
+        </a>
+    </li>
+</div>
+<script src="/js/search.js"></script>
+<script src="/js/main.js"></script>
+
+
+  <script src="//cdn.bootcss.com/particles.js/2.0.0/particles.min.js"></script>
+  <div id="particles"></div>
+  <script src="/js/particles.js"></script>
+
+
+
+
+
+
+
+  <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
+  <script src="//cdn.bootcss.com/scrollReveal.js/3.0.5/scrollreveal.js"></script>
+  <script src="/js/animate.js"></script>
+
+
+  <script src="/js/pop-img.js"></script>
+  <script>
+     $(".article-entry p img").popImg();
+  </script>
+
+  </div>
+</body>
+</html>

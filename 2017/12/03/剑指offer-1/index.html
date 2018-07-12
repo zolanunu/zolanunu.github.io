@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>剑指offer之解题3 | zolanunu</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+    <meta name="keywords" content="zolanunu,zolanunu's blog" />
+  
+  <meta name="description" content="48 不用加减乘除做加法题目描述写一个函数，求两个整数之和，要求在函数体内不得使用+、-、*、/四则运算符号。 输入： 5 7 输出： 5 + 7  = 12 解题思路分3个步骤：  个位数相加不进位  做进位  把前两步得到的结果加起来就ok了   12345678910111213141516171819202122232425public class SpecialSumforInteger">
+<meta name="keywords" content="算法和数据结构,剑指offer">
+<meta property="og:type" content="article">
+<meta property="og:title" content="剑指offer之解题3">
+<meta property="og:url" content="http://zhangbuzola.cn/2017/12/03/剑指offer-1/index.html">
+<meta property="og:site_name" content="zolanunu">
+<meta property="og:description" content="48 不用加减乘除做加法题目描述写一个函数，求两个整数之和，要求在函数体内不得使用+、-、*、/四则运算符号。 输入： 5 7 输出： 5 + 7  = 12 解题思路分3个步骤：  个位数相加不进位  做进位  把前两步得到的结果加起来就ok了   12345678910111213141516171819202122232425public class SpecialSumforInteger">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2018-07-12T06:16:43.223Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="剑指offer之解题3">
+<meta name="twitter:description" content="48 不用加减乘除做加法题目描述写一个函数，求两个整数之和，要求在函数体内不得使用+、-、*、/四则运算符号。 输入： 5 7 输出： 5 + 7  = 12 解题思路分3个步骤：  个位数相加不进位  做进位  把前两步得到的结果加起来就ok了   12345678910111213141516171819202122232425public class SpecialSumforInteger">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="/js/pace.min.js"></script>
+  
+
+  
+	<script>
+	var _hmt = _hmt || [];
+	(function() {
+	  var hm = document.createElement("script");
+	  hm.src = "//hm.baidu.com/hm.js?a651034b7d11a367ae836642b29a3057";
+	  var s = document.getElementsByTagName("script")[0]; 
+	  s.parentNode.insertBefore(hm, s);
+	})();
+	</script>
+
+  
+
+</head>
+
+<body>
+  <div id="container">
+      <header id="header">
+    <div id="banner"></div>
+    <div id="header-outer">
+        <div id="header-menu" class="header-menu-pos animated">
+            <div class="header-menu-container">
+                <a href="/" class="left">
+                    <span class="site-title">zolanunu&#39;s Blog</span>
+                </a>
+                <nav id="header-menu-nav" class="right">
+                    
+                    <a  href="/">
+                        <i class="fa fa-home"></i>
+                        <span>Home</span>
+                    </a>
+                    
+                    <a  href="/archives">
+                        <i class="fa fa-archive"></i>
+                        <span>Archives</span>
+                    </a>
+                    
+                    <a  href="/about">
+                        <i class="fa fa-user"></i>
+                        <span>About</span>
+                    </a>
+                    
+                </nav>
+                <a class="mobile-header-menu-button">
+                    <i class="fa fa-bars"></i>
+                </a>
+            </div>
+        </div>
+        <div id="header-row">
+            <div id="logo">
+                <a href="/">
+                    <img src="/images/pacman.jpg" alt="logo">
+                </a>
+            </div>
+            <div class="header-info">
+                <div id="header-title">
+                    
+                    <h2>
+                        zolanunu&#39;s Blog
+                    </h2>
+                    
+                </div>
+                <div id="header-description">
+                    
+                    <h3>
+                        去努力尝试做一些你觉得你不会做或者不敢做的事情。
+                    </h3>
+                    
+                </div>
+            </div>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a title="zolanunu" target="_blank" href="//zhangbuzola.cn">
+                            <i class="fa fa-home fa-2x"></i></a>
+                    
+                        <a title="Github" target="_blank" href="//github.com/zolanunu">
+                            <i class="fa fa-github fa-2x"></i></a>
+                    
+                        <a title="Weibo" target="_blank" href="//weibo.com/zolanunu">
+                            <i class="fa fa-weibo fa-2x"></i></a>
+                    
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>
+      <div class="outer">
+        <section id="main" class="body-wrap"><article id="post-剑指offer-1" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="post-title" itemprop="name">
+      剑指offer之解题3
+    </h1>
+    <div class="post-title-bar">
+      <ul>
+          
+              <li>
+                  <i class="fa fa-book"></i>
+                  
+                      <a href="/categories/算法/">算法</a>
+                  
+              </li>
+          
+        <li>
+          <i class="fa fa-calendar"></i>  2017-12-03
+        </li>
+        <li>
+          <i class="fa fa-eye"></i>
+          <span id="busuanzi_value_page_pv"></span>
+        </li>
+      </ul>
+    </div>
+  
+
+          
+      </header>
+    
+    <div class="article-entry post-content" itemprop="articleBody">
+      
+            
+            <h1 id="48-不用加减乘除做加法"><a href="#48-不用加减乘除做加法" class="headerlink" title="48 不用加减乘除做加法"></a>48 不用加减乘除做加法</h1><h2 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h2><p>写一个函数，求两个整数之和，要求在函数体内不得使用+、-、*、/四则运算符号。</p>
+<p>输入：</p>
+<p>5</p>
+<p>7</p>
+<p>输出：</p>
+<p>5 + 7  = 12</p>
+<h2 id="解题思路"><a href="#解题思路" class="headerlink" title="解题思路"></a>解题思路</h2><p>分3个步骤：</p>
+<ul>
+<li><p>个位数相加不进位</p>
+</li>
+<li><p>做进位</p>
+</li>
+<li><p>把前两步得到的结果加起来就ok了</p>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">public class SpecialSumforIntegerSolution &#123;</span><br><span class="line">	public static int add(int n, int m) &#123;</span><br><span class="line">		int s, k;</span><br><span class="line">		do &#123;</span><br><span class="line">			s = n ^ m;</span><br><span class="line">			k = (n &amp; m) &lt;&lt; 1;</span><br><span class="line">			n = s;</span><br><span class="line">			m = k;</span><br><span class="line">			System.out.println(s + &quot; &quot; + k);</span><br><span class="line">		&#125; while (m != 0);</span><br><span class="line">		return n;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	public static void main(String[] args) &#123;</span><br><span class="line">		int s = add(86, 12);</span><br><span class="line">		System.out.println(s);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line">/ **</span><br><span class="line">* 90 8</span><br><span class="line">* 82 16</span><br><span class="line">* 66 32</span><br><span class="line">* 98 0</span><br><span class="line">* 98</span><br><span class="line">** /</span><br></pre></td></tr></table></figure>
+<h2 id="补充"><a href="#补充" class="headerlink" title="补充"></a>补充</h2><p>如果不用加减乘除的运算符号的话，就是位运算了。</p>
+<ul>
+<li>位运算</li>
+</ul>
+<p>这里复习一下java中的位运算</p>
+<p>左移( &lt;&lt; )、右移( &gt;&gt; ) 、无符号右移( &gt;&gt;&gt; ) 、位与( &amp; ) 、位或( | )、位非( ~ )、位异或( ^ )，除了位非( ~ )是一元操作符外，其它的都是二元操作符。</p>
+<ul>
+<li>左移( &lt;&lt; )</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">main() &#123;</span><br><span class="line">	5 &lt;&lt; 2 // 20</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">java中整数默认是int类型，也就是32位</span><br><span class="line"></span><br><span class="line">0000 0000 0000 0000 0000 0000 0000 0101           然后左移2位后，低位补0：</span><br><span class="line"></span><br><span class="line">0000 0000 0000 0000 0000 0000 0001 0100           换算成10进制为20</span><br></pre></td></tr></table></figure>
+<ul>
+<li>右移( &gt;&gt; )</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">0000 0000 0000 0000 0000 0000 0000 0101 然后右移2位，高位补0：</span><br><span class="line"></span><br><span class="line">0000 0000 0000 0000 0000 0000 0000 0001</span><br></pre></td></tr></table></figure>
+<ul>
+<li>无符号右移 ( &gt;&gt;&gt; )</li>
+</ul>
+<p>知道在Java中int类型占32位，可以表示一个正数，也可以表示一个负数。正数换算成二进制后的最高位为0，负数的二进制最高为为1</p>
+<p>例如  -5换算成二进制后为：补码表示</p>
+<p>-5对应正数5（00000101）→所有位取反（11111010）→加1(11111011)</p>
+<p>[+1] = [00000001]原 = [00000001]反 = [00000001]补</p>
+<p>[-1] = [10000001]原 = [11111110]反 = [11111111]补</p>
+<p>1111 1111 1111 1111 1111 1111 1111 1011  (刚开始接触二进制时，不知道最高位是用来表示正负之分的，当时就总想不通。。明明算起来得到的就是一个正数-_-)</p>
+<p>我们分别对5进行右移3位、 -5进行右移3位和无符号右移3位：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">public class Test &#123;  </span><br><span class="line">    public static void main(String[] args) &#123;  </span><br><span class="line">        System.out.println(5&gt;&gt;3);//结果是0  </span><br><span class="line">        System.out.println(-5&gt;&gt;3);//结果是-1  </span><br><span class="line">        System.out.println(-5&gt;&gt;&gt;3);//结果是536870911  </span><br><span class="line">    &#125;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>-5换算成二进制： 1111 1111 1111 1111 1111 1111 1111 1011</p>
+<p>-5右移3位后结果为-1，-1的二进制为： </p>
+<p>1111 1111 1111 1111 1111 1111 1111 1111   // (用1进行补位)</p>
+<p>-5无符号右移3位后的结果 536870911 换算成二进制： </p>
+<p>0001 1111 1111 1111 1111 1111 1111 1111   // (用0进行补位)</p>
+<ul>
+<li>位与&amp; 或| 位异或 ^  位非~</li>
+</ul>
+<h1 id="49-把字符串转换成整数"><a href="#49-把字符串转换成整数" class="headerlink" title="49 把字符串转换成整数"></a>49 把字符串转换成整数</h1><h2 id="题目描述-1"><a href="#题目描述-1" class="headerlink" title="题目描述"></a>题目描述</h2><p>将一个字符串转换成一个整数，要求不能使用字符串转换整数的库函数。 数值为0或者字符串不是一个合法的数值则返回0</p>
+<p>输入描述:</p>
+<p>输入一个字符串,包括数字字母符号,可以为空</p>
+<p>输出描述:</p>
+<p>如果是合法的数值表达则返回该数字，否则返回0</p>
+<p>示例1</p>
+<p>输入</p>
+<p>+2147483647</p>
+<p>1a33</p>
+<p>输出</p>
+<p>2147483647</p>
+<p>0</p>
+<h2 id="解题思路-1"><a href="#解题思路-1" class="headerlink" title="解题思路"></a>解题思路</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br></pre></td><td class="code"><pre><span class="line">public class StrtoInt &#123;</span><br><span class="line">	/**</span><br><span class="line">	 * 可能的输入：</span><br><span class="line">	 * 1 带符号数 </span><br><span class="line">	 * 2 无符号数 </span><br><span class="line">	 * 3 零 </span><br><span class="line">	 * 4 空指针</span><br><span class="line">	 * 5 超出表示范围 – 暂时仅仅是直接退出且设置最小 – 可以考虑此时抛个异常 </span><br><span class="line">	 * 6 非法输入，比如并不是一个0-9或者+ -组成的字符串 – 对于非法输入一律返回的是Integer.MIN_VALUE</span><br><span class="line">	 * */</span><br><span class="line">	</span><br><span class="line">	public static long strToIntegerSolution(String str) &#123;</span><br><span class="line">		// 判断输入是否合法</span><br><span class="line">		if(str == null) &#123;</span><br><span class="line">			return Long.MAX_VALUE;</span><br><span class="line">		&#125;</span><br><span class="line">		if(str.length() == 0) &#123;</span><br><span class="line">			return 0;</span><br><span class="line">		&#125;</span><br><span class="line">		for(int i = 0; i &lt; str.length(); i++) &#123;</span><br><span class="line">			if(!judge(str.charAt(i))) &#123;</span><br><span class="line">				return Long.MIN_VALUE;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		char chars[] = str.toCharArray();</span><br><span class="line">		long result = 0;</span><br><span class="line">		if(chars[0] == &apos;-&apos; || chars[0] == &apos;+&apos;) &#123;</span><br><span class="line">			// 有符号数</span><br><span class="line">			result = trans(str.substring(1));</span><br><span class="line">		&#125; else &#123;</span><br><span class="line">			// 无符号数</span><br><span class="line">			result = trans(str);</span><br><span class="line">		&#125;</span><br><span class="line">		if(result &gt; 0 &amp;&amp; chars[0] == &apos;-&apos;) &#123;</span><br><span class="line">			result = -result;</span><br><span class="line">		&#125;</span><br><span class="line">		return result;</span><br><span class="line">	&#125;</span><br><span class="line">	public static long trans(String str)&#123;</span><br><span class="line">        if(str.length() == 0) return 0;</span><br><span class="line"></span><br><span class="line">        long result = 0;</span><br><span class="line">        for(int i=0; i&lt;str.length(); i++)&#123;</span><br><span class="line">            result = result*10 + (str.charAt(i)-&apos;0&apos;);</span><br><span class="line">            if(result &gt; Long.MAX_VALUE)&#123;</span><br><span class="line">                result = Long.MIN_VALUE;</span><br><span class="line">                break;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        return result;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public static boolean judge(char c)&#123;</span><br><span class="line">        if(c == &apos;-&apos; || c == &apos;+&apos;) return true;</span><br><span class="line">        if(c &gt;= &apos;0&apos; &amp;&amp; c &lt;= &apos;9&apos;) return true;</span><br><span class="line">        return false;</span><br><span class="line">    &#125;</span><br><span class="line">	public static void main(String[] args) &#123;</span><br><span class="line">		String str1 = &quot;123456&quot;;</span><br><span class="line">        String str2 = &quot;-123456&quot;;</span><br><span class="line">        String str3 = &quot;-6&quot;;</span><br><span class="line">        String str4 = &quot;-&quot;;</span><br><span class="line">        String str5 = &quot;+1&quot;;</span><br><span class="line">        String str6 = &quot;+abc&quot;;</span><br><span class="line">        String str7 = null;</span><br><span class="line"></span><br><span class="line">        System.out.println(strToIntegerSolution(str1));</span><br><span class="line">        System.out.println(strToIntegerSolution(str2));</span><br><span class="line">        System.out.println(strToIntegerSolution(str3));</span><br><span class="line">        System.out.println(strToIntegerSolution(str4));</span><br><span class="line">        System.out.println(strToIntegerSolution(str5));</span><br><span class="line">        System.out.println(strToIntegerSolution(str6));</span><br><span class="line">        System.out.println(strToIntegerSolution(str7));</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="51-数组中重复的数字"><a href="#51-数组中重复的数字" class="headerlink" title="51 数组中重复的数字"></a>51 数组中重复的数字</h1><h2 id="题目描述-2"><a href="#题目描述-2" class="headerlink" title="题目描述"></a>题目描述</h2><p>在一个长度为n的数组里的所有数字都在0到n-1的范围内。 数组中某些数字是重复的，但不知道有几个数字是重复的。也不知道每个数字重复几次。请找出数组中任意一个重复的数字。 例如，如果输入长度为7的数组{2,3,1,0,2,5,3}，那么对应的输出是重复的数字2或者3。</p>
+<h2 id="解题思路-2"><a href="#解题思路-2" class="headerlink" title="解题思路"></a>解题思路</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">public boolean duplicate(int numbers[],int length,int [] duplication) &#123;</span><br><span class="line">   	if(numbers == null) &#123;</span><br><span class="line">		return false;</span><br><span class="line">	&#125;</span><br><span class="line">	if(length != numbers.length) &#123;</span><br><span class="line">		return false;</span><br><span class="line">	&#125;</span><br><span class="line">	StringBuilder sb = new StringBuilder();</span><br><span class="line">	for(int i = 0; i &lt; length; i++) &#123;</span><br><span class="line">		sb.append(&quot;#&quot;).append(a[i]).append(&quot;#&quot;);</span><br><span class="line">	&#125;</span><br><span class="line">	String string = sb.toString();</span><br><span class="line">	for(int i = 0; i &lt; length; i++) &#123;</span><br><span class="line">		if(string.indexOf(&quot;#&quot;+a[i]+&quot;#&quot;) != string.lastIndexOf(&quot;#&quot;+a[i]+&quot;#&quot;)) &#123;</span><br><span class="line">			duplication[0] = a[i];</span><br><span class="line">			return true;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	return false;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+            <div class="post-copyright">
+    <div class="content">
+        <p>最后更新： 2018年07月12日 14:16</p>
+        <p>原始链接： <a class="post-url" href="/2017/12/03/剑指offer-1/" title="剑指offer之解题3">http://zhangbuzola.cn/2017/12/03/剑指offer-1/</a></p>
+        <footer>
+            <a href="http://zhangbuzola.cn">
+                <img src="/images/pacman.jpg" alt="zolanunu">
+                zolanunu
+            </a>
+        </footer>
+    </div>
+</div>
+
+      
+        
+            
+
+        
+    </div>
+    <footer class="article-footer">
+        
+        <ul class="article-footer-menu">
+            
+            
+  <li class="article-footer-tags">
+    <i class="fa fa-tags"></i>
+      
+    <a href="/tags/算法和数据结构/" class="color3">算法和数据结构</a>
+      
+    <a href="/tags/剑指offer/" class="color3">剑指offer</a>
+      
+  </li>
+
+        </ul>
+        
+    </footer>
+  </div>
+</article>
+
+
+    <aside class="post-toc-pos post-toc-top" id="post-toc">
+        <nav class="post-toc-wrap">
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#48-不用加减乘除做加法"><span class="post-toc-text">48 不用加减乘除做加法</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#题目描述"><span class="post-toc-text">题目描述</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#解题思路"><span class="post-toc-text">解题思路</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#补充"><span class="post-toc-text">补充</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#49-把字符串转换成整数"><span class="post-toc-text">49 把字符串转换成整数</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#题目描述-1"><span class="post-toc-text">题目描述</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#解题思路-1"><span class="post-toc-text">解题思路</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#51-数组中重复的数字"><span class="post-toc-text">51 数组中重复的数字</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#题目描述-2"><span class="post-toc-text">题目描述</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#解题思路-2"><span class="post-toc-text">解题思路</span></a></li></ol></li></ol>
+        </nav>
+    </aside>
+    
+
+<nav id="article-nav">
+  
+    <a href="/2017/12/04/算法第四版2/" id="article-nav-newer" class="article-nav-link-wrap">
+
+      <span class="article-nav-title">
+        <i class="fa fa-hand-o-left" aria-hidden="true"></i>
+        
+          数据结构之优先队列(算法第四版)
+        
+      </span>
+    </a>
+  
+  
+    <a href="/2017/12/03/算法第四版1/" id="article-nav-older" class="article-nav-link-wrap">
+      <span class="article-nav-title">数据结构之背包队列和栈(算法第四版)</span>
+      <i class="fa fa-hand-o-right" aria-hidden="true"></i>
+    </a>
+  
+</nav>
+
+
+
+    
+        <link rel="stylesheet" href="//unpkg.com/gitment/style/default.css">
+    <script src="//unpkg.com/gitment/dist/gitment.browser.js"></script>
+    <script>
+        var gitment = new Gitment({
+            owner: 'true',
+            repo: 'zolanunu',
+            oauth: {
+                client_id: '1a04e8dee74a4b8634df',
+                client_secret: '9e3078ac89eb72f22abbdd11f7f0d11e2e1d7f7a',
+            },
+        })
+        gitment.render('comments')
+    </script>
+
+    
+</section>
+        
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+      <p>
+        Powered by  <a href="http://hexo.io/" target="_blank">Hexo</a>
+        Theme <a href="//github.com/wongminho/hexo-theme-miho" target="_blank">MiHo</a>
+      &copy; 2018 zolanunu<br>
+      </p>
+    </div>
+  </div>
+</footer>
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script>
+  var mihoConfig = {
+      root: "http://zhangbuzola.cn",
+      animate: true,
+      isHome: false,
+      share: false,
+      reward: 0
+  }
+</script>
+<div class="sidebar">
+    <div id="sidebar-search" title="Search">
+        <i class="fa fa-search"></i>
+    </div>
+    <div id="sidebar-category" title="Categories">
+        <i class="fa fa-book"></i>
+    </div>
+    <div id="sidebar-tag" title="Tags">
+        <i class="fa fa-tags"></i>
+    </div>
+    <div id="sidebar-top">
+        <span class="sidebar-top-icon"><i class="fa fa-angle-up"></i></span>
+    </div>
+</div>
+<div class="sidebar-menu-box" id="sidebar-menu-box">
+    <div class="sidebar-menu-box-container">
+        <div id="sidebar-menu-box-categories">
+            <a class="category-link" href="/categories/Java/">Java</a><a class="category-link" href="/categories/Java后台/">Java后台</a><a class="category-link" href="/categories/Python/">Python</a><a class="category-link" href="/categories/工具/">工具</a><a class="category-link" href="/categories/技术书/">技术书</a><a class="category-link" href="/categories/数据库/">数据库</a><a class="category-link" href="/categories/数据结构/">数据结构</a><a class="category-link" href="/categories/生活轨迹/">生活轨迹</a><a class="category-link" href="/categories/算法/">算法</a>
+        </div>
+        <div id="sidebar-menu-box-tags">
+            <a href="/tags/2018/" style="font-size: 11.43px;">2018</a> <a href="/tags/Collections/" style="font-size: 15.71px;">Collections</a> <a href="/tags/HashMap/" style="font-size: 10px;">HashMap</a> <a href="/tags/LinkedHashMap/" style="font-size: 10px;">LinkedHashMap</a> <a href="/tags/MySQL/" style="font-size: 17.14px;">MySQL</a> <a href="/tags/Mybatis/" style="font-size: 12.86px;">Mybatis</a> <a href="/tags/Object/" style="font-size: 10px;">Object</a> <a href="/tags/SSM/" style="font-size: 12.86px;">SSM</a> <a href="/tags/TreeMap/" style="font-size: 11.43px;">TreeMap</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/java基础/" style="font-size: 20px;">java基础</a> <a href="/tags/java并发编程实战/" style="font-size: 11.43px;">java并发编程实战</a> <a href="/tags/leetcode/" style="font-size: 17.14px;">leetcode</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/剑指offer/" style="font-size: 10px;">剑指offer</a> <a href="/tags/多线程/" style="font-size: 11.43px;">多线程</a> <a href="/tags/并发编程/" style="font-size: 10px;">并发编程</a> <a href="/tags/机器学习/" style="font-size: 12.86px;">机器学习</a> <a href="/tags/构造函数/" style="font-size: 10px;">构造函数</a> <a href="/tags/深入理解java虚拟机/" style="font-size: 10px;">深入理解java虚拟机</a> <a href="/tags/生活/" style="font-size: 10px;">生活</a> <a href="/tags/神经网络/" style="font-size: 10px;">神经网络</a> <a href="/tags/算法与数据结构/" style="font-size: 14.29px;">算法与数据结构</a> <a href="/tags/算法和数据结构/" style="font-size: 18.57px;">算法和数据结构</a> <a href="/tags/观影记/" style="font-size: 10px;">观影记</a> <a href="/tags/读书书单/" style="font-size: 10px;">读书书单</a>
+        </div>
+    </div>
+    <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
+</div>
+<div class="mobile-header-menu-nav" id="mobile-header-menu-nav">
+    <div class="mobile-header-menu-container">
+        <span class="title">Menus</span>
+        <ul class="mobile-header-menu-navbar">
+            
+            <li>
+                <a  href="/">
+                    <i class="fa fa-home"></i><span>Home</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/archives">
+                    <i class="fa fa-archive"></i><span>Archives</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/about">
+                    <i class="fa fa-user"></i><span>About</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    <div class="mobile-header-tag-container">
+        <span class="title">Tags</span>
+        <div id="mobile-header-container-tags">
+            <a href="/tags/2018/" style="font-size: 11.43px;">2018</a> <a href="/tags/Collections/" style="font-size: 15.71px;">Collections</a> <a href="/tags/HashMap/" style="font-size: 10px;">HashMap</a> <a href="/tags/LinkedHashMap/" style="font-size: 10px;">LinkedHashMap</a> <a href="/tags/MySQL/" style="font-size: 17.14px;">MySQL</a> <a href="/tags/Mybatis/" style="font-size: 12.86px;">Mybatis</a> <a href="/tags/Object/" style="font-size: 10px;">Object</a> <a href="/tags/SSM/" style="font-size: 12.86px;">SSM</a> <a href="/tags/TreeMap/" style="font-size: 11.43px;">TreeMap</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/java基础/" style="font-size: 20px;">java基础</a> <a href="/tags/java并发编程实战/" style="font-size: 11.43px;">java并发编程实战</a> <a href="/tags/leetcode/" style="font-size: 17.14px;">leetcode</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/剑指offer/" style="font-size: 10px;">剑指offer</a> <a href="/tags/多线程/" style="font-size: 11.43px;">多线程</a> <a href="/tags/并发编程/" style="font-size: 10px;">并发编程</a> <a href="/tags/机器学习/" style="font-size: 12.86px;">机器学习</a> <a href="/tags/构造函数/" style="font-size: 10px;">构造函数</a> <a href="/tags/深入理解java虚拟机/" style="font-size: 10px;">深入理解java虚拟机</a> <a href="/tags/生活/" style="font-size: 10px;">生活</a> <a href="/tags/神经网络/" style="font-size: 10px;">神经网络</a> <a href="/tags/算法与数据结构/" style="font-size: 14.29px;">算法与数据结构</a> <a href="/tags/算法和数据结构/" style="font-size: 18.57px;">算法和数据结构</a> <a href="/tags/观影记/" style="font-size: 10px;">观影记</a> <a href="/tags/读书书单/" style="font-size: 10px;">读书书单</a>
+        </div>
+    </div>
+</div>
+<div class="search-wrap">
+    <span class="search-close">&times;</span>
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+            <i class="icon icon-lg icon-chevron-left"></i>
+        </a>
+        <input class="search-field" placeholder="Search..." id="keywords">
+        <a id="search-submit" href="javascript:;">
+            <i class="fa fa-search"></i>
+        </a>
+    <div class="search-container" id="search-container">
+        <ul class="search-result" id="search-result">
+        </ul>
+    </div>
+</div>
+
+<div id="search-tpl">
+    <li class="search-result-item">
+        <a href="{url}" class="search-item-li">
+            <span class="search-item-li-title" title="{title}">{title}</span>
+        </a>
+    </li>
+</div>
+<script src="/js/search.js"></script>
+<script src="/js/main.js"></script>
+
+
+  <script src="//cdn.bootcss.com/particles.js/2.0.0/particles.min.js"></script>
+  <div id="particles"></div>
+  <script src="/js/particles.js"></script>
+
+
+
+
+
+
+
+  <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
+  <script src="//cdn.bootcss.com/scrollReveal.js/3.0.5/scrollreveal.js"></script>
+  <script src="/js/animate.js"></script>
+
+
+  <script src="/js/pop-img.js"></script>
+  <script>
+     $(".article-entry p img").popImg();
+  </script>
+
+  </div>
+</body>
+</html>
