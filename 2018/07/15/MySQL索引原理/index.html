@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>MySQL的索引原理 | zolanunu</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+    <meta name="keywords" content="zolanunu,zolanunu's blog" />
+  
+  <meta name="description" content="现在互联网应用中对数据库的使用多数都是读较多，比例可以达到 10:1。并且数据库在做查询时 IO 消耗较大，所以如果能把一次查询的 IO 次数控制在常量级那对数据库的性能提升将是非常明显的，因此基于 B+ Tree 的索引结构出现了。 B+树的数据结构 如图所示是 B+ Tree 的数据结构。是由一个一个的磁盘块组成的树形结构，每个磁盘块由数据项和指针组成。 所有的数据都是存放在叶子节点，非叶子节">
+<meta name="keywords" content="MySQL">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MySQL的索引原理">
+<meta property="og:url" content="http://zhangbuzola.cn/2018/07/15/MySQL索引原理/index.html">
+<meta property="og:site_name" content="zolanunu">
+<meta property="og:description" content="现在互联网应用中对数据库的使用多数都是读较多，比例可以达到 10:1。并且数据库在做查询时 IO 消耗较大，所以如果能把一次查询的 IO 次数控制在常量级那对数据库的性能提升将是非常明显的，因此基于 B+ Tree 的索引结构出现了。 B+树的数据结构 如图所示是 B+ Tree 的数据结构。是由一个一个的磁盘块组成的树形结构，每个磁盘块由数据项和指针组成。 所有的数据都是存放在叶子节点，非叶子节">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="http://zhangbuzola.cn/assets/images/B+Tree.jpg">
+<meta property="og:updated_time" content="2018-07-15T05:28:06.426Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="MySQL的索引原理">
+<meta name="twitter:description" content="现在互联网应用中对数据库的使用多数都是读较多，比例可以达到 10:1。并且数据库在做查询时 IO 消耗较大，所以如果能把一次查询的 IO 次数控制在常量级那对数据库的性能提升将是非常明显的，因此基于 B+ Tree 的索引结构出现了。 B+树的数据结构 如图所示是 B+ Tree 的数据结构。是由一个一个的磁盘块组成的树形结构，每个磁盘块由数据项和指针组成。 所有的数据都是存放在叶子节点，非叶子节">
+<meta name="twitter:image" content="http://zhangbuzola.cn/assets/images/B+Tree.jpg">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="/js/pace.min.js"></script>
+  
+
+  
+	<script>
+	var _hmt = _hmt || [];
+	(function() {
+	  var hm = document.createElement("script");
+	  hm.src = "//hm.baidu.com/hm.js?a651034b7d11a367ae836642b29a3057";
+	  var s = document.getElementsByTagName("script")[0]; 
+	  s.parentNode.insertBefore(hm, s);
+	})();
+	</script>
+
+  
+
+</head>
+
+<body>
+  <div id="container">
+      <header id="header">
+    <div id="banner"></div>
+    <div id="header-outer">
+        <div id="header-menu" class="header-menu-pos animated">
+            <div class="header-menu-container">
+                <a href="/" class="left">
+                    <span class="site-title">zolanunu&#39;s Blog</span>
+                </a>
+                <nav id="header-menu-nav" class="right">
+                    
+                    <a  href="/">
+                        <i class="fa fa-home"></i>
+                        <span>Home</span>
+                    </a>
+                    
+                    <a  href="/archives">
+                        <i class="fa fa-archive"></i>
+                        <span>Archives</span>
+                    </a>
+                    
+                    <a  href="/about">
+                        <i class="fa fa-user"></i>
+                        <span>About</span>
+                    </a>
+                    
+                </nav>
+                <a class="mobile-header-menu-button">
+                    <i class="fa fa-bars"></i>
+                </a>
+            </div>
+        </div>
+        <div id="header-row">
+            <div id="logo">
+                <a href="/">
+                    <img src="/images/pacman.jpg" alt="logo">
+                </a>
+            </div>
+            <div class="header-info">
+                <div id="header-title">
+                    
+                    <h2>
+                        zolanunu&#39;s Blog
+                    </h2>
+                    
+                </div>
+                <div id="header-description">
+                    
+                    <h3>
+                        去努力尝试做一些你觉得你不会做或者不敢做的事情。
+                    </h3>
+                    
+                </div>
+            </div>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a title="zolanunu" target="_blank" href="//zhangbuzola.cn">
+                            <i class="fa fa-home fa-2x"></i></a>
+                    
+                        <a title="Github" target="_blank" href="//github.com/zolanunu">
+                            <i class="fa fa-github fa-2x"></i></a>
+                    
+                        <a title="Weibo" target="_blank" href="//weibo.com/zolanunu">
+                            <i class="fa fa-weibo fa-2x"></i></a>
+                    
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>
+      <div class="outer">
+        <section id="main" class="body-wrap"><article id="post-MySQL索引原理" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="post-title" itemprop="name">
+      MySQL的索引原理
+    </h1>
+    <div class="post-title-bar">
+      <ul>
+          
+              <li>
+                  <i class="fa fa-book"></i>
+                  
+                      <a href="/categories/数据库/">数据库</a>
+                  
+              </li>
+          
+        <li>
+          <i class="fa fa-calendar"></i>  2018-07-15
+        </li>
+        <li>
+          <i class="fa fa-eye"></i>
+          <span id="busuanzi_value_page_pv"></span>
+        </li>
+      </ul>
+    </div>
+  
+
+          
+      </header>
+    
+    <div class="article-entry post-content" itemprop="articleBody">
+      
+            
+            <p>现在互联网应用中对数据库的使用多数都是读较多，比例可以达到 10:1。并且数据库在做查询时 IO 消耗较大，所以如果能把一次查询的 IO 次数控制在常量级那对数据库的性能提升将是非常明显的，因此基于 B+ Tree 的索引结构出现了。</p>
+<h1 id="B-树的数据结构"><a href="#B-树的数据结构" class="headerlink" title="B+树的数据结构"></a>B+树的数据结构</h1><p><img src="/assets/images/B+Tree.jpg" alt=""></p>
+<p>如图所示是 B+ Tree 的数据结构。是由一个一个的磁盘块组成的树形结构，每个磁盘块由数据项和指针组成。</p>
+<p>所有的数据都是存放在叶子节点，非叶子节点不存放数据。</p>
+<h1 id="查找过程"><a href="#查找过程" class="headerlink" title="查找过程"></a>查找过程</h1><p>以磁盘块1为例，指针 P1 表示小于17的磁盘块，P2 表示在 17~35 之间的磁盘块，P3 则表示大于35的磁盘块。</p>
+<p>比如要查找数据项99，首先将磁盘块1 load 到内存中，发生 1 次 IO。接着通过二分查找发现 99 大于 35，所以找到了 P3 指针。通过P3 指针发生第二次 IO 将磁盘块4加载到内存。再通过二分查找发现大于87，通过 P3 指针发生了第三次 IO 将磁盘块11 加载到内存。最后再通过一次二分查找找到了数据项99。</p>
+<p>由此可见，如果一个几百万的数据查询只需要进行三次 IO 即可找到数据，那么整个效率将是非常高的。</p>
+<p>观察树的结构，发现查询需要经历几次 IO 是由树的高度来决定的，而树的高度又由磁盘块，数据项的大小决定的。</p>
+<p>磁盘块越大，数据项越小那么数的高度就越低。这也就是为什么索引字段要尽可能小的原因。</p>
+<p>#参考</p>
+<p><a href="https://github.com/crossoverJie/Java-Interview/blob/master/MD/MySQL-Index.md" target="_blank" rel="noopener">https://github.com/crossoverJie/Java-Interview/blob/master/MD/MySQL-Index.md</a></p>
+
+            <div class="post-copyright">
+    <div class="content">
+        <p>最后更新： 2018年07月15日 13:28</p>
+        <p>原始链接： <a class="post-url" href="/2018/07/15/MySQL索引原理/" title="MySQL的索引原理">http://zhangbuzola.cn/2018/07/15/MySQL索引原理/</a></p>
+        <footer>
+            <a href="http://zhangbuzola.cn">
+                <img src="/images/pacman.jpg" alt="zolanunu">
+                zolanunu
+            </a>
+        </footer>
+    </div>
+</div>
+
+      
+        
+            
+
+        
+    </div>
+    <footer class="article-footer">
+        
+        <ul class="article-footer-menu">
+            
+            
+  <li class="article-footer-tags">
+    <i class="fa fa-tags"></i>
+      
+    <a href="/tags/MySQL/" class="color1">MySQL</a>
+      
+  </li>
+
+        </ul>
+        
+    </footer>
+  </div>
+</article>
+
+
+    <aside class="post-toc-pos post-toc-top" id="post-toc">
+        <nav class="post-toc-wrap">
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#B-树的数据结构"><span class="post-toc-text">B+树的数据结构</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#查找过程"><span class="post-toc-text">查找过程</span></a></li></ol>
+        </nav>
+    </aside>
+    
+
+<nav id="article-nav">
+  
+  
+    <a href="/2018/07/13/leetcode-DP-1/" id="article-nav-older" class="article-nav-link-wrap">
+      <span class="article-nav-title"></span>
+      <i class="fa fa-hand-o-right" aria-hidden="true"></i>
+    </a>
+  
+</nav>
+
+
+
+    
+        <link rel="stylesheet" href="//unpkg.com/gitment/style/default.css">
+    <script src="//unpkg.com/gitment/dist/gitment.browser.js"></script>
+    <script>
+        var gitment = new Gitment({
+            owner: 'true',
+            repo: 'zolanunu',
+            oauth: {
+                client_id: '1a04e8dee74a4b8634df',
+                client_secret: '9e3078ac89eb72f22abbdd11f7f0d11e2e1d7f7a',
+            },
+        })
+        gitment.render('comments')
+    </script>
+
+    
+</section>
+        
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+      <p>
+        Powered by  <a href="http://hexo.io/" target="_blank">Hexo</a>
+        Theme <a href="//github.com/wongminho/hexo-theme-miho" target="_blank">MiHo</a>
+      &copy; 2018 zolanunu<br>
+      </p>
+    </div>
+  </div>
+</footer>
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script>
+  var mihoConfig = {
+      root: "http://zhangbuzola.cn",
+      animate: true,
+      isHome: false,
+      share: false,
+      reward: 0
+  }
+</script>
+<div class="sidebar">
+    <div id="sidebar-search" title="Search">
+        <i class="fa fa-search"></i>
+    </div>
+    <div id="sidebar-category" title="Categories">
+        <i class="fa fa-book"></i>
+    </div>
+    <div id="sidebar-tag" title="Tags">
+        <i class="fa fa-tags"></i>
+    </div>
+    <div id="sidebar-top">
+        <span class="sidebar-top-icon"><i class="fa fa-angle-up"></i></span>
+    </div>
+</div>
+<div class="sidebar-menu-box" id="sidebar-menu-box">
+    <div class="sidebar-menu-box-container">
+        <div id="sidebar-menu-box-categories">
+            <a class="category-link" href="/categories/Java/">Java</a><a class="category-link" href="/categories/Java后台/">Java后台</a><a class="category-link" href="/categories/Python/">Python</a><a class="category-link" href="/categories/工具/">工具</a><a class="category-link" href="/categories/技术书/">技术书</a><a class="category-link" href="/categories/数据库/">数据库</a><a class="category-link" href="/categories/数据结构/">数据结构</a><a class="category-link" href="/categories/生活轨迹/">生活轨迹</a><a class="category-link" href="/categories/算法/">算法</a>
+        </div>
+        <div id="sidebar-menu-box-tags">
+            <a href="/tags/2018/" style="font-size: 11.25px;">2018</a> <a href="/tags/Collections/" style="font-size: 15px;">Collections</a> <a href="/tags/HashMap/" style="font-size: 10px;">HashMap</a> <a href="/tags/LinkedHashMap/" style="font-size: 10px;">LinkedHashMap</a> <a href="/tags/MySQL/" style="font-size: 17.5px;">MySQL</a> <a href="/tags/Mybatis/" style="font-size: 12.5px;">Mybatis</a> <a href="/tags/Object/" style="font-size: 10px;">Object</a> <a href="/tags/SSM/" style="font-size: 12.5px;">SSM</a> <a href="/tags/TreeMap/" style="font-size: 11.25px;">TreeMap</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/java基础/" style="font-size: 20px;">java基础</a> <a href="/tags/java并发编程实战/" style="font-size: 11.25px;">java并发编程实战</a> <a href="/tags/leetcode/" style="font-size: 16.25px;">leetcode</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/剑指offer/" style="font-size: 10px;">剑指offer</a> <a href="/tags/多线程/" style="font-size: 11.25px;">多线程</a> <a href="/tags/并发编程/" style="font-size: 10px;">并发编程</a> <a href="/tags/机器学习/" style="font-size: 12.5px;">机器学习</a> <a href="/tags/构造函数/" style="font-size: 10px;">构造函数</a> <a href="/tags/深入理解java虚拟机/" style="font-size: 10px;">深入理解java虚拟机</a> <a href="/tags/生活/" style="font-size: 10px;">生活</a> <a href="/tags/神经网络/" style="font-size: 10px;">神经网络</a> <a href="/tags/算法与数据结构/" style="font-size: 13.75px;">算法与数据结构</a> <a href="/tags/算法和数据结构/" style="font-size: 18.75px;">算法和数据结构</a> <a href="/tags/索引优化/" style="font-size: 10px;">索引优化</a> <a href="/tags/观影记/" style="font-size: 10px;">观影记</a> <a href="/tags/读书书单/" style="font-size: 10px;">读书书单</a>
+        </div>
+    </div>
+    <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
+</div>
+<div class="mobile-header-menu-nav" id="mobile-header-menu-nav">
+    <div class="mobile-header-menu-container">
+        <span class="title">Menus</span>
+        <ul class="mobile-header-menu-navbar">
+            
+            <li>
+                <a  href="/">
+                    <i class="fa fa-home"></i><span>Home</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/archives">
+                    <i class="fa fa-archive"></i><span>Archives</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/about">
+                    <i class="fa fa-user"></i><span>About</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    <div class="mobile-header-tag-container">
+        <span class="title">Tags</span>
+        <div id="mobile-header-container-tags">
+            <a href="/tags/2018/" style="font-size: 11.25px;">2018</a> <a href="/tags/Collections/" style="font-size: 15px;">Collections</a> <a href="/tags/HashMap/" style="font-size: 10px;">HashMap</a> <a href="/tags/LinkedHashMap/" style="font-size: 10px;">LinkedHashMap</a> <a href="/tags/MySQL/" style="font-size: 17.5px;">MySQL</a> <a href="/tags/Mybatis/" style="font-size: 12.5px;">Mybatis</a> <a href="/tags/Object/" style="font-size: 10px;">Object</a> <a href="/tags/SSM/" style="font-size: 12.5px;">SSM</a> <a href="/tags/TreeMap/" style="font-size: 11.25px;">TreeMap</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/java基础/" style="font-size: 20px;">java基础</a> <a href="/tags/java并发编程实战/" style="font-size: 11.25px;">java并发编程实战</a> <a href="/tags/leetcode/" style="font-size: 16.25px;">leetcode</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/剑指offer/" style="font-size: 10px;">剑指offer</a> <a href="/tags/多线程/" style="font-size: 11.25px;">多线程</a> <a href="/tags/并发编程/" style="font-size: 10px;">并发编程</a> <a href="/tags/机器学习/" style="font-size: 12.5px;">机器学习</a> <a href="/tags/构造函数/" style="font-size: 10px;">构造函数</a> <a href="/tags/深入理解java虚拟机/" style="font-size: 10px;">深入理解java虚拟机</a> <a href="/tags/生活/" style="font-size: 10px;">生活</a> <a href="/tags/神经网络/" style="font-size: 10px;">神经网络</a> <a href="/tags/算法与数据结构/" style="font-size: 13.75px;">算法与数据结构</a> <a href="/tags/算法和数据结构/" style="font-size: 18.75px;">算法和数据结构</a> <a href="/tags/索引优化/" style="font-size: 10px;">索引优化</a> <a href="/tags/观影记/" style="font-size: 10px;">观影记</a> <a href="/tags/读书书单/" style="font-size: 10px;">读书书单</a>
+        </div>
+    </div>
+</div>
+<div class="search-wrap">
+    <span class="search-close">&times;</span>
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+            <i class="icon icon-lg icon-chevron-left"></i>
+        </a>
+        <input class="search-field" placeholder="Search..." id="keywords">
+        <a id="search-submit" href="javascript:;">
+            <i class="fa fa-search"></i>
+        </a>
+    <div class="search-container" id="search-container">
+        <ul class="search-result" id="search-result">
+        </ul>
+    </div>
+</div>
+
+<div id="search-tpl">
+    <li class="search-result-item">
+        <a href="{url}" class="search-item-li">
+            <span class="search-item-li-title" title="{title}">{title}</span>
+        </a>
+    </li>
+</div>
+<script src="/js/search.js"></script>
+<script src="/js/main.js"></script>
+
+
+  <script src="//cdn.bootcss.com/particles.js/2.0.0/particles.min.js"></script>
+  <div id="particles"></div>
+  <script src="/js/particles.js"></script>
+
+
+
+
+
+
+
+  <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
+  <script src="//cdn.bootcss.com/scrollReveal.js/3.0.5/scrollreveal.js"></script>
+  <script src="/js/animate.js"></script>
+
+
+  <script src="/js/pop-img.js"></script>
+  <script>
+     $(".article-entry p img").popImg();
+  </script>
+
+  </div>
+</body>
+</html>
