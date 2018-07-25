@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>java高并发秒杀API_SSM之第Service层 | zolanunu</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+    <meta name="keywords" content="zolanunu,zolanunu's blog" />
+  
+  <meta name="description" content="DAO 编码之后的思考DAO层工作变为： 接口设计+SQL编写 代码和SQL的分离，方便review DAO层拼接等逻辑在Service层完成 （DAO层数据访问层：更多的是关注对远程存储系统的操作） 秒杀Service接口设计12345package:- serivce:servise接口和实现类- dto: 表示数据的类型，web和service之间数据传递- exception：servic">
+<meta name="keywords" content="SSM">
+<meta property="og:type" content="article">
+<meta property="og:title" content="java高并发秒杀API_SSM之第Service层">
+<meta property="og:url" content="http://zhangbuzola.cn/2017/11/26/seckill2/index.html">
+<meta property="og:site_name" content="zolanunu">
+<meta property="og:description" content="DAO 编码之后的思考DAO层工作变为： 接口设计+SQL编写 代码和SQL的分离，方便review DAO层拼接等逻辑在Service层完成 （DAO层数据访问层：更多的是关注对远程存储系统的操作） 秒杀Service接口设计12345package:- serivce:servise接口和实现类- dto: 表示数据的类型，web和service之间数据传递- exception：servic">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2018-07-18T12:47:51.912Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="java高并发秒杀API_SSM之第Service层">
+<meta name="twitter:description" content="DAO 编码之后的思考DAO层工作变为： 接口设计+SQL编写 代码和SQL的分离，方便review DAO层拼接等逻辑在Service层完成 （DAO层数据访问层：更多的是关注对远程存储系统的操作） 秒杀Service接口设计12345package:- serivce:servise接口和实现类- dto: 表示数据的类型，web和service之间数据传递- exception：servic">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="/js/pace.min.js"></script>
+  
+
+  
+	<script>
+	var _hmt = _hmt || [];
+	(function() {
+	  var hm = document.createElement("script");
+	  hm.src = "//hm.baidu.com/hm.js?a651034b7d11a367ae836642b29a3057";
+	  var s = document.getElementsByTagName("script")[0]; 
+	  s.parentNode.insertBefore(hm, s);
+	})();
+	</script>
+
+  
+
+</head>
+
+<body>
+  <div id="container">
+      <header id="header">
+    <div id="banner"></div>
+    <div id="header-outer">
+        <div id="header-menu" class="header-menu-pos animated">
+            <div class="header-menu-container">
+                <a href="/" class="left">
+                    <span class="site-title">zolanunu&#39;s Blog</span>
+                </a>
+                <nav id="header-menu-nav" class="right">
+                    
+                    <a  href="/">
+                        <i class="fa fa-home"></i>
+                        <span>Home</span>
+                    </a>
+                    
+                    <a  href="/archives">
+                        <i class="fa fa-archive"></i>
+                        <span>Archives</span>
+                    </a>
+                    
+                    <a  href="/about">
+                        <i class="fa fa-user"></i>
+                        <span>About</span>
+                    </a>
+                    
+                </nav>
+                <a class="mobile-header-menu-button">
+                    <i class="fa fa-bars"></i>
+                </a>
+            </div>
+        </div>
+        <div id="header-row">
+            <div id="logo">
+                <a href="/">
+                    <img src="/images/avatar.jpg" alt="logo">
+                </a>
+            </div>
+            <div class="header-info">
+                <div id="header-title">
+                    
+                    <h2>
+                        zolanunu&#39;s Blog
+                    </h2>
+                    
+                </div>
+                <div id="header-description">
+                    
+                    <h3>
+                        去努力尝试做一些你觉得你不会做或者不敢做的事情。
+                    </h3>
+                    
+                </div>
+            </div>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a title="zolanunu" target="_blank" href="//zhangbuzola.cn">
+                            <i class="fa fa-home fa-2x"></i></a>
+                    
+                        <a title="Github" target="_blank" href="//github.com/zolanunu">
+                            <i class="fa fa-github fa-2x"></i></a>
+                    
+                        <a title="Weibo" target="_blank" href="//weibo.com/zolanunu">
+                            <i class="fa fa-weibo fa-2x"></i></a>
+                    
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>
+      <div class="outer">
+        <section id="main" class="body-wrap"><article id="post-seckill2" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="post-title" itemprop="name">
+      java高并发秒杀API_SSM之第Service层
+    </h1>
+    <div class="post-title-bar">
+      <ul>
+          
+              <li>
+                  <i class="fa fa-book"></i>
+                  
+                      <a href="/categories/Java后台/">Java后台</a>
+                  
+              </li>
+          
+        <li>
+          <i class="fa fa-calendar"></i>  2017-11-26
+        </li>
+        <li>
+          <i class="fa fa-eye"></i>
+          <span id="busuanzi_value_page_pv"></span>
+        </li>
+      </ul>
+    </div>
+  
+
+          
+      </header>
+    
+    <div class="article-entry post-content" itemprop="articleBody">
+      
+            
+            <h1 id="DAO-编码之后的思考"><a href="#DAO-编码之后的思考" class="headerlink" title="DAO 编码之后的思考"></a>DAO 编码之后的思考</h1><p>DAO层工作变为： 接口设计+SQL编写</p>
+<p>代码和SQL的分离，方便review</p>
+<p>DAO层拼接等逻辑在Service层完成</p>
+<p>（DAO层数据访问层：更多的是关注对远程存储系统的操作）</p>
+<h1 id="秒杀Service接口设计"><a href="#秒杀Service接口设计" class="headerlink" title="秒杀Service接口设计"></a>秒杀Service接口设计</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">package:</span><br><span class="line"></span><br><span class="line">- serivce:servise接口和实现类</span><br><span class="line">- dto: 表示数据的类型，web和service之间数据传递</span><br><span class="line">- exception：service接口所需要的一些异常，比如秒杀已关闭</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * *业务接口：站在使用者的角度去设计接口</span><br><span class="line"> * * 三个方面：方法定义粒度，参数（越简练越好），返回类型（return 类型/异常）</span><br><span class="line">* */</span><br><span class="line">public interface SeckillService &#123;</span><br><span class="line">	/**</span><br><span class="line">	 * 查询所有的秒杀记录</span><br><span class="line">	 * */</span><br><span class="line">	List&lt;Seckill&gt; getSeckillList();</span><br><span class="line">	/**</span><br><span class="line">	 * 查询单个秒杀记录</span><br><span class="line">	 * */</span><br><span class="line">	Seckill getById(long seckillId);</span><br><span class="line">	</span><br><span class="line">	/**</span><br><span class="line">	 * 秒杀开启是输出秒杀接口地址，否则输出系统时间和秒杀时间</span><br><span class="line">	 * */</span><br><span class="line">	Exposer exportSeckillUrl(long seckillId);</span><br><span class="line">	</span><br><span class="line">	/**</span><br><span class="line">	 * 执行秒杀操作</span><br><span class="line">	 * */</span><br><span class="line">	SeckillExecution executeSeckill(long seckillId, long userPhone, String md5)</span><br><span class="line">	throws SeckillException, SeckillCloseException, RepeatKillException;</span><br><span class="line">	/**</span><br><span class="line">	 * 执行秒杀操作的by存储过程</span><br><span class="line">	 * 某个商品被某个用户秒杀</span><br><span class="line">	 * */</span><br><span class="line">	SeckillExecution executeSeckillByProcedure(long seckillId, long userPhone, String md5);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+            <div class="post-copyright">
+    <div class="content">
+        <p>最后更新： 2018年07月18日 20:47</p>
+        <p>原始链接： <a class="post-url" href="/2017/11/26/seckill2/" title="java高并发秒杀API_SSM之第Service层">http://zhangbuzola.cn/2017/11/26/seckill2/</a></p>
+        <footer>
+            <a href="http://zhangbuzola.cn">
+                <img src="/images/avatar.jpg" alt="zolanunu">
+                zolanunu
+            </a>
+        </footer>
+    </div>
+</div>
+
+      
+        
+            
+
+        
+    </div>
+    <footer class="article-footer">
+        
+        <ul class="article-footer-menu">
+            
+            
+  <li class="article-footer-tags">
+    <i class="fa fa-tags"></i>
+      
+    <a href="/tags/SSM/" class="color4">SSM</a>
+      
+  </li>
+
+        </ul>
+        
+    </footer>
+  </div>
+</article>
+
+
+    <aside class="post-toc-pos post-toc-top" id="post-toc">
+        <nav class="post-toc-wrap">
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#DAO-编码之后的思考"><span class="post-toc-text">DAO 编码之后的思考</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#秒杀Service接口设计"><span class="post-toc-text">秒杀Service接口设计</span></a></li></ol>
+        </nav>
+    </aside>
+    
+
+<nav id="article-nav">
+  
+    <a href="/2017/11/28/java基础之字符串常量池/" id="article-nav-newer" class="article-nav-link-wrap">
+
+      <span class="article-nav-title">
+        <i class="fa fa-hand-o-left" aria-hidden="true"></i>
+        
+          java基础学习之字符串常量池
+        
+      </span>
+    </a>
+  
+  
+    <a href="/2017/11/25/seckill/" id="article-nav-older" class="article-nav-link-wrap">
+      <span class="article-nav-title">java高并发秒杀API_SSM之DAO层</span>
+      <i class="fa fa-hand-o-right" aria-hidden="true"></i>
+    </a>
+  
+</nav>
+
+
+
+    
+        <link rel="stylesheet" href="//unpkg.com/gitment/style/default.css">
+    <script src="//unpkg.com/gitment/dist/gitment.browser.js"></script>
+    <script>
+        var gitment = new Gitment({
+            owner: 'true',
+            repo: 'zolanunu',
+            oauth: {
+                client_id: '1a04e8dee74a4b8634df',
+                client_secret: '9e3078ac89eb72f22abbdd11f7f0d11e2e1d7f7a',
+            },
+        })
+        gitment.render('comments')
+    </script>
+
+    
+</section>
+        
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+      <p>
+        Powered by  <a href="http://hexo.io/" target="_blank">Hexo</a>
+        Theme <a href="//github.com/wongminho/hexo-theme-miho" target="_blank">MiHo</a>
+      &copy; 2018 zolanunu<br>
+      </p>
+    </div>
+  </div>
+</footer>
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script>
+  var mihoConfig = {
+      root: "http://zhangbuzola.cn",
+      animate: true,
+      isHome: false,
+      share: false,
+      reward: 0
+  }
+</script>
+<div class="sidebar">
+    <div id="sidebar-search" title="Search">
+        <i class="fa fa-search"></i>
+    </div>
+    <div id="sidebar-category" title="Categories">
+        <i class="fa fa-book"></i>
+    </div>
+    <div id="sidebar-tag" title="Tags">
+        <i class="fa fa-tags"></i>
+    </div>
+    <div id="sidebar-top">
+        <span class="sidebar-top-icon"><i class="fa fa-angle-up"></i></span>
+    </div>
+</div>
+<div class="sidebar-menu-box" id="sidebar-menu-box">
+    <div class="sidebar-menu-box-container">
+        <div id="sidebar-menu-box-categories">
+            <a class="category-link" href="/categories/Java/">Java</a><a class="category-link" href="/categories/Java后台/">Java后台</a><a class="category-link" href="/categories/Python/">Python</a><a class="category-link" href="/categories/工具/">工具</a><a class="category-link" href="/categories/技术书/">技术书</a><a class="category-link" href="/categories/数据库/">数据库</a><a class="category-link" href="/categories/数据结构/">数据结构</a><a class="category-link" href="/categories/生活轨迹/">生活轨迹</a><a class="category-link" href="/categories/算法/">算法</a>
+        </div>
+        <div id="sidebar-menu-box-tags">
+            <a href="/tags/2018/" style="font-size: 11.25px;">2018</a> <a href="/tags/Collections/" style="font-size: 15px;">Collections</a> <a href="/tags/HashMap/" style="font-size: 10px;">HashMap</a> <a href="/tags/LinkedHashMap/" style="font-size: 10px;">LinkedHashMap</a> <a href="/tags/MySQL/" style="font-size: 17.5px;">MySQL</a> <a href="/tags/Mybatis/" style="font-size: 12.5px;">Mybatis</a> <a href="/tags/Object/" style="font-size: 10px;">Object</a> <a href="/tags/SSM/" style="font-size: 13.75px;">SSM</a> <a href="/tags/TreeMap/" style="font-size: 11.25px;">TreeMap</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/java基础/" style="font-size: 20px;">java基础</a> <a href="/tags/java并发编程实战/" style="font-size: 11.25px;">java并发编程实战</a> <a href="/tags/leetcode/" style="font-size: 16.25px;">leetcode</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/剑指offer/" style="font-size: 10px;">剑指offer</a> <a href="/tags/多线程/" style="font-size: 11.25px;">多线程</a> <a href="/tags/工厂模式/" style="font-size: 10px;">工厂模式</a> <a href="/tags/并发编程/" style="font-size: 10px;">并发编程</a> <a href="/tags/机器学习/" style="font-size: 12.5px;">机器学习</a> <a href="/tags/构造函数/" style="font-size: 10px;">构造函数</a> <a href="/tags/深入理解java虚拟机/" style="font-size: 10px;">深入理解java虚拟机</a> <a href="/tags/生活/" style="font-size: 10px;">生活</a> <a href="/tags/神经网络/" style="font-size: 10px;">神经网络</a> <a href="/tags/算法与数据结构/" style="font-size: 13.75px;">算法与数据结构</a> <a href="/tags/算法和数据结构/" style="font-size: 18.75px;">算法和数据结构</a> <a href="/tags/索引优化/" style="font-size: 10px;">索引优化</a> <a href="/tags/观影记/" style="font-size: 10px;">观影记</a> <a href="/tags/设计模式/" style="font-size: 10px;">设计模式</a> <a href="/tags/设计模式之禅/" style="font-size: 10px;">设计模式之禅</a> <a href="/tags/读书书单/" style="font-size: 10px;">读书书单</a>
+        </div>
+    </div>
+    <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
+</div>
+<div class="mobile-header-menu-nav" id="mobile-header-menu-nav">
+    <div class="mobile-header-menu-container">
+        <span class="title">Menus</span>
+        <ul class="mobile-header-menu-navbar">
+            
+            <li>
+                <a  href="/">
+                    <i class="fa fa-home"></i><span>Home</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/archives">
+                    <i class="fa fa-archive"></i><span>Archives</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/about">
+                    <i class="fa fa-user"></i><span>About</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    <div class="mobile-header-tag-container">
+        <span class="title">Tags</span>
+        <div id="mobile-header-container-tags">
+            <a href="/tags/2018/" style="font-size: 11.25px;">2018</a> <a href="/tags/Collections/" style="font-size: 15px;">Collections</a> <a href="/tags/HashMap/" style="font-size: 10px;">HashMap</a> <a href="/tags/LinkedHashMap/" style="font-size: 10px;">LinkedHashMap</a> <a href="/tags/MySQL/" style="font-size: 17.5px;">MySQL</a> <a href="/tags/Mybatis/" style="font-size: 12.5px;">Mybatis</a> <a href="/tags/Object/" style="font-size: 10px;">Object</a> <a href="/tags/SSM/" style="font-size: 13.75px;">SSM</a> <a href="/tags/TreeMap/" style="font-size: 11.25px;">TreeMap</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/java基础/" style="font-size: 20px;">java基础</a> <a href="/tags/java并发编程实战/" style="font-size: 11.25px;">java并发编程实战</a> <a href="/tags/leetcode/" style="font-size: 16.25px;">leetcode</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/剑指offer/" style="font-size: 10px;">剑指offer</a> <a href="/tags/多线程/" style="font-size: 11.25px;">多线程</a> <a href="/tags/工厂模式/" style="font-size: 10px;">工厂模式</a> <a href="/tags/并发编程/" style="font-size: 10px;">并发编程</a> <a href="/tags/机器学习/" style="font-size: 12.5px;">机器学习</a> <a href="/tags/构造函数/" style="font-size: 10px;">构造函数</a> <a href="/tags/深入理解java虚拟机/" style="font-size: 10px;">深入理解java虚拟机</a> <a href="/tags/生活/" style="font-size: 10px;">生活</a> <a href="/tags/神经网络/" style="font-size: 10px;">神经网络</a> <a href="/tags/算法与数据结构/" style="font-size: 13.75px;">算法与数据结构</a> <a href="/tags/算法和数据结构/" style="font-size: 18.75px;">算法和数据结构</a> <a href="/tags/索引优化/" style="font-size: 10px;">索引优化</a> <a href="/tags/观影记/" style="font-size: 10px;">观影记</a> <a href="/tags/设计模式/" style="font-size: 10px;">设计模式</a> <a href="/tags/设计模式之禅/" style="font-size: 10px;">设计模式之禅</a> <a href="/tags/读书书单/" style="font-size: 10px;">读书书单</a>
+        </div>
+    </div>
+</div>
+<div class="search-wrap">
+    <span class="search-close">&times;</span>
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+            <i class="icon icon-lg icon-chevron-left"></i>
+        </a>
+        <input class="search-field" placeholder="Search..." id="keywords">
+        <a id="search-submit" href="javascript:;">
+            <i class="fa fa-search"></i>
+        </a>
+    <div class="search-container" id="search-container">
+        <ul class="search-result" id="search-result">
+        </ul>
+    </div>
+</div>
+
+<div id="search-tpl">
+    <li class="search-result-item">
+        <a href="{url}" class="search-item-li">
+            <span class="search-item-li-title" title="{title}">{title}</span>
+        </a>
+    </li>
+</div>
+<script src="/js/search.js"></script>
+<script src="/js/main.js"></script>
+
+
+  <script src="//cdn.bootcss.com/particles.js/2.0.0/particles.min.js"></script>
+  <div id="particles"></div>
+  <script src="/js/particles.js"></script>
+
+
+
+
+
+
+
+  <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
+  <script src="//cdn.bootcss.com/scrollReveal.js/3.0.5/scrollreveal.js"></script>
+  <script src="/js/animate.js"></script>
+
+
+  <script src="/js/pop-img.js"></script>
+  <script>
+     $(".article-entry p img").popImg();
+  </script>
+
+  </div>
+</body>
+</html>

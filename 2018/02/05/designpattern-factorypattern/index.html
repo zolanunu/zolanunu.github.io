@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>设计模式之禅之工厂模式 | zolanunu</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+    <meta name="keywords" content="zolanunu,zolanunu's blog" />
+  
+  <meta name="description" content="《设计模式之禅》中的故事在Java语言中，我们通常有以下几种创建对象的方式： (1) 使用new关键字直接创建对象； (2) 通过反射机制创建对象； (3) 通过clone()方法创建对象； (4) 通过工厂类创建对象。 女娲造人的故事：女娲在开天辟地之初，觉得很无聊，就决定拿泥巴造人。造人的过程涉及：女娲（Client），八卦炉（Factory），不同肤色的人（Product）。  下面是每个类">
+<meta name="keywords" content="设计模式,设计模式之禅,工厂模式">
+<meta property="og:type" content="article">
+<meta property="og:title" content="设计模式之禅之工厂模式">
+<meta property="og:url" content="http://zhangbuzola.cn/2018/02/05/designpattern-factorypattern/index.html">
+<meta property="og:site_name" content="zolanunu">
+<meta property="og:description" content="《设计模式之禅》中的故事在Java语言中，我们通常有以下几种创建对象的方式： (1) 使用new关键字直接创建对象； (2) 通过反射机制创建对象； (3) 通过clone()方法创建对象； (4) 通过工厂类创建对象。 女娲造人的故事：女娲在开天辟地之初，觉得很无聊，就决定拿泥巴造人。造人的过程涉及：女娲（Client），八卦炉（Factory），不同肤色的人（Product）。  下面是每个类">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="http://zhangbuzola.cn/assets/images/designpattern-factorypattern.png">
+<meta property="og:image" content="http://zhangbuzola.cn/assets/images/designpattern-factorypattern2.png">
+<meta property="og:image" content="http://zhangbuzola.cn/assets/images/designpattern-factorypattern3.png">
+<meta property="og:image" content="http://zhangbuzola.cn/assets/images/designpattern-factorypattern4.png">
+<meta property="og:image" content="http://zhangbuzola.cn/assets/images/designpattern-factorypattern5.jpg">
+<meta property="og:image" content="http://zhangbuzola.cn/assets/images/designpattern-factorypattern6.png">
+<meta property="og:updated_time" content="2018-07-25T10:56:50.041Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="设计模式之禅之工厂模式">
+<meta name="twitter:description" content="《设计模式之禅》中的故事在Java语言中，我们通常有以下几种创建对象的方式： (1) 使用new关键字直接创建对象； (2) 通过反射机制创建对象； (3) 通过clone()方法创建对象； (4) 通过工厂类创建对象。 女娲造人的故事：女娲在开天辟地之初，觉得很无聊，就决定拿泥巴造人。造人的过程涉及：女娲（Client），八卦炉（Factory），不同肤色的人（Product）。  下面是每个类">
+<meta name="twitter:image" content="http://zhangbuzola.cn/assets/images/designpattern-factorypattern.png">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="/js/pace.min.js"></script>
+  
+
+  
+	<script>
+	var _hmt = _hmt || [];
+	(function() {
+	  var hm = document.createElement("script");
+	  hm.src = "//hm.baidu.com/hm.js?a651034b7d11a367ae836642b29a3057";
+	  var s = document.getElementsByTagName("script")[0]; 
+	  s.parentNode.insertBefore(hm, s);
+	})();
+	</script>
+
+  
+
+</head>
+
+<body>
+  <div id="container">
+      <header id="header">
+    <div id="banner"></div>
+    <div id="header-outer">
+        <div id="header-menu" class="header-menu-pos animated">
+            <div class="header-menu-container">
+                <a href="/" class="left">
+                    <span class="site-title">zolanunu&#39;s Blog</span>
+                </a>
+                <nav id="header-menu-nav" class="right">
+                    
+                    <a  href="/">
+                        <i class="fa fa-home"></i>
+                        <span>Home</span>
+                    </a>
+                    
+                    <a  href="/archives">
+                        <i class="fa fa-archive"></i>
+                        <span>Archives</span>
+                    </a>
+                    
+                    <a  href="/about">
+                        <i class="fa fa-user"></i>
+                        <span>About</span>
+                    </a>
+                    
+                </nav>
+                <a class="mobile-header-menu-button">
+                    <i class="fa fa-bars"></i>
+                </a>
+            </div>
+        </div>
+        <div id="header-row">
+            <div id="logo">
+                <a href="/">
+                    <img src="/images/avatar.jpg" alt="logo">
+                </a>
+            </div>
+            <div class="header-info">
+                <div id="header-title">
+                    
+                    <h2>
+                        zolanunu&#39;s Blog
+                    </h2>
+                    
+                </div>
+                <div id="header-description">
+                    
+                    <h3>
+                        去努力尝试做一些你觉得你不会做或者不敢做的事情。
+                    </h3>
+                    
+                </div>
+            </div>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a title="zolanunu" target="_blank" href="//zhangbuzola.cn">
+                            <i class="fa fa-home fa-2x"></i></a>
+                    
+                        <a title="Github" target="_blank" href="//github.com/zolanunu">
+                            <i class="fa fa-github fa-2x"></i></a>
+                    
+                        <a title="Weibo" target="_blank" href="//weibo.com/zolanunu">
+                            <i class="fa fa-weibo fa-2x"></i></a>
+                    
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>
+      <div class="outer">
+        <section id="main" class="body-wrap"><article id="post-designpattern-factorypattern" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="post-title" itemprop="name">
+      设计模式之禅之工厂模式
+    </h1>
+    <div class="post-title-bar">
+      <ul>
+          
+              <li>
+                  <i class="fa fa-book"></i>
+                  
+                      <a href="/categories/技术书/">技术书</a>
+                  
+              </li>
+          
+        <li>
+          <i class="fa fa-calendar"></i>  2018-02-05
+        </li>
+        <li>
+          <i class="fa fa-eye"></i>
+          <span id="busuanzi_value_page_pv"></span>
+        </li>
+      </ul>
+    </div>
+  
+
+          
+      </header>
+    
+    <div class="article-entry post-content" itemprop="articleBody">
+      
+            
+            <h1 id="《设计模式之禅》中的故事"><a href="#《设计模式之禅》中的故事" class="headerlink" title="《设计模式之禅》中的故事"></a>《设计模式之禅》中的故事</h1><p>在Java语言中，我们通常有以下几种创建对象的方式：</p>
+<p>(1) 使用new关键字直接创建对象；</p>
+<p>(2) 通过反射机制创建对象；</p>
+<p>(3) 通过clone()方法创建对象；</p>
+<p>(4) 通过工厂类创建对象。</p>
+<p>女娲造人的故事：女娲在开天辟地之初，觉得很无聊，就决定拿泥巴造人。造人的过程涉及：女娲（Client），八卦炉（Factory），不同肤色的人（Product）。</p>
+<p><img src="/assets/images/designpattern-factorypattern.png" alt="造人UML"></p>
+<p>下面是每个类和接口的实现：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">//工厂要生产的人的接口 </span><br><span class="line">public interface Human&#123;</span><br><span class="line">//有两个方法 </span><br><span class="line">	public void getColor(); </span><br><span class="line">	public void talk();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">//黑种人</span><br><span class="line">public class BlackHuman implements Human &#123;</span><br><span class="line">	@Override</span><br><span class="line">	public void getColor() &#123;</span><br><span class="line">		System.out.println(&quot;黑种人的皮肤是黑色的&quot;);</span><br><span class="line">	&#125;</span><br><span class="line">	@Override</span><br><span class="line">	public void talk() &#123;</span><br><span class="line">		System.out.println(&quot;黑人会说话，一般人都听不懂&quot;);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line">//黄种人</span><br><span class="line">public class YellowHuman implements Human &#123;</span><br><span class="line">	@Override</span><br><span class="line">	public void getColor() &#123;</span><br><span class="line">		System.out.println(&quot;黄种人的皮肤是黄色的&quot;);</span><br><span class="line">	&#125;</span><br><span class="line">	@Override</span><br><span class="line">	public void talk() &#123;</span><br><span class="line">		System.out.println(&quot;黄种人会说话，一般人说的都是双字节&quot;);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line">//白种人</span><br><span class="line">public class WhiteHuman implements Human &#123;</span><br><span class="line">	@Override</span><br><span class="line">	public void getColor() &#123; </span><br><span class="line">		System.out.println(&quot;白种人的皮肤是白色的&quot;); </span><br><span class="line">	&#125;</span><br><span class="line">	@Override</span><br><span class="line">	public void talk() &#123;</span><br><span class="line">		System.out.println(&quot;白种人人会说话，一般说的都是单子节&quot;);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>下面开始建工厂：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">//抽象人类创建工厂，泛型限定了输入参数必须是Class类型,必须是Human的实现类</span><br><span class="line">public abstract class AbstractHumanFactory &#123;</span><br><span class="line">	public abstract &lt;T extends Human&gt; T creatHuman(Class&lt;T&gt; c); </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//人类创建工厂</span><br><span class="line">public class HumanFactory extends AbstractHumanFactory &#123;</span><br><span class="line">	@Override</span><br><span class="line">	public &lt;T extends Human&gt; T creatHuman(Class&lt;T&gt; c) &#123;</span><br><span class="line">		Human human = null;</span><br><span class="line">		try&#123;</span><br><span class="line">			human = (Human)Class.forName(c.getName()).newInstance();</span><br><span class="line">	&#125;catch(Exception e)&#123;</span><br><span class="line">		System.out.println(&quot;人类生产错误&quot;); e.printStackTrace();</span><br><span class="line">	&#125;</span><br><span class="line">	return (T)human;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>八卦炉建好后，女娲只需要念咒语就可以造人了</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">public class NvWa &#123;</span><br><span class="line">	public static void main(String[] args) &#123;</span><br><span class="line">		AbstractHumanFactory YinYanglu = new HumanFactory();</span><br><span class="line">		System.out.println(&quot;--造出的第一批人是白色人种&quot;);</span><br><span class="line">		Human whiteHuman = YinYanglu.createHuman(WhiteHuman.class);</span><br><span class="line">		whiteHuman.getColor();</span><br><span class="line">		whiteHuman.talk();</span><br><span class="line">		System.out.println(&quot;--造出的第二批人是黑色人种&quot;);</span><br><span class="line">		Human blackHuman = YinYanglu.createHuman(BlackHuman.class);</span><br><span class="line">		blackHuman.getColor();</span><br><span class="line">		blackHuman.talk();</span><br><span class="line">		System.out.println(&quot;--造出的第一批人是黄色人种&quot;);</span><br><span class="line">		Human yellowHuman = YinYanglu.createHuman(YellowHuman.class);</span><br><span class="line">		yellowHuman.getColor();</span><br><span class="line">		yellowHuman.talk();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="工厂模式定义"><a href="#工厂模式定义" class="headerlink" title="工厂模式定义"></a>工厂模式定义</h1><p>“Define an interface for creating an object, but let subclasses decide which class to instantiate. Factory Method lets a class defer instantiation to subclasses.”(在基类中定义创建对象的一个接口，让子类决定实例化哪个类。工厂方法让一个类的实例化延迟到子类中进行。)</p>
+<p><img src="/assets/images/designpattern-factorypattern2.png" alt=""></p>
+<p>在工厂模式中，抽象产品类Product负责定义产品的共性，实现对事物最抽象的定义；Creator为抽象创建类，也就是抽象工厂，具体如何创建产品类是由具体的实现工厂ConcreteCreateor完成的。</p>
+<h2 id="工厂模式的分类："><a href="#工厂模式的分类：" class="headerlink" title="工厂模式的分类："></a>工厂模式的分类：</h2><p>（1）简单工厂（Simple Factory）模式，又称静态工厂方法模式（Static Factory Method Pattern）。</p>
+<p>（2）工厂方法（Factory Method）模式，又称多态性工厂（Polymorphic Factory）模式或虚拟构造子（Virtual Constructor）模式；</p>
+<p>（3）抽象工厂（Abstract Factory）模式，又称工具箱（Kit 或Toolkit）模式。</p>
+<h2 id="工厂模式的应用"><a href="#工厂模式的应用" class="headerlink" title="工厂模式的应用"></a>工厂模式的应用</h2><h3 id="优缺点"><a href="#优缺点" class="headerlink" title="优缺点"></a>优缺点</h3><p>（1）<strong>良好的封装性，代码结构清晰</strong>。一个对象创建是有条件约束的，比如一个调用者需要一个具体的产品对象，只要知道这个产品的类名或者约束字符串就可以了，不用知道创建对象的具体过程，<strong>降低模块间的耦合</strong>。</p>
+<p>（2）扩展性良好。在增加产品的情况下，只要适当地修改具体的工厂类或者扩展一个工厂类，就可以拥抱变化。</p>
+<p>（3）可以屏蔽产品类。产品类的实现如何变化，调用者都不需要关心，他只需要关心产品的接口，只要接口不变，系统的上层模块就不要发生变化。</p>
+<p>（4）工厂模式是典型的解耦框架。</p>
+<ul>
+<li><p>解耦 ：把对象的创建和使用的过程分开</p>
+</li>
+<li><p>降低代码重复: 如果创建某个对象的过程都很复杂，需要一定的代码量，而且很多地方都要用到，那么就会有很多的重复代码。</p>
+</li>
+<li><p>降低维护成本 ：由于创建过程都由工厂统一管理，所以发生业务逻辑变化，不需要找到所有需要创建对象B的地方去逐个修正，只需要在工厂里修改即可，降低维护成本。</p>
+</li>
+</ul>
+<h3 id="应用场景"><a href="#应用场景" class="headerlink" title="应用场景"></a>应用场景</h3><p>(1)Spring中通过getBean(“xxx”)获取Bean；</p>
+<p>(2) Java消息服务JMS中(下面以消息队列ActiveMQ为例子)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">// 1、创建一个连接工厂对象，需要指定服务的ip及端口。</span><br><span class="line">ConnectionFactory connectionFactory = new ActiveMQConnectionFactory(&quot;tcp://192.168.25.155:61616&quot;);</span><br><span class="line">// 2、使用工厂对象创建一个Connection对象。</span><br></pre></td></tr></table></figure>
+<h1 id="简单工厂模式"><a href="#简单工厂模式" class="headerlink" title="简单工厂模式"></a>简单工厂模式</h1><p>考虑一个问题：一个模块仅需要一个工厂类，没有必要把它生产出来，使用静态的方法就好了。</p>
+<p>所以讲上面故事中的UML图中的AbstractHumanFactory去掉，将具体类的Humanfactory的方法变成静态的。变化的只有HumanFactory和NvWa类。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">public class HumanFactory() &#123;</span><br><span class="line">	public static &lt;T extends Human&gt; T createHuman(Class&lt;T&gt; c) &#123;</span><br><span class="line">		Human human = nulll;</span><br><span class="line">		try &#123;</span><br><span class="line">			human = (Human)Class.forName(c.getName()).newInstance();</span><br><span class="line">		&#125;catch(Exception e) &#123;</span><br><span class="line">			System.out.println(&quot;error human create&quot;);</span><br><span class="line">		&#125;</span><br><span class="line">	return (T)human;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>再就是女娲类的变化：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">public class NvWa &#123;</span><br><span class="line">	public static void main(String[] args) &#123;</span><br><span class="line">		// AbstractHumanFactory YinYanglu = new HumanFactory();</span><br><span class="line">		System.out.println(&quot;--造出的第一批人是白色人种&quot;);</span><br><span class="line">		Human whiteHuman = HumanFactory.createHuman(WhiteHuman.class);</span><br><span class="line">		whiteHuman.getColor();</span><br><span class="line">		whiteHuman.talk();</span><br><span class="line">		System.out.println(&quot;--造出的第二批人是黑色人种&quot;);</span><br><span class="line">........</span><br><span class="line">// 其他人种雷同</span><br></pre></td></tr></table></figure>
+<p>严格的说，简单工厂模式并不是23种常用的设计模式之一，它只算工厂模式的一个特殊实现。简单工厂模式在实际中的应用相对于其他2个工厂模式用的还是相对少得多，因为它只适应很多简单的情况。</p>
+<p>最重要的是它违背了我们在概述中说的 开放-封闭原则 （虽然可以通过反射的机制来避免，后面我们会介绍到） 。因为每次你要新添加一个功能，都需要在生switch-case 语句（或者if-else 语句）中去修改代码，添加分支条件。</p>
+<h2 id="适用场景"><a href="#适用场景" class="headerlink" title="适用场景"></a>适用场景</h2><p>（1）需要创建的对象较少。</p>
+<p>（2）客户端不关心对象的创建过程。</p>
+<h2 id="简单工厂模式角色分配"><a href="#简单工厂模式角色分配" class="headerlink" title="简单工厂模式角色分配"></a>简单工厂模式角色分配</h2><p>工厂(Factory)角色 :简单工厂模式的核心，它负责实现创建所有实例的内部逻辑。工厂类可以被外界直接调用，创建所需的产品对象。</p>
+<p>抽象产品(Product)角色 :简单工厂模式所创建的所有对象的父类，它负责描述所有实例所共有的公共接口。</p>
+<p>具体产品(Concrete Product)角色:简单工厂模式的创建目标，所有创建的对象都是充当这个角色的某个具体类的实例。</p>
+<h2 id="简单工厂实例"><a href="#简单工厂实例" class="headerlink" title="简单工厂实例"></a>简单工厂实例</h2><p>创建一个可以绘制不同形状的绘图工具，可以绘制圆形，正方形，三角形，每个图形都会有一个draw()方法用于绘图.</p>
+<p>（1）创建Shape接口</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">public interface Shape &#123;</span><br><span class="line">    void draw();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>（2）创建实现该接口的具体图形类</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">// 圆形</span><br><span class="line"></span><br><span class="line">public class Circle implements Shape &#123;</span><br><span class="line">    public Circle() &#123;</span><br><span class="line">        System.out.println(&quot;Circle&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">    @Override</span><br><span class="line">    public void draw() &#123;</span><br><span class="line">        System.out.println(&quot;Draw Circle&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//长方形</span><br><span class="line"></span><br><span class="line">public class Rectangle implements Shape &#123;</span><br><span class="line">    public Rectangle() &#123;</span><br><span class="line">        System.out.println(&quot;Rectangle&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">    @Override</span><br><span class="line">    public void draw() &#123;</span><br><span class="line">        System.out.println(&quot;Draw Rectangle&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 正方形</span><br><span class="line"></span><br><span class="line">public class Square implements Shape &#123;</span><br><span class="line">    public Square() &#123;</span><br><span class="line">        System.out.println(&quot;Square&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void draw() &#123;</span><br><span class="line">        System.out.println(&quot;Draw Square&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>（3）创建工厂类：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">public class ShapeFactory &#123;</span><br><span class="line"></span><br><span class="line">    // 使用 getShape 方法获取形状类型的对象</span><br><span class="line">    public static Shape getShape(String shapeType) &#123;</span><br><span class="line">        if (shapeType == null) &#123;</span><br><span class="line">            return null;</span><br><span class="line">        &#125;</span><br><span class="line">        if (shapeType.equalsIgnoreCase(&quot;CIRCLE&quot;)) &#123;</span><br><span class="line">            return new Circle();</span><br><span class="line">        &#125; else if (shapeType.equalsIgnoreCase(&quot;RECTANGLE&quot;)) &#123;</span><br><span class="line">            return new Rectangle();</span><br><span class="line">        &#125; else if (shapeType.equalsIgnoreCase(&quot;SQUARE&quot;)) &#123;</span><br><span class="line">            return new Square();</span><br><span class="line">        &#125;</span><br><span class="line">        return null;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>（4）测试方法：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">public class Test &#123;</span><br><span class="line"></span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line"></span><br><span class="line">        // 获取 Circle 的对象，并调用它的 draw 方法</span><br><span class="line">        Shape circle = ShapeFactory.getShape(&quot;CIRCLE&quot;);</span><br><span class="line">        circle.draw();</span><br><span class="line"></span><br><span class="line">        // 获取 Rectangle 的对象，并调用它的 draw 方法</span><br><span class="line">        Shape rectangle = ShapeFactory.getShape(&quot;RECTANGLE&quot;);</span><br><span class="line">        rectangle.draw();</span><br><span class="line"></span><br><span class="line">        // 获取 Square 的对象，并调用它的 draw 方法</span><br><span class="line">        Shape square = ShapeFactory.getShape(&quot;SQUARE&quot;);</span><br><span class="line">        square.draw();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>输出结果：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Circle</span><br><span class="line">Draw Circle</span><br><span class="line">Rectangle</span><br><span class="line">Draw Rectangle</span><br><span class="line">Square</span><br><span class="line">Draw Square</span><br></pre></td></tr></table></figure>
+<p>这样的实现有个问题，如果我们新增产品类的话，就需要修改工厂类中的getShape（）方法，这很明显不符合 开放-封闭原则 。</p>
+<h2 id="使用反射机制改善简单工厂"><a href="#使用反射机制改善简单工厂" class="headerlink" title="使用反射机制改善简单工厂"></a>使用反射机制改善简单工厂</h2><p>将工厂类改为下面的形式：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">package factory_pattern;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * 利用反射解决简单工厂每次增加新了产品类都要修改产品工厂的弊端</span><br><span class="line"> * </span><br><span class="line"> * @author Administrator</span><br><span class="line"> *</span><br><span class="line"> */</span><br><span class="line">public class ShapeFactory2 &#123;</span><br><span class="line">    public static Object getClass(Class&lt;? extends Shape&gt; clazz) &#123;</span><br><span class="line">        Object obj = null;</span><br><span class="line"></span><br><span class="line">        try &#123;</span><br><span class="line">            obj = Class.forName(clazz.getName()).newInstance();</span><br><span class="line">        &#125; catch (ClassNotFoundException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125; catch (InstantiationException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125; catch (IllegalAccessException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        return obj;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>测试方法：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">package factory_pattern;</span><br><span class="line"></span><br><span class="line">public class Test2 &#123;</span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line"></span><br><span class="line">        Circle circle = (Circle) ShapeFactory2.getClass(factory_pattern.Circle.class);</span><br><span class="line">        circle.draw();</span><br><span class="line"></span><br><span class="line">        Rectangle rectangle = (Rectangle) ShapeFactory2.getClass(factory_pattern.Rectangle.class);</span><br><span class="line">        rectangle.draw();</span><br><span class="line"></span><br><span class="line">        Square square = (Square) ShapeFactory2.getClass(factory_pattern.Square.class);</span><br><span class="line">        square.draw();</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>这种方式的虽然符合了 开放-关闭原则 ，但是每一次传入的都是产品类的全部路径，这样比较麻烦。如果需要改善的话可以通过 反射+配置文件 的形式来改善，这种方式使用的也是比较多的。</p>
+<h1 id="工厂方法模式"><a href="#工厂方法模式" class="headerlink" title="工厂方法模式"></a>工厂方法模式</h1><p>工厂方法模式应该是在工厂模式家族中是用的最多模式，一般项目中存在最多的就是这个模式。</p>
+<p>工厂方法模式是简单工厂的仅一步深化， 在工厂方法模式中，我们不再提供一个统一的工厂类来创建所有的对象，而是针对不同的对象提供不同的工厂。也就是说 每个对象都有一个与之对应的工厂 。</p>
+<h2 id="适用场景-1"><a href="#适用场景-1" class="headerlink" title="适用场景"></a>适用场景</h2><p>一个类不知道它所需要的对象的类：在工厂方法模式中，客户端不需要知道具体产品类的类名，只需要知道所对应的工厂即可，具体的产品对象由具体工厂类创建；客户端需要知道创建具体产品的工厂类。</p>
+<p>一个类通过其子类来指定创建哪个对象：在工厂方法模式中，对于抽象工厂类只需要提供一个创建产品的接口，而由其子类来确定具体要创建的对象，利用面向对象的多态性和里氏</p>
+<p>将创建对象的任务委托给多个工厂子类中的某一个，客户端在使用时可以无需关心是哪一个工厂子类创建产品子类，需要时再动态指定，可将具体工厂类的类名存储在配置文件或数据库中。</p>
+<h2 id="工厂方法模式角色分配"><a href="#工厂方法模式角色分配" class="headerlink" title="工厂方法模式角色分配"></a>工厂方法模式角色分配</h2><p>抽象工厂(Abstract Factory)角色：是工厂方法模式的核心，与应用程序无关。任何在模式中创建的对象的工厂类必须实现这个接口。</p>
+<p>具体工厂(Concrete Factory)角色 ：这是实现抽象工厂接口的具体工厂类，包含与应用程序密切相关的逻辑，并且受到应用程序调用以创建某一种产品对象。</p>
+<p>抽象产品(AbstractProduct)角色 ：工厂方法模式所创建的对象的超类型，也就是产品对象的共同父类或共同拥有的接口。</p>
+<p>具体产品(Concrete Product)角色 ：这个角色实现了抽象产品角色所定义的接口。某具体产品有专门的具体工厂创建，它们之间往往一一对应</p>
+<h2 id="工厂方法模式实例"><a href="#工厂方法模式实例" class="headerlink" title="工厂方法模式实例"></a>工厂方法模式实例</h2><p>上面简单工厂例子中的图形接口以及相关图像实现类不变。我们只需要增加一个工厂接口以及实现这个接口的工厂类即可。</p>
+<p>(1)增加一个工厂接口：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">public interface Factory &#123;</span><br><span class="line">    public Shape getShape();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>（2）增加相关工厂类:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">圆形工厂类</span><br><span class="line"></span><br><span class="line">public class CircleFactory implements Factory &#123;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public Shape getShape() &#123;</span><br><span class="line">        // TODO Auto-generated method stub</span><br><span class="line">        return new Circle();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">// 长方形工厂类</span><br><span class="line"></span><br><span class="line">public class RectangleFactory implements Factory&#123;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public Shape getShape() &#123;</span><br><span class="line">        // TODO Auto-generated method stub</span><br><span class="line">        return new Rectangle();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">// 圆形工厂类</span><br><span class="line">public class SquareFactory implements Factory&#123;</span><br><span class="line">    @Override</span><br><span class="line">    public Shape getShape() &#123;</span><br><span class="line">        // TODO Auto-generated method stub</span><br><span class="line">        return new Square();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>（3）测试：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">public class Test &#123;</span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        Factory circlefactory = new CircleFactory();</span><br><span class="line">        Shape circle = circlefactory.getShape();</span><br><span class="line">        circle.draw();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>输出结果：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Circle</span><br><span class="line">Draw Circle</span><br></pre></td></tr></table></figure>
+<h1 id="抽象工厂模式"><a href="#抽象工厂模式" class="headerlink" title="抽象工厂模式"></a>抽象工厂模式</h1><h2 id="造人实例"><a href="#造人实例" class="headerlink" title="造人实例"></a>造人实例</h2><p>上面的工厂模式，女娲运用了该模式成功创建了三个人种，可是问题来了，她发现没有性别……这失误也忒大了点吧……竟然没有性别，那岂不是……无奈，只好抹掉重来了，于是所有人都被消灭掉了，重新造人。</p>
+<p>女娲开始分析了，既然要区别男女，那么生产人种的工厂（八卦炉）要重新改造了，因为一个设备要么全男性，要么全女性。所以只能将八卦炉拆开了，把原先的一个变两个，并且略加修改，变成女性八卦炉和男性八卦炉，这样就可以了。于是女娲开始准备生产了，她先画了个示意图如下：</p>
+<p><img src="/assets/images/designpattern-factorypattern3.png" alt=""></p>
+<p>依据上面看具体的实现：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">//定义抽象人类接口</span><br><span class="line">public interface Human &#123;</span><br><span class="line">	public void getColor();</span><br><span class="line">	public void talk();</span><br><span class="line">	public void getSex(); //多了个性别</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line">//定义抽象黄种人类</span><br><span class="line">public abstract class AbstractYellowHuman implements Human &#123;</span><br><span class="line">    @Override</span><br><span class="line">    public void getColor() &#123;</span><br><span class="line">        System.out.println(&quot;Yellow color&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">    @Override</span><br><span class="line">    public void talk() &#123;</span><br><span class="line">        System.out.println(&quot;Yellow people&quot;);</span><br><span class="line">    &#125; </span><br><span class="line">&#125; </span><br><span class="line">//抽象黑种人和白种人就不写了，跟抽象黄种人道理一样</span><br><span class="line">//略</span><br><span class="line"> </span><br><span class="line">//黄种人男性类</span><br><span class="line">public class MaleYellowHuman extends AbstractYellowHuman &#123;</span><br><span class="line">    @Override</span><br><span class="line">    public void getSex() &#123;</span><br><span class="line">        System.out.println(&quot;Yellow man!&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">//黄种人女性类略</span><br></pre></td></tr></table></figure>
+<p>八卦炉的实现</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">//抽象工厂接口的定义</span><br><span class="line">public interface HumanFactory &#123;</span><br><span class="line">	public Human createYellowHuman();</span><br><span class="line">	public Human createBlackHuman();</span><br><span class="line">	public Human createWhiteHuman();</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line">//生产女性的八卦炉</span><br><span class="line">public class FemaleFactory implements HumanFactory &#123;</span><br><span class="line">    @Override</span><br><span class="line">    public Human createYellowHuman() &#123;</span><br><span class="line">        return new FemaleBlackHuman();</span><br><span class="line">    &#125;</span><br><span class="line">    @Override</span><br><span class="line">    public Human createBlackHuman() &#123;</span><br><span class="line">        return new FemaleBlackHuman();</span><br><span class="line">    &#125;</span><br><span class="line">    @Override</span><br><span class="line">    public Human createWhiteHuman() &#123;</span><br><span class="line">        return new FemaleWhiteHuman();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line">//生产男性的八卦炉</span><br><span class="line">public class MaleFactory implements HumanFactory &#123;</span><br><span class="line">    @Override</span><br><span class="line">    public Human createYellowHuman() &#123;</span><br><span class="line">        return new MaleYellowHuman();</span><br><span class="line">    &#125;</span><br><span class="line">    @Override</span><br><span class="line">    public Human createBlackHuman() &#123;</span><br><span class="line">        return new MaleBlackHuman();</span><br><span class="line">    &#125;</span><br><span class="line">    @Override</span><br><span class="line">    public Human createWhiteHuman() &#123;</span><br><span class="line">        return new MaleWhiteHuman();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 下面开始造人了</span><br><span class="line"></span><br><span class="line">public class NvWa &#123;</span><br><span class="line">	public static void main(String[] args) &#123;</span><br><span class="line">		HumanFactory maleHumanFactory = new MaleFactory(); //第一条生产线：男性生产线</span><br><span class="line">		HumanFactory femaleHumanFactory = new FemaleFactory(); //第二条生产线：女性生产线</span><br><span class="line">		</span><br><span class="line">                //生产线建立完毕，开始造人</span><br><span class="line">		Human maleYellowHuman = maleHumanFactory.createYellowHuman(); //造黄色男性</span><br><span class="line">		Human femaleYellowHuman = femaleHumanFactory.createYellowHuman(); //造黄色女性</span><br><span class="line">		</span><br><span class="line">		System.out.println(&quot;--生产一个黄色女性--&quot;);</span><br><span class="line">		femaleYellowHuman.getColor();</span><br><span class="line">		femaleYellowHuman.talk();</span><br><span class="line">		femaleYellowHuman.getSex();</span><br><span class="line">		</span><br><span class="line">		System.out.println(&quot;--生产一个黄色男性--&quot;);</span><br><span class="line">		maleYellowHuman.getColor();</span><br><span class="line">		maleYellowHuman.talk();</span><br><span class="line">		maleYellowHuman.getSex();</span><br><span class="line">		/*</span><br><span class="line">		 * ……</span><br><span class="line">		 */</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="抽象工厂模式的定义"><a href="#抽象工厂模式的定义" class="headerlink" title="抽象工厂模式的定义"></a>抽象工厂模式的定义</h2><p>抽象工厂模式（Abstract Factory Pattern）是一种比较常用的模式，其定义如下：</p>
+<p>Provide an interface for creating families of related or dependent objects without specifying their concrete classes. 即为创建一组相关或相互依赖的对象提供一个接口，而且无须指定它们的具体类。它的通用类图如下：</p>
+<p><img src="/assets/images/designpattern-factorypattern4.png" alt=""></p>
+<h2 id="适用场景-2"><a href="#适用场景-2" class="headerlink" title="适用场景"></a>适用场景</h2><p>（1）和工厂方法一样客户端不需要知道它所创建的对象的类。</p>
+<p>（2）需要一组对象共同完成某种功能时，并且可能存在多组对象完成不同功能的情况。（同属于同一个产品族的产品）</p>
+<p>（3）系统结构稳定，不会频繁的增加对象。（因为一旦增加就需要修改原有代码，不符合开闭原则）</p>
+<h2 id="抽象工厂方法模式角色分配"><a href="#抽象工厂方法模式角色分配" class="headerlink" title="抽象工厂方法模式角色分配"></a>抽象工厂方法模式角色分配</h2><p>抽象工厂（AbstractFactory）角色 ：是工厂方法模式的核心，与应用程序无关。任何在模式中创建的对象的工厂类必须实现这个接口。</p>
+<p>具体工厂类（ConreteFactory）角色 ：这是实现抽象工厂接口的具体工厂类，包含与应用程序密切相关的逻辑，并且受到应用程序调用以创建某一种产品对象。</p>
+<p>抽象产品（Abstract Product）角色 ：工厂方法模式所创建的对象的超类型，也就是产品对象的共同父类或共同拥有的接口。</p>
+<p>具体产品（Concrete Product）角色 ：抽象工厂模式所创建的任何产品对象都是某一个具体产品类的实例。在抽象工厂中创建的产品属于同一产品族，这不同于工厂模式中的工厂只创建单一产品，我后面也会详解介绍到。</p>
+<h2 id="抽象工厂的工厂和工厂方法中的工厂有什么区别呢？"><a href="#抽象工厂的工厂和工厂方法中的工厂有什么区别呢？" class="headerlink" title="抽象工厂的工厂和工厂方法中的工厂有什么区别呢？"></a>抽象工厂的工厂和工厂方法中的工厂有什么区别呢？</h2><p>抽象工厂是生产一整套有产品的（至少要生产两个产品)，这些产品必须相互是有关系或有依赖的，而工厂方法中的工厂是生产单一产品的工厂。</p>
+<p><img src="/assets/images/designpattern-factorypattern5.jpg" alt=""></p>
+<h2 id="抽象工厂模式优缺点"><a href="#抽象工厂模式优缺点" class="headerlink" title="抽象工厂模式优缺点"></a>抽象工厂模式优缺点</h2><p>抽象工厂模式的优缺点</p>
+<h3 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h3><p>（1）封装性。每个产品的实现类不是高层模块要关心的，它要关心的是接口，是抽象，它不关心对象是如何创建出来的，这都由工厂类负责的，只要知道工厂类是谁，我就能创建一个需要的对象，省时省力。</p>
+<p>（2）产品族内的约束为非公开状态。例如生产男女比例的问题上，猜想女娲娘娘肯定有自己的打算，那么在抽象工厂模式中，这些约束都在工厂内里面实现的。</p>
+<h3 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h3><p>抽象工厂模式最大的缺点就是产品族扩展非常困难。如果我们要增加一个产品C，也就是说产品族由原来的A和B增加到3个，那么我们首先要在抽象类AbstractCreator中增加createProductC()方法，然后两个实现类都要修改……说到这里，已经知道了扩展的弊端了……</p>
+<p>注意这里是产品族扩展比较困难，而不是产品等级扩展困难。产品等级扩展还是非常容易的，增加一个产品等级，只要增加一个工厂类负责新增加出来的产品生产任务即可。也就是说横向扩展容易，纵向扩展难。</p>
+<h2 id="more实例"><a href="#more实例" class="headerlink" title="more实例"></a>more实例</h2><p>打枪游戏中，存在各种枪。我们假设现在存在AK、M4A1两类枪，每一种枪对应一种子弹。我们现在这样考虑生产AK的工厂可以顺便生产AK使用的子弹，生产M4A1的工厂可以顺便生产M4A1使用的子弹。（AK工厂生产AK系列产品包括子弹啊，AK枪的类型啊这些，M4A1工厂同理）</p>
+<p><img src="/assets/images/designpattern-factorypattern6.png" alt=""></p>
+<p>创建相关接口</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">//枪</span><br><span class="line">public interface Gun &#123;</span><br><span class="line">    public void shooting();</span><br><span class="line">&#125;</span><br><span class="line">//子弹</span><br><span class="line">public interface Bullet &#123;</span><br><span class="line">    public void load();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>创建接口对应实现类</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">// AK类</span><br><span class="line">public class AK implements Gun&#123;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void shooting() &#123;</span><br><span class="line">        System.out.println(&quot;shooting with AK&quot;);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">// M4A1类</span><br><span class="line"></span><br><span class="line">public class M4A1 implements Gun &#123;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void shooting() &#123;</span><br><span class="line">        System.out.println(&quot;shooting with M4A1&quot;);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">// AK子弹类</span><br><span class="line">public class AK_Bullet implements Bullet &#123;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void load() &#123;</span><br><span class="line">        System.out.println(&quot;Load bullets with AK&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">// M4A1子弹类</span><br><span class="line">public class M4A1</span><br><span class="line">_Bullet implements Bullet &#123;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void load() &#123;</span><br><span class="line">        System.out.println(&quot;Load bullets with M4A1&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>创建工厂接口</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">public interface Factory &#123;</span><br><span class="line">    public Gun produceGun();</span><br><span class="line">    public Bullet produceBullet();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>创建具体工厂；生产AK和AK子弹的工厂</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">public class AK_Factory implements Factory&#123;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public Gun produceGun() &#123;</span><br><span class="line">        return new AK();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public Bullet produceBullet() &#123;</span><br><span class="line">        return new AK_Bullet();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>生产M4A1和M4A1子弹的工厂</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">public class M4A1_Factory implements Factory&#123;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public Gun produceGun() &#123;</span><br><span class="line">        return new M4A1();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public Bullet produceBullet() &#123;</span><br><span class="line">        return new M4A1_Bullet();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>测试</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">public class Test &#123;</span><br><span class="line"></span><br><span class="line">    public static void main(String[] args) &#123;  </span><br><span class="line"></span><br><span class="line">     Factory factory;</span><br><span class="line">     Gun gun;</span><br><span class="line">     Bullet bullet;</span><br><span class="line"></span><br><span class="line">     factory =new AK_Factory();</span><br><span class="line">     bullet=factory.produceBullet();</span><br><span class="line">     bullet.load();</span><br><span class="line">     gun=factory.produceGun();</span><br><span class="line">     gun.shooting(); </span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>输出结果：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Load bullets with AK</span><br><span class="line">shooting with AK</span><br></pre></td></tr></table></figure>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p><a href="https://blog.csdn.net/qq_34337272/article/details/80472071#11-%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F%E7%9A%84%E5%AE%9A%E4%B9%89" target="_blank" rel="noopener">https://blog.csdn.net/qq_34337272/article/details/80472071#11-%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F%E7%9A%84%E5%AE%9A%E4%B9%89</a></p>
+<p><a href="https://github.com/JamesZBL/java_design_patterns/tree/master/abstract-factory" target="_blank" rel="noopener">https://github.com/JamesZBL/java_design_patterns/tree/master/abstract-factory</a></p>
+
+            <div class="post-copyright">
+    <div class="content">
+        <p>最后更新： 2018年07月25日 18:56</p>
+        <p>原始链接： <a class="post-url" href="/2018/02/05/designpattern-factorypattern/" title="设计模式之禅之工厂模式">http://zhangbuzola.cn/2018/02/05/designpattern-factorypattern/</a></p>
+        <footer>
+            <a href="http://zhangbuzola.cn">
+                <img src="/images/avatar.jpg" alt="zolanunu">
+                zolanunu
+            </a>
+        </footer>
+    </div>
+</div>
+
+      
+        
+            
+
+        
+    </div>
+    <footer class="article-footer">
+        
+        <ul class="article-footer-menu">
+            
+            
+  <li class="article-footer-tags">
+    <i class="fa fa-tags"></i>
+      
+    <a href="/tags/设计模式/" class="color5">设计模式</a>
+      
+    <a href="/tags/设计模式之禅/" class="color2">设计模式之禅</a>
+      
+    <a href="/tags/工厂模式/" class="color5">工厂模式</a>
+      
+  </li>
+
+        </ul>
+        
+    </footer>
+  </div>
+</article>
+
+
+    <aside class="post-toc-pos post-toc-top" id="post-toc">
+        <nav class="post-toc-wrap">
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#《设计模式之禅》中的故事"><span class="post-toc-text">《设计模式之禅》中的故事</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#工厂模式定义"><span class="post-toc-text">工厂模式定义</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#工厂模式的分类："><span class="post-toc-text">工厂模式的分类：</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#工厂模式的应用"><span class="post-toc-text">工厂模式的应用</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#优缺点"><span class="post-toc-text">优缺点</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#应用场景"><span class="post-toc-text">应用场景</span></a></li></ol></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#简单工厂模式"><span class="post-toc-text">简单工厂模式</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#适用场景"><span class="post-toc-text">适用场景</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#简单工厂模式角色分配"><span class="post-toc-text">简单工厂模式角色分配</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#简单工厂实例"><span class="post-toc-text">简单工厂实例</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#使用反射机制改善简单工厂"><span class="post-toc-text">使用反射机制改善简单工厂</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#工厂方法模式"><span class="post-toc-text">工厂方法模式</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#适用场景-1"><span class="post-toc-text">适用场景</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#工厂方法模式角色分配"><span class="post-toc-text">工厂方法模式角色分配</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#工厂方法模式实例"><span class="post-toc-text">工厂方法模式实例</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#抽象工厂模式"><span class="post-toc-text">抽象工厂模式</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#造人实例"><span class="post-toc-text">造人实例</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#抽象工厂模式的定义"><span class="post-toc-text">抽象工厂模式的定义</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#适用场景-2"><span class="post-toc-text">适用场景</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#抽象工厂方法模式角色分配"><span class="post-toc-text">抽象工厂方法模式角色分配</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#抽象工厂的工厂和工厂方法中的工厂有什么区别呢？"><span class="post-toc-text">抽象工厂的工厂和工厂方法中的工厂有什么区别呢？</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#抽象工厂模式优缺点"><span class="post-toc-text">抽象工厂模式优缺点</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#优点"><span class="post-toc-text">优点</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#缺点"><span class="post-toc-text">缺点</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#more实例"><span class="post-toc-text">more实例</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#参考"><span class="post-toc-text">参考</span></a></li></ol>
+        </nav>
+    </aside>
+    
+
+<nav id="article-nav">
+  
+    <a href="/2018/02/28/java基础之valitile/" id="article-nav-newer" class="article-nav-link-wrap">
+
+      <span class="article-nav-title">
+        <i class="fa fa-hand-o-left" aria-hidden="true"></i>
+        
+          java基础之volatile关键字
+        
+      </span>
+    </a>
+  
+  
+    <a href="/2018/01/29/leetcode-Array-7/" id="article-nav-older" class="article-nav-link-wrap">
+      <span class="article-nav-title">leetcode刷题7</span>
+      <i class="fa fa-hand-o-right" aria-hidden="true"></i>
+    </a>
+  
+</nav>
+
+
+
+    
+        <link rel="stylesheet" href="//unpkg.com/gitment/style/default.css">
+    <script src="//unpkg.com/gitment/dist/gitment.browser.js"></script>
+    <script>
+        var gitment = new Gitment({
+            owner: 'true',
+            repo: 'zolanunu',
+            oauth: {
+                client_id: '1a04e8dee74a4b8634df',
+                client_secret: '9e3078ac89eb72f22abbdd11f7f0d11e2e1d7f7a',
+            },
+        })
+        gitment.render('comments')
+    </script>
+
+    
+</section>
+        
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+      <p>
+        Powered by  <a href="http://hexo.io/" target="_blank">Hexo</a>
+        Theme <a href="//github.com/wongminho/hexo-theme-miho" target="_blank">MiHo</a>
+      &copy; 2018 zolanunu<br>
+      </p>
+    </div>
+  </div>
+</footer>
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script>
+  var mihoConfig = {
+      root: "http://zhangbuzola.cn",
+      animate: true,
+      isHome: false,
+      share: false,
+      reward: 0
+  }
+</script>
+<div class="sidebar">
+    <div id="sidebar-search" title="Search">
+        <i class="fa fa-search"></i>
+    </div>
+    <div id="sidebar-category" title="Categories">
+        <i class="fa fa-book"></i>
+    </div>
+    <div id="sidebar-tag" title="Tags">
+        <i class="fa fa-tags"></i>
+    </div>
+    <div id="sidebar-top">
+        <span class="sidebar-top-icon"><i class="fa fa-angle-up"></i></span>
+    </div>
+</div>
+<div class="sidebar-menu-box" id="sidebar-menu-box">
+    <div class="sidebar-menu-box-container">
+        <div id="sidebar-menu-box-categories">
+            <a class="category-link" href="/categories/Java/">Java</a><a class="category-link" href="/categories/Java后台/">Java后台</a><a class="category-link" href="/categories/Python/">Python</a><a class="category-link" href="/categories/工具/">工具</a><a class="category-link" href="/categories/技术书/">技术书</a><a class="category-link" href="/categories/数据库/">数据库</a><a class="category-link" href="/categories/数据结构/">数据结构</a><a class="category-link" href="/categories/生活轨迹/">生活轨迹</a><a class="category-link" href="/categories/算法/">算法</a>
+        </div>
+        <div id="sidebar-menu-box-tags">
+            <a href="/tags/2018/" style="font-size: 11.25px;">2018</a> <a href="/tags/Collections/" style="font-size: 15px;">Collections</a> <a href="/tags/HashMap/" style="font-size: 10px;">HashMap</a> <a href="/tags/LinkedHashMap/" style="font-size: 10px;">LinkedHashMap</a> <a href="/tags/MySQL/" style="font-size: 17.5px;">MySQL</a> <a href="/tags/Mybatis/" style="font-size: 12.5px;">Mybatis</a> <a href="/tags/Object/" style="font-size: 10px;">Object</a> <a href="/tags/SSM/" style="font-size: 13.75px;">SSM</a> <a href="/tags/TreeMap/" style="font-size: 11.25px;">TreeMap</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/java基础/" style="font-size: 20px;">java基础</a> <a href="/tags/java并发编程实战/" style="font-size: 11.25px;">java并发编程实战</a> <a href="/tags/leetcode/" style="font-size: 16.25px;">leetcode</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/剑指offer/" style="font-size: 10px;">剑指offer</a> <a href="/tags/多线程/" style="font-size: 11.25px;">多线程</a> <a href="/tags/工厂模式/" style="font-size: 10px;">工厂模式</a> <a href="/tags/并发编程/" style="font-size: 10px;">并发编程</a> <a href="/tags/机器学习/" style="font-size: 12.5px;">机器学习</a> <a href="/tags/构造函数/" style="font-size: 10px;">构造函数</a> <a href="/tags/深入理解java虚拟机/" style="font-size: 10px;">深入理解java虚拟机</a> <a href="/tags/生活/" style="font-size: 10px;">生活</a> <a href="/tags/神经网络/" style="font-size: 10px;">神经网络</a> <a href="/tags/算法与数据结构/" style="font-size: 13.75px;">算法与数据结构</a> <a href="/tags/算法和数据结构/" style="font-size: 18.75px;">算法和数据结构</a> <a href="/tags/索引优化/" style="font-size: 10px;">索引优化</a> <a href="/tags/观影记/" style="font-size: 10px;">观影记</a> <a href="/tags/设计模式/" style="font-size: 10px;">设计模式</a> <a href="/tags/设计模式之禅/" style="font-size: 10px;">设计模式之禅</a> <a href="/tags/读书书单/" style="font-size: 10px;">读书书单</a>
+        </div>
+    </div>
+    <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
+</div>
+<div class="mobile-header-menu-nav" id="mobile-header-menu-nav">
+    <div class="mobile-header-menu-container">
+        <span class="title">Menus</span>
+        <ul class="mobile-header-menu-navbar">
+            
+            <li>
+                <a  href="/">
+                    <i class="fa fa-home"></i><span>Home</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/archives">
+                    <i class="fa fa-archive"></i><span>Archives</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/about">
+                    <i class="fa fa-user"></i><span>About</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    <div class="mobile-header-tag-container">
+        <span class="title">Tags</span>
+        <div id="mobile-header-container-tags">
+            <a href="/tags/2018/" style="font-size: 11.25px;">2018</a> <a href="/tags/Collections/" style="font-size: 15px;">Collections</a> <a href="/tags/HashMap/" style="font-size: 10px;">HashMap</a> <a href="/tags/LinkedHashMap/" style="font-size: 10px;">LinkedHashMap</a> <a href="/tags/MySQL/" style="font-size: 17.5px;">MySQL</a> <a href="/tags/Mybatis/" style="font-size: 12.5px;">Mybatis</a> <a href="/tags/Object/" style="font-size: 10px;">Object</a> <a href="/tags/SSM/" style="font-size: 13.75px;">SSM</a> <a href="/tags/TreeMap/" style="font-size: 11.25px;">TreeMap</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/java基础/" style="font-size: 20px;">java基础</a> <a href="/tags/java并发编程实战/" style="font-size: 11.25px;">java并发编程实战</a> <a href="/tags/leetcode/" style="font-size: 16.25px;">leetcode</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/剑指offer/" style="font-size: 10px;">剑指offer</a> <a href="/tags/多线程/" style="font-size: 11.25px;">多线程</a> <a href="/tags/工厂模式/" style="font-size: 10px;">工厂模式</a> <a href="/tags/并发编程/" style="font-size: 10px;">并发编程</a> <a href="/tags/机器学习/" style="font-size: 12.5px;">机器学习</a> <a href="/tags/构造函数/" style="font-size: 10px;">构造函数</a> <a href="/tags/深入理解java虚拟机/" style="font-size: 10px;">深入理解java虚拟机</a> <a href="/tags/生活/" style="font-size: 10px;">生活</a> <a href="/tags/神经网络/" style="font-size: 10px;">神经网络</a> <a href="/tags/算法与数据结构/" style="font-size: 13.75px;">算法与数据结构</a> <a href="/tags/算法和数据结构/" style="font-size: 18.75px;">算法和数据结构</a> <a href="/tags/索引优化/" style="font-size: 10px;">索引优化</a> <a href="/tags/观影记/" style="font-size: 10px;">观影记</a> <a href="/tags/设计模式/" style="font-size: 10px;">设计模式</a> <a href="/tags/设计模式之禅/" style="font-size: 10px;">设计模式之禅</a> <a href="/tags/读书书单/" style="font-size: 10px;">读书书单</a>
+        </div>
+    </div>
+</div>
+<div class="search-wrap">
+    <span class="search-close">&times;</span>
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+            <i class="icon icon-lg icon-chevron-left"></i>
+        </a>
+        <input class="search-field" placeholder="Search..." id="keywords">
+        <a id="search-submit" href="javascript:;">
+            <i class="fa fa-search"></i>
+        </a>
+    <div class="search-container" id="search-container">
+        <ul class="search-result" id="search-result">
+        </ul>
+    </div>
+</div>
+
+<div id="search-tpl">
+    <li class="search-result-item">
+        <a href="{url}" class="search-item-li">
+            <span class="search-item-li-title" title="{title}">{title}</span>
+        </a>
+    </li>
+</div>
+<script src="/js/search.js"></script>
+<script src="/js/main.js"></script>
+
+
+  <script src="//cdn.bootcss.com/particles.js/2.0.0/particles.min.js"></script>
+  <div id="particles"></div>
+  <script src="/js/particles.js"></script>
+
+
+
+
+
+
+
+  <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
+  <script src="//cdn.bootcss.com/scrollReveal.js/3.0.5/scrollreveal.js"></script>
+  <script src="/js/animate.js"></script>
+
+
+  <script src="/js/pop-img.js"></script>
+  <script>
+     $(".article-entry p img").popImg();
+  </script>
+
+  </div>
+</body>
+</html>
