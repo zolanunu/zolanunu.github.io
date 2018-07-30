@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>设计模式之禅之单例模式 | zolanunu</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+    <meta name="keywords" content="zolanunu,zolanunu's blog" />
+  
+  <meta name="description" content="设计模式之禅故事皇帝和臣子 12345678910public class Emperor() &amp;#123;	private static final Emperor emperor = new Emperor();	private Emperor() &amp;#123;&amp;#125;	public static Emperor getInstance() &amp;#123;		return emperor;">
+<meta name="keywords" content="设计模式,设计模式之禅,单例模式">
+<meta property="og:type" content="article">
+<meta property="og:title" content="设计模式之禅之单例模式">
+<meta property="og:url" content="http://zhangbuzola.cn/2018/02/03/designpattern-singleton/index.html">
+<meta property="og:site_name" content="zolanunu">
+<meta property="og:description" content="设计模式之禅故事皇帝和臣子 12345678910public class Emperor() &amp;#123;	private static final Emperor emperor = new Emperor();	private Emperor() &amp;#123;&amp;#125;	public static Emperor getInstance() &amp;#123;		return emperor;">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2018-07-30T03:04:22.257Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="设计模式之禅之单例模式">
+<meta name="twitter:description" content="设计模式之禅故事皇帝和臣子 12345678910public class Emperor() &amp;#123;	private static final Emperor emperor = new Emperor();	private Emperor() &amp;#123;&amp;#125;	public static Emperor getInstance() &amp;#123;		return emperor;">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="/js/pace.min.js"></script>
+  
+
+  
+	<script>
+	var _hmt = _hmt || [];
+	(function() {
+	  var hm = document.createElement("script");
+	  hm.src = "//hm.baidu.com/hm.js?a651034b7d11a367ae836642b29a3057";
+	  var s = document.getElementsByTagName("script")[0]; 
+	  s.parentNode.insertBefore(hm, s);
+	})();
+	</script>
+
+  
+
+</head>
+
+<body>
+  <div id="container">
+      <header id="header">
+    <div id="banner"></div>
+    <div id="header-outer">
+        <div id="header-menu" class="header-menu-pos animated">
+            <div class="header-menu-container">
+                <a href="/" class="left">
+                    <span class="site-title">zolanunu&#39;s Blog</span>
+                </a>
+                <nav id="header-menu-nav" class="right">
+                    
+                    <a  href="/">
+                        <i class="fa fa-home"></i>
+                        <span>Home</span>
+                    </a>
+                    
+                    <a  href="/archives">
+                        <i class="fa fa-archive"></i>
+                        <span>Archives</span>
+                    </a>
+                    
+                    <a  href="/about">
+                        <i class="fa fa-user"></i>
+                        <span>About</span>
+                    </a>
+                    
+                </nav>
+                <a class="mobile-header-menu-button">
+                    <i class="fa fa-bars"></i>
+                </a>
+            </div>
+        </div>
+        <div id="header-row">
+            <div id="logo">
+                <a href="/">
+                    <img src="/images/avatar.jpg" alt="logo">
+                </a>
+            </div>
+            <div class="header-info">
+                <div id="header-title">
+                    
+                    <h2>
+                        zolanunu&#39;s Blog
+                    </h2>
+                    
+                </div>
+                <div id="header-description">
+                    
+                    <h3>
+                        去努力尝试做一些你觉得你不会做或者不敢做的事情。
+                    </h3>
+                    
+                </div>
+            </div>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a title="zolanunu" target="_blank" href="//zhangbuzola.cn">
+                            <i class="fa fa-home fa-2x"></i></a>
+                    
+                        <a title="Github" target="_blank" href="//github.com/zolanunu">
+                            <i class="fa fa-github fa-2x"></i></a>
+                    
+                        <a title="Weibo" target="_blank" href="//weibo.com/zolanunu">
+                            <i class="fa fa-weibo fa-2x"></i></a>
+                    
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>
+      <div class="outer">
+        <section id="main" class="body-wrap"><article id="post-designpattern-singleton" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="post-title" itemprop="name">
+      设计模式之禅之单例模式
+    </h1>
+    <div class="post-title-bar">
+      <ul>
+          
+              <li>
+                  <i class="fa fa-book"></i>
+                  
+                      <a href="/categories/技术书/">技术书</a>
+                  
+              </li>
+          
+        <li>
+          <i class="fa fa-calendar"></i>  2018-02-03
+        </li>
+        <li>
+          <i class="fa fa-eye"></i>
+          <span id="busuanzi_value_page_pv"></span>
+        </li>
+      </ul>
+    </div>
+  
+
+          
+      </header>
+    
+    <div class="article-entry post-content" itemprop="articleBody">
+      
+            
+            <h1 id="设计模式之禅故事"><a href="#设计模式之禅故事" class="headerlink" title="设计模式之禅故事"></a>设计模式之禅故事</h1><p>皇帝和臣子</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">public class Emperor() &#123;</span><br><span class="line">	private static final Emperor emperor = new Emperor();</span><br><span class="line">	private Emperor() &#123;&#125;</span><br><span class="line">	public static Emperor getInstance() &#123;</span><br><span class="line">		return emperor;</span><br><span class="line">	&#125;</span><br><span class="line">	public static void say() &#123;</span><br><span class="line">		System.out.println(&quot;I am the emperor......&quot;);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="单例模式的定义"><a href="#单例模式的定义" class="headerlink" title="单例模式的定义"></a>单例模式的定义</h1><p>单例模式是一个比较简单的模式，定义如下: 保证一个类仅有一个实例， 并提供一个访问它的全局访问点。让类自身负责保存它的唯一实例。 这个类可以保证没有其他实例可以被创建（通过截取创建新对象的请求 ）， 并且它可以提供一个访问该实例的方法。</p>
+<h1 id="单例模式的应用"><a href="#单例模式的应用" class="headerlink" title="单例模式的应用"></a>单例模式的应用</h1><h2 id="优缺点"><a href="#优缺点" class="headerlink" title="优缺点"></a>优缺点</h2><p>优点：</p>
+<ul>
+<li><p>单例模式只有一个实例，减少了内存开支，特别是一个对象需要频繁的创建，销毁的时候，而且创建的性能和销毁的性能无法优化的话，单例模式就很有优势了。</p>
+</li>
+<li><p>由于单例模式只有一个实例，所以减少了系统的性能开销。</p>
+</li>
+<li><p>单例模式可以避免对资源的重复利用。</p>
+</li>
+<li><p>单例模式可以在系统设置全局的访问点，优化和共享资源访问。</p>
+</li>
+</ul>
+<p>缺点：</p>
+<ul>
+<li><p>单例模式没有接口，扩展困难。</p>
+</li>
+<li><p>单例模式对测试是不利的。</p>
+</li>
+<li><p>单例模式和单一指责原则冲突。单例模式要把单例和业务逻辑融合在一个类中。</p>
+</li>
+</ul>
+<h1 id="几个问题"><a href="#几个问题" class="headerlink" title="几个问题"></a>几个问题</h1><h2 id="为什么不用全局变量来确保一个类只有一个实例"><a href="#为什么不用全局变量来确保一个类只有一个实例" class="headerlink" title="为什么不用全局变量来确保一个类只有一个实例"></a>为什么不用全局变量来确保一个类只有一个实例</h2><p>全局变量有静态变量和实例变量，静态变量可以保证类的实例只有一个，只要程序加载了类的字节码，不用创建任何实例对象，静态变量就会被分配空间，静态变量就可以被访问了。</p>
+<p>但是，如果这个对象很大，很耗资源，但是程序运行过程中根本就没用的话，就会造成资源浪费。利用单例模式就可以实现在需要使用的时候才创建对象，这样就避免了不必要的资源浪费。不仅仅是因为这个原因，在程序中我们要尽量避免全局变量的使用，大量使用全局变量给程序的调试、维护等带来困难。</p>
+<h2 id="什么时候用到单例模式"><a href="#什么时候用到单例模式" class="headerlink" title="什么时候用到单例模式"></a>什么时候用到单例模式</h2><ul>
+<li><p>那我们想想既然一个类中只能创建一个实例了，那么可以说这是跟类的状态与对象无关的了。</p>
+</li>
+<li><p>频繁创建对象、管理对象是一件耗费资源的事，我们只需要创建一个对象来用就足够了！</p>
+</li>
+</ul>
+<p>学过Java Web的同学可能就知道：</p>
+<ul>
+<li><p>Servlet是单例的</p>
+</li>
+<li><p>Struts2是多例的</p>
+</li>
+<li><p>SpringMVC是单例的</p>
+</li>
+</ul>
+<p>那既然多例是频繁创建对象、需要管理对象的，那Struts2为什么要多例呢？？</p>
+<p>主要由于设计层面上的问题，Struts2是基于Filter拦截类的，ognl引擎对变量是注入的。所以它要设计成多例的~<br>能使用一个对象来做就不用实例化多个对象！这就能减少我们空间和内存的开销~</p>
+<ul>
+<li><p>那有可能有的人又会想了：我们使用静态类.doSomething()和使用单例对象调用方法的效果是一样的啊。</p>
+</li>
+<li><p>没错，效果就是一样的。使用静态类.doSomething()体现的是基于对象，而使用单例设计模式体现的是面向对象。</p>
+</li>
+</ul>
+<h1 id="单例模式的实现"><a href="#单例模式的实现" class="headerlink" title="单例模式的实现"></a>单例模式的实现</h1><h2 id="饿汉式"><a href="#饿汉式" class="headerlink" title="饿汉式"></a>饿汉式</h2><p>饿汉式的单例模式是线程安全的，全局的单例实例会在类加载的时候就被创建</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">public class Singleton &#123;</span><br><span class="line">       //在静态初始化器中创建单例实例，这段代码保证了线程安全</span><br><span class="line">        private static Singleton uniqueInstance = new Singleton();</span><br><span class="line">        //Singleton类只有一个构造方法并且是被private修饰的，所以用户无法通过new方法创建该对象实例</span><br><span class="line">        private Singleton()&#123;&#125;</span><br><span class="line">        public static Singleton getInstance()&#123;</span><br><span class="line">            return uniqueInstance;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>所谓 “饿汉方式” 就是说JVM在加载这个类时就马上创建此唯一的单例实例，不管你用不用，先创建了再说，如果一直没有被使用，便浪费了空间，典型的空间换时间，每次调用的时候，就不需要再判断，节省了运行时间。</p>
+<h2 id="懒汉式"><a href="#懒汉式" class="headerlink" title="懒汉式"></a>懒汉式</h2><p>懒汉模式是指单例会在第一次被使用的时候被创建，而不是在JVM加载这个类的时候就马上创建。</p>
+<h3 id="非线程安全的"><a href="#非线程安全的" class="headerlink" title="非线程安全的"></a>非线程安全的</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">public class Singleton &#123;  </span><br><span class="line">      private static Singleton uniqueInstance;  </span><br><span class="line">      private Singleton ()&#123;</span><br><span class="line">      &#125;   </span><br><span class="line">      //没有加入synchronized关键字的版本是线程不安全的</span><br><span class="line">      public static Singleton getInstance() &#123;</span><br><span class="line">          //判断当前单例是否已经存在，若存在则返回，不存在则再建立单例</span><br><span class="line">          if (uniqueInstance == null) &#123;  </span><br><span class="line">              uniqueInstance = new Singleton();  </span><br><span class="line">          &#125;  </span><br><span class="line">          return uniqueInstance;  </span><br><span class="line">      &#125;  </span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+<h3 id="线程安全的懒汉式"><a href="#线程安全的懒汉式" class="headerlink" title="线程安全的懒汉式"></a>线程安全的懒汉式</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">public class Singleton &#123;  </span><br><span class="line">      private static Singleton uniqueInstance;  </span><br><span class="line">      private Singleton ()&#123;</span><br><span class="line">      &#125;   </span><br><span class="line">      //没有加入synchronized关键字的版本是线程不安全的</span><br><span class="line">      public static synchronized Singleton getInstance() &#123;</span><br><span class="line">          //判断当前单例是否已经存在，若存在则返回，不存在则再建立单例</span><br><span class="line">          if (uniqueInstance == null) &#123;  </span><br><span class="line">              uniqueInstance = new Singleton();  </span><br><span class="line">          &#125;  </span><br><span class="line">          return uniqueInstance;  </span><br><span class="line">      &#125;  </span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">public class Singleton &#123;</span><br><span class="line"></span><br><span class="line">    //volatile保证，当uniqueInstance变量被初始化成Singleton实例时，多个线程可以正确处理uniqueInstance变量</span><br><span class="line">    private volatile static Singleton uniqueInstance;</span><br><span class="line">    private Singleton() &#123;</span><br><span class="line">    &#125;</span><br><span class="line">    public static Singleton getInstance() &#123;</span><br><span class="line">       //检查实例，如果不存在，就进入同步代码块</span><br><span class="line">        if (uniqueInstance == null) &#123;</span><br><span class="line">            //只有第一次才彻底执行这里的代码</span><br><span class="line">            synchronized(Singleton.class) &#123;</span><br><span class="line">               //进入同步代码块后，再检查一次，如果仍是null，才创建实例</span><br><span class="line">                if (uniqueInstance == null) &#123;</span><br><span class="line">                    uniqueInstance = new Singleton();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        return uniqueInstance;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="懒汉式（静态内部类方式）"><a href="#懒汉式（静态内部类方式）" class="headerlink" title="懒汉式（静态内部类方式）"></a>懒汉式（静态内部类方式）</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">public class Singleton &#123;  </span><br><span class="line">    private static class SingletonHolder &#123;  </span><br><span class="line">    private static final Singleton INSTANCE = new Singleton();  </span><br><span class="line">    &#125;  </span><br><span class="line">    private Singleton ()&#123;&#125;  </span><br><span class="line">    public static final Singleton getInstance() &#123;  </span><br><span class="line">    return SingletonHolder.INSTANCE;  </span><br><span class="line">    &#125;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>只有通过显式调用 getInstance 方法时，才会显式装载 SingletonHolder 类，从而实例化 instance（只有第一次使用这个单例的实例的时候才加载，同时不会有线程安全问题）。</p>
+<h2 id="饿汉式（枚举方式）"><a href="#饿汉式（枚举方式）" class="headerlink" title="饿汉式（枚举方式）"></a>饿汉式（枚举方式）</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">public enum Singleton &#123;</span><br><span class="line">     //定义一个枚举的元素，它就是 Singleton 的一个实例</span><br><span class="line">    INSTANCE;  </span><br><span class="line"></span><br><span class="line">    public void doSomeThing() &#123;  </span><br><span class="line">         System.out.println(&quot;枚举方法实现单例&quot;);</span><br><span class="line">    &#125;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p><a href="https://segmentfault.com/a/1190000014888431" target="_blank" rel="noopener">https://segmentfault.com/a/1190000014888431</a></p>
+<p><a href="https://blog.csdn.net/qq_34337272/article/details/80455972" target="_blank" rel="noopener">https://blog.csdn.net/qq_34337272/article/details/80455972</a></p>
+<p><a href="https://github.com/JamesZBL/java_design_patterns/tree/master/singleton" target="_blank" rel="noopener">https://github.com/JamesZBL/java_design_patterns/tree/master/singleton</a></p>
+
+            <div class="post-copyright">
+    <div class="content">
+        <p>最后更新： 2018年07月30日 11:04</p>
+        <p>原始链接： <a class="post-url" href="/2018/02/03/designpattern-singleton/" title="设计模式之禅之单例模式">http://zhangbuzola.cn/2018/02/03/designpattern-singleton/</a></p>
+        <footer>
+            <a href="http://zhangbuzola.cn">
+                <img src="/images/avatar.jpg" alt="zolanunu">
+                zolanunu
+            </a>
+        </footer>
+    </div>
+</div>
+
+      
+        
+            
+
+        
+    </div>
+    <footer class="article-footer">
+        
+        <ul class="article-footer-menu">
+            
+            
+  <li class="article-footer-tags">
+    <i class="fa fa-tags"></i>
+      
+    <a href="/tags/设计模式/" class="color5">设计模式</a>
+      
+    <a href="/tags/设计模式之禅/" class="color2">设计模式之禅</a>
+      
+    <a href="/tags/单例模式/" class="color5">单例模式</a>
+      
+  </li>
+
+        </ul>
+        
+    </footer>
+  </div>
+</article>
+
+
+    <aside class="post-toc-pos post-toc-top" id="post-toc">
+        <nav class="post-toc-wrap">
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#设计模式之禅故事"><span class="post-toc-text">设计模式之禅故事</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#单例模式的定义"><span class="post-toc-text">单例模式的定义</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#单例模式的应用"><span class="post-toc-text">单例模式的应用</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#优缺点"><span class="post-toc-text">优缺点</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#几个问题"><span class="post-toc-text">几个问题</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#为什么不用全局变量来确保一个类只有一个实例"><span class="post-toc-text">为什么不用全局变量来确保一个类只有一个实例</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#什么时候用到单例模式"><span class="post-toc-text">什么时候用到单例模式</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#单例模式的实现"><span class="post-toc-text">单例模式的实现</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#饿汉式"><span class="post-toc-text">饿汉式</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#懒汉式"><span class="post-toc-text">懒汉式</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#非线程安全的"><span class="post-toc-text">非线程安全的</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#线程安全的懒汉式"><span class="post-toc-text">线程安全的懒汉式</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#懒汉式（静态内部类方式）"><span class="post-toc-text">懒汉式（静态内部类方式）</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#饿汉式（枚举方式）"><span class="post-toc-text">饿汉式（枚举方式）</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#参考"><span class="post-toc-text">参考</span></a></li></ol>
+        </nav>
+    </aside>
+    
+
+<nav id="article-nav">
+  
+    <a href="/2018/02/04/designpattern-builder/" id="article-nav-newer" class="article-nav-link-wrap">
+
+      <span class="article-nav-title">
+        <i class="fa fa-hand-o-left" aria-hidden="true"></i>
+        
+          设计模式之禅之建造者模式
+        
+      </span>
+    </a>
+  
+  
+    <a href="/2018/01/29/leetcode-Array-7/" id="article-nav-older" class="article-nav-link-wrap">
+      <span class="article-nav-title">leetcode刷题7</span>
+      <i class="fa fa-hand-o-right" aria-hidden="true"></i>
+    </a>
+  
+</nav>
+
+
+
+    
+        <link rel="stylesheet" href="//unpkg.com/gitment/style/default.css">
+    <script src="//unpkg.com/gitment/dist/gitment.browser.js"></script>
+    <script>
+        var gitment = new Gitment({
+            owner: 'true',
+            repo: 'zolanunu',
+            oauth: {
+                client_id: '1a04e8dee74a4b8634df',
+                client_secret: '9e3078ac89eb72f22abbdd11f7f0d11e2e1d7f7a',
+            },
+        })
+        gitment.render('comments')
+    </script>
+
+    
+</section>
+        
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+      <p>
+        Powered by  <a href="http://hexo.io/" target="_blank">Hexo</a>
+        Theme <a href="//github.com/wongminho/hexo-theme-miho" target="_blank">MiHo</a>
+      &copy; 2018 zolanunu<br>
+      </p>
+    </div>
+  </div>
+</footer>
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script>
+  var mihoConfig = {
+      root: "http://zhangbuzola.cn",
+      animate: true,
+      isHome: false,
+      share: false,
+      reward: 0
+  }
+</script>
+<div class="sidebar">
+    <div id="sidebar-search" title="Search">
+        <i class="fa fa-search"></i>
+    </div>
+    <div id="sidebar-category" title="Categories">
+        <i class="fa fa-book"></i>
+    </div>
+    <div id="sidebar-tag" title="Tags">
+        <i class="fa fa-tags"></i>
+    </div>
+    <div id="sidebar-top">
+        <span class="sidebar-top-icon"><i class="fa fa-angle-up"></i></span>
+    </div>
+</div>
+<div class="sidebar-menu-box" id="sidebar-menu-box">
+    <div class="sidebar-menu-box-container">
+        <div id="sidebar-menu-box-categories">
+            <a class="category-link" href="/categories/Java/">Java</a><a class="category-link" href="/categories/Java后台/">Java后台</a><a class="category-link" href="/categories/Python/">Python</a><a class="category-link" href="/categories/工具/">工具</a><a class="category-link" href="/categories/技术书/">技术书</a><a class="category-link" href="/categories/数据库/">数据库</a><a class="category-link" href="/categories/数据结构/">数据结构</a><a class="category-link" href="/categories/生活轨迹/">生活轨迹</a><a class="category-link" href="/categories/算法/">算法</a>
+        </div>
+        <div id="sidebar-menu-box-tags">
+            <a href="/tags/2018/" style="font-size: 11.25px;">2018</a> <a href="/tags/Collections/" style="font-size: 15px;">Collections</a> <a href="/tags/HashMap/" style="font-size: 10px;">HashMap</a> <a href="/tags/LinkedHashMap/" style="font-size: 10px;">LinkedHashMap</a> <a href="/tags/MySQL/" style="font-size: 17.5px;">MySQL</a> <a href="/tags/Mybatis/" style="font-size: 12.5px;">Mybatis</a> <a href="/tags/Object/" style="font-size: 10px;">Object</a> <a href="/tags/SSM/" style="font-size: 13.75px;">SSM</a> <a href="/tags/TreeMap/" style="font-size: 11.25px;">TreeMap</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/java基础/" style="font-size: 20px;">java基础</a> <a href="/tags/java并发编程实战/" style="font-size: 11.25px;">java并发编程实战</a> <a href="/tags/leetcode/" style="font-size: 16.25px;">leetcode</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/剑指offer/" style="font-size: 10px;">剑指offer</a> <a href="/tags/单例模式/" style="font-size: 10px;">单例模式</a> <a href="/tags/原型模式/" style="font-size: 10px;">原型模式</a> <a href="/tags/多线程/" style="font-size: 11.25px;">多线程</a> <a href="/tags/工厂模式/" style="font-size: 10px;">工厂模式</a> <a href="/tags/并发编程/" style="font-size: 10px;">并发编程</a> <a href="/tags/建造者模式/" style="font-size: 10px;">建造者模式</a> <a href="/tags/机器学习/" style="font-size: 12.5px;">机器学习</a> <a href="/tags/构造函数/" style="font-size: 10px;">构造函数</a> <a href="/tags/深入理解java虚拟机/" style="font-size: 10px;">深入理解java虚拟机</a> <a href="/tags/生活/" style="font-size: 10px;">生活</a> <a href="/tags/神经网络/" style="font-size: 10px;">神经网络</a> <a href="/tags/算法与数据结构/" style="font-size: 13.75px;">算法与数据结构</a> <a href="/tags/算法和数据结构/" style="font-size: 18.75px;">算法和数据结构</a> <a href="/tags/索引优化/" style="font-size: 10px;">索引优化</a> <a href="/tags/观影记/" style="font-size: 10px;">观影记</a> <a href="/tags/设计模式/" style="font-size: 13.75px;">设计模式</a> <a href="/tags/设计模式之禅/" style="font-size: 13.75px;">设计模式之禅</a> <a href="/tags/读书书单/" style="font-size: 10px;">读书书单</a>
+        </div>
+    </div>
+    <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
+</div>
+<div class="mobile-header-menu-nav" id="mobile-header-menu-nav">
+    <div class="mobile-header-menu-container">
+        <span class="title">Menus</span>
+        <ul class="mobile-header-menu-navbar">
+            
+            <li>
+                <a  href="/">
+                    <i class="fa fa-home"></i><span>Home</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/archives">
+                    <i class="fa fa-archive"></i><span>Archives</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/about">
+                    <i class="fa fa-user"></i><span>About</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    <div class="mobile-header-tag-container">
+        <span class="title">Tags</span>
+        <div id="mobile-header-container-tags">
+            <a href="/tags/2018/" style="font-size: 11.25px;">2018</a> <a href="/tags/Collections/" style="font-size: 15px;">Collections</a> <a href="/tags/HashMap/" style="font-size: 10px;">HashMap</a> <a href="/tags/LinkedHashMap/" style="font-size: 10px;">LinkedHashMap</a> <a href="/tags/MySQL/" style="font-size: 17.5px;">MySQL</a> <a href="/tags/Mybatis/" style="font-size: 12.5px;">Mybatis</a> <a href="/tags/Object/" style="font-size: 10px;">Object</a> <a href="/tags/SSM/" style="font-size: 13.75px;">SSM</a> <a href="/tags/TreeMap/" style="font-size: 11.25px;">TreeMap</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/java基础/" style="font-size: 20px;">java基础</a> <a href="/tags/java并发编程实战/" style="font-size: 11.25px;">java并发编程实战</a> <a href="/tags/leetcode/" style="font-size: 16.25px;">leetcode</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/剑指offer/" style="font-size: 10px;">剑指offer</a> <a href="/tags/单例模式/" style="font-size: 10px;">单例模式</a> <a href="/tags/原型模式/" style="font-size: 10px;">原型模式</a> <a href="/tags/多线程/" style="font-size: 11.25px;">多线程</a> <a href="/tags/工厂模式/" style="font-size: 10px;">工厂模式</a> <a href="/tags/并发编程/" style="font-size: 10px;">并发编程</a> <a href="/tags/建造者模式/" style="font-size: 10px;">建造者模式</a> <a href="/tags/机器学习/" style="font-size: 12.5px;">机器学习</a> <a href="/tags/构造函数/" style="font-size: 10px;">构造函数</a> <a href="/tags/深入理解java虚拟机/" style="font-size: 10px;">深入理解java虚拟机</a> <a href="/tags/生活/" style="font-size: 10px;">生活</a> <a href="/tags/神经网络/" style="font-size: 10px;">神经网络</a> <a href="/tags/算法与数据结构/" style="font-size: 13.75px;">算法与数据结构</a> <a href="/tags/算法和数据结构/" style="font-size: 18.75px;">算法和数据结构</a> <a href="/tags/索引优化/" style="font-size: 10px;">索引优化</a> <a href="/tags/观影记/" style="font-size: 10px;">观影记</a> <a href="/tags/设计模式/" style="font-size: 13.75px;">设计模式</a> <a href="/tags/设计模式之禅/" style="font-size: 13.75px;">设计模式之禅</a> <a href="/tags/读书书单/" style="font-size: 10px;">读书书单</a>
+        </div>
+    </div>
+</div>
+<div class="search-wrap">
+    <span class="search-close">&times;</span>
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+            <i class="icon icon-lg icon-chevron-left"></i>
+        </a>
+        <input class="search-field" placeholder="Search..." id="keywords">
+        <a id="search-submit" href="javascript:;">
+            <i class="fa fa-search"></i>
+        </a>
+    <div class="search-container" id="search-container">
+        <ul class="search-result" id="search-result">
+        </ul>
+    </div>
+</div>
+
+<div id="search-tpl">
+    <li class="search-result-item">
+        <a href="{url}" class="search-item-li">
+            <span class="search-item-li-title" title="{title}">{title}</span>
+        </a>
+    </li>
+</div>
+<script src="/js/search.js"></script>
+<script src="/js/main.js"></script>
+
+
+  <script src="//cdn.bootcss.com/particles.js/2.0.0/particles.min.js"></script>
+  <div id="particles"></div>
+  <script src="/js/particles.js"></script>
+
+
+
+
+
+
+
+  <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
+  <script src="//cdn.bootcss.com/scrollReveal.js/3.0.5/scrollreveal.js"></script>
+  <script src="/js/animate.js"></script>
+
+
+  <script src="/js/pop-img.js"></script>
+  <script>
+     $(".article-entry p img").popImg();
+  </script>
+
+  </div>
+</body>
+</html>

@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>设计模式之禅之建造者模式 | zolanunu</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+    <meta name="keywords" content="zolanunu,zolanunu's blog" />
+  
+  <meta name="description" content="变化是永恒的样例：有奔驰，宝马的车辆模型，客户有新需求，要求汽车的启动和声音等操作由客户自己控制，自己定义顺序。 下面是汽车模型类图：  12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061626364656667686970">
+<meta name="keywords" content="设计模式,设计模式之禅,建造者模式">
+<meta property="og:type" content="article">
+<meta property="og:title" content="设计模式之禅之建造者模式">
+<meta property="og:url" content="http://zhangbuzola.cn/2018/02/04/designpattern-builder/index.html">
+<meta property="og:site_name" content="zolanunu">
+<meta property="og:description" content="变化是永恒的样例：有奔驰，宝马的车辆模型，客户有新需求，要求汽车的启动和声音等操作由客户自己控制，自己定义顺序。 下面是汽车模型类图：  12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061626364656667686970">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="http://zhangbuzola.cn/assets/images/designpattern-builder1.png">
+<meta property="og:image" content="http://zhangbuzola.cn/assets/images/designpattern-builder2.png">
+<meta property="og:image" content="http://zhangbuzola.cn/assets/images/designpattern-builder3.png">
+<meta property="og:image" content="http://zhangbuzola.cn/assets/images/designpattern-builder4.png">
+<meta property="og:image" content="http://zhangbuzola.cn/assets/images/designpattern-builder1.jpg">
+<meta property="og:updated_time" content="2018-07-30T06:03:49.224Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="设计模式之禅之建造者模式">
+<meta name="twitter:description" content="变化是永恒的样例：有奔驰，宝马的车辆模型，客户有新需求，要求汽车的启动和声音等操作由客户自己控制，自己定义顺序。 下面是汽车模型类图：  12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061626364656667686970">
+<meta name="twitter:image" content="http://zhangbuzola.cn/assets/images/designpattern-builder1.png">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="/js/pace.min.js"></script>
+  
+
+  
+	<script>
+	var _hmt = _hmt || [];
+	(function() {
+	  var hm = document.createElement("script");
+	  hm.src = "//hm.baidu.com/hm.js?a651034b7d11a367ae836642b29a3057";
+	  var s = document.getElementsByTagName("script")[0]; 
+	  s.parentNode.insertBefore(hm, s);
+	})();
+	</script>
+
+  
+
+</head>
+
+<body>
+  <div id="container">
+      <header id="header">
+    <div id="banner"></div>
+    <div id="header-outer">
+        <div id="header-menu" class="header-menu-pos animated">
+            <div class="header-menu-container">
+                <a href="/" class="left">
+                    <span class="site-title">zolanunu&#39;s Blog</span>
+                </a>
+                <nav id="header-menu-nav" class="right">
+                    
+                    <a  href="/">
+                        <i class="fa fa-home"></i>
+                        <span>Home</span>
+                    </a>
+                    
+                    <a  href="/archives">
+                        <i class="fa fa-archive"></i>
+                        <span>Archives</span>
+                    </a>
+                    
+                    <a  href="/about">
+                        <i class="fa fa-user"></i>
+                        <span>About</span>
+                    </a>
+                    
+                </nav>
+                <a class="mobile-header-menu-button">
+                    <i class="fa fa-bars"></i>
+                </a>
+            </div>
+        </div>
+        <div id="header-row">
+            <div id="logo">
+                <a href="/">
+                    <img src="/images/avatar.jpg" alt="logo">
+                </a>
+            </div>
+            <div class="header-info">
+                <div id="header-title">
+                    
+                    <h2>
+                        zolanunu&#39;s Blog
+                    </h2>
+                    
+                </div>
+                <div id="header-description">
+                    
+                    <h3>
+                        去努力尝试做一些你觉得你不会做或者不敢做的事情。
+                    </h3>
+                    
+                </div>
+            </div>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a title="zolanunu" target="_blank" href="//zhangbuzola.cn">
+                            <i class="fa fa-home fa-2x"></i></a>
+                    
+                        <a title="Github" target="_blank" href="//github.com/zolanunu">
+                            <i class="fa fa-github fa-2x"></i></a>
+                    
+                        <a title="Weibo" target="_blank" href="//weibo.com/zolanunu">
+                            <i class="fa fa-weibo fa-2x"></i></a>
+                    
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>
+      <div class="outer">
+        <section id="main" class="body-wrap"><article id="post-designpattern-builder" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="post-title" itemprop="name">
+      设计模式之禅之建造者模式
+    </h1>
+    <div class="post-title-bar">
+      <ul>
+          
+              <li>
+                  <i class="fa fa-book"></i>
+                  
+                      <a href="/categories/技术书/">技术书</a>
+                  
+              </li>
+          
+        <li>
+          <i class="fa fa-calendar"></i>  2018-02-04
+        </li>
+        <li>
+          <i class="fa fa-eye"></i>
+          <span id="busuanzi_value_page_pv"></span>
+        </li>
+      </ul>
+    </div>
+  
+
+          
+      </header>
+    
+    <div class="article-entry post-content" itemprop="articleBody">
+      
+            
+            <h1 id="变化是永恒的"><a href="#变化是永恒的" class="headerlink" title="变化是永恒的"></a>变化是永恒的</h1><p>样例：有奔驰，宝马的车辆模型，客户有新需求，要求汽车的启动和声音等操作由客户自己控制，自己定义顺序。</p>
+<p>下面是汽车模型类图：</p>
+<p><img src="/assets/images/designpattern-builder1.png" alt=""></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br></pre></td><td class="code"><pre><span class="line">// 车辆模型的抽象类 </span><br><span class="line">import java.util.ArrayList;</span><br><span class="line"></span><br><span class="line">public abstract class CarModel &#123;</span><br><span class="line">    private ArrayList&lt;String&gt; sequence=new ArrayList&lt;String&gt;();F</span><br><span class="line">    // 发动车</span><br><span class="line">    public abstract void start();</span><br><span class="line"> </span><br><span class="line">    // 停车</span><br><span class="line">    public abstract void stop();</span><br><span class="line"> </span><br><span class="line">    // 响喇叭</span><br><span class="line">    public abstract void alarm();</span><br><span class="line"> </span><br><span class="line">    // 引擎</span><br><span class="line">    public abstract void engineBoom();</span><br><span class="line"> </span><br><span class="line">    //</span><br><span class="line">    // 运行</span><br><span class="line">    final public  void run() &#123;</span><br><span class="line">        for(String s:sequence)&#123;</span><br><span class="line">            if(&quot;start&quot;.equals(s))&#123;</span><br><span class="line">                this.start();</span><br><span class="line">            &#125;else if(&quot;stop&quot;.equals(s))&#123;</span><br><span class="line">                this.stop();</span><br><span class="line">            &#125;else if(&quot;alarm&quot;.equals(s))&#123;</span><br><span class="line">                this.alarm();</span><br><span class="line">            &#125;else if(&quot;engineBoom&quot;.equals(s))&#123;</span><br><span class="line">                this.engineBoom();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    //把传递过来的值传递到类中</span><br><span class="line">    final public void setSequence(ArrayList&lt;String&gt; sequence)&#123;</span><br><span class="line">        this.sequence=sequence;</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 具体车辆类型</span><br><span class="line"> </span><br><span class="line">public class HummerCarModel extends CarModel &#123;</span><br><span class="line"> </span><br><span class="line">    @Override</span><br><span class="line">    public void start() &#123;</span><br><span class="line">        System.out.println(&quot;悍马跑起来！&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    @Override</span><br><span class="line">    public void stop() &#123;</span><br><span class="line">        System.out.println(&quot;悍马停车！&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    @Override</span><br><span class="line">    public void alarm() &#123;</span><br><span class="line">        System.out.println(&quot;悍马的喇叭声！&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    @Override</span><br><span class="line">    public void engineBoom() &#123;</span><br><span class="line">        System.out.println(&quot;悍马的引擎发动！&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// Client类</span><br><span class="line">import java.util.ArrayList;</span><br><span class="line"></span><br><span class="line">public class Client &#123;</span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        // 创建悍马车模型</span><br><span class="line">        HummerCarModel hummer = new HummerCarModel();</span><br><span class="line">        // 创建执行顺序</span><br><span class="line">        ArrayList&lt;String&gt; list = new ArrayList&lt;String&gt;();</span><br><span class="line">        list.add(&quot;start&quot;);</span><br><span class="line">        list.add(&quot;alarm&quot;);</span><br><span class="line">        list.add(&quot;engineBoom&quot;);</span><br><span class="line">        list.add(&quot;stop&quot;);</span><br><span class="line">        // 按客户的顺序执行</span><br><span class="line">        hummer.setSequence(list);</span><br><span class="line">        hummer.run();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>但是我们对这种变化的需求很难满足。所以我们为每种模型产品模型定义了一个建造者，你要什么样子的顺序直接告诉建造者，由建造者来管理。</p>
+<p><img src="/assets/images/designpattern-builder2.png" alt=""></p>
+<p>增加了CarBuilder抽象类，由它来组装各个车模，要什么类型和什么顺序的车辆模型，都由相关的子类来完成。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br></pre></td><td class="code"><pre><span class="line">// CarBuilder类 </span><br><span class="line">import java.util.ArrayList;</span><br><span class="line"></span><br><span class="line">public abstract class CarBuilder &#123;</span><br><span class="line">    // 建造一个模型，提供一个组装顺序</span><br><span class="line">    public abstract void setSequence(ArrayList&lt;String&gt; sequence);</span><br><span class="line">    // 获得车辆模型</span><br><span class="line">    public abstract CarModel getCarModel();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 具体的某个类型的车辆建造类型</span><br><span class="line">import java.util.ArrayList;</span><br><span class="line"> </span><br><span class="line">public class HummerBuilder extends CarBuilder &#123;</span><br><span class="line">    private HummerCarModel hummer = new HummerCarModel();</span><br><span class="line"> </span><br><span class="line">    @Override</span><br><span class="line">    public void setSequence(ArrayList&lt;String&gt; sequence) &#123;</span><br><span class="line">        this.hummer.setSequence(sequence);</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    @Override</span><br><span class="line">    public CarModel getCarModel() &#123;</span><br><span class="line">        return hummer;</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 车辆模型</span><br><span class="line">import java.util.ArrayList;</span><br><span class="line"></span><br><span class="line">public abstract class CarModel &#123;</span><br><span class="line">    private ArrayList&lt;String&gt; sequence = new ArrayList&lt;String&gt;();</span><br><span class="line"> </span><br><span class="line">    // 发动车</span><br><span class="line">    public abstract void start();</span><br><span class="line"> </span><br><span class="line">    // 停车</span><br><span class="line">    public abstract void stop();</span><br><span class="line"> </span><br><span class="line">    // 响喇叭</span><br><span class="line">    public abstract void alarm();</span><br><span class="line"> </span><br><span class="line">    // 引擎</span><br><span class="line">    public abstract void engineBoom();</span><br><span class="line"> </span><br><span class="line">    //</span><br><span class="line">    // 运行</span><br><span class="line">    final public void run() &#123;</span><br><span class="line">        for (String s : sequence) &#123;</span><br><span class="line">            if (&quot;start&quot;.equals(s)) &#123;</span><br><span class="line">                this.start();</span><br><span class="line">            &#125; else if (&quot;stop&quot;.equals(s)) &#123;</span><br><span class="line">                this.stop();</span><br><span class="line">            &#125; else if (&quot;alarm&quot;.equals(s)) &#123;</span><br><span class="line">                this.alarm();</span><br><span class="line">            &#125; else if (&quot;engineBoom&quot;.equals(s)) &#123;</span><br><span class="line">                this.engineBoom();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    // 把传递过来的值传递到类中</span><br><span class="line">    final public void setSequence(ArrayList&lt;String&gt; sequence) &#123;</span><br><span class="line">        this.sequence = sequence;</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 具体的车辆模型</span><br><span class="line">public class HummerCarModel extends CarModel &#123;</span><br><span class="line"> </span><br><span class="line">    @Override</span><br><span class="line">    public void start() &#123;</span><br><span class="line">        System.out.println(&quot;悍马跑起来！&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    @Override</span><br><span class="line">    public void stop() &#123;</span><br><span class="line">        System.out.println(&quot;悍马停车！&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    @Override</span><br><span class="line">    public void alarm() &#123;</span><br><span class="line">        System.out.println(&quot;悍马的喇叭声！&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    @Override</span><br><span class="line">    public void engineBoom() &#123;</span><br><span class="line">        System.out.println(&quot;悍马的引擎发动！&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 客户</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">public class Client &#123;</span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        // 创建执行顺序</span><br><span class="line">        ArrayList&lt;String&gt; list = new ArrayList&lt;String&gt;();</span><br><span class="line">        list.add(&quot;start&quot;);</span><br><span class="line">        list.add(&quot;alarm&quot;);</span><br><span class="line">        list.add(&quot;engineBoom&quot;);</span><br><span class="line">        list.add(&quot;stop&quot;);</span><br><span class="line">        HummerBuilder hb = new HummerBuilder();</span><br><span class="line">        hb.setSequence(list);</span><br><span class="line">        // 获得悍马车</span><br><span class="line">        HummerCarModel hummer = (HummerCarModel) hb.getCarModel();</span><br><span class="line">        // 执行hummer的run方法</span><br><span class="line">        hummer.run();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>但是我们无法预知客户会需要什么顺序的车辆模型，所以我们需要一个指导类。在做项目的过程中，需求是个无底洞。客户是上帝，我们不能预知他们的顺序， 那该怎么办？封装一下，找一个导演，指挥各个事件的先后顺序，然后为每种顺序指定一个代码，然后你说一种我们立刻生产处理。</p>
+<p><img src="/assets/images/designpattern-builder3.png" alt=""></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br></pre></td><td class="code"><pre><span class="line">import java.util.ArrayList;</span><br><span class="line"> </span><br><span class="line">public class Director &#123;</span><br><span class="line">    private ArrayList&lt;String&gt; sequence = new ArrayList&lt;String&gt;();</span><br><span class="line">    private HummerBuilder hb = new HummerBuilder();</span><br><span class="line"> </span><br><span class="line">    // 获得悍马1</span><br><span class="line">    public CarModel getHummerCarModel1() &#123;</span><br><span class="line">        // 清空列表</span><br><span class="line">        sequence.clear();</span><br><span class="line">        sequence.add(&quot;start&quot;);</span><br><span class="line">        sequence.add(&quot;alarm&quot;);</span><br><span class="line">        sequence.add(&quot;engineBoom&quot;);</span><br><span class="line">        sequence.add(&quot;stop&quot;);</span><br><span class="line">        hb.setSequence(sequence);</span><br><span class="line">        return hb.getCarModel();</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    // 获得悍马2</span><br><span class="line">    public CarModel getHummerCarModel2() &#123;</span><br><span class="line">        // 清空列表</span><br><span class="line">        sequence.clear();</span><br><span class="line">        sequence.add(&quot;alarm&quot;);</span><br><span class="line">        sequence.add(&quot;engineBoom&quot;);</span><br><span class="line">        sequence.add(&quot;start&quot;);</span><br><span class="line">        sequence.add(&quot;stop&quot;);</span><br><span class="line">        hb.setSequence(sequence);</span><br><span class="line">        return hb.getCarModel();</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    // 获得悍马3</span><br><span class="line">    public CarModel getHummerCarModel3() &#123;</span><br><span class="line">        // 清空列表</span><br><span class="line">        sequence.clear();</span><br><span class="line">        sequence.add(&quot;stop&quot;);</span><br><span class="line">        sequence.add(&quot;start&quot;);</span><br><span class="line">        sequence.add(&quot;alarm&quot;);</span><br><span class="line">        sequence.add(&quot;engineBoom&quot;);</span><br><span class="line">        hb.setSequence(sequence);</span><br><span class="line">        return hb.getCarModel();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// Client类</span><br><span class="line">import java.util.ArrayList;</span><br><span class="line">public class Client &#123;</span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        // 创建导演</span><br><span class="line">        Director director = new Director();</span><br><span class="line">        // 获得悍马车1</span><br><span class="line">        HummerCarModel hummer1 = (HummerCarModel) director.getHummerCarModel1();</span><br><span class="line">        // 执行hummer的run方法</span><br><span class="line">        System.out.println(&quot;悍马车1~~~~~&quot;);</span><br><span class="line">        hummer1.run();</span><br><span class="line">        // 获得悍马车2</span><br><span class="line">        HummerCarModel hummer2 = (HummerCarModel) director.getHummerCarModel2();</span><br><span class="line">        // 执行hummer的run方法</span><br><span class="line">        System.out.println(&quot;悍马车2~~~~~&quot;);</span><br><span class="line">        hummer2.run();</span><br><span class="line">        // 获得悍马车3</span><br><span class="line">        HummerCarModel hummer3 = (HummerCarModel) director.getHummerCarModel3();</span><br><span class="line">        // 执行hummer的run方法</span><br><span class="line">        System.out.println(&quot;悍马车3~~~~~&quot;);</span><br><span class="line">        hummer3.run();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="建造者模型的定义"><a href="#建造者模型的定义" class="headerlink" title="建造者模型的定义"></a>建造者模型的定义</h1><p>也叫做生成器模式（Separate the construction of a complex object from its representation so that same construction process can create different representations(将一个复杂对象的构建与他的表示分离，使得同样的构建过程可以创建不同的表示)。通用类图</p>
+<p><img src="/assets/images/designpattern-builder4.png" alt=""></p>
+<p>建造者中有四个角色</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">1. Product产品类</span><br><span class="line">2. Builder抽象建造者类</span><br><span class="line">3. ConcreteBuilder具体建造者类</span><br><span class="line">4. Director导演类</span><br></pre></td></tr></table></figure>
+<p>产品类</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">public class Product&#123;</span><br><span class="line">    public void doSomething()&#123;</span><br><span class="line">        //独立业务处理</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>抽象建造者类</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">public abstract class Builder&#123;</span><br><span class="line">    //设置产品的不同部分，以获得不同的产品</span><br><span class="line">    public abstract void setPart();</span><br><span class="line">    //建造产品</span><br><span class="line">    public abstract Product buildProduct();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>具体建造者类</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">public class ConcreteProduct extends Builder&#123;</span><br><span class="line">    private Product product=new Product();</span><br><span class="line">    //设置产品零件</span><br><span class="line">    public void setPart()&#123;</span><br><span class="line">        //产品类的逻辑处理</span><br><span class="line">    &#125;</span><br><span class="line">    //组建一个产品</span><br><span class="line">    public Product buildProduct()&#123;</span><br><span class="line">        return product;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>导演类</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">public class Direct&#123;</span><br><span class="line">    private Builder builder=new ConcreteBuilder();</span><br><span class="line">    //构建不同的产品</span><br><span class="line">    public Product getAProduct()&#123;</span><br><span class="line">        builder.setPart();</span><br><span class="line">        return builder.buildProduct();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="建造者模式的应用"><a href="#建造者模式的应用" class="headerlink" title="建造者模式的应用"></a>建造者模式的应用</h2><h3 id="建造者模式的优点"><a href="#建造者模式的优点" class="headerlink" title="建造者模式的优点"></a>建造者模式的优点</h3><ol>
+<li><p>封装性</p>
+</li>
+<li><p>建造者独立，容易扩展</p>
+</li>
+<li><p>便于控制细节风险</p>
+</li>
+</ol>
+<ul>
+<li><p>客户端不必知道产品内部组成的细节，将产品本身与产品的创建过程解耦，使得相同的创建过程可以创建不同的产品对象。</p>
+</li>
+<li><p>每一个具体建造者都相对独立，而与其他的具体建造者无关，因此可以很方便地替换具体建造者或增加新的具体建造者， 用户使用不同的具体建造者即可得到不同的产品对象 。</p>
+</li>
+<li><p>可以更加精细地控制产品的创建过程 。将复杂产品的创建步骤分解在不同的方法中，使得创建过程更加清晰，也更方便使用程序来控制创建过程。</p>
+</li>
+<li><p>增加新的具体建造者无须修改原有类库的代码，指挥者类针对抽象建造者类编程，系统扩展方便，符合 “开闭原则”</p>
+</li>
+</ul>
+<h3 id="建造者模式的使用场景"><a href="#建造者模式的使用场景" class="headerlink" title="建造者模式的使用场景"></a>建造者模式的使用场景</h3><ol>
+<li><p>相同的方法，不同的执行顺序，产生不同的执行结果</p>
+</li>
+<li><p>多个部件或零件，都可以装配到一个对象中，但是产生的运行结果又不相同</p>
+</li>
+<li><p>产品类非常复杂，或者产品类中的调用顺序不同产生了不同的效能</p>
+</li>
+<li><p>在创建对象的过程中会使用到系统中的一些其他对象，这些对象在产品对象的创建过程中，不易得到时–这种方法只是一个补偿方法，因为一个对象不容易获得，而在设计阶段竟然没有发觉，而要通过创建者模式柔化创建过程，本身已经违反了设计的最初目标</p>
+</li>
+</ol>
+<h1 id="more实例"><a href="#more实例" class="headerlink" title="more实例"></a>more实例</h1><p>建造者模式可以用于描述KFC如何创建套餐：套餐是一个复杂对象，它一般包含主食（如汉堡、鸡肉卷等）和饮料（如果汁、可乐等）等组成部分，不同的套餐有不同的组成部分，而KFC的服务员可以根据顾客的要求，一步一步装配这些组成部分，构造一份完整的套餐，然后返回给顾客。</p>
+<p><img src="/assets/images/designpattern-builder1.jpg" alt=""></p>
+<ul>
+<li>Product（产品角色） 一个具体的产品对象。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">public class Meal &#123;</span><br><span class="line">    private String food;</span><br><span class="line">    private String drink;</span><br><span class="line"></span><br><span class="line">    public String getFood() &#123;</span><br><span class="line">        return food;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void setFood(String food) &#123;</span><br><span class="line">        this.food = food;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public String getDrink() &#123;</span><br><span class="line">        return drink;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void setDrink(String drink) &#123;</span><br><span class="line">        this.drink = drink;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>Builder（抽象建造者）</li>
+</ul>
+<p>创建一个Product对象的各个部件指定的抽象接口。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">public abstract class MealBuilder &#123;</span><br><span class="line">    Meal meal = new Meal();</span><br><span class="line"></span><br><span class="line">    public abstract void buildFood();</span><br><span class="line"></span><br><span class="line">    public abstract void buildDrink();</span><br><span class="line"></span><br><span class="line">    public Meal getMeal()&#123;</span><br><span class="line">        return meal;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>ConcreteBuilder（具体建造者）</li>
+</ul>
+<p>实现抽象接口，构建和装配各个部件。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">// A套餐：</span><br><span class="line">public class MealA extends MealBuilder&#123;</span><br><span class="line"></span><br><span class="line">    public void buildDrink() &#123;</span><br><span class="line">        meal.setDrink(&quot;可乐&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void buildFood() &#123;</span><br><span class="line">        meal.setFood(&quot;薯条&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">// B套餐：</span><br><span class="line">public class MealB extends MealBuilder&#123;</span><br><span class="line"></span><br><span class="line">    public void buildDrink() &#123;</span><br><span class="line">        meal.setDrink(&quot;柠檬果汁&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void buildFood() &#123;</span><br><span class="line">        meal.setFood(&quot;鸡翅&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>Director（指挥者）</li>
+</ul>
+<p>构建一个使用Builder接口的对象。它主要是用于创建一个复杂的对象，它主要有两个作用，一是：隔离了客户与对象的生产过程，二是：负责控制产品对象的生产过程。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">public class KFCWaiter &#123;</span><br><span class="line">    private MealBuilder mealBuilder;</span><br><span class="line"></span><br><span class="line">    public KFCWaiter(MealBuilder mealBuilder) &#123;</span><br><span class="line">        this.mealBuilder = mealBuilder;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    public Meal construct()&#123;</span><br><span class="line">        //准备食物</span><br><span class="line">        mealBuilder.buildFood();</span><br><span class="line">        //准备饮料</span><br><span class="line">        mealBuilder.buildDrink();</span><br><span class="line"></span><br><span class="line">        //准备完毕，返回一个完整的套餐给客户</span><br><span class="line">        return mealBuilder.getMeal();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 测试类(客户端类)</span><br><span class="line">public class Test &#123;</span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line"></span><br><span class="line">        //套餐A</span><br><span class="line">        MealA a = new MealA();</span><br><span class="line">        //准备套餐A的服务员</span><br><span class="line">        KFCWaiter waiter = new KFCWaiter(a);</span><br><span class="line">        //获得套餐</span><br><span class="line">        Meal mealA = waiter.construct();      </span><br><span class="line">        System.out.print(&quot;套餐A的组成部分:&quot;);</span><br><span class="line">        System.out.println(&quot;食物：&quot;+mealA.getFood()+&quot;；   &quot;+&quot;饮品：&quot;+mealA.getDrink());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>输出结果：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">套餐A的组成部分:食物：薯条；   饮品：可乐</span><br></pre></td></tr></table></figure>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p><a href="https://blog.csdn.net/qq_34337272/article/details/80540059" target="_blank" rel="noopener">https://blog.csdn.net/qq_34337272/article/details/80540059</a></p>
+<p><a href="https://github.com/JamesZBL/java_design_patterns/tree/master/builder" target="_blank" rel="noopener">https://github.com/JamesZBL/java_design_patterns/tree/master/builder</a></p>
+
+            <div class="post-copyright">
+    <div class="content">
+        <p>最后更新： 2018年07月30日 14:03</p>
+        <p>原始链接： <a class="post-url" href="/2018/02/04/designpattern-builder/" title="设计模式之禅之建造者模式">http://zhangbuzola.cn/2018/02/04/designpattern-builder/</a></p>
+        <footer>
+            <a href="http://zhangbuzola.cn">
+                <img src="/images/avatar.jpg" alt="zolanunu">
+                zolanunu
+            </a>
+        </footer>
+    </div>
+</div>
+
+      
+        
+            
+
+        
+    </div>
+    <footer class="article-footer">
+        
+        <ul class="article-footer-menu">
+            
+            
+  <li class="article-footer-tags">
+    <i class="fa fa-tags"></i>
+      
+    <a href="/tags/设计模式/" class="color5">设计模式</a>
+      
+    <a href="/tags/设计模式之禅/" class="color2">设计模式之禅</a>
+      
+    <a href="/tags/建造者模式/" class="color1">建造者模式</a>
+      
+  </li>
+
+        </ul>
+        
+    </footer>
+  </div>
+</article>
+
+
+    <aside class="post-toc-pos post-toc-top" id="post-toc">
+        <nav class="post-toc-wrap">
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#变化是永恒的"><span class="post-toc-text">变化是永恒的</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#建造者模型的定义"><span class="post-toc-text">建造者模型的定义</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#建造者模式的应用"><span class="post-toc-text">建造者模式的应用</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#建造者模式的优点"><span class="post-toc-text">建造者模式的优点</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#建造者模式的使用场景"><span class="post-toc-text">建造者模式的使用场景</span></a></li></ol></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#more实例"><span class="post-toc-text">more实例</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#参考"><span class="post-toc-text">参考</span></a></li></ol>
+        </nav>
+    </aside>
+    
+
+<nav id="article-nav">
+  
+    <a href="/2018/02/05/designpattern-factorypattern/" id="article-nav-newer" class="article-nav-link-wrap">
+
+      <span class="article-nav-title">
+        <i class="fa fa-hand-o-left" aria-hidden="true"></i>
+        
+          设计模式之禅之工厂模式
+        
+      </span>
+    </a>
+  
+  
+    <a href="/2018/02/03/designpattern-singleton/" id="article-nav-older" class="article-nav-link-wrap">
+      <span class="article-nav-title">设计模式之禅之单例模式</span>
+      <i class="fa fa-hand-o-right" aria-hidden="true"></i>
+    </a>
+  
+</nav>
+
+
+
+    
+        <link rel="stylesheet" href="//unpkg.com/gitment/style/default.css">
+    <script src="//unpkg.com/gitment/dist/gitment.browser.js"></script>
+    <script>
+        var gitment = new Gitment({
+            owner: 'true',
+            repo: 'zolanunu',
+            oauth: {
+                client_id: '1a04e8dee74a4b8634df',
+                client_secret: '9e3078ac89eb72f22abbdd11f7f0d11e2e1d7f7a',
+            },
+        })
+        gitment.render('comments')
+    </script>
+
+    
+</section>
+        
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+      <p>
+        Powered by  <a href="http://hexo.io/" target="_blank">Hexo</a>
+        Theme <a href="//github.com/wongminho/hexo-theme-miho" target="_blank">MiHo</a>
+      &copy; 2018 zolanunu<br>
+      </p>
+    </div>
+  </div>
+</footer>
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script>
+  var mihoConfig = {
+      root: "http://zhangbuzola.cn",
+      animate: true,
+      isHome: false,
+      share: false,
+      reward: 0
+  }
+</script>
+<div class="sidebar">
+    <div id="sidebar-search" title="Search">
+        <i class="fa fa-search"></i>
+    </div>
+    <div id="sidebar-category" title="Categories">
+        <i class="fa fa-book"></i>
+    </div>
+    <div id="sidebar-tag" title="Tags">
+        <i class="fa fa-tags"></i>
+    </div>
+    <div id="sidebar-top">
+        <span class="sidebar-top-icon"><i class="fa fa-angle-up"></i></span>
+    </div>
+</div>
+<div class="sidebar-menu-box" id="sidebar-menu-box">
+    <div class="sidebar-menu-box-container">
+        <div id="sidebar-menu-box-categories">
+            <a class="category-link" href="/categories/Java/">Java</a><a class="category-link" href="/categories/Java后台/">Java后台</a><a class="category-link" href="/categories/Python/">Python</a><a class="category-link" href="/categories/工具/">工具</a><a class="category-link" href="/categories/技术书/">技术书</a><a class="category-link" href="/categories/数据库/">数据库</a><a class="category-link" href="/categories/数据结构/">数据结构</a><a class="category-link" href="/categories/生活轨迹/">生活轨迹</a><a class="category-link" href="/categories/算法/">算法</a>
+        </div>
+        <div id="sidebar-menu-box-tags">
+            <a href="/tags/2018/" style="font-size: 11.25px;">2018</a> <a href="/tags/Collections/" style="font-size: 15px;">Collections</a> <a href="/tags/HashMap/" style="font-size: 10px;">HashMap</a> <a href="/tags/LinkedHashMap/" style="font-size: 10px;">LinkedHashMap</a> <a href="/tags/MySQL/" style="font-size: 17.5px;">MySQL</a> <a href="/tags/Mybatis/" style="font-size: 12.5px;">Mybatis</a> <a href="/tags/Object/" style="font-size: 10px;">Object</a> <a href="/tags/SSM/" style="font-size: 13.75px;">SSM</a> <a href="/tags/TreeMap/" style="font-size: 11.25px;">TreeMap</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/java基础/" style="font-size: 20px;">java基础</a> <a href="/tags/java并发编程实战/" style="font-size: 11.25px;">java并发编程实战</a> <a href="/tags/leetcode/" style="font-size: 16.25px;">leetcode</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/剑指offer/" style="font-size: 10px;">剑指offer</a> <a href="/tags/单例模式/" style="font-size: 10px;">单例模式</a> <a href="/tags/原型模式/" style="font-size: 10px;">原型模式</a> <a href="/tags/多线程/" style="font-size: 11.25px;">多线程</a> <a href="/tags/工厂模式/" style="font-size: 10px;">工厂模式</a> <a href="/tags/并发编程/" style="font-size: 10px;">并发编程</a> <a href="/tags/建造者模式/" style="font-size: 10px;">建造者模式</a> <a href="/tags/机器学习/" style="font-size: 12.5px;">机器学习</a> <a href="/tags/构造函数/" style="font-size: 10px;">构造函数</a> <a href="/tags/深入理解java虚拟机/" style="font-size: 10px;">深入理解java虚拟机</a> <a href="/tags/生活/" style="font-size: 10px;">生活</a> <a href="/tags/神经网络/" style="font-size: 10px;">神经网络</a> <a href="/tags/算法与数据结构/" style="font-size: 13.75px;">算法与数据结构</a> <a href="/tags/算法和数据结构/" style="font-size: 18.75px;">算法和数据结构</a> <a href="/tags/索引优化/" style="font-size: 10px;">索引优化</a> <a href="/tags/观影记/" style="font-size: 10px;">观影记</a> <a href="/tags/设计模式/" style="font-size: 13.75px;">设计模式</a> <a href="/tags/设计模式之禅/" style="font-size: 13.75px;">设计模式之禅</a> <a href="/tags/读书书单/" style="font-size: 10px;">读书书单</a>
+        </div>
+    </div>
+    <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
+</div>
+<div class="mobile-header-menu-nav" id="mobile-header-menu-nav">
+    <div class="mobile-header-menu-container">
+        <span class="title">Menus</span>
+        <ul class="mobile-header-menu-navbar">
+            
+            <li>
+                <a  href="/">
+                    <i class="fa fa-home"></i><span>Home</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/archives">
+                    <i class="fa fa-archive"></i><span>Archives</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/about">
+                    <i class="fa fa-user"></i><span>About</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    <div class="mobile-header-tag-container">
+        <span class="title">Tags</span>
+        <div id="mobile-header-container-tags">
+            <a href="/tags/2018/" style="font-size: 11.25px;">2018</a> <a href="/tags/Collections/" style="font-size: 15px;">Collections</a> <a href="/tags/HashMap/" style="font-size: 10px;">HashMap</a> <a href="/tags/LinkedHashMap/" style="font-size: 10px;">LinkedHashMap</a> <a href="/tags/MySQL/" style="font-size: 17.5px;">MySQL</a> <a href="/tags/Mybatis/" style="font-size: 12.5px;">Mybatis</a> <a href="/tags/Object/" style="font-size: 10px;">Object</a> <a href="/tags/SSM/" style="font-size: 13.75px;">SSM</a> <a href="/tags/TreeMap/" style="font-size: 11.25px;">TreeMap</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/java基础/" style="font-size: 20px;">java基础</a> <a href="/tags/java并发编程实战/" style="font-size: 11.25px;">java并发编程实战</a> <a href="/tags/leetcode/" style="font-size: 16.25px;">leetcode</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/剑指offer/" style="font-size: 10px;">剑指offer</a> <a href="/tags/单例模式/" style="font-size: 10px;">单例模式</a> <a href="/tags/原型模式/" style="font-size: 10px;">原型模式</a> <a href="/tags/多线程/" style="font-size: 11.25px;">多线程</a> <a href="/tags/工厂模式/" style="font-size: 10px;">工厂模式</a> <a href="/tags/并发编程/" style="font-size: 10px;">并发编程</a> <a href="/tags/建造者模式/" style="font-size: 10px;">建造者模式</a> <a href="/tags/机器学习/" style="font-size: 12.5px;">机器学习</a> <a href="/tags/构造函数/" style="font-size: 10px;">构造函数</a> <a href="/tags/深入理解java虚拟机/" style="font-size: 10px;">深入理解java虚拟机</a> <a href="/tags/生活/" style="font-size: 10px;">生活</a> <a href="/tags/神经网络/" style="font-size: 10px;">神经网络</a> <a href="/tags/算法与数据结构/" style="font-size: 13.75px;">算法与数据结构</a> <a href="/tags/算法和数据结构/" style="font-size: 18.75px;">算法和数据结构</a> <a href="/tags/索引优化/" style="font-size: 10px;">索引优化</a> <a href="/tags/观影记/" style="font-size: 10px;">观影记</a> <a href="/tags/设计模式/" style="font-size: 13.75px;">设计模式</a> <a href="/tags/设计模式之禅/" style="font-size: 13.75px;">设计模式之禅</a> <a href="/tags/读书书单/" style="font-size: 10px;">读书书单</a>
+        </div>
+    </div>
+</div>
+<div class="search-wrap">
+    <span class="search-close">&times;</span>
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+            <i class="icon icon-lg icon-chevron-left"></i>
+        </a>
+        <input class="search-field" placeholder="Search..." id="keywords">
+        <a id="search-submit" href="javascript:;">
+            <i class="fa fa-search"></i>
+        </a>
+    <div class="search-container" id="search-container">
+        <ul class="search-result" id="search-result">
+        </ul>
+    </div>
+</div>
+
+<div id="search-tpl">
+    <li class="search-result-item">
+        <a href="{url}" class="search-item-li">
+            <span class="search-item-li-title" title="{title}">{title}</span>
+        </a>
+    </li>
+</div>
+<script src="/js/search.js"></script>
+<script src="/js/main.js"></script>
+
+
+  <script src="//cdn.bootcss.com/particles.js/2.0.0/particles.min.js"></script>
+  <div id="particles"></div>
+  <script src="/js/particles.js"></script>
+
+
+
+
+
+
+
+  <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
+  <script src="//cdn.bootcss.com/scrollReveal.js/3.0.5/scrollreveal.js"></script>
+  <script src="/js/animate.js"></script>
+
+
+  <script src="/js/pop-img.js"></script>
+  <script>
+     $(".article-entry p img").popImg();
+  </script>
+
+  </div>
+</body>
+</html>
