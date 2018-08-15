@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>ʵսJava�����-JVM��������������Ż� part1 | zolanunu</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+    <meta name="keywords" content="zolanunu,zolanunu's blog" />
+  
+  <meta name="description" content="��һ�� ��̽Java������˽�ʲô���������ʲô��Java���ԣ�������������ô���ķ�չʷ�ȵȣ���һ�¶���������̸�������ˣ���Java��C++�Աȣ�Java��չʷ�ȵȵġ������ֱ�Ӳ����ʼǣ��Թ��ɡ�����ıʼ���Ҫ��һЩ�Ƚϻ����ģ�������Ҫע���֪ʶ�㡣 Java��������н����Ja">
+<meta name="keywords" content="ʵսJava�����-JVM��������������Ż�">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ʵսJava�����-JVM��������������Ż� part1">
+<meta property="og:url" content="http://zhangbuzola.cn/2018/08/10/实战Java虚拟机笔记一/index.html">
+<meta property="og:site_name" content="zolanunu">
+<meta property="og:description" content="��һ�� ��̽Java������˽�ʲô���������ʲô��Java���ԣ�������������ô���ķ�չʷ�ȵȣ���һ�¶���������̸�������ˣ���Java��C++�Աȣ�Java��չʷ�ȵȵġ������ֱ�Ӳ����ʼǣ��Թ��ɡ�����ıʼ���Ҫ��һЩ�Ƚϻ����ģ�������Ҫע���֪ʶ�㡣 Java��������н����Ja">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2018-08-15T15:02:15.817Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="ʵսJava�����-JVM��������������Ż� part1">
+<meta name="twitter:description" content="��һ�� ��̽Java������˽�ʲô���������ʲô��Java���ԣ�������������ô���ķ�չʷ�ȵȣ���һ�¶���������̸�������ˣ���Java��C++�Աȣ�Java��չʷ�ȵȵġ������ֱ�Ӳ����ʼǣ��Թ��ɡ�����ıʼ���Ҫ��һЩ�Ƚϻ����ģ�������Ҫע���֪ʶ�㡣 Java��������н����Ja">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="/js/pace.min.js"></script>
+  
+
+  
+	<script>
+	var _hmt = _hmt || [];
+	(function() {
+	  var hm = document.createElement("script");
+	  hm.src = "//hm.baidu.com/hm.js?a651034b7d11a367ae836642b29a3057";
+	  var s = document.getElementsByTagName("script")[0]; 
+	  s.parentNode.insertBefore(hm, s);
+	})();
+	</script>
+
+  
+
+</head>
+
+<body>
+  <div id="container">
+      <header id="header">
+    <div id="banner"></div>
+    <div id="header-outer">
+        <div id="header-menu" class="header-menu-pos animated">
+            <div class="header-menu-container">
+                <a href="/" class="left">
+                    <span class="site-title">zolanunu&#39;s Blog</span>
+                </a>
+                <nav id="header-menu-nav" class="right">
+                    
+                    <a  href="/">
+                        <i class="fa fa-home"></i>
+                        <span>Home</span>
+                    </a>
+                    
+                    <a  href="/archives">
+                        <i class="fa fa-archive"></i>
+                        <span>Archives</span>
+                    </a>
+                    
+                    <a  href="/about">
+                        <i class="fa fa-user"></i>
+                        <span>About</span>
+                    </a>
+                    
+                </nav>
+                <a class="mobile-header-menu-button">
+                    <i class="fa fa-bars"></i>
+                </a>
+            </div>
+        </div>
+        <div id="header-row">
+            <div id="logo">
+                <a href="/">
+                    <img src="/images/avatar.jpg" alt="logo">
+                </a>
+            </div>
+            <div class="header-info">
+                <div id="header-title">
+                    
+                    <h2>
+                        zolanunu&#39;s Blog
+                    </h2>
+                    
+                </div>
+                <div id="header-description">
+                    
+                    <h3>
+                        去努力尝试做一些你觉得你不会做或者不敢做的事情。
+                    </h3>
+                    
+                </div>
+            </div>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a title="zolanunu" target="_blank" href="//zhangbuzola.cn">
+                            <i class="fa fa-home fa-2x"></i></a>
+                    
+                        <a title="Github" target="_blank" href="//github.com/zolanunu">
+                            <i class="fa fa-github fa-2x"></i></a>
+                    
+                        <a title="Weibo" target="_blank" href="//weibo.com/zolanunu">
+                            <i class="fa fa-weibo fa-2x"></i></a>
+                    
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>
+      <div class="outer">
+        <section id="main" class="body-wrap"><article id="post-实战Java虚拟机笔记一" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="post-title" itemprop="name">
+      ʵսJava�����-JVM��������������Ż� part1
+    </h1>
+    <div class="post-title-bar">
+      <ul>
+          
+              <li>
+                  <i class="fa fa-book"></i>
+                  
+                      <a href="/categories/������/">������</a>
+                  
+              </li>
+          
+        <li>
+          <i class="fa fa-calendar"></i>  2018-08-10
+        </li>
+        <li>
+          <i class="fa fa-eye"></i>
+          <span id="busuanzi_value_page_pv"></span>
+        </li>
+      </ul>
+    </div>
+  
+
+          
+      </header>
+    
+    <div class="article-entry post-content" itemprop="articleBody">
+      
+            
+            <h1 id="��һ��-��̽Java�����"><a href="#��һ��-��̽Java�����" class="headerlink" title="��һ�� ��̽Java�����"></a>��һ�� ��̽Java�����</h1><p>�˽�ʲô���������ʲô��Java���ԣ�������������ô���ķ�չʷ�ȵȣ���һ�¶���������̸�������ˣ���Java��C++�Աȣ�Java��չʷ�ȵȵġ������ֱ�Ӳ����ʼǣ��Թ��ɡ�����ıʼ���Ҫ��һЩ�Ƚϻ����ģ�������Ҫע���֪ʶ�㡣</p>
+<h2 id="Java��������н�"><a href="#Java��������н�" class="headerlink" title="Java��������н�"></a>Java��������н�</h2><h3 id="���Java�������ԭ��"><a href="#���Java�������ԭ��" class="headerlink" title="���Java�������ԭ��"></a>���Java�������ԭ��</h3><p>��ν���������һ�ѳ�����Ϊ����һ���������Ҫ��װ�ͽ������õģ�������ļ����������ִ��һϵ����������ָ���������Է�Ϊϵͳ������ͳ�����������������������͵Ĵ������Java���������ר��Ϊִ�е���������������ƣ���Java�������ִ�е�ָ�����ǳ�֮ΪJava�ֽ���ָ�������ϵͳ��������ǳ�������������������е��������������������ṩ����Դ�С�</p>
+<p>java��������ڲ���ϵͳ��linux����windows�������е������������java����������е���Java����</p>
+<h2 id="Java�����������"><a href="#Java�����������" class="headerlink" title="Java�����������"></a>Java�����������</h2><p>�����Sun��Classic�������֮�󱻶���ʹ�õ�Exact VM�������Ȼ�����֮�󱻴��ģʹ�õ�HotSpot�������</p>
+<h2 id="Java���Թ淶"><a href="#Java���Թ淶" class="headerlink" title="Java���Թ淶"></a>Java���Թ淶</h2><p>Java���Թ淶����������Java���Եģ���������Java���Ե��������ԣ�����Java���﷨��ʲô���������Ϲ淶�����ʷ���ʲô���ĵ��ʺ�����֧�ֵ��������ͣ��������ͣ���������ת����Լ�������飬�쳣�ȵȵ����ݡ�Java���Թ淶���Ǹ��߳���Ա�������дJava���롣</p>
+<h3 id="�������͵K���"><a href="#�������͵K���" class="headerlink" title="�������͵Ķ���"></a>�������͵Ķ���</h3><p>���������л����������ͺ�������������</p>
+<p>�������������У��й涨ÿ����������������ռ���ֽڴ�С��Ĭ��ֵ������ֵ��Χ�����Ҷ��������ܹ�֧�ֵĸ��ֲ���</p>
+<p>byte: 1�ֽڣ� char��2���ֽڣ�C��ռ1���ֽڣ��� short�� 2,  int�� 4 �� float�� 4��  boolean 8�� long: 8</p>
+<h2 id="Java������淶"><a href="#Java������淶" class="headerlink" title="Java������淶"></a>Java������淶</h2><p>java������淶����Ҫ�����У�</p>
+<ul>
+<li><p>��������������ڲ��ṹ</p>
+</li>
+<li><p>�����������ִ�е��ֽ������ͺ͹���</p>
+</li>
+<li><p>������Class�ļ��Ľṹ</p>
+</li>
+<li><p>���������װ�أ����Ӻͳ�ʼ��</p>
+</li>
+</ul>
+<h2 id="������Java������еi�ʾ"><a href="#������Java������еi�ʾ" class="headerlink" title="������Java������еı�ʾ"></a>������Java������еı�ʾ</h2><p>ԭ�룺����λ�������ֵĶ����Ʊ�ʾ</p>
+<p>������32λ�����ԣ�</p>
+<p>-10��10000000 00000000 00000000 00001010</p>
+<p>10:  00000000 00000000 00000000 00001010</p>
+<p>���룺��ԭ������ϣ�����λ���䣬����λȡ��</p>
+<p>���룺�����Ĳ����Ƿ���+1�� �����Ĳ������ԭ�뱾��</p>
+<p>���ʹ��λ����鿴�����е�ÿһλ��ʵ��ֵ���������£�</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">int i =-10��</span><br><span class="line">for(int i = 0; i &lt; 32; i++) &#123;</span><br><span class="line">	int t = (a&amp;0x80000000&gt;&gt;&gt;i)&gt;&gt;&gt;(32-i);</span><br><span class="line">	System.out.print(t);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="ʹ�o���lo�"><a href="#ʹ�o���lo�" class="headerlink" title="ʹ�ò���ĺô�"></a>ʹ�ò���ĺô�</h3><ul>
+<li><p>����ͳһ����0�ı�ʾ�����۰�0��Ϊ�������Ǹ�����0�Ĳ����ʾ����һ���ģ�ȫ0����</p>
+</li>
+<li><p>ʹ�ò�����Լ������ļӼ������㣬ֻ����Ҫ�򵥵Ĳ�����ӾͿ����ˡ�</p>
+</li>
+</ul>
+<h2 id="��������java������еi�ʾ"><a href="#��������java������еi�ʾ" class="headerlink" title="��������java������еı�ʾ"></a>��������java������еı�ʾ</h2><p>����IEEE754�ı�ʾ�ģ�һ����������32λ����3�����֣�����λ��1λ����ָ��λ��8λ����β����23λ��</p>
+<p>����-5�ĸ�������ʾ��1 10000001 01000000000000000000000</p>
+<p>ָ��λ�� 10000001�� 129</p>
+<p>β��λ��(1��0��*2^-i) (i=0��-1��-2……)</p>
+<h2 id="����͵���"><a href="#����͵���" class="headerlink" title="����͵���"></a>����͵���</h2><p>�������linux�µ�java������ĵ��Թ�������ʾ�ܲ��⣬����Ͳ����ʼ��ˡ�</p>
+<h1 id="�ڶ���-��ʶJava������L����u"><a href="#�ڶ���-��ʶJava������L����u" class="headerlink" title="�ڶ��� ��ʶJava������Ļ����ṹ"></a>�ڶ��� ��ʶJava������Ļ����ṹ</h1><p>Java����������ӵ��ˣ��ڶ��½ھ��Ƕ�java������Ļ����ṹ����һЩ�˽⣬��ʵ�������Java������ж��ⲿ��Ҳ����ϸ���������Լ�java������淶���棨�ҿ�����Ӣ�İ汾�ģ�The Java Virtual Machine Specification JavaSE9 Edition��,�ڶ���Ҳ����ϸ�Ľ��ܡ�</p>
+<p>�����ṹͼ������Ͳ����ˡ��Լ��������ֵ�����Ҳ�����������ʼ��ˡ���Ҫ�����м�����Ҫ�ĵ㡣</p>
+<ul>
+<li><p>Java��NIO������Java����ʹ��ֱ���ڴ棨���⣬û��ʵ��ʹ�ù�����⣬��ô����ʹ��ֱ���ڴ��أ����������������ʰɡ�Java�Ѻ�ֱ���ڴ���ܺͻ��ǻ������ڲ���ϵͳ���ṩ������ڴ档</p>
+</li>
+<li><p>��������ϵͳҲ��Java���������Ҫ��ɲ��֣��������������ԶԷ�������Java�Ѻ�ֱ���ڴ���л��ա�</p>
+</li>
+<li><p>ִ��������Java���������ĵ����֮һ������ִ����������ֽ��롣���ţ����������ƽ�������Թ��ģ�����������µ�ִ�л��ƣ�����������ɲ��������Э�������ģ����ִ������Ϊ�����ִ��Ч�ʣ���ʹ�ü�ʱ���뼼������������ɻ�����֮����ִ�С����ţ���ʱ���������ܸߴ��ϵĸо�����һ�£��Ժ�����ϸ�˽⣩��</p>
+</li>
+</ul>
+
+            <div class="post-copyright">
+    <div class="content">
+        <p>最后更新： 2018年08月15日 23:02</p>
+        <p>原始链接： <a class="post-url" href="/2018/08/10/实战Java虚拟机笔记一/" title="ʵսJava�����-JVM��������������Ż� part1">http://zhangbuzola.cn/2018/08/10/实战Java虚拟机笔记一/</a></p>
+        <footer>
+            <a href="http://zhangbuzola.cn">
+                <img src="/images/avatar.jpg" alt="zolanunu">
+                zolanunu
+            </a>
+        </footer>
+    </div>
+</div>
+
+      
+        
+            
+
+        
+    </div>
+    <footer class="article-footer">
+        
+        <ul class="article-footer-menu">
+            
+            
+  <li class="article-footer-tags">
+    <i class="fa fa-tags"></i>
+      
+    <a href="/tags/ʵսJava�����-JVM��������������Ż�/" class="color2">ʵսJava�����-JVM��������������Ż�</a>
+      
+  </li>
+
+        </ul>
+        
+    </footer>
+  </div>
+</article>
+
+
+    <aside class="post-toc-pos post-toc-top" id="post-toc">
+        <nav class="post-toc-wrap">
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#��һ��-��̽Java�����"><span class="post-toc-text">��һ�� ��̽Java�����</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Java��������н�"><span class="post-toc-text">Java��������н�</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#���Java�������ԭ��"><span class="post-toc-text">���Java�������ԭ��</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Java�����������"><span class="post-toc-text">Java�����������</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Java���Թ淶"><span class="post-toc-text">Java���Թ淶</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#�������͵K���"><span class="post-toc-text">�������͵Ķ���</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Java������淶"><span class="post-toc-text">Java������淶</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#������Java������еi�ʾ"><span class="post-toc-text">������Java������еı�ʾ</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#ʹ�o���lo�"><span class="post-toc-text">ʹ�ò���ĺô�</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#��������java������еi�ʾ"><span class="post-toc-text">��������java������еı�ʾ</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#����͵���"><span class="post-toc-text">����͵���</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#�ڶ���-��ʶJava������L����u"><span class="post-toc-text">�ڶ��� ��ʶJava������Ļ����ṹ</span></a></li></ol>
+        </nav>
+    </aside>
+    
+
+<nav id="article-nav">
+  
+  
+    <a href="/2018/07/15/MySQL索引原理/" id="article-nav-older" class="article-nav-link-wrap">
+      <span class="article-nav-title">MySQL的索引原理</span>
+      <i class="fa fa-hand-o-right" aria-hidden="true"></i>
+    </a>
+  
+</nav>
+
+
+
+    
+        <link rel="stylesheet" href="//unpkg.com/gitment/style/default.css">
+    <script src="//unpkg.com/gitment/dist/gitment.browser.js"></script>
+    <script>
+        var gitment = new Gitment({
+            owner: 'true',
+            repo: 'zolanunu',
+            oauth: {
+                client_id: '1a04e8dee74a4b8634df',
+                client_secret: '9e3078ac89eb72f22abbdd11f7f0d11e2e1d7f7a',
+            },
+        })
+        gitment.render('comments')
+    </script>
+
+    
+</section>
+        
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+      <p>
+        Powered by  <a href="http://hexo.io/" target="_blank">Hexo</a>
+        Theme <a href="//github.com/wongminho/hexo-theme-miho" target="_blank">MiHo</a>
+      &copy; 2018 zolanunu<br>
+      </p>
+    </div>
+  </div>
+</footer>
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script>
+  var mihoConfig = {
+      root: "http://zhangbuzola.cn",
+      animate: true,
+      isHome: false,
+      share: false,
+      reward: 0
+  }
+</script>
+<div class="sidebar">
+    <div id="sidebar-search" title="Search">
+        <i class="fa fa-search"></i>
+    </div>
+    <div id="sidebar-category" title="Categories">
+        <i class="fa fa-book"></i>
+    </div>
+    <div id="sidebar-tag" title="Tags">
+        <i class="fa fa-tags"></i>
+    </div>
+    <div id="sidebar-top">
+        <span class="sidebar-top-icon"><i class="fa fa-angle-up"></i></span>
+    </div>
+</div>
+<div class="sidebar-menu-box" id="sidebar-menu-box">
+    <div class="sidebar-menu-box-container">
+        <div id="sidebar-menu-box-categories">
+            <a class="category-link" href="/categories/Java/">Java</a><a class="category-link" href="/categories/Java后台/">Java后台</a><a class="category-link" href="/categories/Python/">Python</a><a class="category-link" href="/categories/工具/">工具</a><a class="category-link" href="/categories/技术书/">技术书</a><a class="category-link" href="/categories/数据库/">数据库</a><a class="category-link" href="/categories/数据结构/">数据结构</a><a class="category-link" href="/categories/生活轨迹/">生活轨迹</a><a class="category-link" href="/categories/算法/">算法</a><a class="category-link" href="/categories/编程技术/">编程技术</a><a class="category-link" href="/categories/计算机网络/">计算机网络</a><a class="category-link" href="/categories/������/">������</a>
+        </div>
+        <div id="sidebar-menu-box-tags">
+            <a href="/tags/2018/" style="font-size: 11.25px;">2018</a> <a href="/tags/Collections/" style="font-size: 15px;">Collections</a> <a href="/tags/HashMap/" style="font-size: 10px;">HashMap</a> <a href="/tags/LinkedHashMap/" style="font-size: 10px;">LinkedHashMap</a> <a href="/tags/MySQL/" style="font-size: 17.5px;">MySQL</a> <a href="/tags/Mybatis/" style="font-size: 12.5px;">Mybatis</a> <a href="/tags/Object/" style="font-size: 10px;">Object</a> <a href="/tags/SSM/" style="font-size: 13.75px;">SSM</a> <a href="/tags/TreeMap/" style="font-size: 11.25px;">TreeMap</a> <a href="/tags/cookie/" style="font-size: 10px;">cookie</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/java基础/" style="font-size: 20px;">java基础</a> <a href="/tags/java并发编程实战/" style="font-size: 11.25px;">java并发编程实战</a> <a href="/tags/leetcode/" style="font-size: 16.25px;">leetcode</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/session/" style="font-size: 10px;">session</a> <a href="/tags/ʵսJava�����-JVM��������������Z�/" style="font-size: 10px;">ʵսJava�����-JVM��������������Ż�</a> <a href="/tags/剑指offer/" style="font-size: 10px;">剑指offer</a> <a href="/tags/单例模式/" style="font-size: 10px;">单例模式</a> <a href="/tags/原型模式/" style="font-size: 10px;">原型模式</a> <a href="/tags/多线程/" style="font-size: 11.25px;">多线程</a> <a href="/tags/工厂模式/" style="font-size: 10px;">工厂模式</a> <a href="/tags/并发编程/" style="font-size: 10px;">并发编程</a> <a href="/tags/建造者模式/" style="font-size: 10px;">建造者模式</a> <a href="/tags/机器学习/" style="font-size: 12.5px;">机器学习</a> <a href="/tags/构造函数/" style="font-size: 10px;">构造函数</a> <a href="/tags/深入理解java虚拟机/" style="font-size: 10px;">深入理解java虚拟机</a> <a href="/tags/生活/" style="font-size: 10px;">生活</a> <a href="/tags/神经网络/" style="font-size: 10px;">神经网络</a> <a href="/tags/算法与数据结构/" style="font-size: 16.25px;">算法与数据结构</a> <a href="/tags/算法和数据结构/" style="font-size: 18.75px;">算法和数据结构</a> <a href="/tags/索引优化/" style="font-size: 10px;">索引优化</a> <a href="/tags/观影记/" style="font-size: 10px;">观影记</a> <a href="/tags/设计模式/" style="font-size: 13.75px;">设计模式</a> <a href="/tags/设计模式之禅/" style="font-size: 13.75px;">设计模式之禅</a> <a href="/tags/读书书单/" style="font-size: 10px;">读书书单</a> <a href="/tags/负载均衡/" style="font-size: 10px;">负载均衡</a>
+        </div>
+    </div>
+    <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
+</div>
+<div class="mobile-header-menu-nav" id="mobile-header-menu-nav">
+    <div class="mobile-header-menu-container">
+        <span class="title">Menus</span>
+        <ul class="mobile-header-menu-navbar">
+            
+            <li>
+                <a  href="/">
+                    <i class="fa fa-home"></i><span>Home</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/archives">
+                    <i class="fa fa-archive"></i><span>Archives</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/about">
+                    <i class="fa fa-user"></i><span>About</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    <div class="mobile-header-tag-container">
+        <span class="title">Tags</span>
+        <div id="mobile-header-container-tags">
+            <a href="/tags/2018/" style="font-size: 11.25px;">2018</a> <a href="/tags/Collections/" style="font-size: 15px;">Collections</a> <a href="/tags/HashMap/" style="font-size: 10px;">HashMap</a> <a href="/tags/LinkedHashMap/" style="font-size: 10px;">LinkedHashMap</a> <a href="/tags/MySQL/" style="font-size: 17.5px;">MySQL</a> <a href="/tags/Mybatis/" style="font-size: 12.5px;">Mybatis</a> <a href="/tags/Object/" style="font-size: 10px;">Object</a> <a href="/tags/SSM/" style="font-size: 13.75px;">SSM</a> <a href="/tags/TreeMap/" style="font-size: 11.25px;">TreeMap</a> <a href="/tags/cookie/" style="font-size: 10px;">cookie</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/java基础/" style="font-size: 20px;">java基础</a> <a href="/tags/java并发编程实战/" style="font-size: 11.25px;">java并发编程实战</a> <a href="/tags/leetcode/" style="font-size: 16.25px;">leetcode</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/session/" style="font-size: 10px;">session</a> <a href="/tags/ʵսJava�����-JVM��������������Z�/" style="font-size: 10px;">ʵսJava�����-JVM��������������Ż�</a> <a href="/tags/剑指offer/" style="font-size: 10px;">剑指offer</a> <a href="/tags/单例模式/" style="font-size: 10px;">单例模式</a> <a href="/tags/原型模式/" style="font-size: 10px;">原型模式</a> <a href="/tags/多线程/" style="font-size: 11.25px;">多线程</a> <a href="/tags/工厂模式/" style="font-size: 10px;">工厂模式</a> <a href="/tags/并发编程/" style="font-size: 10px;">并发编程</a> <a href="/tags/建造者模式/" style="font-size: 10px;">建造者模式</a> <a href="/tags/机器学习/" style="font-size: 12.5px;">机器学习</a> <a href="/tags/构造函数/" style="font-size: 10px;">构造函数</a> <a href="/tags/深入理解java虚拟机/" style="font-size: 10px;">深入理解java虚拟机</a> <a href="/tags/生活/" style="font-size: 10px;">生活</a> <a href="/tags/神经网络/" style="font-size: 10px;">神经网络</a> <a href="/tags/算法与数据结构/" style="font-size: 16.25px;">算法与数据结构</a> <a href="/tags/算法和数据结构/" style="font-size: 18.75px;">算法和数据结构</a> <a href="/tags/索引优化/" style="font-size: 10px;">索引优化</a> <a href="/tags/观影记/" style="font-size: 10px;">观影记</a> <a href="/tags/设计模式/" style="font-size: 13.75px;">设计模式</a> <a href="/tags/设计模式之禅/" style="font-size: 13.75px;">设计模式之禅</a> <a href="/tags/读书书单/" style="font-size: 10px;">读书书单</a> <a href="/tags/负载均衡/" style="font-size: 10px;">负载均衡</a>
+        </div>
+    </div>
+</div>
+<div class="search-wrap">
+    <span class="search-close">&times;</span>
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+            <i class="icon icon-lg icon-chevron-left"></i>
+        </a>
+        <input class="search-field" placeholder="Search..." id="keywords">
+        <a id="search-submit" href="javascript:;">
+            <i class="fa fa-search"></i>
+        </a>
+    <div class="search-container" id="search-container">
+        <ul class="search-result" id="search-result">
+        </ul>
+    </div>
+</div>
+
+<div id="search-tpl">
+    <li class="search-result-item">
+        <a href="{url}" class="search-item-li">
+            <span class="search-item-li-title" title="{title}">{title}</span>
+        </a>
+    </li>
+</div>
+<script src="/js/search.js"></script>
+<script src="/js/main.js"></script>
+
+
+  <script src="//cdn.bootcss.com/particles.js/2.0.0/particles.min.js"></script>
+  <div id="particles"></div>
+  <script src="/js/particles.js"></script>
+
+
+
+
+
+
+
+  <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
+  <script src="//cdn.bootcss.com/scrollReveal.js/3.0.5/scrollreveal.js"></script>
+  <script src="/js/animate.js"></script>
+
+
+  <script src="/js/pop-img.js"></script>
+  <script>
+     $(".article-entry p img").popImg();
+  </script>
+
+  </div>
+</body>
+</html>

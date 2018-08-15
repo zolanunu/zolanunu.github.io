@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>负载均衡调度器入门 | zolanunu</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+    <meta name="keywords" content="zolanunu,zolanunu's blog" />
+  
+  <meta name="description" content="负载均衡引入当系统的访问qps（每秒查询量）不断增大，服务器的处理能力，假设我们的应用服务器用的是Tomcat的话，那么toncat就会成为系统性能的瓶颈，虽然我们可以通过购买更强大的硬件去解决这个问题，但是总还是会有上限的，并且这个成本到后期也是一个指数级的增长。所以们就需要做一个服务器的集群，引入负载均衡调度服务器。 当web服务器的垂直扩展变得话费很高或困难的时候，我们需要考虑服务器的水平扩">
+<meta name="keywords" content="负载均衡">
+<meta property="og:type" content="article">
+<meta property="og:title" content="负载均衡调度器入门">
+<meta property="og:url" content="http://zhangbuzola.cn/2018/03/10/LoadBalance/index.html">
+<meta property="og:site_name" content="zolanunu">
+<meta property="og:description" content="负载均衡引入当系统的访问qps（每秒查询量）不断增大，服务器的处理能力，假设我们的应用服务器用的是Tomcat的话，那么toncat就会成为系统性能的瓶颈，虽然我们可以通过购买更强大的硬件去解决这个问题，但是总还是会有上限的，并且这个成本到后期也是一个指数级的增长。所以们就需要做一个服务器的集群，引入负载均衡调度服务器。 当web服务器的垂直扩展变得话费很高或困难的时候，我们需要考虑服务器的水平扩">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2018-08-15T14:11:08.208Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="负载均衡调度器入门">
+<meta name="twitter:description" content="负载均衡引入当系统的访问qps（每秒查询量）不断增大，服务器的处理能力，假设我们的应用服务器用的是Tomcat的话，那么toncat就会成为系统性能的瓶颈，虽然我们可以通过购买更强大的硬件去解决这个问题，但是总还是会有上限的，并且这个成本到后期也是一个指数级的增长。所以们就需要做一个服务器的集群，引入负载均衡调度服务器。 当web服务器的垂直扩展变得话费很高或困难的时候，我们需要考虑服务器的水平扩">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="/js/pace.min.js"></script>
+  
+
+  
+	<script>
+	var _hmt = _hmt || [];
+	(function() {
+	  var hm = document.createElement("script");
+	  hm.src = "//hm.baidu.com/hm.js?a651034b7d11a367ae836642b29a3057";
+	  var s = document.getElementsByTagName("script")[0]; 
+	  s.parentNode.insertBefore(hm, s);
+	})();
+	</script>
+
+  
+
+</head>
+
+<body>
+  <div id="container">
+      <header id="header">
+    <div id="banner"></div>
+    <div id="header-outer">
+        <div id="header-menu" class="header-menu-pos animated">
+            <div class="header-menu-container">
+                <a href="/" class="left">
+                    <span class="site-title">zolanunu&#39;s Blog</span>
+                </a>
+                <nav id="header-menu-nav" class="right">
+                    
+                    <a  href="/">
+                        <i class="fa fa-home"></i>
+                        <span>Home</span>
+                    </a>
+                    
+                    <a  href="/archives">
+                        <i class="fa fa-archive"></i>
+                        <span>Archives</span>
+                    </a>
+                    
+                    <a  href="/about">
+                        <i class="fa fa-user"></i>
+                        <span>About</span>
+                    </a>
+                    
+                </nav>
+                <a class="mobile-header-menu-button">
+                    <i class="fa fa-bars"></i>
+                </a>
+            </div>
+        </div>
+        <div id="header-row">
+            <div id="logo">
+                <a href="/">
+                    <img src="/images/avatar.jpg" alt="logo">
+                </a>
+            </div>
+            <div class="header-info">
+                <div id="header-title">
+                    
+                    <h2>
+                        zolanunu&#39;s Blog
+                    </h2>
+                    
+                </div>
+                <div id="header-description">
+                    
+                    <h3>
+                        去努力尝试做一些你觉得你不会做或者不敢做的事情。
+                    </h3>
+                    
+                </div>
+            </div>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a title="zolanunu" target="_blank" href="//zhangbuzola.cn">
+                            <i class="fa fa-home fa-2x"></i></a>
+                    
+                        <a title="Github" target="_blank" href="//github.com/zolanunu">
+                            <i class="fa fa-github fa-2x"></i></a>
+                    
+                        <a title="Weibo" target="_blank" href="//weibo.com/zolanunu">
+                            <i class="fa fa-weibo fa-2x"></i></a>
+                    
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>
+      <div class="outer">
+        <section id="main" class="body-wrap"><article id="post-LoadBalance" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="post-title" itemprop="name">
+      负载均衡调度器入门
+    </h1>
+    <div class="post-title-bar">
+      <ul>
+          
+              <li>
+                  <i class="fa fa-book"></i>
+                  
+                      <a href="/categories/编程技术/">编程技术</a>
+                  
+              </li>
+          
+        <li>
+          <i class="fa fa-calendar"></i>  2018-03-10
+        </li>
+        <li>
+          <i class="fa fa-eye"></i>
+          <span id="busuanzi_value_page_pv"></span>
+        </li>
+      </ul>
+    </div>
+  
+
+          
+      </header>
+    
+    <div class="article-entry post-content" itemprop="articleBody">
+      
+            
+            <h1 id="负载均衡引入"><a href="#负载均衡引入" class="headerlink" title="负载均衡引入"></a>负载均衡引入</h1><p>当系统的访问qps（每秒查询量）不断增大，服务器的处理能力，假设我们的应用服务器用的是Tomcat的话，那么toncat就会成为系统性能的瓶颈，虽然我们可以通过购买更强大的硬件去解决这个问题，但是总还是会有上限的，并且这个成本到后期也是一个指数级的增长。所以们就需要做一个服务器的集群，引入负载均衡调度服务器。</p>
+<p>当web服务器的垂直扩展变得话费很高或困难的时候，我们需要考虑服务器的水平扩展，即负载均衡技术</p>
+<p>补充：Internet的快速增长使多媒体网络服务器面对的访问数量快速增加，服务器需要具备提供大量并发访问服务的能力，因此对于大负载的服务器来讲，CPU、I/O处理能力很快会成为瓶颈。由于单台服务器的性能总是有限的，简单的提高硬件性能并不能真正解决这个问题。为此，必须采用多服务器和负载均衡技术才能满足大量并发访问的需要。Linux 虚拟服务器(Linux Virtual Servers,LVS) 使用负载均衡技术将多台服务器组成一个虚拟服务器。它为适应快速增长的网络访问需求提供了一个负载能力易于扩展，而价格低廉的解决方案。 LVS是一个开源的软件，可以实现LINUX平台下的简单负载均衡。LVS是Linux Virtual Server的缩写，意思是Linux虚拟服务器。</p>
+<h1 id="负载均衡策略"><a href="#负载均衡策略" class="headerlink" title="负载均衡策略"></a>负载均衡策略</h1><h2 id="轮叫（Round-Robin）简称RR"><a href="#轮叫（Round-Robin）简称RR" class="headerlink" title="轮叫（Round Robin）简称RR"></a>轮叫（Round Robin）简称RR</h2><p>调度器通过”轮叫”调度算法将外部请求按顺序轮流分配到集群中的真实服务器上，它均等地对待每一台服务器，而不管服务器上实际的连接数和系统负载。</p>
+<p>这种方法会将收到的请求循环分配到服务器集群中的每台机器，即有效服务器。如果使用这种方式，所有的标记进入虚拟服务的服务器应该有相近的资源容量以及负载形同的应用程序。如果所有的服务器有相同或者相近的性能那么选择这种方式会使服务器负载形同。基于这个前提，轮循调度是一个简单而有效的分配请求的方式。然而对于服务器不同的情况，选择这种方式就意味着能力比较弱的服务器也会在下一轮循环中接受轮循，即使这个服务器已经不能再处理当前这个请求了。这可能导致能力较弱的服务器超载。</p>
+<h3 id="优缺点"><a href="#优缺点" class="headerlink" title="优缺点"></a>优缺点</h3><p>NCSA的可伸缩的WEB服务器系统就是最早基于RR-DNS（Round-Robin Domain Name System）的原型系统。LVS负载均衡基于RR-DNS的可伸缩WEB服务器 </p>
+<p>有一组WEB服务器，他们通过分布式文件系统 AFS(Andrew File System)来共享所有的HTML文档。这组服务器拥有相同的域名（如<a href="http://www.ncsa.uiuc.edu），当用户按照这个域名访问时,RR-DNS服务器会把域名轮流解析到这组服务器的不同IP地址，从而将访问负载分到各台服务器上。" target="_blank" rel="noopener">www.ncsa.uiuc.edu），当用户按照这个域名访问时,RR-DNS服务器会把域名轮流解析到这组服务器的不同IP地址，从而将访问负载分到各台服务器上。</a></p>
+<p>这种方法带来几个问题：</p>
+<ul>
+<li><p>第一，域名服务器是一个分布式系统，是按照一定的层次结构组织的。当用户就域名解析请求提交给本地的域名服务器，它会因不能直接解析而向上一级域名服务器提交，上一级域名服务器再依次向上提交，直到RR-DNS域名服器把这个域名解析到其中一台服务器的IP地址。可见，从用户到RR-DNS间存在多台域名服器，而它们都会缓冲已解析的名字到IP地址的映射,这会导致该域名服器组下所有用户都会访问同一WEB服务器，出现不同WEB服务器间严重的负载不平衡。为了保证在域名服务器中域名到IP地址的映射不被长久缓冲，RR-DNS在域名到IP地址的映射上设置一个TTL(TimeToLive)值，过了这一段时间，域名服务器将这个映射从缓冲中淘汰。当用户请求，它会再向上一级域名服器提交请求并进行重新影射。这就涉及到如何设置这个TTL值，若这个值太大，在这个TTL期间，很多请求会被映射到同一台WEB服务器上，同样会导致严重的负载不平衡。若这个值太小，例如是０，会导致本地域名服务器频繁地向RR-DNS提交请求，增加了域名解析的网络流量，同样会使RR-DNS服务器成为系统中一个新的瓶颈。</p>
+</li>
+<li><p>第二，用户机器会缓冲从名字到IP地址的映射，而不受TTL值的影响，用户的访问请求会被送到同一台WEB服务器上。由于用户访问请求的突发性和访问方式不同，例如有的人访问一下就离开了，而有的人访问可长达几个小时，所以各台服务器间的负载仍存在倾斜（Skew）而不能控制。假设用户在每个会话中平均请求数为20，负载最大的服务器获得的请求数额高于各服务器平均请求数的平均比率超过百分之三十。也就是说，当TTL值为0时，因为用户访问的突发性也会存在着较严重的负载不平衡。</p>
+</li>
+<li><p>第三，系统的可靠性和可维护性差。若一台服务器失效，会导致将域名解析到该服务器的用户看到服务中断，即使用户按“Reload”按钮，也无济于事。系统管理员也不能随时地将一台服务器切出服务进行系统维护，如进行操作系统和应用软件升级，这需要修改RR-DNS服务器中的IP地址列表，把该服务器的IP地址从中划掉，然后等上几天或者更长的时间，等所有域名服器将该域名到这台服务器的映射淘汰，和所有映射到这台服务器的客户机不再使用该站点为止。</p>
+</li>
+</ul>
+<h2 id="加权轮叫（Weighted-Round-Robin）-简称WRR"><a href="#加权轮叫（Weighted-Round-Robin）-简称WRR" class="headerlink" title="加权轮叫（Weighted Round Robin） 简称WRR"></a>加权轮叫（Weighted Round Robin） 简称WRR</h2><p>调度器通过”加权轮叫”调度算法根据真实服务器的不同处理能力来调度访问请求。 这样可以保证处理能力强的服务器处理更多的访问流量。调度器可以自动问询真实服务器的负载情况，并动态地调整其权值。</p>
+<h2 id="最少链接（Least-Connections）简称LC"><a href="#最少链接（Least-Connections）简称LC" class="headerlink" title="最少链接（Least Connections）简称LC"></a>最少链接（Least Connections）简称LC</h2><p>以上两种方法都没有考虑的是系统不能识别在给定的时间里保持了多少连接。因此可能发生，服务器B服务器收到的连接比服务器A少但是它已经超载，因为服务器B上的用户打开连接持续的时间更长。这就是说连接数即服务器的负载是累加的。这种潜在的问题可以通过”最少连接数”算法来避免：传入的请求是根据每台服务器当前所打开的连接数来分配的。即活跃连接数最少的服务器会自动接收下一个传入的请求。接本上和简单轮询的原则相同：所有拥有虚拟服务的服务器资源容量应该相近。值得注意的是，在流量率低的配置环境中，各服务器的流量并不是相同的，会优先考虑第一台服务器。这是因为，如果所有的服务器是相同的，那么第一个服务器优先，直到第一台服务器有连续的活跃流量，否则总是会优先选择第一台服务器。</p>
+<p>调度器通过”最少连接”调度算法动态地将网络请求调度到已建立的链接数最少的服务器上。 如果集群系统的真实服务器具有相近的系统性能，采用”最小连接”调度算法可以较好地均衡负载。</p>
+<h2 id="加权最少链接（Weighted-Least-Connections）简称WLC"><a href="#加权最少链接（Weighted-Least-Connections）简称WLC" class="headerlink" title="加权最少链接（Weighted Least Connections）简称WLC"></a>加权最少链接（Weighted Least Connections）简称WLC</h2><p>在集群系统中的服务器性能差异较大的情况下，调度器采用”加权最少链接”调度算法优化负载均衡性能，具有较高权值的服务器将承受较大比例的活动连接负载。调度器可以自动问询真实服务器的负载情况，并动态地调整其权值。</p>
+<h2 id="基于局部性的最少链接（Locality-Based-Least-Connections）简称LBLC"><a href="#基于局部性的最少链接（Locality-Based-Least-Connections）简称LBLC" class="headerlink" title="基于局部性的最少链接（Locality-Based Least Connections）简称LBLC"></a>基于局部性的最少链接（Locality-Based Least Connections）简称LBLC</h2><p>“基于局部性的最少链接” 调度算法是针对目标IP地址的负载均衡，目前主要用于Cache集群系统。该算法根据请求的目标IP地址找出该目标IP地址最近使用的服务器，若该服务器 是可用的且没有超载，将请求发送到该服务器；若服务器不存在，或者该服务器超载且有服务器处于一半的工作负载，则用”最少链接”的原则选出一个可用的服务 器，将请求发送到该服务器。</p>
+<h2 id="带复制的基于局部性最少链接（Locality-Based-Least-Connections-with-Replication）简称LBLCR"><a href="#带复制的基于局部性最少链接（Locality-Based-Least-Connections-with-Replication）简称LBLCR" class="headerlink" title="带复制的基于局部性最少链接（Locality-Based Least Connections with Replication）简称LBLCR"></a>带复制的基于局部性最少链接（Locality-Based Least Connections with Replication）简称LBLCR</h2><p>“带复制的基于局部性最少链接”调度算法也是针对目标IP地址的负载均衡，目前主要用于Cache集群系统。它与LBLC算法的不同之处是它要维护从一个 目标IP地址到一组服务器的映射，而LBLC算法维护从一个目标IP地址到一台服务器的映射。该算法根据请求的目标IP地址找出该目标IP地址对应的服务 器组，按”最小连接”原则从服务器组中选出一台服务器，若服务器没有超载，将请求发送到该服务器，若服务器超载；则按”最小连接”原则从这个集群中选出一 台服务器，将该服务器加入到服务器组中，将请求发送到该服务器。同时，当该服务器组有一段时间没有被修改， 将最忙的服务器从服务器组中删除，以降低复制的 程度。</p>
+<h2 id="目标地址散列调度（Destination-Hashing）简称DH"><a href="#目标地址散列调度（Destination-Hashing）简称DH" class="headerlink" title="目标地址散列调度（Destination Hashing）简称DH"></a>目标地址散列调度（Destination Hashing）简称DH</h2><p>算法也是针对目标IP地址的负载均衡，但它是一种静态映射算法，通过一个散列（Hash）函数将一个目标IP地址映射到一台服务器。目标地址散列调度算法先根据请求的目标IP地址，作为散列键（Hash Key）从静态分配的散列表找出对应的服务器，若该服务器是可用的且未超载，将请求发送到该服务器，否则返回空。</p>
+<h2 id="源地址散列调度（Source-Hashing）简称SH"><a href="#源地址散列调度（Source-Hashing）简称SH" class="headerlink" title="源地址散列调度（Source Hashing）简称SH"></a>源地址散列调度（Source Hashing）简称SH</h2><p>算法正好与目标地址散列调度算法相反，它根据请求的源IP地址，作为散列键（Hash Key）从静态分配的散列表找出对应的服务器，若该服务器是可用的且未超载，将请求发送到该服务器，否则返回空。它采用的散列函数与目标地址散列调度算法的相同。除了将请求的目标IP地址换成请求的源IP地址外，它的算法流程与目标地址散列调度算法的基本相似。在实际应用中，源地址散列调度和目标地址散列调度可以结合使用在防火墙集群中，它们可以保证整个系统的唯一出入口。 </p>
+<h2 id="最短的期望的延迟（shortest-expected-delay-scheduling）简称sed"><a href="#最短的期望的延迟（shortest-expected-delay-scheduling）简称sed" class="headerlink" title="最短的期望的延迟（shortest expected delay scheduling）简称sed"></a>最短的期望的延迟（shortest expected delay scheduling）简称sed</h2><p>基于wlc算法，举例说明</p>
+<p>ABC三台机器分别权重123，连接数也分别是123，name如果使用WLC算法的话一个新请求 进入时他可能会分给ABC中任意一个，使用SED算法后会进行这样一个运算.</p>
+<p>A:(1+1)/2</p>
+<p>B:(1+2)/2</p>
+<p>C:(1+3)/3</p>
+<p>根据运算结果，把连接交给C</p>
+<h2 id="最少队列调度（never-queue-scheduling）简称nq"><a href="#最少队列调度（never-queue-scheduling）简称nq" class="headerlink" title="最少队列调度（never queue scheduling）简称nq"></a>最少队列调度（never queue scheduling）简称nq</h2><p>无需列队，如果有台realserver的连接数=0 就直接分配过去，不需要进行sed运算</p>
+<h1 id="相关的负载均衡技术"><a href="#相关的负载均衡技术" class="headerlink" title="相关的负载均衡技术"></a>相关的负载均衡技术</h1><h2 id="HTTP重定向"><a href="#HTTP重定向" class="headerlink" title="HTTP重定向"></a>HTTP重定向</h2><p>我们可以在代码层面实现，通过设定访问特定页面如index.php，在php代码中设置header的location值，返回重定向指令。这实际上是web应用程序自己来实现。</p>
+<h2 id="DNS负载均衡"><a href="#DNS负载均衡" class="headerlink" title="DNS负载均衡"></a>DNS负载均衡</h2><p>DNS负责域名和IP地址之间的映射。DNS服务器可以作为调度器（DNS的常见策略是RR Round Robin方式）。</p>
+<p>尽管基于HTTP重定向的负载均衡系统受到主站点性能的制约，但是不可否认这种方案中的调度策略具有很好的灵活性，你完全可以通过Web应用程序实现任何你能想到的调度策略。</p>
+<p>相比之下，为DNS服务器开发自定义的调度策略就不那么容易了，但是，类似bind这样的DNS服务器软件提供了丰富的调度策略供你选择。DNS服务器充当了一个粗放型的请求调度器。</p>
+<h2 id="反向代理负载均衡"><a href="#反向代理负载均衡" class="headerlink" title="反向代理负载均衡"></a>反向代理负载均衡</h2><p>它工作在HTTP层面，也就是TCP七层结构中的应用层，所以基于反向代理的负载均衡也称为七层负载均衡。</p>
+<p>这种方案负载均衡服务器是有瓶颈效应的，这种效应随着后端服务器内容处理时间的减少而逐渐明显，这不难解释，反向代理服务器进行转发操作本身是需要一定开销的，比如创建线程，与后端服务器建立TCP连接，接受后端服务器返回的处理结果，分析http头信息，用户空间和内核空间的频繁切换等，通常这部分时间并不长，但是当后端服务器处理请求的时间非常短时，转发的开销就显得尤为突出。</p>
+<h2 id="IP层负载均衡LVS-NAT"><a href="#IP层负载均衡LVS-NAT" class="headerlink" title="IP层负载均衡LVS-NAT"></a>IP层负载均衡LVS-NAT</h2><p>我们需要在HTTP层面以下实现负载均衡，这些负载均衡调度器的工作必须由linux内核来完成，因为我们希望网络数据包在从内核缓冲区进入进程用户地址空间之前，尽早地被转发到其他实际服务器上。而且正因为可以将调度器工作在应用层之下，这些负载均衡系统可以支持更多的网络服务协议，比如ftp，smtp，dns，以及流媒体和VoIP等应用。</p>
+<p>DNAT： 反向NAT，将实际服务器放置在内部网络，而作为网关的NAT服务器将来自用户端的数据包转发给内部网络的实际服务器(需要修改的是数据包的目标地址和端口)。比较著名的例子是LVS。NAT调度器的吞吐率很高是因为其在内核中进行请求转发的较低开销。</p>
+<p>但是NAT服务器的带宽却成为了瓶颈。幸运的是，LVS提供了另一种负载均衡的方式，那就是直接路由。</p>
+<h2 id="直接路由LVS-DR"><a href="#直接路由LVS-DR" class="headerlink" title="直接路由LVS-DR"></a>直接路由LVS-DR</h2><p>不同于NAT机制，直接路由的负载均衡调度器工作在数据链路层上，简单地说，它通过修改数据包的目标mac地址，将数据包转发到实际服务器上，并且重要的是，实际服务器的响应数据包将直接发送给客户端，不经过调度器。适用于视频网站（响应的数据包远远超过请求的数据包）。对于LVS##DR，一旦调度器失效，你可以马上将LVS##DR切换到DNS##RR模式</p>
+<h2 id="IP隧道"><a href="#IP隧道" class="headerlink" title="IP隧道"></a>IP隧道</h2><p>LVS##TUN与LVS##DR不同的是，实际服务器可以和调度器不在同一个wan网段。</p>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p><a href="http://www.runoob.com/w3cnote/balanced-algorithm.html" target="_blank" rel="noopener">http://www.runoob.com/w3cnote/balanced-algorithm.html</a></p>
+
+            <div class="post-copyright">
+    <div class="content">
+        <p>最后更新： 2018年08月15日 22:11</p>
+        <p>原始链接： <a class="post-url" href="/2018/03/10/LoadBalance/" title="负载均衡调度器入门">http://zhangbuzola.cn/2018/03/10/LoadBalance/</a></p>
+        <footer>
+            <a href="http://zhangbuzola.cn">
+                <img src="/images/avatar.jpg" alt="zolanunu">
+                zolanunu
+            </a>
+        </footer>
+    </div>
+</div>
+
+      
+        
+            
+
+        
+    </div>
+    <footer class="article-footer">
+        
+        <ul class="article-footer-menu">
+            
+            
+  <li class="article-footer-tags">
+    <i class="fa fa-tags"></i>
+      
+    <a href="/tags/负载均衡/" class="color5">负载均衡</a>
+      
+  </li>
+
+        </ul>
+        
+    </footer>
+  </div>
+</article>
+
+
+    <aside class="post-toc-pos post-toc-top" id="post-toc">
+        <nav class="post-toc-wrap">
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#负载均衡引入"><span class="post-toc-text">负载均衡引入</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#负载均衡策略"><span class="post-toc-text">负载均衡策略</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#轮叫（Round-Robin）简称RR"><span class="post-toc-text">轮叫（Round Robin）简称RR</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#优缺点"><span class="post-toc-text">优缺点</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#加权轮叫（Weighted-Round-Robin）-简称WRR"><span class="post-toc-text">加权轮叫（Weighted Round Robin） 简称WRR</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#最少链接（Least-Connections）简称LC"><span class="post-toc-text">最少链接（Least Connections）简称LC</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#加权最少链接（Weighted-Least-Connections）简称WLC"><span class="post-toc-text">加权最少链接（Weighted Least Connections）简称WLC</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#基于局部性的最少链接（Locality-Based-Least-Connections）简称LBLC"><span class="post-toc-text">基于局部性的最少链接（Locality-Based Least Connections）简称LBLC</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#带复制的基于局部性最少链接（Locality-Based-Least-Connections-with-Replication）简称LBLCR"><span class="post-toc-text">带复制的基于局部性最少链接（Locality-Based Least Connections with Replication）简称LBLCR</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#目标地址散列调度（Destination-Hashing）简称DH"><span class="post-toc-text">目标地址散列调度（Destination Hashing）简称DH</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#源地址散列调度（Source-Hashing）简称SH"><span class="post-toc-text">源地址散列调度（Source Hashing）简称SH</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#最短的期望的延迟（shortest-expected-delay-scheduling）简称sed"><span class="post-toc-text">最短的期望的延迟（shortest expected delay scheduling）简称sed</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#最少队列调度（never-queue-scheduling）简称nq"><span class="post-toc-text">最少队列调度（never queue scheduling）简称nq</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#相关的负载均衡技术"><span class="post-toc-text">相关的负载均衡技术</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#HTTP重定向"><span class="post-toc-text">HTTP重定向</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#DNS负载均衡"><span class="post-toc-text">DNS负载均衡</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#反向代理负载均衡"><span class="post-toc-text">反向代理负载均衡</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#IP层负载均衡LVS-NAT"><span class="post-toc-text">IP层负载均衡LVS-NAT</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#直接路由LVS-DR"><span class="post-toc-text">直接路由LVS-DR</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#IP隧道"><span class="post-toc-text">IP隧道</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#参考"><span class="post-toc-text">参考</span></a></li></ol>
+        </nav>
+    </aside>
+    
+
+<nav id="article-nav">
+  
+    <a href="/2018/03/23/javaConcurrencyInPractice_c15/" id="article-nav-newer" class="article-nav-link-wrap">
+
+      <span class="article-nav-title">
+        <i class="fa fa-hand-o-left" aria-hidden="true"></i>
+        
+          Java并发编程实战之原子变量与非阻塞同步
+        
+      </span>
+    </a>
+  
+  
+    <a href="/2018/03/01/javabase_E/" id="article-nav-older" class="article-nav-link-wrap">
+      <span class="article-nav-title">java基础学习之泛型</span>
+      <i class="fa fa-hand-o-right" aria-hidden="true"></i>
+    </a>
+  
+</nav>
+
+
+
+    
+        <link rel="stylesheet" href="//unpkg.com/gitment/style/default.css">
+    <script src="//unpkg.com/gitment/dist/gitment.browser.js"></script>
+    <script>
+        var gitment = new Gitment({
+            owner: 'true',
+            repo: 'zolanunu',
+            oauth: {
+                client_id: '1a04e8dee74a4b8634df',
+                client_secret: '9e3078ac89eb72f22abbdd11f7f0d11e2e1d7f7a',
+            },
+        })
+        gitment.render('comments')
+    </script>
+
+    
+</section>
+        
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+      <p>
+        Powered by  <a href="http://hexo.io/" target="_blank">Hexo</a>
+        Theme <a href="//github.com/wongminho/hexo-theme-miho" target="_blank">MiHo</a>
+      &copy; 2018 zolanunu<br>
+      </p>
+    </div>
+  </div>
+</footer>
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script>
+  var mihoConfig = {
+      root: "http://zhangbuzola.cn",
+      animate: true,
+      isHome: false,
+      share: false,
+      reward: 0
+  }
+</script>
+<div class="sidebar">
+    <div id="sidebar-search" title="Search">
+        <i class="fa fa-search"></i>
+    </div>
+    <div id="sidebar-category" title="Categories">
+        <i class="fa fa-book"></i>
+    </div>
+    <div id="sidebar-tag" title="Tags">
+        <i class="fa fa-tags"></i>
+    </div>
+    <div id="sidebar-top">
+        <span class="sidebar-top-icon"><i class="fa fa-angle-up"></i></span>
+    </div>
+</div>
+<div class="sidebar-menu-box" id="sidebar-menu-box">
+    <div class="sidebar-menu-box-container">
+        <div id="sidebar-menu-box-categories">
+            <a class="category-link" href="/categories/Java/">Java</a><a class="category-link" href="/categories/Java后台/">Java后台</a><a class="category-link" href="/categories/Python/">Python</a><a class="category-link" href="/categories/工具/">工具</a><a class="category-link" href="/categories/技术书/">技术书</a><a class="category-link" href="/categories/数据库/">数据库</a><a class="category-link" href="/categories/数据结构/">数据结构</a><a class="category-link" href="/categories/生活轨迹/">生活轨迹</a><a class="category-link" href="/categories/算法/">算法</a><a class="category-link" href="/categories/编程技术/">编程技术</a><a class="category-link" href="/categories/计算机网络/">计算机网络</a><a class="category-link" href="/categories/������/">������</a>
+        </div>
+        <div id="sidebar-menu-box-tags">
+            <a href="/tags/2018/" style="font-size: 11.25px;">2018</a> <a href="/tags/Collections/" style="font-size: 15px;">Collections</a> <a href="/tags/HashMap/" style="font-size: 10px;">HashMap</a> <a href="/tags/LinkedHashMap/" style="font-size: 10px;">LinkedHashMap</a> <a href="/tags/MySQL/" style="font-size: 17.5px;">MySQL</a> <a href="/tags/Mybatis/" style="font-size: 12.5px;">Mybatis</a> <a href="/tags/Object/" style="font-size: 10px;">Object</a> <a href="/tags/SSM/" style="font-size: 13.75px;">SSM</a> <a href="/tags/TreeMap/" style="font-size: 11.25px;">TreeMap</a> <a href="/tags/cookie/" style="font-size: 10px;">cookie</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/java基础/" style="font-size: 20px;">java基础</a> <a href="/tags/java并发编程实战/" style="font-size: 11.25px;">java并发编程实战</a> <a href="/tags/leetcode/" style="font-size: 16.25px;">leetcode</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/session/" style="font-size: 10px;">session</a> <a href="/tags/ʵսJava�����-JVM��������������Z�/" style="font-size: 10px;">ʵսJava�����-JVM��������������Ż�</a> <a href="/tags/剑指offer/" style="font-size: 10px;">剑指offer</a> <a href="/tags/单例模式/" style="font-size: 10px;">单例模式</a> <a href="/tags/原型模式/" style="font-size: 10px;">原型模式</a> <a href="/tags/多线程/" style="font-size: 11.25px;">多线程</a> <a href="/tags/工厂模式/" style="font-size: 10px;">工厂模式</a> <a href="/tags/并发编程/" style="font-size: 10px;">并发编程</a> <a href="/tags/建造者模式/" style="font-size: 10px;">建造者模式</a> <a href="/tags/机器学习/" style="font-size: 12.5px;">机器学习</a> <a href="/tags/构造函数/" style="font-size: 10px;">构造函数</a> <a href="/tags/深入理解java虚拟机/" style="font-size: 10px;">深入理解java虚拟机</a> <a href="/tags/生活/" style="font-size: 10px;">生活</a> <a href="/tags/神经网络/" style="font-size: 10px;">神经网络</a> <a href="/tags/算法与数据结构/" style="font-size: 16.25px;">算法与数据结构</a> <a href="/tags/算法和数据结构/" style="font-size: 18.75px;">算法和数据结构</a> <a href="/tags/索引优化/" style="font-size: 10px;">索引优化</a> <a href="/tags/观影记/" style="font-size: 10px;">观影记</a> <a href="/tags/设计模式/" style="font-size: 13.75px;">设计模式</a> <a href="/tags/设计模式之禅/" style="font-size: 13.75px;">设计模式之禅</a> <a href="/tags/读书书单/" style="font-size: 10px;">读书书单</a> <a href="/tags/负载均衡/" style="font-size: 10px;">负载均衡</a>
+        </div>
+    </div>
+    <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
+</div>
+<div class="mobile-header-menu-nav" id="mobile-header-menu-nav">
+    <div class="mobile-header-menu-container">
+        <span class="title">Menus</span>
+        <ul class="mobile-header-menu-navbar">
+            
+            <li>
+                <a  href="/">
+                    <i class="fa fa-home"></i><span>Home</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/archives">
+                    <i class="fa fa-archive"></i><span>Archives</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/about">
+                    <i class="fa fa-user"></i><span>About</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    <div class="mobile-header-tag-container">
+        <span class="title">Tags</span>
+        <div id="mobile-header-container-tags">
+            <a href="/tags/2018/" style="font-size: 11.25px;">2018</a> <a href="/tags/Collections/" style="font-size: 15px;">Collections</a> <a href="/tags/HashMap/" style="font-size: 10px;">HashMap</a> <a href="/tags/LinkedHashMap/" style="font-size: 10px;">LinkedHashMap</a> <a href="/tags/MySQL/" style="font-size: 17.5px;">MySQL</a> <a href="/tags/Mybatis/" style="font-size: 12.5px;">Mybatis</a> <a href="/tags/Object/" style="font-size: 10px;">Object</a> <a href="/tags/SSM/" style="font-size: 13.75px;">SSM</a> <a href="/tags/TreeMap/" style="font-size: 11.25px;">TreeMap</a> <a href="/tags/cookie/" style="font-size: 10px;">cookie</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/java基础/" style="font-size: 20px;">java基础</a> <a href="/tags/java并发编程实战/" style="font-size: 11.25px;">java并发编程实战</a> <a href="/tags/leetcode/" style="font-size: 16.25px;">leetcode</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/session/" style="font-size: 10px;">session</a> <a href="/tags/ʵսJava�����-JVM��������������Z�/" style="font-size: 10px;">ʵսJava�����-JVM��������������Ż�</a> <a href="/tags/剑指offer/" style="font-size: 10px;">剑指offer</a> <a href="/tags/单例模式/" style="font-size: 10px;">单例模式</a> <a href="/tags/原型模式/" style="font-size: 10px;">原型模式</a> <a href="/tags/多线程/" style="font-size: 11.25px;">多线程</a> <a href="/tags/工厂模式/" style="font-size: 10px;">工厂模式</a> <a href="/tags/并发编程/" style="font-size: 10px;">并发编程</a> <a href="/tags/建造者模式/" style="font-size: 10px;">建造者模式</a> <a href="/tags/机器学习/" style="font-size: 12.5px;">机器学习</a> <a href="/tags/构造函数/" style="font-size: 10px;">构造函数</a> <a href="/tags/深入理解java虚拟机/" style="font-size: 10px;">深入理解java虚拟机</a> <a href="/tags/生活/" style="font-size: 10px;">生活</a> <a href="/tags/神经网络/" style="font-size: 10px;">神经网络</a> <a href="/tags/算法与数据结构/" style="font-size: 16.25px;">算法与数据结构</a> <a href="/tags/算法和数据结构/" style="font-size: 18.75px;">算法和数据结构</a> <a href="/tags/索引优化/" style="font-size: 10px;">索引优化</a> <a href="/tags/观影记/" style="font-size: 10px;">观影记</a> <a href="/tags/设计模式/" style="font-size: 13.75px;">设计模式</a> <a href="/tags/设计模式之禅/" style="font-size: 13.75px;">设计模式之禅</a> <a href="/tags/读书书单/" style="font-size: 10px;">读书书单</a> <a href="/tags/负载均衡/" style="font-size: 10px;">负载均衡</a>
+        </div>
+    </div>
+</div>
+<div class="search-wrap">
+    <span class="search-close">&times;</span>
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+            <i class="icon icon-lg icon-chevron-left"></i>
+        </a>
+        <input class="search-field" placeholder="Search..." id="keywords">
+        <a id="search-submit" href="javascript:;">
+            <i class="fa fa-search"></i>
+        </a>
+    <div class="search-container" id="search-container">
+        <ul class="search-result" id="search-result">
+        </ul>
+    </div>
+</div>
+
+<div id="search-tpl">
+    <li class="search-result-item">
+        <a href="{url}" class="search-item-li">
+            <span class="search-item-li-title" title="{title}">{title}</span>
+        </a>
+    </li>
+</div>
+<script src="/js/search.js"></script>
+<script src="/js/main.js"></script>
+
+
+  <script src="//cdn.bootcss.com/particles.js/2.0.0/particles.min.js"></script>
+  <div id="particles"></div>
+  <script src="/js/particles.js"></script>
+
+
+
+
+
+
+
+  <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
+  <script src="//cdn.bootcss.com/scrollReveal.js/3.0.5/scrollreveal.js"></script>
+  <script src="/js/animate.js"></script>
+
+
+  <script src="/js/pop-img.js"></script>
+  <script>
+     $(".article-entry p img").popImg();
+  </script>
+
+  </div>
+</body>
+</html>
