@@ -117,14 +117,14 @@
       <div class="outer">
         <section id="main" class="body-wrap">
   
-    <article id="post-javabase_E" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-javabase_IO" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2018/03/01/javabase_E/"  >java基础学习之泛型</a>
+      <a class="article-title" href="/2018/03/01/javabase_IO/"  >java基础学习之IO流</a>
     </h1>
   
 
@@ -141,21 +141,27 @@
     <div class="article-entry " itemprop="articleBody">
       
         <div class="article-img">
-            <a href="/2018/03/01/javabase_E/" >
+            <a href="/2018/03/01/javabase_IO/" >
                 
-                <img src="http://zhangbuzola.cn/images/banner.jpg" alt="java基础学习之泛型" title="java基础学习之泛型">
+                <img src="http://zhangbuzola.cn/images/banner.jpg" alt="java基础学习之IO流" title="java基础学习之IO流">
                 
             </a>
         </div>
         <div class="article-feed">
             <p>
-                泛型程序设计泛型泛型就是：任意的数据类型。
-泛型是把类型参数化，用来规定一个类、接口或者方法所能接受的数据的类型，就像在声明方法时指定参数一样，我们在声明一个类、接口或者方法的时候，也可以指定其类型参数。
-出现原因：java数据类型：基本类型与包装类
+                IO流
+字节流字符流字符流中的对象融合了编码表，也就是系统默认的编码表，系统默认的是GBK编码。
+字符流只用来处理文本数据，字节流用来处理媒体数据。
+数据最常见的表现方式是文件，字符流用于操作文件的子类一般是FileReader和FileWriter。
+注意事项：
 
-自动装箱
+写入文件必须flush
 
-把基本类型用她们对应的引用类型包装起来，使她们具有对象的特质。可以调用toString(),hashCode...
+close
+
+使用流对象要抛出IO异常
+
+定义文件路径的时候：可以用’/‘或者’...
             </p>
         </div>
       
@@ -177,7 +183,7 @@
 
         </ul>
         
-            <a href="/2018/03/01/javabase_E/#more" class="article-more-link" >more&gt;&gt;</a>
+            <a href="/2018/03/01/javabase_IO/#more" class="article-more-link" >more&gt;&gt;</a>
         
     </footer>
   </div>

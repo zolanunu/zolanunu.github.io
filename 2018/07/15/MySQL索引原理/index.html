@@ -17,7 +17,7 @@
 <meta property="og:description" content="现在互联网应用中对数据库的使用多数都是读较多，比例可以达到 10:1。并且数据库在做查询时 IO 消耗较大，所以如果能把一次查询的 IO 次数控制在常量级那对数据库的性能提升将是非常明显的，因此基于 B+ Tree 的索引结构出现了。 B+树的数据结构 如图所示是 B+ Tree 的数据结构。是由一个一个的磁盘块组成的树形结构，每个磁盘块由数据项和指针组成。 所有的数据都是存放在叶子节点，非叶子节">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="http://zhangbuzola.cn/assets/images/B+Tree.jpg">
-<meta property="og:updated_time" content="2018-07-15T05:28:06.426Z">
+<meta property="og:updated_time" content="2018-08-16T12:38:10.107Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="MySQL的索引原理">
 <meta name="twitter:description" content="现在互联网应用中对数据库的使用多数都是读较多，比例可以达到 10:1。并且数据库在做查询时 IO 消耗较大，所以如果能把一次查询的 IO 次数控制在常量级那对数据库的性能提升将是非常明显的，因此基于 B+ Tree 的索引结构出现了。 B+树的数据结构 如图所示是 B+ Tree 的数据结构。是由一个一个的磁盘块组成的树形结构，每个磁盘块由数据项和指针组成。 所有的数据都是存放在叶子节点，非叶子节">
@@ -164,12 +164,11 @@
 <p>由此可见，如果一个几百万的数据查询只需要进行三次 IO 即可找到数据，那么整个效率将是非常高的。</p>
 <p>观察树的结构，发现查询需要经历几次 IO 是由树的高度来决定的，而树的高度又由磁盘块，数据项的大小决定的。</p>
 <p>磁盘块越大，数据项越小那么数的高度就越低。这也就是为什么索引字段要尽可能小的原因。</p>
-<p>#参考</p>
-<p><a href="https://github.com/crossoverJie/Java-Interview/blob/master/MD/MySQL-Index.md" target="_blank" rel="noopener">https://github.com/crossoverJie/Java-Interview/blob/master/MD/MySQL-Index.md</a></p>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p><a href="https://github.com/crossoverJie/Java-Interview/blob/master/MD/MySQL-Index.md" target="_blank" rel="noopener">https://github.com/crossoverJie/Java-Interview/blob/master/MD/MySQL-Index.md</a></p>
 
             <div class="post-copyright">
     <div class="content">
-        <p>最后更新： 2018年07月15日 13:28</p>
+        <p>最后更新： 2018年08月16日 20:38</p>
         <p>原始链接： <a class="post-url" href="/2018/07/15/MySQL索引原理/" title="MySQL的索引原理">http://zhangbuzola.cn/2018/07/15/MySQL索引原理/</a></p>
         <footer>
             <a href="http://zhangbuzola.cn">
@@ -207,7 +206,7 @@
 
     <aside class="post-toc-pos post-toc-top" id="post-toc">
         <nav class="post-toc-wrap">
-            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#B-树的数据结构"><span class="post-toc-text">B+树的数据结构</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#查找过程"><span class="post-toc-text">查找过程</span></a></li></ol>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#B-树的数据结构"><span class="post-toc-text">B+树的数据结构</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#查找过程"><span class="post-toc-text">查找过程</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#参考"><span class="post-toc-text">参考</span></a></li></ol>
         </nav>
     </aside>
     
