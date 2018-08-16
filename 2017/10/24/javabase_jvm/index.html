@@ -3,26 +3,26 @@
 <head>
   <meta charset="utf-8">
   
-  <title>深入理解java虚拟机part1 | zolanunu</title>
+  <title>深入理解java虚拟机 part1 | zolanunu</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   
     <meta name="keywords" content="zolanunu,zolanunu's blog" />
   
-  <meta name="description" content="深入理解java虚拟机oart1java内存区域首先，区别于java内存模型及运行时内存区域，java内存模型主要分为存储器和工作存储器，Java管理的内存也分为堆、虚拟机栈、方法区等。Java内存模型的主要目标是定义程序中各个变量的访问规则，即在虚拟机中将变量存储到内存和从内存中取出变量这样的底层细节。Java虚拟机在执行Java程序的过程中会把它所管理的内存划分为若干不同数据区域。 （运行时数">
+  <meta name="description" content="第2章 java内存区域与内存溢出异常java内存区域首先，区别于java内存模型及运行时内存区域，java内存模型主要分为存储器和工作存储器，Java管理的内存也分为堆、虚拟机栈、方法区等。Java内存模型的主要目标是定义程序中各个变量的访问规则，即在虚拟机中将变量存储到内存和从内存中取出变量这样的底层细节。Java虚拟机在执行Java程序的过程中会把它所管理的内存划分为若干不同数据区域。 （运">
 <meta name="keywords" content="深入理解java虚拟机">
 <meta property="og:type" content="article">
-<meta property="og:title" content="深入理解java虚拟机part1">
+<meta property="og:title" content="深入理解java虚拟机 part1">
 <meta property="og:url" content="http://zhangbuzola.cn/2017/10/24/javabase_jvm/index.html">
 <meta property="og:site_name" content="zolanunu">
-<meta property="og:description" content="深入理解java虚拟机oart1java内存区域首先，区别于java内存模型及运行时内存区域，java内存模型主要分为存储器和工作存储器，Java管理的内存也分为堆、虚拟机栈、方法区等。Java内存模型的主要目标是定义程序中各个变量的访问规则，即在虚拟机中将变量存储到内存和从内存中取出变量这样的底层细节。Java虚拟机在执行Java程序的过程中会把它所管理的内存划分为若干不同数据区域。 （运行时数">
+<meta property="og:description" content="第2章 java内存区域与内存溢出异常java内存区域首先，区别于java内存模型及运行时内存区域，java内存模型主要分为存储器和工作存储器，Java管理的内存也分为堆、虚拟机栈、方法区等。Java内存模型的主要目标是定义程序中各个变量的访问规则，即在虚拟机中将变量存储到内存和从内存中取出变量这样的底层细节。Java虚拟机在执行Java程序的过程中会把它所管理的内存划分为若干不同数据区域。 （运">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="http://zhangbuzola.cn/assets/images/java_jvm1.png">
 <meta property="og:image" content="http://zhangbuzola.cn/assets/images/java_jvm2.png">
 <meta property="og:image" content="http://zhangbuzola.cn/2017/10/24/javabase_jvm/java_jvm3.jpg">
-<meta property="og:updated_time" content="2018-07-12T06:06:40.007Z">
+<meta property="og:updated_time" content="2018-08-16T12:27:34.530Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="深入理解java虚拟机part1">
-<meta name="twitter:description" content="深入理解java虚拟机oart1java内存区域首先，区别于java内存模型及运行时内存区域，java内存模型主要分为存储器和工作存储器，Java管理的内存也分为堆、虚拟机栈、方法区等。Java内存模型的主要目标是定义程序中各个变量的访问规则，即在虚拟机中将变量存储到内存和从内存中取出变量这样的底层细节。Java虚拟机在执行Java程序的过程中会把它所管理的内存划分为若干不同数据区域。 （运行时数">
+<meta name="twitter:title" content="深入理解java虚拟机 part1">
+<meta name="twitter:description" content="第2章 java内存区域与内存溢出异常java内存区域首先，区别于java内存模型及运行时内存区域，java内存模型主要分为存储器和工作存储器，Java管理的内存也分为堆、虚拟机栈、方法区等。Java内存模型的主要目标是定义程序中各个变量的访问规则，即在虚拟机中将变量存储到内存和从内存中取出变量这样的底层细节。Java虚拟机在执行Java程序的过程中会把它所管理的内存划分为若干不同数据区域。 （运">
 <meta name="twitter:image" content="http://zhangbuzola.cn/assets/images/java_jvm1.png">
   
   
@@ -128,7 +128,7 @@
         
   
     <h1 class="post-title" itemprop="name">
-      深入理解java虚拟机part1
+      深入理解java虚拟机 part1
     </h1>
     <div class="post-title-bar">
       <ul>
@@ -157,7 +157,7 @@
     <div class="article-entry post-content" itemprop="articleBody">
       
             
-            <h1 id="深入理解java虚拟机oart1"><a href="#深入理解java虚拟机oart1" class="headerlink" title="深入理解java虚拟机oart1"></a>深入理解java虚拟机oart1</h1><h2 id="java内存区域"><a href="#java内存区域" class="headerlink" title="java内存区域"></a>java内存区域</h2><p>首先，区别于java内存模型及运行时内存区域，java内存模型主要分为存储器和工作存储器，Java管理的内存也分为堆、虚拟机栈、方法区等。Java内存模型的主要目标是定义程序中各个变量的访问规则，即在虚拟机中将变量存储到内存和从内存中取出变量这样的底层细节。Java虚拟机在执行Java程序的过程中会把它所管理的内存划分为若干不同数据区域。 （运行时数据区域）。两者并没有什么关系。</p>
+            <h1 id="第2章-java内存区域与内存溢出异常"><a href="#第2章-java内存区域与内存溢出异常" class="headerlink" title="第2章 java内存区域与内存溢出异常"></a>第2章 java内存区域与内存溢出异常</h1><h2 id="java内存区域"><a href="#java内存区域" class="headerlink" title="java内存区域"></a>java内存区域</h2><p>首先，区别于java内存模型及运行时内存区域，java内存模型主要分为存储器和工作存储器，Java管理的内存也分为堆、虚拟机栈、方法区等。Java内存模型的主要目标是定义程序中各个变量的访问规则，即在虚拟机中将变量存储到内存和从内存中取出变量这样的底层细节。Java虚拟机在执行Java程序的过程中会把它所管理的内存划分为若干不同数据区域。 （运行时数据区域）。两者并没有什么关系。</p>
 <h3 id="运行时数据区域"><a href="#运行时数据区域" class="headerlink" title="运行时数据区域"></a>运行时数据区域</h3><p>java程序的执行过程是：</p>
 <p><img src="/assets/images/java_jvm1.png" alt=""></p>
 <p>上面图可以看出jvm就是处理由类加载器加载进来的各类class字节码文件。在程序执行过程中，jvm会用一段空间来存储程序执行期间定义的各类变量和方法数据等相关信息。运行时数据区就是java内存。内存管理就是对这一片空间进行管理的，比如如何分配以及回收内存空间等等。</p>
@@ -192,8 +192,8 @@
 
             <div class="post-copyright">
     <div class="content">
-        <p>最后更新： 2018年07月12日 14:06</p>
-        <p>原始链接： <a class="post-url" href="/2017/10/24/javabase_jvm/" title="深入理解java虚拟机part1">http://zhangbuzola.cn/2017/10/24/javabase_jvm/</a></p>
+        <p>最后更新： 2018年08月16日 20:27</p>
+        <p>原始链接： <a class="post-url" href="/2017/10/24/javabase_jvm/" title="深入理解java虚拟机 part1">http://zhangbuzola.cn/2017/10/24/javabase_jvm/</a></p>
         <footer>
             <a href="http://zhangbuzola.cn">
                 <img src="/images/avatar.jpg" alt="zolanunu">
@@ -230,26 +230,26 @@
 
     <aside class="post-toc-pos post-toc-top" id="post-toc">
         <nav class="post-toc-wrap">
-            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#深入理解java虚拟机oart1"><span class="post-toc-text">深入理解java虚拟机oart1</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#java内存区域"><span class="post-toc-text">java内存区域</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#运行时数据区域"><span class="post-toc-text">运行时数据区域</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#程序计数器"><span class="post-toc-text">程序计数器</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#java栈"><span class="post-toc-text">java栈</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#本地方法栈"><span class="post-toc-text">本地方法栈</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#堆"><span class="post-toc-text">堆</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#方法区"><span class="post-toc-text">方法区</span></a></li></ol></li></ol></li></ol></li></ol>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#第2章-java内存区域与内存溢出异常"><span class="post-toc-text">第2章 java内存区域与内存溢出异常</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#java内存区域"><span class="post-toc-text">java内存区域</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#运行时数据区域"><span class="post-toc-text">运行时数据区域</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#程序计数器"><span class="post-toc-text">程序计数器</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#java栈"><span class="post-toc-text">java栈</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#本地方法栈"><span class="post-toc-text">本地方法栈</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#堆"><span class="post-toc-text">堆</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#方法区"><span class="post-toc-text">方法区</span></a></li></ol></li></ol></li></ol></li></ol>
         </nav>
     </aside>
     
 
 <nav id="article-nav">
   
-    <a href="/2017/11/09/javabase_class/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2017/10/24/javabase_String/" id="article-nav-newer" class="article-nav-link-wrap">
 
       <span class="article-nav-title">
         <i class="fa fa-hand-o-left" aria-hidden="true"></i>
         
-          java基础学习之类与对象
+          java基础学习之String类
         
       </span>
     </a>
   
   
-    <a href="/2017/10/24/javabase_String/" id="article-nav-older" class="article-nav-link-wrap">
-      <span class="article-nav-title">java基础学习之String类</span>
+    <a href="/2017/10/23/java基础之final/" id="article-nav-older" class="article-nav-link-wrap">
+      <span class="article-nav-title">java基础学习之final关键字</span>
       <i class="fa fa-hand-o-right" aria-hidden="true"></i>
     </a>
   
