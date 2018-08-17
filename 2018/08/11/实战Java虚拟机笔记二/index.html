@@ -16,12 +16,12 @@
 <meta property="og:site_name" content="zolanunu">
 <meta property="og:description" content="第二章 认识Java虚拟机的基本结构这一部分内容主要介绍就是Java虚拟机的内存模型，堆，栈以及直接内存的一些基本概念和使用。因为在深入理解java虚拟机部分也有对这部分内容进行详细的了解，所以在这里就补充一些关于jdk8中Java虚拟机的改动以及一些我还在深入理解java虚拟机中还需要了解的盲点知识。 直接内存在深入理解java虚拟机中，对这部分的内容没有很详细的了解。 直接内存是存在于堆外的，">
 <meta property="og:locale" content="default">
-<meta property="og:image" content="http://zhangbuzola.cn/2018/08/11/实战Java虚拟机笔记二/assets/images/jvmPracticeConstPool.png">
-<meta property="og:updated_time" content="2018-08-17T08:15:00.919Z">
+<meta property="og:image" content="http://zhangbuzola.cn/assets/images/jvmPracticeConstPool.png">
+<meta property="og:updated_time" content="2018-08-17T08:43:45.703Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="实战Java虚拟机-JVM故障诊断与性能优化 part2">
 <meta name="twitter:description" content="第二章 认识Java虚拟机的基本结构这一部分内容主要介绍就是Java虚拟机的内存模型，堆，栈以及直接内存的一些基本概念和使用。因为在深入理解java虚拟机部分也有对这部分内容进行详细的了解，所以在这里就补充一些关于jdk8中Java虚拟机的改动以及一些我还在深入理解java虚拟机中还需要了解的盲点知识。 直接内存在深入理解java虚拟机中，对这部分的内容没有很详细的了解。 直接内存是存在于堆外的，">
-<meta name="twitter:image" content="http://zhangbuzola.cn/2018/08/11/实战Java虚拟机笔记二/assets/images/jvmPracticeConstPool.png">
+<meta name="twitter:image" content="http://zhangbuzola.cn/assets/images/jvmPracticeConstPool.png">
   
   
     <link rel="icon" href="/favicon.ico">
@@ -173,7 +173,7 @@
 <p>jvm 在栈帧(frame) 中进行操作数和方法的动态链接(link)，为了便于链接，jvm 使用常量池来保存跟踪当前类中引用的其他类及其成员变量和成员方法。</p>
 <p>每个栈帧(frame)都包含一个运行常量池的引用，这个引用指向当前栈帧需要执行的方法，jvm使用这个引用来进行动态链接。</p>
 <p>在 c/c++ 中，编译器将多个编译期编译的文件链接成一个可执行文件或者dll文件，在链接阶段，符号引用被解析为实际地址。java 中这种链接是在程序运行时动态进行的。</p>
-<p><img src="./assets/images/jvmPracticeConstPool.png" alt=""></p>
+<p><img src="/assets/images/jvmPracticeConstPool.png" alt=""></p>
 <p>每个 java 文件编译为 class 文件后，都将产生当前类独有的常量池，我们称之为静态常量池。class 文件中的常量池包含两部分：字面值（literal）和符号引用（Symbolic Reference）。其中字面值可以理解为 java 中定义的字符串常量、final 常量等；符号引用指的是一些字符串，这些字符串表示当前类引用的外部类、方法、变量等的引用地址的抽象表示形式，在类被jvm装载并第一次使用这些符号引用时，这些符号引用将会解析为直接引用。符号常量包含：</p>
 <ul>
 <li><p>类和接口的全限定名</p>
@@ -242,7 +242,7 @@
 
             <div class="post-copyright">
     <div class="content">
-        <p>最后更新： 2018年08月17日 16:15</p>
+        <p>最后更新： 2018年08月17日 16:43</p>
         <p>原始链接： <a class="post-url" href="/2018/08/11/实战Java虚拟机笔记二/" title="实战Java虚拟机-JVM故障诊断与性能优化 part2">http://zhangbuzola.cn/2018/08/11/实战Java虚拟机笔记二/</a></p>
         <footer>
             <a href="http://zhangbuzola.cn">
