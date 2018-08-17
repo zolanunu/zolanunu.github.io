@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>实战Java虚拟机-JVM故障诊断与性能优化 part2 | zolanunu</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+    <meta name="keywords" content="zolanunu,zolanunu's blog" />
+  
+  <meta name="description" content="第二章 认识Java虚拟机的基本结构这一部分内容主要介绍就是Java虚拟机的内存模型，堆，栈以及直接内存的一些基本概念和使用。因为在深入理解java虚拟机部分也有对这部分内容进行详细的了解，所以在这里就补充一些关于jdk8中Java虚拟机的改动以及一些我还在深入理解java虚拟机中还需要了解的盲点知识。 直接内存在深入理解java虚拟机中，对这部分的内容没有很详细的了解。 直接内存是存在于堆外的，">
+<meta name="keywords" content="实战Java虚拟机-JVM故障诊断与性能优化">
+<meta property="og:type" content="article">
+<meta property="og:title" content="实战Java虚拟机-JVM故障诊断与性能优化 part2">
+<meta property="og:url" content="http://zhangbuzola.cn/2018/08/11/实战Java虚拟机笔记二/index.html">
+<meta property="og:site_name" content="zolanunu">
+<meta property="og:description" content="第二章 认识Java虚拟机的基本结构这一部分内容主要介绍就是Java虚拟机的内存模型，堆，栈以及直接内存的一些基本概念和使用。因为在深入理解java虚拟机部分也有对这部分内容进行详细的了解，所以在这里就补充一些关于jdk8中Java虚拟机的改动以及一些我还在深入理解java虚拟机中还需要了解的盲点知识。 直接内存在深入理解java虚拟机中，对这部分的内容没有很详细的了解。 直接内存是存在于堆外的，">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="http://zhangbuzola.cn/2018/08/11/实战Java虚拟机笔记二/assets/images/jvmPracticeConstPool.png">
+<meta property="og:updated_time" content="2018-08-17T08:15:00.919Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="实战Java虚拟机-JVM故障诊断与性能优化 part2">
+<meta name="twitter:description" content="第二章 认识Java虚拟机的基本结构这一部分内容主要介绍就是Java虚拟机的内存模型，堆，栈以及直接内存的一些基本概念和使用。因为在深入理解java虚拟机部分也有对这部分内容进行详细的了解，所以在这里就补充一些关于jdk8中Java虚拟机的改动以及一些我还在深入理解java虚拟机中还需要了解的盲点知识。 直接内存在深入理解java虚拟机中，对这部分的内容没有很详细的了解。 直接内存是存在于堆外的，">
+<meta name="twitter:image" content="http://zhangbuzola.cn/2018/08/11/实战Java虚拟机笔记二/assets/images/jvmPracticeConstPool.png">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="/js/pace.min.js"></script>
+  
+
+  
+	<script>
+	var _hmt = _hmt || [];
+	(function() {
+	  var hm = document.createElement("script");
+	  hm.src = "//hm.baidu.com/hm.js?a651034b7d11a367ae836642b29a3057";
+	  var s = document.getElementsByTagName("script")[0]; 
+	  s.parentNode.insertBefore(hm, s);
+	})();
+	</script>
+
+  
+
+</head>
+
+<body>
+  <div id="container">
+      <header id="header">
+    <div id="banner"></div>
+    <div id="header-outer">
+        <div id="header-menu" class="header-menu-pos animated">
+            <div class="header-menu-container">
+                <a href="/" class="left">
+                    <span class="site-title">zolanunu&#39;s Blog</span>
+                </a>
+                <nav id="header-menu-nav" class="right">
+                    
+                    <a  href="/">
+                        <i class="fa fa-home"></i>
+                        <span>Home</span>
+                    </a>
+                    
+                    <a  href="/archives">
+                        <i class="fa fa-archive"></i>
+                        <span>Archives</span>
+                    </a>
+                    
+                    <a  href="/about">
+                        <i class="fa fa-user"></i>
+                        <span>About</span>
+                    </a>
+                    
+                </nav>
+                <a class="mobile-header-menu-button">
+                    <i class="fa fa-bars"></i>
+                </a>
+            </div>
+        </div>
+        <div id="header-row">
+            <div id="logo">
+                <a href="/">
+                    <img src="/images/avatar.jpg" alt="logo">
+                </a>
+            </div>
+            <div class="header-info">
+                <div id="header-title">
+                    
+                    <h2>
+                        zolanunu&#39;s Blog
+                    </h2>
+                    
+                </div>
+                <div id="header-description">
+                    
+                    <h3>
+                        去努力尝试做一些你觉得你不会做或者不敢做的事情。
+                    </h3>
+                    
+                </div>
+            </div>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a title="zolanunu" target="_blank" href="//zhangbuzola.cn">
+                            <i class="fa fa-home fa-2x"></i></a>
+                    
+                        <a title="Github" target="_blank" href="//github.com/zolanunu">
+                            <i class="fa fa-github fa-2x"></i></a>
+                    
+                        <a title="Weibo" target="_blank" href="//weibo.com/zolanunu">
+                            <i class="fa fa-weibo fa-2x"></i></a>
+                    
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>
+      <div class="outer">
+        <section id="main" class="body-wrap"><article id="post-实战Java虚拟机笔记二" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="post-title" itemprop="name">
+      实战Java虚拟机-JVM故障诊断与性能优化 part2
+    </h1>
+    <div class="post-title-bar">
+      <ul>
+          
+              <li>
+                  <i class="fa fa-book"></i>
+                  
+                      <a href="/categories/技术书/">技术书</a>
+                  
+              </li>
+          
+        <li>
+          <i class="fa fa-calendar"></i>  2018-08-11
+        </li>
+        <li>
+          <i class="fa fa-eye"></i>
+          <span id="busuanzi_value_page_pv"></span>
+        </li>
+      </ul>
+    </div>
+  
+
+          
+      </header>
+    
+    <div class="article-entry post-content" itemprop="articleBody">
+      
+            
+            <h1 id="第二章-认识Java虚拟机的基本结构"><a href="#第二章-认识Java虚拟机的基本结构" class="headerlink" title="第二章 认识Java虚拟机的基本结构"></a>第二章 认识Java虚拟机的基本结构</h1><p>这一部分内容主要介绍就是Java虚拟机的内存模型，堆，栈以及直接内存的一些基本概念和使用。因为在深入理解java虚拟机部分也有对这部分内容进行详细的了解，所以在这里就补充一些关于jdk8中Java虚拟机的改动以及一些我还在深入理解java虚拟机中还需要了解的盲点知识。</p>
+<h2 id="直接内存"><a href="#直接内存" class="headerlink" title="直接内存"></a>直接内存</h2><p>在深入理解java虚拟机中，对这部分的内容没有很详细的了解。</p>
+<p>直接内存是存在于堆外的，并且垃圾回收器也会对这部分内存进行回收。使用的话，java的NIO库允许java程序使用直接内存，但是具体是什么情况，实际google了一下。</p>
+<p>在JDK1.4中新加入了NIO(New Input/Output)类，引入了一种基于通道(Channel)与缓冲区（Buffer）的I/O 方式，它可以使用native 函数库直接分配堆外内存，然后通脱一个存储在Java堆中的DirectByteBuffer 对象作为这块内存的引用进行操作。这样能在一些场景中显著提高性能，因为避免了在Java堆和Native堆中来回复制数据。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br></pre></td><td class="code"><pre><span class="line">import java.nio.ByteBuffer;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * 直接内存 与  堆内存的比较</span><br><span class="line"> */</span><br><span class="line">public class ByteBufferCompare &#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        allocateCompare();   //分配比较</span><br><span class="line">        operateCompare();    //读写比较</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 直接内存 和 堆内存的 分配空间比较</span><br><span class="line">     * </span><br><span class="line">     * 结论： 在数据量提升时，直接内存相比非直接内的申请，有很严重的性能问题</span><br><span class="line">     * </span><br><span class="line">     */</span><br><span class="line">    public static void allocateCompare()&#123;</span><br><span class="line">        int time = 10000000;    //操作次数                           </span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        long st = System.currentTimeMillis();</span><br><span class="line">        for (int i = 0; i &lt; time; i++) &#123;</span><br><span class="line"></span><br><span class="line">            //ByteBuffer.allocate(int capacity)   分配一个新的字节缓冲区。</span><br><span class="line">            ByteBuffer buffer = ByteBuffer.allocate(2);      //非直接内存分配申请     </span><br><span class="line">        &#125;</span><br><span class="line">        long et = System.currentTimeMillis();</span><br><span class="line"></span><br><span class="line">        System.out.println(&quot;在进行&quot;+time+&quot;次分配操作时，堆内存 分配耗时:&quot; + (et-st) +&quot;ms&quot; );</span><br><span class="line"></span><br><span class="line">        long st_heap = System.currentTimeMillis();</span><br><span class="line">        for (int i = 0; i &lt; time; i++) &#123;</span><br><span class="line">            //ByteBuffer.allocateDirect(int capacity) 分配新的直接字节缓冲区。</span><br><span class="line">            ByteBuffer buffer = ByteBuffer.allocateDirect(2); //直接内存分配申请</span><br><span class="line">        &#125;</span><br><span class="line">        long et_direct = System.currentTimeMillis();</span><br><span class="line"></span><br><span class="line">        System.out.println(&quot;在进行&quot;+time+&quot;次分配操作时，直接内存 分配耗时:&quot; + (et_direct-st_heap) +&quot;ms&quot; );</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 直接内存 和 堆内存的 读写性能比较</span><br><span class="line">     * </span><br><span class="line">     * 结论：直接内存在直接的IO 操作上，在频繁的读写时 会有显著的性能提升</span><br><span class="line">     * </span><br><span class="line">     */</span><br><span class="line">    public static void operateCompare()&#123;</span><br><span class="line">        int time = 1000000000;</span><br><span class="line"></span><br><span class="line">        ByteBuffer buffer = ByteBuffer.allocate(2*time);  </span><br><span class="line">        long st = System.currentTimeMillis();</span><br><span class="line">        for (int i = 0; i &lt; time; i++) &#123;</span><br><span class="line"></span><br><span class="line">            //  putChar(char value) 用来写入 char 值的相对 put 方法</span><br><span class="line">            buffer.putChar(&apos;a&apos;);</span><br><span class="line">        &#125;</span><br><span class="line">        buffer.flip();</span><br><span class="line">        for (int i = 0; i &lt; time; i++) &#123;</span><br><span class="line">            buffer.getChar();</span><br><span class="line">        &#125;</span><br><span class="line">        long et = System.currentTimeMillis();</span><br><span class="line"></span><br><span class="line">        System.out.println(&quot;在进行&quot;+time+&quot;次读写操作时，非直接内存读写耗时：&quot; + (et-st) +&quot;ms&quot;);</span><br><span class="line"></span><br><span class="line">        ByteBuffer buffer_d = ByteBuffer.allocateDirect(2*time);</span><br><span class="line">        long st_direct = System.currentTimeMillis();</span><br><span class="line">        for (int i = 0; i &lt; time; i++) &#123;</span><br><span class="line"></span><br><span class="line">            //  putChar(char value) 用来写入 char 值的相对 put 方法</span><br><span class="line">            buffer_d.putChar(&apos;a&apos;);</span><br><span class="line">        &#125;</span><br><span class="line">        buffer_d.flip();</span><br><span class="line">        for (int i = 0; i &lt; time; i++) &#123;</span><br><span class="line">            buffer_d.getChar();</span><br><span class="line">        &#125;</span><br><span class="line">        long et_direct = System.currentTimeMillis();</span><br><span class="line"></span><br><span class="line">        System.out.println(&quot;在进行&quot;+time+&quot;次读写操作时，直接内存读写耗时:&quot; + (et_direct - st_direct) +&quot;ms&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>非直接内存作用链: </p>
+<p>本地IO –&gt;直接内存–&gt;非直接内存–&gt;直接内存–&gt;本地IO</p>
+<p>直接内存作用链: </p>
+<p>本地IO–&gt;直接内存–&gt;本地IO</p>
+<p>访问直接内存的速度会优于java堆，所以出于性能的考虑，读写频繁的话的场景下会考虑使用直接内存，但是直接内存存的内容具体是什么呢？它的大小虽然不会受堆的大小的限制，但是还是会受限于系统内存的。</p>
+<p>使用场景：有很大的数据需要存储，它的生命周期很长；适合频繁的IO操作，例如网络并发场景。</p>
+<h2 id="常量池"><a href="#常量池" class="headerlink" title="常量池"></a>常量池</h2><p>仅说一下我认为比较重要的地方, 如果你去看java 字节码, 会看到这种东西:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">279: invokevirtual #127     // Method java/lang/Throwable.addSuppressed:Ljava/lang/Throwable;)V</span><br><span class="line"></span><br><span class="line">127 即代表 此class中的一个常量池元素, 如果你去看jvm spec7:</span><br><span class="line"></span><br><span class="line">invokevirtual ... Description The unsigned indexbyte1 and</span><br><span class="line"> indexbyte2 are used to construct an index into the run-time</span><br><span class="line"> constant pool of the current class (§2.6), where the value of</span><br><span class="line"> the index is (indexbyte1 &lt;&lt; 8) | indexbyte2. The run-time</span><br><span class="line"> constant pool item at that index must be a symbolic reference</span><br><span class="line"> to a method (§5.1), which gives the name and descriptor</span><br><span class="line"> (§4.3.3) of the method as well as a symbolic reference to the</span><br><span class="line"> class in which the method is to be found.</span><br></pre></td></tr></table></figure>
+<p>简单说, jvm正是使用 常量池元素 “Method java/lang/Throwable.addSuppressed:Ljava/lang/Throwable;)V” 找到需要调用的 class和方法。</p>
+<h3 id="运行时常量池"><a href="#运行时常量池" class="headerlink" title="运行时常量池"></a>运行时常量池</h3><p>运行时常量池，它是方法区的一部分，一个jvm实例只有一个运行常量池，各线程间共享该运行常量池。</p>
+<p>jvm 在栈帧(frame) 中进行操作数和方法的动态链接(link)，为了便于链接，jvm 使用常量池来保存跟踪当前类中引用的其他类及其成员变量和成员方法。</p>
+<p>每个栈帧(frame)都包含一个运行常量池的引用，这个引用指向当前栈帧需要执行的方法，jvm使用这个引用来进行动态链接。</p>
+<p>在 c/c++ 中，编译器将多个编译期编译的文件链接成一个可执行文件或者dll文件，在链接阶段，符号引用被解析为实际地址。java 中这种链接是在程序运行时动态进行的。</p>
+<p><img src="./assets/images/jvmPracticeConstPool.png" alt=""></p>
+<p>每个 java 文件编译为 class 文件后，都将产生当前类独有的常量池，我们称之为静态常量池。class 文件中的常量池包含两部分：字面值（literal）和符号引用（Symbolic Reference）。其中字面值可以理解为 java 中定义的字符串常量、final 常量等；符号引用指的是一些字符串，这些字符串表示当前类引用的外部类、方法、变量等的引用地址的抽象表示形式，在类被jvm装载并第一次使用这些符号引用时，这些符号引用将会解析为直接引用。符号常量包含：</p>
+<ul>
+<li><p>类和接口的全限定名</p>
+</li>
+<li><p>字段的名称和描述符</p>
+</li>
+<li><p>方法的名称和描述符</p>
+</li>
+</ul>
+<p>jvm在进行类装载时，将class文件中常量池部分的常量加载到方法区中，此时方法区中的保存常量的逻辑区域称之为运行时常量区。</p>
+<p>使用javap -verbose 命令可以查看class字节码的详细信息，其中包含了编译期确定的静态常量池。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">public class StringTest &#123;</span><br><span class="line">    </span><br><span class="line">    public static void main(String[] args)&#123;</span><br><span class="line">        String s = new String(&quot;abc&quot;);</span><br><span class="line">        String s2 = s.intern();</span><br><span class="line">        System.out.println(s2 == s);</span><br><span class="line"></span><br><span class="line">        String s3 = (s + s2);</span><br><span class="line"></span><br><span class="line">        System.out.println(s3 == s3.intern());</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上述代码javap -verbose后得到（只拿出常量池部分）:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line">major version: 52</span><br><span class="line">Constant pool:</span><br><span class="line">   #1 = Methodref          #13.#26        // java/lang/Object.&quot;&lt;init&gt;&quot;:()V</span><br><span class="line">   #2 = Class              #27            // java/lang/String</span><br><span class="line">   #3 = String             #28            // abc</span><br><span class="line">   #4 = Methodref          #2.#29         // java/lang/String.&quot;&lt;init&gt;&quot;:(Ljava/lang/String;)V</span><br><span class="line">   #5 = Methodref          #2.#30         // java/lang/String.intern:()Ljava/lang/String;</span><br><span class="line">   #6 = Fieldref           #31.#32        // java/lang/System.out:Ljava/io/PrintStream;</span><br><span class="line">   #7 = Methodref          #33.#34        // java/io/PrintStream.println:(Z)V</span><br><span class="line">   #8 = Class              #35            // java/lang/StringBuilder</span><br><span class="line">   #9 = Methodref          #8.#26         // java/lang/StringBuilder.&quot;&lt;init&gt;&quot;:()V</span><br><span class="line">  #10 = Methodref          #8.#36         // java/lang/StringBuilder.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;</span><br><span class="line">  #11 = Methodref          #8.#37         // java/lang/StringBuilder.toString:()Ljava/lang/String;</span><br><span class="line">  #12 = Class              #38            // StringTest</span><br><span class="line">  #13 = Class              #39            // java/lang/Object</span><br><span class="line">  #14 = Utf8               &lt;init&gt;</span><br><span class="line">  #15 = Utf8               ()V</span><br><span class="line">  #16 = Utf8               Code</span><br><span class="line">  #17 = Utf8               LineNumberTable</span><br><span class="line">  #18 = Utf8               main</span><br><span class="line">  #19 = Utf8               ([Ljava/lang/String;)V</span><br><span class="line">  #20 = Utf8               StackMapTable</span><br><span class="line">  #21 = Class              #40            // &quot;[Ljava/lang/String;&quot;</span><br><span class="line">  #22 = Class              #27            // java/lang/String</span><br><span class="line">  #23 = Class              #41            // java/io/PrintStream</span><br><span class="line">  #24 = Utf8               SourceFile</span><br><span class="line">  #25 = Utf8               StringTest.java</span><br><span class="line">  #26 = NameAndType        #14:#15        // &quot;&lt;init&gt;&quot;:()V</span><br><span class="line">  #27 = Utf8               java/lang/String</span><br><span class="line">  #28 = Utf8               abc</span><br><span class="line">  #29 = NameAndType        #14:#42        // &quot;&lt;init&gt;&quot;:(Ljava/lang/String;)V</span><br><span class="line">  #30 = NameAndType        #43:#44        // intern:()Ljava/lang/String;</span><br><span class="line">  #31 = Class              #45            // java/lang/System</span><br><span class="line">  #32 = NameAndType        #46:#47        // out:Ljava/io/PrintStream;</span><br><span class="line">  #33 = Class              #41            // java/io/PrintStream</span><br><span class="line">  #34 = NameAndType        #48:#49        // println:(Z)V</span><br><span class="line">  #35 = Utf8               java/lang/StringBuilder</span><br><span class="line">  #36 = NameAndType        #50:#51        // append:(Ljava/lang/String;)Ljava/lang/StringBuilder;</span><br><span class="line">  #37 = NameAndType        #52:#44        // toString:()Ljava/lang/String;</span><br><span class="line">  #38 = Utf8               StringTest</span><br><span class="line">  #39 = Utf8               java/lang/Object</span><br><span class="line">  #40 = Utf8               [Ljava/lang/String;</span><br><span class="line">  #41 = Utf8               java/io/PrintStream</span><br><span class="line">  #42 = Utf8               (Ljava/lang/String;)V</span><br><span class="line">  #43 = Utf8               intern</span><br><span class="line">  #44 = Utf8               ()Ljava/lang/String;</span><br><span class="line">  #45 = Utf8               java/lang/System</span><br><span class="line">  #46 = Utf8               out</span><br><span class="line">  #47 = Utf8               Ljava/io/PrintStream;</span><br><span class="line">  #48 = Utf8               println</span><br><span class="line">  #49 = Utf8               (Z)V</span><br><span class="line">  #50 = Utf8               append</span><br><span class="line">  #51 = Utf8               (Ljava/lang/String;)Ljava/lang/StringBuilder;</span><br><span class="line">  #52 = Utf8               toString</span><br></pre></td></tr></table></figure>
+<p>我们可以看到，常量池共包含52个常量。#1 是一个类中方法的符号引用，它由 #13 和 #26 两个utf8编码的字符串构成；#3 是程序中定义的 String 类型的字面值 “abc”，它包含指向一个utf8编码字符串 “abc” 的索引 #28。</p>
+<p>方法的调用、成员变量的访问最终都是通过运行时常量池来查找具体地址的。</p>
+<h3 id="字符串常量池"><a href="#字符串常量池" class="headerlink" title="字符串常量池"></a>字符串常量池</h3><p>运行时常量池有一种String类型的常量，即通常我们所说的字符串字面值，所有的字符串字面值组成一个 String 常量表。String常量表并不是一成不变的，程序运行时可以动态添加字符串常量，使用String的intern()可以动态的添加String常量。</p>
+<p>jvm 确保两个在值上完全相等的字符串字面值（即其中包含的字符序列是相同的，使用equals()来判断）指向同一个 String 实例。</p>
+<p>如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">String s1 = &quot;abc&quot;;</span><br><span class="line">String s2 = &quot;abc&quot;;</span><br><span class="line">System.out.println(s1 == s2); // true</span><br></pre></td></tr></table></figure>
+<p>上述代码中的字符串 s1 和 s2 将指向同一个 String 实例。实际上通过查看class文件，我们可以看到，在编译后，静态常量池中已经包含了一个 String 类型的字面值 “abc”，程序运行时只是从常量池中获取这个String字面值的引用地址，并赋值给变量 s1 和变量 s2。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">Constant pool:</span><br><span class="line">   #1 = Methodref          #6.#19         // java/lang/Object.&quot;&lt;init&gt;&quot;:()V</span><br><span class="line">   #2 = String             #20            // abc</span><br><span class="line">   ······</span><br><span class="line">   #20 = Utf8               abc</span><br><span class="line"></span><br><span class="line">public static void main(java.lang.String[]);</span><br><span class="line">    ······</span><br><span class="line">    Code:</span><br><span class="line">      stack=3, locals=3, args_size=1</span><br><span class="line">         0: ldc           #2                  // String abc</span><br><span class="line">         2: astore_1</span><br><span class="line">         3: ldc           #2                  // String abc</span><br></pre></td></tr></table></figure>
+<p>其中，ldc 表示将一个常量加载到操作数栈。</p>
+<p>String 的 intern() 是一个native方法，返回的是一个String对象的标准表示。当调用该方法时，如果运行时常量池中已经存在与之相等（equal()）的字符串，则直接返回常量池中的字符串引用，否则将此字符串添加到池中，并返回。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">String s1 = &quot;abc&quot;;</span><br><span class="line">String s2 = new String(&quot;abc&quot;);</span><br><span class="line">System.out.println(s1 == s2);           //返回 false</span><br><span class="line">System.out.println(s1.equals(s2));      //返回 true</span><br><span class="line">System.out.println(s1 == s2.intern());  //返回 true</span><br></pre></td></tr></table></figure>
+<p>上述代码中，虽然 s1 和 s2 中的值是相同的，但是他们指向的并不是同一个对象，但 s2 的标准化表示和s1是同一个 String 对象，都是编译期确定的常量池中的 “abc”。</p>
+<p>在JDK6之前，常量池属于永久区的一部分，但在JDK7之后，被移动到堆中进行管理。String.intern()方法获得在常量池中的符号引用，如果常量池中没有该常量字符串，该方法会将字符串加入常量池。虽然String.intern方法的返回值永远等于字符串常量，但是不代表在系统的每时每刻，相同的字符串的intern返回都是一样的。（虽然在95%以上的情况下，都是相同的）。因为存在一种可能：在一次intern之后，该字符串在某一时刻被回收之后，再进行一次intern调用，那么字面量相同的字符串重新被加入常量池，但是引用位置已经不同。</p>
+<h2 id="元数据"><a href="#元数据" class="headerlink" title="元数据"></a>元数据</h2><p>方法区被理解为永久区，但是在jdk1.8永久区被元数据区取代，元数据区大小可以使用参数-XX：MaxMetaspaceSize指定（一个大的元数据区可以让系统支持更多的类），<strong>这是一块堆外的直接内存</strong>。和永久区不同的是，如果不指定大小，默认情况下，虚拟机会耗尽所有可用的系统内存资源。</p>
+<p>方法区是一块所有线程共享的内存区域，用来保存系统的类信息，比如类的字段、方法、常量池等。方法区的大小决定了系统可以保存多少个类，如果系统定义了太多的类，导致方法区溢出，虚拟机同样会抛出内存溢出的错误。</p>
+<p>如果元数据区发生了溢出的情况，就会抛出：OutOfMemoryError:Metaspace</p>
+<h1 id="设置Java虚拟机参数"><a href="#设置Java虚拟机参数" class="headerlink" title="设置Java虚拟机参数"></a>设置Java虚拟机参数</h1><p>找个空闲的时间，好好利用实验室的服务器的linux系统调调这个虚拟机的参数吧。过把瘾。但是现在目前现在这里做个笔记。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">class simpleArgs&#123;</span><br><span class="line">	main&#123;</span><br><span class="line">		for i 0:args.length</span><br><span class="line">			out(i+1+&quot; &quot; + args[i])</span><br><span class="line">		out(&quot;-Xmx&quot;+Runtime.getRuntime().maxMemory()/1000/1000+&quot;M&quot;);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// java -Xmx32m simpleArgs a</span><br><span class="line">1:a</span><br><span class="line">-Xmx32M</span><br></pre></td></tr></table></figure>
+<h1 id="堆的补充"><a href="#堆的补充" class="headerlink" title="堆的补充"></a>堆的补充</h1><p>根据垃圾回收机制的不同，java堆有可能拥有不同的结构。最为常见的就是将堆进行分代。堆分类为新生代和老年代。其中，新生代存放的是新生对象或者年龄不大的对象，老年代则是存放老年对象。新生代可能分为Eden3区，s0（from），s1（to）区。s0和s1的内存大小一样，可以互换角色额的内存空间。</p>
+<p>在大多数的情况下，对象会首先分配在Eden区域，在一次一次的新生代回收以后，如果对象存活，那么就会从Eden-&gt;from-&gt;to，如此，一次回收以后，对象存活下来，年龄加1，最后当对象的年龄达到一定的条件以后，就会进入老年代。</p>
+<p>大多数情况下，对象在新生代 Eden 区中分配。当 Eden 区没有足够空间进行分配时，虚拟机将发起一次 Minor GC。</p>
+<ul>
+<li><p>Minor GC：指发生在新生代的垃圾收集动作，因为 Java 对象大多都具备朝生夕灭的特性，所以 Minor GC 非常频繁，一般回收速度也比较快。</p>
+</li>
+<li><p>Full GC：指发生在老年代的 GC，出现了 Full GC，经常会伴随至少一次的 Minor GC，Full GC 的速度一般会比 Minor GC 慢10倍以上。</p>
+</li>
+</ul>
+<h2 id="空间分配担保"><a href="#空间分配担保" class="headerlink" title="空间分配担保"></a>空间分配担保</h2><p>JDK 6 Update 24 之前的规则是这样的：</p>
+<p>在发生 Minor GC 之前，虚拟机会先检查老年代最大可用的连续空间是否大于新生代所有对象总空间，如果这个条件成立，Minor GC 可以确保是安全的；如果不成立，则虚拟机会查看 HandlePromotionFailure 值是否设置为允许担保失败，如果是，那么会继续检查老年代最大可用的连续空间是否大于历次晋升到老年代对象的平均大小，如果大于，将尝试进行一次 Minor GC,尽管这次 Minor GC 是有风险的；如果小于，或者 HandlePromotionFailure 设置不允许冒险，那此时也要改为进行一次 Full GC。</p>
+<p>JDK 6 Update 24 之后的规则变为：</p>
+<p>只要老年代的连续空间大于新生代对象总大小或者历次晋升的平均大小，就会进行 Minor GC，否则将进行 Full GC。</p>
+<p>通过清除老年代中废弃数据来扩大老年代空闲空间，以便给新生代作担保。</p>
+<p>这个过程就是分配担保。</p>
+<h1 id="几个问题"><a href="#几个问题" class="headerlink" title="几个问题"></a>几个问题</h1><h2 id="分配担保为嘛要求老年代的连续空间"><a href="#分配担保为嘛要求老年代的连续空间" class="headerlink" title="分配担保为嘛要求老年代的连续空间"></a>分配担保为嘛要求老年代的连续空间</h2><p>确定哪些对象可以回收通常有两种算法,一种是引用计数,一种是可达性分析算法.HotSpot采用的就是第二种.第二种会通过一些称为GC Root的对象.可作为GC Roots的对象包括下面几种：</p>
+<p>虚拟机栈（栈帧中的本地变量表）中引用的对象。<br>方法区中类静态属性引用的对象<br>方法区中常量引用的对象。<br>本地方法栈中JNI（即一般说的Native方法）引用的对象<br>这些引用会形成一条链,凡是在链上的说明还在使用,不可回收.</p>
+<p>所有对象不可达的话就全都被回收了,问题是当新生代中所有对象可达的情况.比如eden+s1中的所有对象都不可回收,s2装不下,那么就由老年代分配担保,老年代必须有连续的内存装下eden+s1中的所有对象.之所以是需要连续内存,这是复制算法决定的。因为采用复制算法的垃圾收集器(Serial,ParNew等)带有压缩功能,分配内存时采用”指针碰撞”,如果是采用”Mark-Sweep”算法的垃圾收集器(CMS),就会使用”空闲列表”来分配内存,而不需要连续内存。</p>
+<p>问题一，既然是担保，则要保证100%成功。如果老年代有很多空闲区，但都非常小，小到不足以分配一个对象，那么及时老年代有很大空间，也是做不了担保的，必须是连续。此外，新生代的对象可能会在某一次集体提升到老年代，为了担保，老年代空闲必须大于整个年轻代大小。<br>综合，老年代最大连续空闲空间需大于年轻代总空间。</p>
+<p>问题二，所有提升到老年代对象大小的总和。这里的平均只是平均了每次ygc时，提升的年轻代对象大小总和。</p>
+<h2 id="为什么JVM中新生代有两个Survivor区？"><a href="#为什么JVM中新生代有两个Survivor区？" class="headerlink" title="为什么JVM中新生代有两个Survivor区？"></a>为什么JVM中新生代有两个Survivor区？</h2><p><a href="https://stackoverflow.com/questions/21476348/java-gc-why-two-survivor-spaces" target="_blank" rel="noopener">https://stackoverflow.com/questions/21476348/java-gc-why-two-survivor-spaces</a></p>
+<p><a href="https://blog.csdn.net/antony9118/article/details/51425581" target="_blank" rel="noopener">https://blog.csdn.net/antony9118/article/details/51425581</a></p>
+<p>原因总结：</p>
+<ul>
+<li><p>和复制算法有关</p>
+</li>
+<li><p>避免老年区很快被填满，引发full GC。</p>
+</li>
+<li><p>解决碎片化的问题，（和伙伴系统？有关）</p>
+</li>
+</ul>
+<p>那么，Survivor为什么不分更多块呢？比方说分成三个、四个、五个?显然，如果Survivor区再细分下去，每一块的空间就会比较小，很容易导致Survivor区满，因此，我认为两块Survivor区是经过权衡之后的最佳方案。</p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>多思考，多问问题吧。在这一章节里面突然发现平时是不会想这些问题的，书过一遍就过了。</p>
+
+            <div class="post-copyright">
+    <div class="content">
+        <p>最后更新： 2018年08月17日 16:15</p>
+        <p>原始链接： <a class="post-url" href="/2018/08/11/实战Java虚拟机笔记二/" title="实战Java虚拟机-JVM故障诊断与性能优化 part2">http://zhangbuzola.cn/2018/08/11/实战Java虚拟机笔记二/</a></p>
+        <footer>
+            <a href="http://zhangbuzola.cn">
+                <img src="/images/avatar.jpg" alt="zolanunu">
+                zolanunu
+            </a>
+        </footer>
+    </div>
+</div>
+
+      
+        
+            
+
+        
+    </div>
+    <footer class="article-footer">
+        
+        <ul class="article-footer-menu">
+            
+            
+  <li class="article-footer-tags">
+    <i class="fa fa-tags"></i>
+      
+    <a href="/tags/实战Java虚拟机-JVM故障诊断与性能优化/" class="color3">实战Java虚拟机-JVM故障诊断与性能优化</a>
+      
+  </li>
+
+        </ul>
+        
+    </footer>
+  </div>
+</article>
+
+
+    <aside class="post-toc-pos post-toc-top" id="post-toc">
+        <nav class="post-toc-wrap">
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#第二章-认识Java虚拟机的基本结构"><span class="post-toc-text">第二章 认识Java虚拟机的基本结构</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#直接内存"><span class="post-toc-text">直接内存</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#常量池"><span class="post-toc-text">常量池</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#运行时常量池"><span class="post-toc-text">运行时常量池</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#字符串常量池"><span class="post-toc-text">字符串常量池</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#元数据"><span class="post-toc-text">元数据</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#设置Java虚拟机参数"><span class="post-toc-text">设置Java虚拟机参数</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#堆的补充"><span class="post-toc-text">堆的补充</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#空间分配担保"><span class="post-toc-text">空间分配担保</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#几个问题"><span class="post-toc-text">几个问题</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#分配担保为嘛要求老年代的连续空间"><span class="post-toc-text">分配担保为嘛要求老年代的连续空间</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#为什么JVM中新生代有两个Survivor区？"><span class="post-toc-text">为什么JVM中新生代有两个Survivor区？</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#总结"><span class="post-toc-text">总结</span></a></li></ol>
+        </nav>
+    </aside>
+    
+
+<nav id="article-nav">
+  
+  
+    <a href="/2018/08/10/实战Java虚拟机笔记一/" id="article-nav-older" class="article-nav-link-wrap">
+      <span class="article-nav-title">实战Java虚拟机-JVM故障诊断与性能优化 part1</span>
+      <i class="fa fa-hand-o-right" aria-hidden="true"></i>
+    </a>
+  
+</nav>
+
+
+
+    
+        <link rel="stylesheet" href="//unpkg.com/gitment/style/default.css">
+    <script src="//unpkg.com/gitment/dist/gitment.browser.js"></script>
+    <script>
+        var gitment = new Gitment({
+            owner: 'true',
+            repo: 'zolanunu',
+            oauth: {
+                client_id: '1a04e8dee74a4b8634df',
+                client_secret: '9e3078ac89eb72f22abbdd11f7f0d11e2e1d7f7a',
+            },
+        })
+        gitment.render('comments')
+    </script>
+
+    
+</section>
+        
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+      <p>
+        Powered by  <a href="http://hexo.io/" target="_blank">Hexo</a>
+        Theme <a href="//github.com/wongminho/hexo-theme-miho" target="_blank">MiHo</a>
+      &copy; 2018 zolanunu<br>
+      </p>
+    </div>
+  </div>
+</footer>
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script>
+  var mihoConfig = {
+      root: "http://zhangbuzola.cn",
+      animate: true,
+      isHome: false,
+      share: false,
+      reward: 0
+  }
+</script>
+<div class="sidebar">
+    <div id="sidebar-search" title="Search">
+        <i class="fa fa-search"></i>
+    </div>
+    <div id="sidebar-category" title="Categories">
+        <i class="fa fa-book"></i>
+    </div>
+    <div id="sidebar-tag" title="Tags">
+        <i class="fa fa-tags"></i>
+    </div>
+    <div id="sidebar-top">
+        <span class="sidebar-top-icon"><i class="fa fa-angle-up"></i></span>
+    </div>
+</div>
+<div class="sidebar-menu-box" id="sidebar-menu-box">
+    <div class="sidebar-menu-box-container">
+        <div id="sidebar-menu-box-categories">
+            <a class="category-link" href="/categories/Java/">Java</a><a class="category-link" href="/categories/Java后台/">Java后台</a><a class="category-link" href="/categories/Python/">Python</a><a class="category-link" href="/categories/工具/">工具</a><a class="category-link" href="/categories/技术书/">技术书</a><a class="category-link" href="/categories/数据库/">数据库</a><a class="category-link" href="/categories/数据结构/">数据结构</a><a class="category-link" href="/categories/生活轨迹/">生活轨迹</a><a class="category-link" href="/categories/算法/">算法</a><a class="category-link" href="/categories/编程技术/">编程技术</a><a class="category-link" href="/categories/计算机网络/">计算机网络</a>
+        </div>
+        <div id="sidebar-menu-box-tags">
+            <a href="/tags/2018/" style="font-size: 11.25px;">2018</a> <a href="/tags/Collections/" style="font-size: 15px;">Collections</a> <a href="/tags/HashMap/" style="font-size: 10px;">HashMap</a> <a href="/tags/LinkedHashMap/" style="font-size: 10px;">LinkedHashMap</a> <a href="/tags/MySQL/" style="font-size: 17.5px;">MySQL</a> <a href="/tags/Mybatis/" style="font-size: 12.5px;">Mybatis</a> <a href="/tags/Object/" style="font-size: 10px;">Object</a> <a href="/tags/SSM/" style="font-size: 13.75px;">SSM</a> <a href="/tags/TreeMap/" style="font-size: 11.25px;">TreeMap</a> <a href="/tags/cookie/" style="font-size: 10px;">cookie</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/java基础/" style="font-size: 20px;">java基础</a> <a href="/tags/java并发编程实战/" style="font-size: 11.25px;">java并发编程实战</a> <a href="/tags/leetcode/" style="font-size: 16.25px;">leetcode</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/session/" style="font-size: 10px;">session</a> <a href="/tags/剑指offer/" style="font-size: 10px;">剑指offer</a> <a href="/tags/单例模式/" style="font-size: 10px;">单例模式</a> <a href="/tags/原型模式/" style="font-size: 10px;">原型模式</a> <a href="/tags/多线程/" style="font-size: 11.25px;">多线程</a> <a href="/tags/实战Java虚拟机-JVM故障诊断与性能优化/" style="font-size: 11.25px;">实战Java虚拟机-JVM故障诊断与性能优化</a> <a href="/tags/工厂模式/" style="font-size: 10px;">工厂模式</a> <a href="/tags/并发编程/" style="font-size: 10px;">并发编程</a> <a href="/tags/建造者模式/" style="font-size: 10px;">建造者模式</a> <a href="/tags/机器学习/" style="font-size: 12.5px;">机器学习</a> <a href="/tags/构造函数/" style="font-size: 10px;">构造函数</a> <a href="/tags/深入理解java虚拟机/" style="font-size: 11.25px;">深入理解java虚拟机</a> <a href="/tags/生活/" style="font-size: 10px;">生活</a> <a href="/tags/神经网络/" style="font-size: 10px;">神经网络</a> <a href="/tags/算法与数据结构/" style="font-size: 16.25px;">算法与数据结构</a> <a href="/tags/算法和数据结构/" style="font-size: 18.75px;">算法和数据结构</a> <a href="/tags/索引优化/" style="font-size: 10px;">索引优化</a> <a href="/tags/线程安全/" style="font-size: 10px;">线程安全</a> <a href="/tags/观影记/" style="font-size: 10px;">观影记</a> <a href="/tags/设计模式/" style="font-size: 13.75px;">设计模式</a> <a href="/tags/设计模式之禅/" style="font-size: 13.75px;">设计模式之禅</a> <a href="/tags/读书书单/" style="font-size: 10px;">读书书单</a> <a href="/tags/负载均衡/" style="font-size: 10px;">负载均衡</a> <a href="/tags/锁优化/" style="font-size: 10px;">锁优化</a>
+        </div>
+    </div>
+    <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
+</div>
+<div class="mobile-header-menu-nav" id="mobile-header-menu-nav">
+    <div class="mobile-header-menu-container">
+        <span class="title">Menus</span>
+        <ul class="mobile-header-menu-navbar">
+            
+            <li>
+                <a  href="/">
+                    <i class="fa fa-home"></i><span>Home</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/archives">
+                    <i class="fa fa-archive"></i><span>Archives</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/about">
+                    <i class="fa fa-user"></i><span>About</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    <div class="mobile-header-tag-container">
+        <span class="title">Tags</span>
+        <div id="mobile-header-container-tags">
+            <a href="/tags/2018/" style="font-size: 11.25px;">2018</a> <a href="/tags/Collections/" style="font-size: 15px;">Collections</a> <a href="/tags/HashMap/" style="font-size: 10px;">HashMap</a> <a href="/tags/LinkedHashMap/" style="font-size: 10px;">LinkedHashMap</a> <a href="/tags/MySQL/" style="font-size: 17.5px;">MySQL</a> <a href="/tags/Mybatis/" style="font-size: 12.5px;">Mybatis</a> <a href="/tags/Object/" style="font-size: 10px;">Object</a> <a href="/tags/SSM/" style="font-size: 13.75px;">SSM</a> <a href="/tags/TreeMap/" style="font-size: 11.25px;">TreeMap</a> <a href="/tags/cookie/" style="font-size: 10px;">cookie</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/java基础/" style="font-size: 20px;">java基础</a> <a href="/tags/java并发编程实战/" style="font-size: 11.25px;">java并发编程实战</a> <a href="/tags/leetcode/" style="font-size: 16.25px;">leetcode</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/session/" style="font-size: 10px;">session</a> <a href="/tags/剑指offer/" style="font-size: 10px;">剑指offer</a> <a href="/tags/单例模式/" style="font-size: 10px;">单例模式</a> <a href="/tags/原型模式/" style="font-size: 10px;">原型模式</a> <a href="/tags/多线程/" style="font-size: 11.25px;">多线程</a> <a href="/tags/实战Java虚拟机-JVM故障诊断与性能优化/" style="font-size: 11.25px;">实战Java虚拟机-JVM故障诊断与性能优化</a> <a href="/tags/工厂模式/" style="font-size: 10px;">工厂模式</a> <a href="/tags/并发编程/" style="font-size: 10px;">并发编程</a> <a href="/tags/建造者模式/" style="font-size: 10px;">建造者模式</a> <a href="/tags/机器学习/" style="font-size: 12.5px;">机器学习</a> <a href="/tags/构造函数/" style="font-size: 10px;">构造函数</a> <a href="/tags/深入理解java虚拟机/" style="font-size: 11.25px;">深入理解java虚拟机</a> <a href="/tags/生活/" style="font-size: 10px;">生活</a> <a href="/tags/神经网络/" style="font-size: 10px;">神经网络</a> <a href="/tags/算法与数据结构/" style="font-size: 16.25px;">算法与数据结构</a> <a href="/tags/算法和数据结构/" style="font-size: 18.75px;">算法和数据结构</a> <a href="/tags/索引优化/" style="font-size: 10px;">索引优化</a> <a href="/tags/线程安全/" style="font-size: 10px;">线程安全</a> <a href="/tags/观影记/" style="font-size: 10px;">观影记</a> <a href="/tags/设计模式/" style="font-size: 13.75px;">设计模式</a> <a href="/tags/设计模式之禅/" style="font-size: 13.75px;">设计模式之禅</a> <a href="/tags/读书书单/" style="font-size: 10px;">读书书单</a> <a href="/tags/负载均衡/" style="font-size: 10px;">负载均衡</a> <a href="/tags/锁优化/" style="font-size: 10px;">锁优化</a>
+        </div>
+    </div>
+</div>
+<div class="search-wrap">
+    <span class="search-close">&times;</span>
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+            <i class="icon icon-lg icon-chevron-left"></i>
+        </a>
+        <input class="search-field" placeholder="Search..." id="keywords">
+        <a id="search-submit" href="javascript:;">
+            <i class="fa fa-search"></i>
+        </a>
+    <div class="search-container" id="search-container">
+        <ul class="search-result" id="search-result">
+        </ul>
+    </div>
+</div>
+
+<div id="search-tpl">
+    <li class="search-result-item">
+        <a href="{url}" class="search-item-li">
+            <span class="search-item-li-title" title="{title}">{title}</span>
+        </a>
+    </li>
+</div>
+<script src="/js/search.js"></script>
+<script src="/js/main.js"></script>
+
+
+  <script src="//cdn.bootcss.com/particles.js/2.0.0/particles.min.js"></script>
+  <div id="particles"></div>
+  <script src="/js/particles.js"></script>
+
+
+
+
+
+
+
+  <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
+  <script src="//cdn.bootcss.com/scrollReveal.js/3.0.5/scrollreveal.js"></script>
+  <script src="/js/animate.js"></script>
+
+
+  <script src="/js/pop-img.js"></script>
+  <script>
+     $(".article-entry p img").popImg();
+  </script>
+
+  </div>
+</body>
+</html>
