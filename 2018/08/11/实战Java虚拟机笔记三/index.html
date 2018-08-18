@@ -21,8 +21,8 @@
 <meta property="og:image" content="http://zhangbuzola.cn/assets/images/javajvmcopy.png">
 <meta property="og:image" content="http://zhangbuzola.cn/assets/images/javajvmcompare.png">
 <meta property="og:image" content="http://zhangbuzola.cn/assets/images/javaajvmcart.png">
-<meta property="og:image" content="http://zhangbuzola.cn/2018/08/11/实战Java虚拟机笔记三/assets/images/finalized.png">
-<meta property="og:updated_time" content="2018-08-18T02:54:25.984Z">
+<meta property="og:image" content="http://zhangbuzola.cn/assets/images/finalized.png">
+<meta property="og:updated_time" content="2018-08-18T02:59:59.340Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="实战Java虚拟机-JVM故障诊断与性能优化 第四章 垃圾回收概念与算法">
 <meta name="twitter:description" content="认识垃圾回收垃圾回收（GC），需要澄清什么是垃圾。内存中的垃圾，就是有些数据已经不被使用了，但是还存在于内存中，占内存。回收垃圾就是将无用的数据清除掉，腾出内存空间给其他程序或者任务使用。 什么才是垃圾数据目前有两种算法用来判定对象是否已经死亡，可以被垃圾回收了。 引用计数算法引用计数算法是最经典也是很历史悠久的一种算法了。在微软的COM组件计数，Adobe的ActionScript3中，还是可以">
@@ -232,7 +232,7 @@
 <p>finalizer-reachable(f-reachable)：表示不是reachable，但可通过某个finalizable对象可达</p>
 <p>unreachable：对象不可通过上面两种途径可达</p>
 <p>状态变迁图：</p>
-<p><img src="assets/images/finalized.png" alt=""></p>
+<p><img src="/assets/images/finalized.png" alt=""></p>
 <p>变迁说明：</p>
 <p>新建对象首先处于[reachable, unfinalized]状态(A)</p>
 <p>随着程序的运行，一些引用关系会消失，导致状态变迁，从reachable状态变迁到f-reachable(B, C, D)或unreachable(E, F)状态</p>
@@ -273,7 +273,7 @@
 
             <div class="post-copyright">
     <div class="content">
-        <p>最后更新： 2018年08月18日 10:54</p>
+        <p>最后更新： 2018年08月18日 10:59</p>
         <p>原始链接： <a class="post-url" href="/2018/08/11/实战Java虚拟机笔记三/" title="实战Java虚拟机-JVM故障诊断与性能优化 第四章 垃圾回收概念与算法">http://zhangbuzola.cn/2018/08/11/实战Java虚拟机笔记三/</a></p>
         <footer>
             <a href="http://zhangbuzola.cn">
