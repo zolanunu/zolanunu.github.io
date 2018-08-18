@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>实战Java虚拟机-JVM故障诊断与性能优化 第四章 垃圾回收概念与算法 | zolanunu</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+    <meta name="keywords" content="zolanunu,zolanunu's blog" />
+  
+  <meta name="description" content="认识垃圾回收垃圾回收（GC），需要澄清什么是垃圾。内存中的垃圾，就是有些数据已经不被使用了，但是还存在于内存中，占内存。回收垃圾就是将无用的数据清除掉，腾出内存空间给其他程序或者任务使用。 什么才是垃圾数据目前有两种算法用来判定对象是否已经死亡，可以被垃圾回收了。 引用计数算法引用计数算法是最经典也是很历史悠久的一种算法了。在微软的COM组件计数，Adobe的ActionScript3中，还是可以">
+<meta name="keywords" content="实战Java虚拟机-JVM故障诊断与性能优化">
+<meta property="og:type" content="article">
+<meta property="og:title" content="实战Java虚拟机-JVM故障诊断与性能优化 第四章 垃圾回收概念与算法">
+<meta property="og:url" content="http://zhangbuzola.cn/2018/08/11/实战Java虚拟机笔记三/index.html">
+<meta property="og:site_name" content="zolanunu">
+<meta property="og:description" content="认识垃圾回收垃圾回收（GC），需要澄清什么是垃圾。内存中的垃圾，就是有些数据已经不被使用了，但是还存在于内存中，占内存。回收垃圾就是将无用的数据清除掉，腾出内存空间给其他程序或者任务使用。 什么才是垃圾数据目前有两种算法用来判定对象是否已经死亡，可以被垃圾回收了。 引用计数算法引用计数算法是最经典也是很历史悠久的一种算法了。在微软的COM组件计数，Adobe的ActionScript3中，还是可以">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="http://zhangbuzola.cn/assets/images/gcroot.png">
+<meta property="og:image" content="http://zhangbuzola.cn/assets/images/javajvmfendai.png">
+<meta property="og:image" content="http://zhangbuzola.cn/assets/images/javajvmcopy.png">
+<meta property="og:image" content="http://zhangbuzola.cn/assets/images/javajvmcompare.png">
+<meta property="og:image" content="http://zhangbuzola.cn/assets/images/javaajvmcart.png">
+<meta property="og:image" content="http://zhangbuzola.cn/2018/08/11/实战Java虚拟机笔记三/assets/images/finalized.png">
+<meta property="og:updated_time" content="2018-08-18T02:46:15.472Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="实战Java虚拟机-JVM故障诊断与性能优化 第四章 垃圾回收概念与算法">
+<meta name="twitter:description" content="认识垃圾回收垃圾回收（GC），需要澄清什么是垃圾。内存中的垃圾，就是有些数据已经不被使用了，但是还存在于内存中，占内存。回收垃圾就是将无用的数据清除掉，腾出内存空间给其他程序或者任务使用。 什么才是垃圾数据目前有两种算法用来判定对象是否已经死亡，可以被垃圾回收了。 引用计数算法引用计数算法是最经典也是很历史悠久的一种算法了。在微软的COM组件计数，Adobe的ActionScript3中，还是可以">
+<meta name="twitter:image" content="http://zhangbuzola.cn/assets/images/gcroot.png">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="/js/pace.min.js"></script>
+  
+
+  
+	<script>
+	var _hmt = _hmt || [];
+	(function() {
+	  var hm = document.createElement("script");
+	  hm.src = "//hm.baidu.com/hm.js?a651034b7d11a367ae836642b29a3057";
+	  var s = document.getElementsByTagName("script")[0]; 
+	  s.parentNode.insertBefore(hm, s);
+	})();
+	</script>
+
+  
+
+</head>
+
+<body>
+  <div id="container">
+      <header id="header">
+    <div id="banner"></div>
+    <div id="header-outer">
+        <div id="header-menu" class="header-menu-pos animated">
+            <div class="header-menu-container">
+                <a href="/" class="left">
+                    <span class="site-title">zolanunu&#39;s Blog</span>
+                </a>
+                <nav id="header-menu-nav" class="right">
+                    
+                    <a  href="/">
+                        <i class="fa fa-home"></i>
+                        <span>Home</span>
+                    </a>
+                    
+                    <a  href="/archives">
+                        <i class="fa fa-archive"></i>
+                        <span>Archives</span>
+                    </a>
+                    
+                    <a  href="/about">
+                        <i class="fa fa-user"></i>
+                        <span>About</span>
+                    </a>
+                    
+                </nav>
+                <a class="mobile-header-menu-button">
+                    <i class="fa fa-bars"></i>
+                </a>
+            </div>
+        </div>
+        <div id="header-row">
+            <div id="logo">
+                <a href="/">
+                    <img src="/images/avatar.jpg" alt="logo">
+                </a>
+            </div>
+            <div class="header-info">
+                <div id="header-title">
+                    
+                    <h2>
+                        zolanunu&#39;s Blog
+                    </h2>
+                    
+                </div>
+                <div id="header-description">
+                    
+                    <h3>
+                        去努力尝试做一些你觉得你不会做或者不敢做的事情。
+                    </h3>
+                    
+                </div>
+            </div>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a title="zolanunu" target="_blank" href="//zhangbuzola.cn">
+                            <i class="fa fa-home fa-2x"></i></a>
+                    
+                        <a title="Github" target="_blank" href="//github.com/zolanunu">
+                            <i class="fa fa-github fa-2x"></i></a>
+                    
+                        <a title="Weibo" target="_blank" href="//weibo.com/zolanunu">
+                            <i class="fa fa-weibo fa-2x"></i></a>
+                    
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>
+      <div class="outer">
+        <section id="main" class="body-wrap"><article id="post-实战Java虚拟机笔记三" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="post-title" itemprop="name">
+      实战Java虚拟机-JVM故障诊断与性能优化 第四章 垃圾回收概念与算法
+    </h1>
+    <div class="post-title-bar">
+      <ul>
+          
+              <li>
+                  <i class="fa fa-book"></i>
+                  
+                      <a href="/categories/技术书/">技术书</a>
+                  
+              </li>
+          
+        <li>
+          <i class="fa fa-calendar"></i>  2018-08-11
+        </li>
+        <li>
+          <i class="fa fa-eye"></i>
+          <span id="busuanzi_value_page_pv"></span>
+        </li>
+      </ul>
+    </div>
+  
+
+          
+      </header>
+    
+    <div class="article-entry post-content" itemprop="articleBody">
+      
+            
+            <h1 id="认识垃圾回收"><a href="#认识垃圾回收" class="headerlink" title="认识垃圾回收"></a>认识垃圾回收</h1><p>垃圾回收（GC），需要澄清什么是垃圾。内存中的垃圾，就是有些数据已经不被使用了，但是还存在于内存中，占内存。回收垃圾就是将无用的数据清除掉，腾出内存空间给其他程序或者任务使用。</p>
+<h1 id="什么才是垃圾数据"><a href="#什么才是垃圾数据" class="headerlink" title="什么才是垃圾数据"></a>什么才是垃圾数据</h1><p>目前有两种算法用来判定对象是否已经死亡，可以被垃圾回收了。</p>
+<h2 id="引用计数算法"><a href="#引用计数算法" class="headerlink" title="引用计数算法"></a>引用计数算法</h2><p>引用计数算法是最经典也是很历史悠久的一种算法了。在微软的COM组件计数，Adobe的ActionScript3中，还是可以看到引用计数算法的存在。</p>
+<p>引用计数算法的实现理论很简单，对于一个对象A，只有有任何一个对象引用了A，那么A的引用计数就加1，当引用失效的时候，引用计数就减1。只要对象A的引用计数器值为0，那么对象就不会再被使用了。</p>
+<p>引用计数器的实现也很简单，只需要为每个对象配备一个整型的计数器就可以了。但是，引用计数器有两个很严重的问题:</p>
+<ul>
+<li><p>无法处理循环引用的情况。因此，在Java的垃圾回收器中，没有使用这种算法。</p>
+</li>
+<li><p>引用计数器要求每次因引用产生和消除的时候，都需要进行加1和减1的操作，对系统性能会有一定的影响。</p>
+</li>
+</ul>
+<p>一个简单的循环引用问题描述如下：有对象A和对象B，对象A引用了对象B，并且B中也含有对象B的引用，那么对象AB的引用计数器都不会是0，并且永远也不会是0。在系统中，也不会存在任何第3个对象引用AB。也就是说AB应该是被回收的垃圾对象，但是由于AB之间的相互引用，垃圾回收机制不会认为这两个对象是垃圾对象，从而让垃圾回收器没办法识别，会造成内存泄漏。</p>
+<h2 id="可达性分析算法"><a href="#可达性分析算法" class="headerlink" title="可达性分析算法"></a>可达性分析算法</h2><p>在主流的商用程序语言的主流实现中，都是采用了可达性分析算法来判定对象是否存活。这个算法的基本思想就是通过一系列称为<strong>GC Root</strong>的对象作为起始点，从这些节点开始向下搜索，搜索所走过的路径称为<strong>引用链</strong>。当一个对象和GC Root之间没有引用链了，则证明这个对象是不可用的。</p>
+<p><img src="/assets/images/gcroot.png" alt=""></p>
+<p>在Java语言中，可以作为GC Root的对象有：</p>
+<ul>
+<li><p>虚拟机栈（栈帧中的本地变量表）中的引用的对象</p>
+</li>
+<li><p>方法区中类静态属性引用的对象</p>
+</li>
+<li><p>方法区中常量引用的对象</p>
+</li>
+<li><p>本地方法中JNI（Native方法）引用的对象</p>
+</li>
+</ul>
+<h1 id="垃圾回收算法"><a href="#垃圾回收算法" class="headerlink" title="垃圾回收算法"></a>垃圾回收算法</h1><h2 id="标记清除算法"><a href="#标记清除算法" class="headerlink" title="标记清除算法"></a>标记清除算法</h2><p>标记清除算法将垃圾回收分为标记阶段和清除阶段。一种可行的实现就是，在标记阶段，首先通过根节点，标记所有从根节点开始的可达对象。因此，未被标记的对象就是未被引用的垃圾对象。然后，在清除阶段，就针对所有未标记的对象。标记清除算法可能产生的最大问题就是空间碎片。</p>
+<p>回收以后的空间都是不连续的，在对象的堆空间分配的过程中，尤其是大对象的内存分配，不连续内存空间的工作效率要低于连续的空间。因此，这也是该算法的最大缺点。标记清除算法先通过根节点标记所有可达对象，然后清除所有不可达对象，完成垃圾回收。</p>
+<h2 id="复制算法"><a href="#复制算法" class="headerlink" title="复制算法"></a>复制算法</h2><p>复制算法的核心思想就是：将原有的内存分为相同的两块，每次内存使用的时候只使用其中的一块，在垃圾回收的时候，将正在使用的内存中的存活对象复制到未使用的内存块中，之后，清除正在使用的内存块中的所有对象，交换两个内存的角色，完成垃圾回收。</p>
+<p>复制算法适用于存活对象较少的情况，垃圾对象很多的话，复制算法需要复制的存活对象数量就相对较少。所以，在真正需要垃圾回收的时刻，复制算法的效率是很高的。但是由于对象在垃圾回收的过程中，统一被复制到新的一块没有被使用过的内存中，这样也可以保证内存空间不会有碎片产生。</p>
+<p>缺点就是复制算法的代价却是将系统内存折半，毕竟还有一半的内存没有被使用，这是难以接受的，内存很宝贵。</p>
+<p>在新生代串行垃圾回收器中，就使用复制算法的思想。新生代被分为eden区域，from空间和to空间3个部分。其中from、to空间可以被视为复制的两块大小相同，地位一样而且角色可以互换的内存块，也被称为幸存者空间，用来存放没有被回收的对象。</p>
+<ul>
+<li><p>新生代：存放年轻对象（刚刚被创建，或者经历垃圾回收次数不多的对象）的堆空间。</p>
+</li>
+<li><p>老年代：存放老年对象（经历过很多次垃圾回收仍然存活的对象，或者是某些一开始被创建空间要求就很大的也会进入老年代）的空间。</p>
+</li>
+</ul>
+<p>在垃圾回收的时候，eden空间的存活对象会被复制到没有被使用的from(to)空间中假设是to的话，那么正在使用的from空间的存活年轻对象也会被复制到to空间中（但是大的对象或者已经是老年代对象会直接进入老年代的区域中，或者是to空间满了，那么就会进入到老年代）。这个时候，eden区域和from区留下的对象都是垃圾对象，会被垃圾回收器回收。</p>
+<p><img src="/assets/images/javajvmfendai.png" alt=""></p>
+<p>这种改进的复制算法，保证了空间的连续性，也避免了内存资源浪费。</p>
+<p>复制算法更适合用在新生代，因为新生代中垃圾对象会多余存活对象，复制算法的效果也会比较好。</p>
+<p><img src="/assets/images/javajvmcopy.png" alt=""></p>
+<h2 id="标记压缩算法"><a href="#标记压缩算法" class="headerlink" title="标记压缩算法"></a>标记压缩算法</h2><p>复制算法的高效性是建立在存活对象少，垃圾对象多的前提下。这种情况多出现下新生代，但是在老年代，更常见的情况是，大部分对象都是存活的，如果还使用复制算法的话，效率就会降低，因为还使用复制算法的话，存活对象太多，复制的成本就会很高了。</p>
+<p>标记压缩算法是适合在老年代的回收算法。先对存活对象标记，之后将所有存活的对象压缩到内存的一端。之后，清理边界外的所有内存空间。这种算法避免了碎片的产生，又不需要两块相同的内存空间，因此，其性价比比较高。</p>
+<p><img src="/assets/images/javajvmcompare.png" alt=""></p>
+<h2 id="分代算法"><a href="#分代算法" class="headerlink" title="分代算法"></a>分代算法</h2><p>分代算法就是将内存空间分为几块，根据每块内存的特点，使用不同的回收算法，来提高垃圾回收的效率。</p>
+<p>一般来说，Java虚拟机会将所有新建对象会被称为新生代的内存区域，新生代的特点是对象朝生夕灭，大约90%的新建对象会被很快回收，所以，新生代比较适合使用复制算法，当一个对象经过几次回收后依然还存活着，对象就会被放入老年代。</p>
+<p>老年代一般会使用标记压缩和标记清除的算法。</p>
+<p>老年代和年轻代回收频率不同，新生代的回收频率很高，但是每次回收的耗时很短，而且对于老年代回收的频率比较低，但是会消耗更多的时间。为了支持高频率的新生代回收，虚拟机提供了一种叫作卡表（Card Table）的数据结构。卡表为一个比特位集合，每一个比特位可以表示老年代的某一区域中的所有对象是否持有新生代对象的引用。如果存在则标记为1，否则标记为0.这样在新生代GC时，就无需花大量时间去扫描所有老年代对象，来确定每一个对象的引用关系，而是只需扫描卡表标记为1的所对应的老年代区域即可。 </p>
+<p><img src="/assets/images/javaajvmcart.png" alt=""></p>
+<h2 id="分区算法（Region）"><a href="#分区算法（Region）" class="headerlink" title="分区算法（Region）"></a>分区算法（Region）</h2><p>分区算法，将整个堆划分成连续的不同小区间。每一个小区间都独立使用，独立回收。这种算法的好处，可以控制一次回收多少个小区间。</p>
+<p>一般来说，在相同的条件下，堆空间越大，一次GC时所需要的时间就越长，从而产生的停顿也越长。为了能更好的控制GC产生的停顿时间，将一块大的内存区域分割成多个小块，根据目标的停顿时间，每次合理地回收若干个小区间，而不是整个堆空间，从而减少了一次GC产生的停顿时间。</p>
+<h1 id="对象复活"><a href="#对象复活" class="headerlink" title="对象复活"></a>对象复活</h1><h2 id="finalize"><a href="#finalize" class="headerlink" title="finalize"></a>finalize</h2><h3 id="finalize的作用"><a href="#finalize的作用" class="headerlink" title="finalize的作用"></a>finalize的作用</h3><p>finalize()是Object的protected方法，子类可以覆盖该方法以实现资源清理工作，GC在回收对象之前调用该方法。</p>
+<p>finalize()与C++中的析构函数不是对应的。C++中的析构函数调用的时机是确定的（对象离开作用域或delete掉），但Java中的finalize的调用具有不确定性<br>不建议用finalize方法完成“非内存资源”的清理工作，但建议用于：① 清理本地对象(通过JNI创建的对象)；② 作为确保某些非内存资源(如Socket、文件等)释放的一个补充：在finalize方法中显式调用其他资源释放方法。其原因可见下文[finalize的问题]</p>
+<h3 id="finalize的问题"><a href="#finalize的问题" class="headerlink" title="finalize的问题"></a>finalize的问题</h3><p>一些与finalize相关的方法，由于一些致命的缺陷，已经被废弃了，如System.runFinalizersOnExit()方法、Runtime.runFinalizersOnExit()方法<br>System.gc()与System.runFinalization()方法增加了finalize方法执行的机会，但不可盲目依赖它们<br>Java语言规范并不保证finalize方法会被及时地执行、而且根本不会保证它们会被执行<br>finalize方法可能会带来性能问题。因为JVM通常在单独的低优先级线程中完成finalize的执行<br>对象再生问题：finalize方法中，可将待回收对象赋值给GC Roots可达的对象引用，从而达到对象再生的目的<br>finalize方法至多由GC执行一次(用户当然可以手动调用对象的finalize方法，但并不影响GC对finalize的行为)</p>
+<h3 id="finalize的执行过程-生命周期"><a href="#finalize的执行过程-生命周期" class="headerlink" title="finalize的执行过程(生命周期)"></a>finalize的执行过程(生命周期)</h3><p>(1) 首先，大致描述一下finalize流程：当对象变成(GC Roots)不可达时，GC会判断该对象是否覆盖了finalize方法，若未覆盖，则直接将其回收。否则，若对象未执行过finalize方法，将其放入F-Queue队列，由一低优先级线程执行该队列中对象的finalize方法。执行finalize方法完毕后，GC会再次判断该对象是否可达，若不可达，则进行回收，否则，对象“复活”。</p>
+<p>(2) 具体的finalize流程：</p>
+<p>对象可由两种状态，涉及到两类状态空间，一是终结状态空间 F = {unfinalized, finalizable, finalized}；二是可达状态空间 R = {reachable, finalizer-reachable, unreachable}。各状态含义如下：</p>
+<p>unfinalized: 新建对象会先进入此状态，GC并未准备执行其finalize方法，因为该对象是可达的</p>
+<p>finalizable: 表示GC可对该对象执行finalize方法，GC已检测到该对象不可达。正如前面所述，GC通过F-Queue队列和一专用线程完成finalize的执行</p>
+<p>finalized: 表示GC已经对该对象执行过finalize方法</p>
+<p>reachable: 表示GC Roots引用可达</p>
+<p>finalizer-reachable(f-reachable)：表示不是reachable，但可通过某个finalizable对象可达</p>
+<p>unreachable：对象不可通过上面两种途径可达</p>
+<p>状态变迁图：</p>
+<p><img src="assets/images/finalized.png" alt=""></p>
+<p>变迁说明：</p>
+<p>新建对象首先处于[reachable, unfinalized]状态(A)</p>
+<p>随着程序的运行，一些引用关系会消失，导致状态变迁，从reachable状态变迁到f-reachable(B, C, D)或unreachable(E, F)状态</p>
+<p>若JVM检测到处于unfinalized状态的对象变成f-reachable或unreachable，JVM会将其标记为finalizable状态(G,H)。若对象原处于[unreachable, unfinalized]状态，则同时将其标记为f-reachable(H)。</p>
+<p>在某个时刻，JVM取出某个finalizable对象，将其标记为finalized并在某个线程中执行其finalize方法。由于是在活动线程中引用了该对象，该对象将变迁到(reachable, finalized)状态(K或J)。该动作将影响某些其他对象从f-reachable状态重新回到reachable状态(L, M, N)</p>
+<p>处于finalizable状态的对象不能同时是unreahable的，由第4点可知，将对象finalizable对象标记为finalized时会由某个线程执行该对象的finalize方法，致使其变成reachable。这也是图中只有八个状态点的原因</p>
+<p>程序员手动调用finalize方法并不会影响到上述内部标记的变化，因此JVM只会至多调用finalize一次，即使该对象“复活”也是如此。程序员手动调用多少次不影响JVM的行为</p>
+<p>若JVM检测到finalized状态的对象变成unreachable，回收其内存(I)</p>
+<p>若对象并未覆盖finalize方法，JVM会进行优化，直接回收对象（O）</p>
+<p>注：System.runFinalizersOnExit()等方法可以使对象即使处于reachable状态，JVM仍对其执行finalize方法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">public class GC &#123;  </span><br><span class="line">  </span><br><span class="line">    public static GC SAVE_HOOK = null;  </span><br><span class="line">  </span><br><span class="line">    public static void main(String[] args) throws InterruptedException &#123;  </span><br><span class="line">        SAVE_HOOK = new GC();  </span><br><span class="line">        SAVE_HOOK = null;  </span><br><span class="line">        System.gc();  </span><br><span class="line">        Thread.sleep(500);  </span><br><span class="line">        if (null != SAVE_HOOK) &#123; //此时对象应该处于(reachable, finalized)状态  </span><br><span class="line">            System.out.println(&quot;Yes , I am still alive&quot;);  </span><br><span class="line">        &#125; else &#123;  </span><br><span class="line">            System.out.println(&quot;No , I am dead&quot;);  </span><br><span class="line">        &#125;  </span><br><span class="line">        SAVE_HOOK = null;  </span><br><span class="line">        System.gc();  </span><br><span class="line">        Thread.sleep(500);  </span><br><span class="line">        if (null != SAVE_HOOK) &#123;  </span><br><span class="line">            System.out.println(&quot;Yes , I am still alive&quot;);  </span><br><span class="line">        &#125; else &#123;  </span><br><span class="line">            System.out.println(&quot;No , I am dead&quot;);  </span><br><span class="line">        &#125;  </span><br><span class="line">    &#125;  </span><br><span class="line">  </span><br><span class="line">    @Override  </span><br><span class="line">    protected void finalize() throws Throwable &#123;  </span><br><span class="line">        super.finalize();  </span><br><span class="line">        System.out.println(&quot;execute method finalize()&quot;);  </span><br><span class="line">        SAVE_HOOK = this;  </span><br><span class="line">    &#125;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="引用和可触及的强度"><a href="#引用和可触及的强度" class="headerlink" title="引用和可触及的强度"></a>引用和可触及的强度</h2><h3 id="强引用"><a href="#强引用" class="headerlink" title="强引用"></a>强引用</h3><p>强引用是程序中一般使用的引用类型，强引用的对象是可触及的，不会被回收。相对的，软引用，弱引用和虚引用都是软可触及，弱可触及和虚可触及的。在一定的条件下，都会被回收。</p>
+<p>强引用的特点：</p>
+<ul>
+<li><p>强引用可以直接访问目标对象</p>
+</li>
+<li><p>强引用所指向的对象在任何时候都不会被系统回收，虚拟机宁可抛出OOM异常，也不会回收哦强引用所指向的对象。</p>
+</li>
+<li><p>强引用可能导致内存泄漏</p>
+</li>
+</ul>
+<h3 id="软引用"><a href="#软引用" class="headerlink" title="软引用"></a>软引用</h3><p>一个对象只有软引用，那么当堆空间不足的时候，就会被回收。java.lang.ref.SoftReference</p>
+<p>软引用是用来描述一些有用但并不是必需的对象，在Java中用java.lang.ref.SoftReference类来表示。对于软引用关联着的对象，只有在内存不足的时候JVM才会回收该对象。因此，这一点可以很好地用来解决OOM的问题，并且这个特性很适合用来实现缓存：比如网页缓存、图片缓存等。</p>
+<p>软引用可以和一个引用队列（ReferenceQueue）联合使用，如果软引用所引用的对象被JVM回收，这个软引用就会被加入到与之关联的引用队列中。下面是一个使用示例：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">import java.lang.ref.SoftReference;</span><br><span class="line"> </span><br><span class="line">public class Main &#123;</span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">         </span><br><span class="line">        SoftReference&lt;String&gt; sr = new SoftReference&lt;String&gt;(new String(&quot;hello&quot;));</span><br><span class="line">        System.out.println(sr.get());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>GC未必会回收软引用对象，但是，当内存空间吃紧的时候，软引用对象就会被回收，所以软引用对象不会引用内存溢出。</p>
+<h3 id="弱引用"><a href="#弱引用" class="headerlink" title="弱引用"></a>弱引用</h3><p>弱引用是比软引用较弱的引用类型。在系统GC的时候，只要有弱引用，系统空间不管使用情况如何，都会对这类对象进行回收。但是，由于垃圾回收器的线程通常优先级很低，因此，并不一定能很快发现持有弱引用的对象。在这种情况下，弱引用对象可以存在较长的时间。一旦一个弱引用对象被垃圾回收器回收，便会加入到一个注册的引用队列中。java.lang.ref.WeakReference、</p>
+<p>软引用，弱引用都是适合保存一些可有可无的缓存数据，如果这么做，系统内存不足的时候，这些缓存数据就会被回收，不会导致内存溢出。当内存资源充足的时候，这些缓存数据又可以存在相当长的时间，从而达到加速系统的作用。</p>
+<h3 id="虚引用"><a href="#虚引用" class="headerlink" title="虚引用"></a>虚引用</h3><p>虚引用和前面的软引用、弱引用不同，它并不影响对象的生命周期。在java中用java.lang.ref.PhantomReference类表示。如果一个对象与虚引用关联，则跟没有引用与之关联一样，在任何时候都可能被垃圾回收器回收。</p>
+<p>要注意的是，虚引用必须和引用队列关联使用，当垃圾回收器准备回收一个对象时，如果发现它还有虚引用，就会把这个虚引用加入到与之关联的引用队列中。程序可以通过判断引用队列中是否已经加入了虚引用，来了解被引用的对象是否将要被垃圾回收。如果程序发现某个虚引用已经被加入到引用队列，那么就可以在所引用的对象的内存被回收之前采取必要的行动。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">import java.lang.ref.PhantomReference;</span><br><span class="line">import java.lang.ref.ReferenceQueue;</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line">public class Main &#123;</span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        ReferenceQueue&lt;String&gt; queue = new ReferenceQueue&lt;String&gt;();</span><br><span class="line">        PhantomReference&lt;String&gt; pr = new PhantomReference&lt;String&gt;(new String(&quot;hello&quot;), queue);</span><br><span class="line">        System.out.println(pr.get());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="如何使用"><a href="#如何使用" class="headerlink" title="如何使用"></a>如何使用</h3><p>如何利用软引用和弱引用解决OOM问题</p>
+<p>前面讲了关于软引用和弱引用相关的基础知识，那么到底如何利用它们来优化程序性能，从而避免OOM的问题呢？</p>
+<p>下面举个例子，假如有一个应用需要读取大量的本地图片，如果每次读取图片都从硬盘读取，则会严重影响性能，但是如果全部加载到内存当中，又有可能造成内存溢出，此时使用软引用可以解决这个问题。</p>
+<p>设计思路是：用一个HashMap来保存图片的路径 和 相应图片对象关联的软引用之间的映射关系，在内存不足时，JVM会自动回收这些缓存图片对象所占用的空间，从而有效地避免了OOM的问题。在Android开发中对于大量图片下载会经常用到。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">.....</span><br><span class="line">private Map&lt;String, SoftReference&lt;Bitmap&gt;&gt; imageCache = new HashMap&lt;String, SoftReference&lt;Bitmap&gt;&gt;();</span><br><span class="line">&lt;br&gt;....</span><br><span class="line">public void addBitmapToCache(String path) &#123;</span><br><span class="line"> </span><br><span class="line">        // 强引用的Bitmap对象</span><br><span class="line"> </span><br><span class="line">        Bitmap bitmap = BitmapFactory.decodeFile(path);</span><br><span class="line"> </span><br><span class="line">        // 软引用的Bitmap对象</span><br><span class="line"> </span><br><span class="line">        SoftReference&lt;Bitmap&gt; softBitmap = new SoftReference&lt;Bitmap&gt;(bitmap);</span><br><span class="line"> </span><br><span class="line">        // 添加该对象到Map中使其缓存</span><br><span class="line"> </span><br><span class="line">        imageCache.put(path, softBitmap);</span><br><span class="line"> </span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line"> public Bitmap getBitmapByPath(String path) &#123;</span><br><span class="line"> </span><br><span class="line">        // 从缓存中取软引用的Bitmap对象</span><br><span class="line"> </span><br><span class="line">        SoftReference&lt;Bitmap&gt; softBitmap = imageCache.get(path);</span><br><span class="line"> </span><br><span class="line">        // 判断是否存在软引用</span><br><span class="line"> </span><br><span class="line">        if (softBitmap == null) &#123;</span><br><span class="line"> </span><br><span class="line">            return null;</span><br><span class="line"> </span><br><span class="line">        &#125;</span><br><span class="line"> </span><br><span class="line">        // 取出Bitmap对象，如果由于内存不足Bitmap被回收，将取得空</span><br><span class="line"> </span><br><span class="line">        Bitmap bitmap = softBitmap.get();</span><br><span class="line"> </span><br><span class="line">        return bitmap;</span><br><span class="line"> </span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>当然这里我们把缓存替换策略交给了JVM去执行，这是一种比较简单的处理方法。复杂一点的缓存，我们可以自己单独设计一个类，这里面就涉及到缓存策略的问题了，具体可以参考《缓存算法（页面置换算法）-FIFO、LFU、LRU》</p>
+
+            <div class="post-copyright">
+    <div class="content">
+        <p>最后更新： 2018年08月18日 10:46</p>
+        <p>原始链接： <a class="post-url" href="/2018/08/11/实战Java虚拟机笔记三/" title="实战Java虚拟机-JVM故障诊断与性能优化 第四章 垃圾回收概念与算法">http://zhangbuzola.cn/2018/08/11/实战Java虚拟机笔记三/</a></p>
+        <footer>
+            <a href="http://zhangbuzola.cn">
+                <img src="/images/avatar.jpg" alt="zolanunu">
+                zolanunu
+            </a>
+        </footer>
+    </div>
+</div>
+
+      
+        
+            
+
+        
+    </div>
+    <footer class="article-footer">
+        
+        <ul class="article-footer-menu">
+            
+            
+  <li class="article-footer-tags">
+    <i class="fa fa-tags"></i>
+      
+    <a href="/tags/实战Java虚拟机-JVM故障诊断与性能优化/" class="color3">实战Java虚拟机-JVM故障诊断与性能优化</a>
+      
+  </li>
+
+        </ul>
+        
+    </footer>
+  </div>
+</article>
+
+
+    <aside class="post-toc-pos post-toc-top" id="post-toc">
+        <nav class="post-toc-wrap">
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#认识垃圾回收"><span class="post-toc-text">认识垃圾回收</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#什么才是垃圾数据"><span class="post-toc-text">什么才是垃圾数据</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#引用计数算法"><span class="post-toc-text">引用计数算法</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#可达性分析算法"><span class="post-toc-text">可达性分析算法</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#垃圾回收算法"><span class="post-toc-text">垃圾回收算法</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#标记清除算法"><span class="post-toc-text">标记清除算法</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#复制算法"><span class="post-toc-text">复制算法</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#标记压缩算法"><span class="post-toc-text">标记压缩算法</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#分代算法"><span class="post-toc-text">分代算法</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#分区算法（Region）"><span class="post-toc-text">分区算法（Region）</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#对象复活"><span class="post-toc-text">对象复活</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#finalize"><span class="post-toc-text">finalize</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#finalize的作用"><span class="post-toc-text">finalize的作用</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#finalize的问题"><span class="post-toc-text">finalize的问题</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#finalize的执行过程-生命周期"><span class="post-toc-text">finalize的执行过程(生命周期)</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#引用和可触及的强度"><span class="post-toc-text">引用和可触及的强度</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#强引用"><span class="post-toc-text">强引用</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#软引用"><span class="post-toc-text">软引用</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#弱引用"><span class="post-toc-text">弱引用</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#虚引用"><span class="post-toc-text">虚引用</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#如何使用"><span class="post-toc-text">如何使用</span></a></li></ol></li></ol></li></ol>
+        </nav>
+    </aside>
+    
+
+<nav id="article-nav">
+  
+  
+    <a href="/2018/08/11/实战Java虚拟机笔记二/" id="article-nav-older" class="article-nav-link-wrap">
+      <span class="article-nav-title">实战Java虚拟机-JVM故障诊断与性能优化 part2</span>
+      <i class="fa fa-hand-o-right" aria-hidden="true"></i>
+    </a>
+  
+</nav>
+
+
+
+    
+        <link rel="stylesheet" href="//unpkg.com/gitment/style/default.css">
+    <script src="//unpkg.com/gitment/dist/gitment.browser.js"></script>
+    <script>
+        var gitment = new Gitment({
+            owner: 'true',
+            repo: 'zolanunu',
+            oauth: {
+                client_id: '1a04e8dee74a4b8634df',
+                client_secret: '9e3078ac89eb72f22abbdd11f7f0d11e2e1d7f7a',
+            },
+        })
+        gitment.render('comments')
+    </script>
+
+    
+</section>
+        
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+      <p>
+        Powered by  <a href="http://hexo.io/" target="_blank">Hexo</a>
+        Theme <a href="//github.com/wongminho/hexo-theme-miho" target="_blank">MiHo</a>
+      &copy; 2018 zolanunu<br>
+      </p>
+    </div>
+  </div>
+</footer>
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script>
+  var mihoConfig = {
+      root: "http://zhangbuzola.cn",
+      animate: true,
+      isHome: false,
+      share: false,
+      reward: 0
+  }
+</script>
+<div class="sidebar">
+    <div id="sidebar-search" title="Search">
+        <i class="fa fa-search"></i>
+    </div>
+    <div id="sidebar-category" title="Categories">
+        <i class="fa fa-book"></i>
+    </div>
+    <div id="sidebar-tag" title="Tags">
+        <i class="fa fa-tags"></i>
+    </div>
+    <div id="sidebar-top">
+        <span class="sidebar-top-icon"><i class="fa fa-angle-up"></i></span>
+    </div>
+</div>
+<div class="sidebar-menu-box" id="sidebar-menu-box">
+    <div class="sidebar-menu-box-container">
+        <div id="sidebar-menu-box-categories">
+            <a class="category-link" href="/categories/Java/">Java</a><a class="category-link" href="/categories/Java后台/">Java后台</a><a class="category-link" href="/categories/Python/">Python</a><a class="category-link" href="/categories/工具/">工具</a><a class="category-link" href="/categories/技术书/">技术书</a><a class="category-link" href="/categories/数据库/">数据库</a><a class="category-link" href="/categories/数据结构/">数据结构</a><a class="category-link" href="/categories/生活轨迹/">生活轨迹</a><a class="category-link" href="/categories/算法/">算法</a><a class="category-link" href="/categories/编程技术/">编程技术</a><a class="category-link" href="/categories/计算机网络/">计算机网络</a>
+        </div>
+        <div id="sidebar-menu-box-tags">
+            <a href="/tags/2018/" style="font-size: 11.25px;">2018</a> <a href="/tags/Collections/" style="font-size: 15px;">Collections</a> <a href="/tags/HashMap/" style="font-size: 10px;">HashMap</a> <a href="/tags/LinkedHashMap/" style="font-size: 10px;">LinkedHashMap</a> <a href="/tags/MySQL/" style="font-size: 17.5px;">MySQL</a> <a href="/tags/Mybatis/" style="font-size: 12.5px;">Mybatis</a> <a href="/tags/Object/" style="font-size: 10px;">Object</a> <a href="/tags/SSM/" style="font-size: 13.75px;">SSM</a> <a href="/tags/TreeMap/" style="font-size: 11.25px;">TreeMap</a> <a href="/tags/cookie/" style="font-size: 10px;">cookie</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/java基础/" style="font-size: 20px;">java基础</a> <a href="/tags/java并发编程实战/" style="font-size: 11.25px;">java并发编程实战</a> <a href="/tags/leetcode/" style="font-size: 16.25px;">leetcode</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/session/" style="font-size: 10px;">session</a> <a href="/tags/剑指offer/" style="font-size: 10px;">剑指offer</a> <a href="/tags/单例模式/" style="font-size: 10px;">单例模式</a> <a href="/tags/原型模式/" style="font-size: 10px;">原型模式</a> <a href="/tags/多线程/" style="font-size: 11.25px;">多线程</a> <a href="/tags/实战Java虚拟机-JVM故障诊断与性能优化/" style="font-size: 12.5px;">实战Java虚拟机-JVM故障诊断与性能优化</a> <a href="/tags/工厂模式/" style="font-size: 10px;">工厂模式</a> <a href="/tags/并发编程/" style="font-size: 10px;">并发编程</a> <a href="/tags/建造者模式/" style="font-size: 10px;">建造者模式</a> <a href="/tags/机器学习/" style="font-size: 12.5px;">机器学习</a> <a href="/tags/构造函数/" style="font-size: 10px;">构造函数</a> <a href="/tags/深入理解java虚拟机/" style="font-size: 11.25px;">深入理解java虚拟机</a> <a href="/tags/生活/" style="font-size: 10px;">生活</a> <a href="/tags/神经网络/" style="font-size: 10px;">神经网络</a> <a href="/tags/算法与数据结构/" style="font-size: 16.25px;">算法与数据结构</a> <a href="/tags/算法和数据结构/" style="font-size: 18.75px;">算法和数据结构</a> <a href="/tags/索引优化/" style="font-size: 10px;">索引优化</a> <a href="/tags/线程安全/" style="font-size: 10px;">线程安全</a> <a href="/tags/观影记/" style="font-size: 10px;">观影记</a> <a href="/tags/设计模式/" style="font-size: 13.75px;">设计模式</a> <a href="/tags/设计模式之禅/" style="font-size: 13.75px;">设计模式之禅</a> <a href="/tags/读书书单/" style="font-size: 10px;">读书书单</a> <a href="/tags/负载均衡/" style="font-size: 10px;">负载均衡</a> <a href="/tags/锁优化/" style="font-size: 10px;">锁优化</a>
+        </div>
+    </div>
+    <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
+</div>
+<div class="mobile-header-menu-nav" id="mobile-header-menu-nav">
+    <div class="mobile-header-menu-container">
+        <span class="title">Menus</span>
+        <ul class="mobile-header-menu-navbar">
+            
+            <li>
+                <a  href="/">
+                    <i class="fa fa-home"></i><span>Home</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/archives">
+                    <i class="fa fa-archive"></i><span>Archives</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/about">
+                    <i class="fa fa-user"></i><span>About</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    <div class="mobile-header-tag-container">
+        <span class="title">Tags</span>
+        <div id="mobile-header-container-tags">
+            <a href="/tags/2018/" style="font-size: 11.25px;">2018</a> <a href="/tags/Collections/" style="font-size: 15px;">Collections</a> <a href="/tags/HashMap/" style="font-size: 10px;">HashMap</a> <a href="/tags/LinkedHashMap/" style="font-size: 10px;">LinkedHashMap</a> <a href="/tags/MySQL/" style="font-size: 17.5px;">MySQL</a> <a href="/tags/Mybatis/" style="font-size: 12.5px;">Mybatis</a> <a href="/tags/Object/" style="font-size: 10px;">Object</a> <a href="/tags/SSM/" style="font-size: 13.75px;">SSM</a> <a href="/tags/TreeMap/" style="font-size: 11.25px;">TreeMap</a> <a href="/tags/cookie/" style="font-size: 10px;">cookie</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/java基础/" style="font-size: 20px;">java基础</a> <a href="/tags/java并发编程实战/" style="font-size: 11.25px;">java并发编程实战</a> <a href="/tags/leetcode/" style="font-size: 16.25px;">leetcode</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/session/" style="font-size: 10px;">session</a> <a href="/tags/剑指offer/" style="font-size: 10px;">剑指offer</a> <a href="/tags/单例模式/" style="font-size: 10px;">单例模式</a> <a href="/tags/原型模式/" style="font-size: 10px;">原型模式</a> <a href="/tags/多线程/" style="font-size: 11.25px;">多线程</a> <a href="/tags/实战Java虚拟机-JVM故障诊断与性能优化/" style="font-size: 12.5px;">实战Java虚拟机-JVM故障诊断与性能优化</a> <a href="/tags/工厂模式/" style="font-size: 10px;">工厂模式</a> <a href="/tags/并发编程/" style="font-size: 10px;">并发编程</a> <a href="/tags/建造者模式/" style="font-size: 10px;">建造者模式</a> <a href="/tags/机器学习/" style="font-size: 12.5px;">机器学习</a> <a href="/tags/构造函数/" style="font-size: 10px;">构造函数</a> <a href="/tags/深入理解java虚拟机/" style="font-size: 11.25px;">深入理解java虚拟机</a> <a href="/tags/生活/" style="font-size: 10px;">生活</a> <a href="/tags/神经网络/" style="font-size: 10px;">神经网络</a> <a href="/tags/算法与数据结构/" style="font-size: 16.25px;">算法与数据结构</a> <a href="/tags/算法和数据结构/" style="font-size: 18.75px;">算法和数据结构</a> <a href="/tags/索引优化/" style="font-size: 10px;">索引优化</a> <a href="/tags/线程安全/" style="font-size: 10px;">线程安全</a> <a href="/tags/观影记/" style="font-size: 10px;">观影记</a> <a href="/tags/设计模式/" style="font-size: 13.75px;">设计模式</a> <a href="/tags/设计模式之禅/" style="font-size: 13.75px;">设计模式之禅</a> <a href="/tags/读书书单/" style="font-size: 10px;">读书书单</a> <a href="/tags/负载均衡/" style="font-size: 10px;">负载均衡</a> <a href="/tags/锁优化/" style="font-size: 10px;">锁优化</a>
+        </div>
+    </div>
+</div>
+<div class="search-wrap">
+    <span class="search-close">&times;</span>
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+            <i class="icon icon-lg icon-chevron-left"></i>
+        </a>
+        <input class="search-field" placeholder="Search..." id="keywords">
+        <a id="search-submit" href="javascript:;">
+            <i class="fa fa-search"></i>
+        </a>
+    <div class="search-container" id="search-container">
+        <ul class="search-result" id="search-result">
+        </ul>
+    </div>
+</div>
+
+<div id="search-tpl">
+    <li class="search-result-item">
+        <a href="{url}" class="search-item-li">
+            <span class="search-item-li-title" title="{title}">{title}</span>
+        </a>
+    </li>
+</div>
+<script src="/js/search.js"></script>
+<script src="/js/main.js"></script>
+
+
+  <script src="//cdn.bootcss.com/particles.js/2.0.0/particles.min.js"></script>
+  <div id="particles"></div>
+  <script src="/js/particles.js"></script>
+
+
+
+
+
+
+
+  <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
+  <script src="//cdn.bootcss.com/scrollReveal.js/3.0.5/scrollreveal.js"></script>
+  <script src="/js/animate.js"></script>
+
+
+  <script src="/js/pop-img.js"></script>
+  <script>
+     $(".article-entry p img").popImg();
+  </script>
+
+  </div>
+</body>
+</html>
