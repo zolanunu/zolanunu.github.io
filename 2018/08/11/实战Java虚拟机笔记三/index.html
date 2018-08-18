@@ -22,7 +22,7 @@
 <meta property="og:image" content="http://zhangbuzola.cn/assets/images/javajvmcompare.png">
 <meta property="og:image" content="http://zhangbuzola.cn/assets/images/javaajvmcart.png">
 <meta property="og:image" content="http://zhangbuzola.cn/2018/08/11/实战Java虚拟机笔记三/assets/images/finalized.png">
-<meta property="og:updated_time" content="2018-08-18T02:46:15.472Z">
+<meta property="og:updated_time" content="2018-08-18T02:54:25.984Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="实战Java虚拟机-JVM故障诊断与性能优化 第四章 垃圾回收概念与算法">
 <meta name="twitter:description" content="认识垃圾回收垃圾回收（GC），需要澄清什么是垃圾。内存中的垃圾，就是有些数据已经不被使用了，但是还存在于内存中，占内存。回收垃圾就是将无用的数据清除掉，腾出内存空间给其他程序或者任务使用。 什么才是垃圾数据目前有两种算法用来判定对象是否已经死亡，可以被垃圾回收了。 引用计数算法引用计数算法是最经典也是很历史悠久的一种算法了。在微软的COM组件计数，Adobe的ActionScript3中，还是可以">
@@ -213,8 +213,15 @@
 <h2 id="分区算法（Region）"><a href="#分区算法（Region）" class="headerlink" title="分区算法（Region）"></a>分区算法（Region）</h2><p>分区算法，将整个堆划分成连续的不同小区间。每一个小区间都独立使用，独立回收。这种算法的好处，可以控制一次回收多少个小区间。</p>
 <p>一般来说，在相同的条件下，堆空间越大，一次GC时所需要的时间就越长，从而产生的停顿也越长。为了能更好的控制GC产生的停顿时间，将一块大的内存区域分割成多个小块，根据目标的停顿时间，每次合理地回收若干个小区间，而不是整个堆空间，从而减少了一次GC产生的停顿时间。</p>
 <h1 id="对象复活"><a href="#对象复活" class="headerlink" title="对象复活"></a>对象复活</h1><h2 id="finalize"><a href="#finalize" class="headerlink" title="finalize"></a>finalize</h2><h3 id="finalize的作用"><a href="#finalize的作用" class="headerlink" title="finalize的作用"></a>finalize的作用</h3><p>finalize()是Object的protected方法，子类可以覆盖该方法以实现资源清理工作，GC在回收对象之前调用该方法。</p>
-<p>finalize()与C++中的析构函数不是对应的。C++中的析构函数调用的时机是确定的（对象离开作用域或delete掉），但Java中的finalize的调用具有不确定性<br>不建议用finalize方法完成“非内存资源”的清理工作，但建议用于：① 清理本地对象(通过JNI创建的对象)；② 作为确保某些非内存资源(如Socket、文件等)释放的一个补充：在finalize方法中显式调用其他资源释放方法。其原因可见下文[finalize的问题]</p>
-<h3 id="finalize的问题"><a href="#finalize的问题" class="headerlink" title="finalize的问题"></a>finalize的问题</h3><p>一些与finalize相关的方法，由于一些致命的缺陷，已经被废弃了，如System.runFinalizersOnExit()方法、Runtime.runFinalizersOnExit()方法<br>System.gc()与System.runFinalization()方法增加了finalize方法执行的机会，但不可盲目依赖它们<br>Java语言规范并不保证finalize方法会被及时地执行、而且根本不会保证它们会被执行<br>finalize方法可能会带来性能问题。因为JVM通常在单独的低优先级线程中完成finalize的执行<br>对象再生问题：finalize方法中，可将待回收对象赋值给GC Roots可达的对象引用，从而达到对象再生的目的<br>finalize方法至多由GC执行一次(用户当然可以手动调用对象的finalize方法，但并不影响GC对finalize的行为)</p>
+<p>finalize()与C++中的析构函数不是对应的。C++中的析构函数调用的时机是确定的（对象离开作用域或delete掉），但Java中的finalize的调用具有不确定性<br>不建议用finalize方法完成“非内存资源”的清理工作，但建议用于：</p>
+<p>① 清理本地对象(通过JNI创建的对象)；</p>
+<p>② 作为确保某些非内存资源(如Socket、文件等)释放的一个补充：在finalize方法中显式调用其他资源释放方法。其原因可见下文[finalize的问题]</p>
+<h3 id="finalize的问题"><a href="#finalize的问题" class="headerlink" title="finalize的问题"></a>finalize的问题</h3><p>一些与finalize相关的方法，由于一些致命的缺陷，已经被废弃了，如System.runFinalizersOnExit()方法、Runtime.runFinalizersOnExit()方法</p>
+<p>System.gc()与System.runFinalization()方法增加了finalize方法执行的机会，但不可盲目依赖它们</p>
+<p>Java语言规范并不保证finalize方法会被及时地执行、而且根本不会保证它们会被执行</p>
+<p>finalize方法可能会带来性能问题。因为JVM通常在单独的低优先级线程中完成finalize的执行</p>
+<p>对象再生问题：finalize方法中，可将待回收对象赋值给GC Roots可达的对象引用，从而达到对象再生的目的</p>
+<p>finalize方法至多由GC执行一次(用户当然可以手动调用对象的finalize方法，但并不影响GC对finalize的行为)</p>
 <h3 id="finalize的执行过程-生命周期"><a href="#finalize的执行过程-生命周期" class="headerlink" title="finalize的执行过程(生命周期)"></a>finalize的执行过程(生命周期)</h3><p>(1) 首先，大致描述一下finalize流程：当对象变成(GC Roots)不可达时，GC会判断该对象是否覆盖了finalize方法，若未覆盖，则直接将其回收。否则，若对象未执行过finalize方法，将其放入F-Queue队列，由一低优先级线程执行该队列中对象的finalize方法。执行finalize方法完毕后，GC会再次判断该对象是否可达，若不可达，则进行回收，否则，对象“复活”。</p>
 <p>(2) 具体的finalize流程：</p>
 <p>对象可由两种状态，涉及到两类状态空间，一是终结状态空间 F = {unfinalized, finalizable, finalized}；二是可达状态空间 R = {reachable, finalizer-reachable, unreachable}。各状态含义如下：</p>
@@ -266,7 +273,7 @@
 
             <div class="post-copyright">
     <div class="content">
-        <p>最后更新： 2018年08月18日 10:46</p>
+        <p>最后更新： 2018年08月18日 10:54</p>
         <p>原始链接： <a class="post-url" href="/2018/08/11/实战Java虚拟机笔记三/" title="实战Java虚拟机-JVM故障诊断与性能优化 第四章 垃圾回收概念与算法">http://zhangbuzola.cn/2018/08/11/实战Java虚拟机笔记三/</a></p>
         <footer>
             <a href="http://zhangbuzola.cn">
