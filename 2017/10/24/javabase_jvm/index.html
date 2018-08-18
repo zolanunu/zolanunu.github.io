@@ -3,26 +3,26 @@
 <head>
   <meta charset="utf-8">
   
-  <title>深入理解java虚拟机 part1 | zolanunu</title>
+  <title>深入理解java虚拟机 第2章 java内存区域与内存溢出异常 | zolanunu</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   
     <meta name="keywords" content="zolanunu,zolanunu's blog" />
   
-  <meta name="description" content="第2章 java内存区域与内存溢出异常java内存区域首先，区别于java内存模型及运行时内存区域，java内存模型主要分为存储器和工作存储器，Java管理的内存也分为堆、虚拟机栈、方法区等。Java内存模型的主要目标是定义程序中各个变量的访问规则，即在虚拟机中将变量存储到内存和从内存中取出变量这样的底层细节。Java虚拟机在执行Java程序的过程中会把它所管理的内存划分为若干不同数据区域。 （运">
-<meta name="keywords" content="深入理解java虚拟机">
+  <meta name="description" content="java内存区域与内存溢出异常java内存区域首先，区别于java内存模型及运行时内存区域，java内存模型主要分为存储器和工作存储器，Java管理的内存也分为堆、虚拟机栈、方法区等。Java内存模型的主要目标是定义程序中各个变量的访问规则，即在虚拟机中将变量存储到内存和从内存中取出变量这样的底层细节。Java虚拟机在执行Java程序的过程中会把它所管理的内存划分为若干不同数据区域。 （运行时数据">
+<meta name="keywords" content="深入理解java虚拟机,内存模型">
 <meta property="og:type" content="article">
-<meta property="og:title" content="深入理解java虚拟机 part1">
+<meta property="og:title" content="深入理解java虚拟机 第2章 java内存区域与内存溢出异常">
 <meta property="og:url" content="http://zhangbuzola.cn/2017/10/24/javabase_jvm/index.html">
 <meta property="og:site_name" content="zolanunu">
-<meta property="og:description" content="第2章 java内存区域与内存溢出异常java内存区域首先，区别于java内存模型及运行时内存区域，java内存模型主要分为存储器和工作存储器，Java管理的内存也分为堆、虚拟机栈、方法区等。Java内存模型的主要目标是定义程序中各个变量的访问规则，即在虚拟机中将变量存储到内存和从内存中取出变量这样的底层细节。Java虚拟机在执行Java程序的过程中会把它所管理的内存划分为若干不同数据区域。 （运">
+<meta property="og:description" content="java内存区域与内存溢出异常java内存区域首先，区别于java内存模型及运行时内存区域，java内存模型主要分为存储器和工作存储器，Java管理的内存也分为堆、虚拟机栈、方法区等。Java内存模型的主要目标是定义程序中各个变量的访问规则，即在虚拟机中将变量存储到内存和从内存中取出变量这样的底层细节。Java虚拟机在执行Java程序的过程中会把它所管理的内存划分为若干不同数据区域。 （运行时数据">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="http://zhangbuzola.cn/assets/images/java_jvm1.png">
 <meta property="og:image" content="http://zhangbuzola.cn/assets/images/java_jvm2.png">
 <meta property="og:image" content="http://zhangbuzola.cn/2017/10/24/javabase_jvm/java_jvm3.jpg">
-<meta property="og:updated_time" content="2018-08-16T12:27:34.530Z">
+<meta property="og:updated_time" content="2018-08-18T03:03:47.236Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="深入理解java虚拟机 part1">
-<meta name="twitter:description" content="第2章 java内存区域与内存溢出异常java内存区域首先，区别于java内存模型及运行时内存区域，java内存模型主要分为存储器和工作存储器，Java管理的内存也分为堆、虚拟机栈、方法区等。Java内存模型的主要目标是定义程序中各个变量的访问规则，即在虚拟机中将变量存储到内存和从内存中取出变量这样的底层细节。Java虚拟机在执行Java程序的过程中会把它所管理的内存划分为若干不同数据区域。 （运">
+<meta name="twitter:title" content="深入理解java虚拟机 第2章 java内存区域与内存溢出异常">
+<meta name="twitter:description" content="java内存区域与内存溢出异常java内存区域首先，区别于java内存模型及运行时内存区域，java内存模型主要分为存储器和工作存储器，Java管理的内存也分为堆、虚拟机栈、方法区等。Java内存模型的主要目标是定义程序中各个变量的访问规则，即在虚拟机中将变量存储到内存和从内存中取出变量这样的底层细节。Java虚拟机在执行Java程序的过程中会把它所管理的内存划分为若干不同数据区域。 （运行时数据">
 <meta name="twitter:image" content="http://zhangbuzola.cn/assets/images/java_jvm1.png">
   
   
@@ -128,7 +128,7 @@
         
   
     <h1 class="post-title" itemprop="name">
-      深入理解java虚拟机 part1
+      深入理解java虚拟机 第2章 java内存区域与内存溢出异常
     </h1>
     <div class="post-title-bar">
       <ul>
@@ -157,7 +157,7 @@
     <div class="article-entry post-content" itemprop="articleBody">
       
             
-            <h1 id="第2章-java内存区域与内存溢出异常"><a href="#第2章-java内存区域与内存溢出异常" class="headerlink" title="第2章 java内存区域与内存溢出异常"></a>第2章 java内存区域与内存溢出异常</h1><h2 id="java内存区域"><a href="#java内存区域" class="headerlink" title="java内存区域"></a>java内存区域</h2><p>首先，区别于java内存模型及运行时内存区域，java内存模型主要分为存储器和工作存储器，Java管理的内存也分为堆、虚拟机栈、方法区等。Java内存模型的主要目标是定义程序中各个变量的访问规则，即在虚拟机中将变量存储到内存和从内存中取出变量这样的底层细节。Java虚拟机在执行Java程序的过程中会把它所管理的内存划分为若干不同数据区域。 （运行时数据区域）。两者并没有什么关系。</p>
+            <h1 id="java内存区域与内存溢出异常"><a href="#java内存区域与内存溢出异常" class="headerlink" title="java内存区域与内存溢出异常"></a>java内存区域与内存溢出异常</h1><h2 id="java内存区域"><a href="#java内存区域" class="headerlink" title="java内存区域"></a>java内存区域</h2><p>首先，区别于java内存模型及运行时内存区域，java内存模型主要分为存储器和工作存储器，Java管理的内存也分为堆、虚拟机栈、方法区等。Java内存模型的主要目标是定义程序中各个变量的访问规则，即在虚拟机中将变量存储到内存和从内存中取出变量这样的底层细节。Java虚拟机在执行Java程序的过程中会把它所管理的内存划分为若干不同数据区域。 （运行时数据区域）。两者并没有什么关系。</p>
 <h3 id="运行时数据区域"><a href="#运行时数据区域" class="headerlink" title="运行时数据区域"></a>运行时数据区域</h3><p>java程序的执行过程是：</p>
 <p><img src="/assets/images/java_jvm1.png" alt=""></p>
 <p>上面图可以看出jvm就是处理由类加载器加载进来的各类class字节码文件。在程序执行过程中，jvm会用一段空间来存储程序执行期间定义的各类变量和方法数据等相关信息。运行时数据区就是java内存。内存管理就是对这一片空间进行管理的，比如如何分配以及回收内存空间等等。</p>
@@ -189,11 +189,13 @@
 <p>在Class文件中除了类的字段、方法、接口等描述信息外，还有一项信息是常量池，用来存储编译期间生成的字面量和符号引用。</p>
 <p>在方法区中有一个非常重要的部分就是运行时常量池，它是每一个类或接口的常量池的运行时表示形式，在类和接口被加载到JVM后，对应的运行时常量池就被创建出来。当然并非Class文件常量池中的内容才能进入运行时常量池，在运行期间也可将新的常量放入运行时常量池中，比如String的intern方法。</p>
 <p>在JVM规范中，没有强制要求方法区必须实现垃圾回收。很多人习惯将方法区称为“永久代”，是因为HotSpot虚拟机以永久代来实现方法区，从而JVM的垃圾收集器可以像管理堆区一样管理这部分区域，从而不需要专门为这部分设计垃圾回收机制。不过自从JDK7之后，Hotspot虚拟机便将运行时常量池从永久代移除了。</p>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p>《深入理解Java虚拟机》</p>
+<p>《java虚拟机规范》</p>
 
             <div class="post-copyright">
     <div class="content">
-        <p>最后更新： 2018年08月16日 20:27</p>
-        <p>原始链接： <a class="post-url" href="/2017/10/24/javabase_jvm/" title="深入理解java虚拟机 part1">http://zhangbuzola.cn/2017/10/24/javabase_jvm/</a></p>
+        <p>最后更新： 2018年08月18日 11:03</p>
+        <p>原始链接： <a class="post-url" href="/2017/10/24/javabase_jvm/" title="深入理解java虚拟机 第2章 java内存区域与内存溢出异常">http://zhangbuzola.cn/2017/10/24/javabase_jvm/</a></p>
         <footer>
             <a href="http://zhangbuzola.cn">
                 <img src="/images/avatar.jpg" alt="zolanunu">
@@ -219,6 +221,8 @@
       
     <a href="/tags/深入理解java虚拟机/" class="color2">深入理解java虚拟机</a>
       
+    <a href="/tags/内存模型/" class="color5">内存模型</a>
+      
   </li>
 
         </ul>
@@ -230,7 +234,7 @@
 
     <aside class="post-toc-pos post-toc-top" id="post-toc">
         <nav class="post-toc-wrap">
-            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#第2章-java内存区域与内存溢出异常"><span class="post-toc-text">第2章 java内存区域与内存溢出异常</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#java内存区域"><span class="post-toc-text">java内存区域</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#运行时数据区域"><span class="post-toc-text">运行时数据区域</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#程序计数器"><span class="post-toc-text">程序计数器</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#java栈"><span class="post-toc-text">java栈</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#本地方法栈"><span class="post-toc-text">本地方法栈</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#堆"><span class="post-toc-text">堆</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#方法区"><span class="post-toc-text">方法区</span></a></li></ol></li></ol></li></ol></li></ol>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#java内存区域与内存溢出异常"><span class="post-toc-text">java内存区域与内存溢出异常</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#java内存区域"><span class="post-toc-text">java内存区域</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#运行时数据区域"><span class="post-toc-text">运行时数据区域</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#程序计数器"><span class="post-toc-text">程序计数器</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#java栈"><span class="post-toc-text">java栈</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#本地方法栈"><span class="post-toc-text">本地方法栈</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#堆"><span class="post-toc-text">堆</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#方法区"><span class="post-toc-text">方法区</span></a></li></ol></li></ol></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#参考"><span class="post-toc-text">参考</span></a></li></ol>
         </nav>
     </aside>
     
@@ -329,7 +333,7 @@
             <a class="category-link" href="/categories/Java/">Java</a><a class="category-link" href="/categories/Java后台/">Java后台</a><a class="category-link" href="/categories/Python/">Python</a><a class="category-link" href="/categories/工具/">工具</a><a class="category-link" href="/categories/技术书/">技术书</a><a class="category-link" href="/categories/数据库/">数据库</a><a class="category-link" href="/categories/数据结构/">数据结构</a><a class="category-link" href="/categories/生活轨迹/">生活轨迹</a><a class="category-link" href="/categories/算法/">算法</a><a class="category-link" href="/categories/编程技术/">编程技术</a><a class="category-link" href="/categories/计算机网络/">计算机网络</a>
         </div>
         <div id="sidebar-menu-box-tags">
-            <a href="/tags/2018/" style="font-size: 11.25px;">2018</a> <a href="/tags/Collections/" style="font-size: 15px;">Collections</a> <a href="/tags/HashMap/" style="font-size: 10px;">HashMap</a> <a href="/tags/LinkedHashMap/" style="font-size: 10px;">LinkedHashMap</a> <a href="/tags/MySQL/" style="font-size: 17.5px;">MySQL</a> <a href="/tags/Mybatis/" style="font-size: 12.5px;">Mybatis</a> <a href="/tags/Object/" style="font-size: 10px;">Object</a> <a href="/tags/SSM/" style="font-size: 13.75px;">SSM</a> <a href="/tags/TreeMap/" style="font-size: 11.25px;">TreeMap</a> <a href="/tags/cookie/" style="font-size: 10px;">cookie</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/java基础/" style="font-size: 20px;">java基础</a> <a href="/tags/java并发编程实战/" style="font-size: 11.25px;">java并发编程实战</a> <a href="/tags/leetcode/" style="font-size: 16.25px;">leetcode</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/session/" style="font-size: 10px;">session</a> <a href="/tags/剑指offer/" style="font-size: 10px;">剑指offer</a> <a href="/tags/单例模式/" style="font-size: 10px;">单例模式</a> <a href="/tags/原型模式/" style="font-size: 10px;">原型模式</a> <a href="/tags/多线程/" style="font-size: 11.25px;">多线程</a> <a href="/tags/实战Java虚拟机-JVM故障诊断与性能优化/" style="font-size: 12.5px;">实战Java虚拟机-JVM故障诊断与性能优化</a> <a href="/tags/工厂模式/" style="font-size: 10px;">工厂模式</a> <a href="/tags/并发编程/" style="font-size: 10px;">并发编程</a> <a href="/tags/建造者模式/" style="font-size: 10px;">建造者模式</a> <a href="/tags/机器学习/" style="font-size: 12.5px;">机器学习</a> <a href="/tags/构造函数/" style="font-size: 10px;">构造函数</a> <a href="/tags/深入理解java虚拟机/" style="font-size: 11.25px;">深入理解java虚拟机</a> <a href="/tags/生活/" style="font-size: 10px;">生活</a> <a href="/tags/神经网络/" style="font-size: 10px;">神经网络</a> <a href="/tags/算法与数据结构/" style="font-size: 16.25px;">算法与数据结构</a> <a href="/tags/算法和数据结构/" style="font-size: 18.75px;">算法和数据结构</a> <a href="/tags/索引优化/" style="font-size: 10px;">索引优化</a> <a href="/tags/线程安全/" style="font-size: 10px;">线程安全</a> <a href="/tags/观影记/" style="font-size: 10px;">观影记</a> <a href="/tags/设计模式/" style="font-size: 13.75px;">设计模式</a> <a href="/tags/设计模式之禅/" style="font-size: 13.75px;">设计模式之禅</a> <a href="/tags/读书书单/" style="font-size: 10px;">读书书单</a> <a href="/tags/负载均衡/" style="font-size: 10px;">负载均衡</a> <a href="/tags/锁优化/" style="font-size: 10px;">锁优化</a>
+            <a href="/tags/2018/" style="font-size: 11.25px;">2018</a> <a href="/tags/Collections/" style="font-size: 15px;">Collections</a> <a href="/tags/HashMap/" style="font-size: 10px;">HashMap</a> <a href="/tags/LinkedHashMap/" style="font-size: 10px;">LinkedHashMap</a> <a href="/tags/MySQL/" style="font-size: 17.5px;">MySQL</a> <a href="/tags/Mybatis/" style="font-size: 12.5px;">Mybatis</a> <a href="/tags/Object/" style="font-size: 10px;">Object</a> <a href="/tags/SSM/" style="font-size: 13.75px;">SSM</a> <a href="/tags/TreeMap/" style="font-size: 11.25px;">TreeMap</a> <a href="/tags/cookie/" style="font-size: 10px;">cookie</a> <a href="/tags/finalize/" style="font-size: 10px;">finalize</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/java基础/" style="font-size: 20px;">java基础</a> <a href="/tags/java并发编程实战/" style="font-size: 11.25px;">java并发编程实战</a> <a href="/tags/leetcode/" style="font-size: 16.25px;">leetcode</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/session/" style="font-size: 10px;">session</a> <a href="/tags/元数据/" style="font-size: 10px;">元数据</a> <a href="/tags/内存模型/" style="font-size: 11.25px;">内存模型</a> <a href="/tags/剑指offer/" style="font-size: 10px;">剑指offer</a> <a href="/tags/单例模式/" style="font-size: 10px;">单例模式</a> <a href="/tags/原型模式/" style="font-size: 10px;">原型模式</a> <a href="/tags/垃圾回收算法/" style="font-size: 10px;">垃圾回收算法</a> <a href="/tags/多线程/" style="font-size: 11.25px;">多线程</a> <a href="/tags/实战Java虚拟机-JVM故障诊断与性能优化/" style="font-size: 12.5px;">实战Java虚拟机-JVM故障诊断与性能优化</a> <a href="/tags/工厂模式/" style="font-size: 10px;">工厂模式</a> <a href="/tags/常量池/" style="font-size: 10px;">常量池</a> <a href="/tags/并发编程/" style="font-size: 10px;">并发编程</a> <a href="/tags/建造者模式/" style="font-size: 10px;">建造者模式</a> <a href="/tags/引用/" style="font-size: 10px;">引用</a> <a href="/tags/机器学习/" style="font-size: 12.5px;">机器学习</a> <a href="/tags/构造函数/" style="font-size: 10px;">构造函数</a> <a href="/tags/深入理解java虚拟机/" style="font-size: 11.25px;">深入理解java虚拟机</a> <a href="/tags/生活/" style="font-size: 10px;">生活</a> <a href="/tags/直接内存/" style="font-size: 10px;">直接内存</a> <a href="/tags/神经网络/" style="font-size: 10px;">神经网络</a> <a href="/tags/算法与数据结构/" style="font-size: 16.25px;">算法与数据结构</a> <a href="/tags/算法和数据结构/" style="font-size: 18.75px;">算法和数据结构</a> <a href="/tags/索引优化/" style="font-size: 10px;">索引优化</a> <a href="/tags/线程安全/" style="font-size: 10px;">线程安全</a> <a href="/tags/观影记/" style="font-size: 10px;">观影记</a> <a href="/tags/设计模式/" style="font-size: 13.75px;">设计模式</a> <a href="/tags/设计模式之禅/" style="font-size: 13.75px;">设计模式之禅</a> <a href="/tags/读书书单/" style="font-size: 10px;">读书书单</a> <a href="/tags/负载均衡/" style="font-size: 10px;">负载均衡</a> <a href="/tags/锁优化/" style="font-size: 10px;">锁优化</a>
         </div>
     </div>
     <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
@@ -362,7 +366,7 @@
     <div class="mobile-header-tag-container">
         <span class="title">Tags</span>
         <div id="mobile-header-container-tags">
-            <a href="/tags/2018/" style="font-size: 11.25px;">2018</a> <a href="/tags/Collections/" style="font-size: 15px;">Collections</a> <a href="/tags/HashMap/" style="font-size: 10px;">HashMap</a> <a href="/tags/LinkedHashMap/" style="font-size: 10px;">LinkedHashMap</a> <a href="/tags/MySQL/" style="font-size: 17.5px;">MySQL</a> <a href="/tags/Mybatis/" style="font-size: 12.5px;">Mybatis</a> <a href="/tags/Object/" style="font-size: 10px;">Object</a> <a href="/tags/SSM/" style="font-size: 13.75px;">SSM</a> <a href="/tags/TreeMap/" style="font-size: 11.25px;">TreeMap</a> <a href="/tags/cookie/" style="font-size: 10px;">cookie</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/java基础/" style="font-size: 20px;">java基础</a> <a href="/tags/java并发编程实战/" style="font-size: 11.25px;">java并发编程实战</a> <a href="/tags/leetcode/" style="font-size: 16.25px;">leetcode</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/session/" style="font-size: 10px;">session</a> <a href="/tags/剑指offer/" style="font-size: 10px;">剑指offer</a> <a href="/tags/单例模式/" style="font-size: 10px;">单例模式</a> <a href="/tags/原型模式/" style="font-size: 10px;">原型模式</a> <a href="/tags/多线程/" style="font-size: 11.25px;">多线程</a> <a href="/tags/实战Java虚拟机-JVM故障诊断与性能优化/" style="font-size: 12.5px;">实战Java虚拟机-JVM故障诊断与性能优化</a> <a href="/tags/工厂模式/" style="font-size: 10px;">工厂模式</a> <a href="/tags/并发编程/" style="font-size: 10px;">并发编程</a> <a href="/tags/建造者模式/" style="font-size: 10px;">建造者模式</a> <a href="/tags/机器学习/" style="font-size: 12.5px;">机器学习</a> <a href="/tags/构造函数/" style="font-size: 10px;">构造函数</a> <a href="/tags/深入理解java虚拟机/" style="font-size: 11.25px;">深入理解java虚拟机</a> <a href="/tags/生活/" style="font-size: 10px;">生活</a> <a href="/tags/神经网络/" style="font-size: 10px;">神经网络</a> <a href="/tags/算法与数据结构/" style="font-size: 16.25px;">算法与数据结构</a> <a href="/tags/算法和数据结构/" style="font-size: 18.75px;">算法和数据结构</a> <a href="/tags/索引优化/" style="font-size: 10px;">索引优化</a> <a href="/tags/线程安全/" style="font-size: 10px;">线程安全</a> <a href="/tags/观影记/" style="font-size: 10px;">观影记</a> <a href="/tags/设计模式/" style="font-size: 13.75px;">设计模式</a> <a href="/tags/设计模式之禅/" style="font-size: 13.75px;">设计模式之禅</a> <a href="/tags/读书书单/" style="font-size: 10px;">读书书单</a> <a href="/tags/负载均衡/" style="font-size: 10px;">负载均衡</a> <a href="/tags/锁优化/" style="font-size: 10px;">锁优化</a>
+            <a href="/tags/2018/" style="font-size: 11.25px;">2018</a> <a href="/tags/Collections/" style="font-size: 15px;">Collections</a> <a href="/tags/HashMap/" style="font-size: 10px;">HashMap</a> <a href="/tags/LinkedHashMap/" style="font-size: 10px;">LinkedHashMap</a> <a href="/tags/MySQL/" style="font-size: 17.5px;">MySQL</a> <a href="/tags/Mybatis/" style="font-size: 12.5px;">Mybatis</a> <a href="/tags/Object/" style="font-size: 10px;">Object</a> <a href="/tags/SSM/" style="font-size: 13.75px;">SSM</a> <a href="/tags/TreeMap/" style="font-size: 11.25px;">TreeMap</a> <a href="/tags/cookie/" style="font-size: 10px;">cookie</a> <a href="/tags/finalize/" style="font-size: 10px;">finalize</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/java基础/" style="font-size: 20px;">java基础</a> <a href="/tags/java并发编程实战/" style="font-size: 11.25px;">java并发编程实战</a> <a href="/tags/leetcode/" style="font-size: 16.25px;">leetcode</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/session/" style="font-size: 10px;">session</a> <a href="/tags/元数据/" style="font-size: 10px;">元数据</a> <a href="/tags/内存模型/" style="font-size: 11.25px;">内存模型</a> <a href="/tags/剑指offer/" style="font-size: 10px;">剑指offer</a> <a href="/tags/单例模式/" style="font-size: 10px;">单例模式</a> <a href="/tags/原型模式/" style="font-size: 10px;">原型模式</a> <a href="/tags/垃圾回收算法/" style="font-size: 10px;">垃圾回收算法</a> <a href="/tags/多线程/" style="font-size: 11.25px;">多线程</a> <a href="/tags/实战Java虚拟机-JVM故障诊断与性能优化/" style="font-size: 12.5px;">实战Java虚拟机-JVM故障诊断与性能优化</a> <a href="/tags/工厂模式/" style="font-size: 10px;">工厂模式</a> <a href="/tags/常量池/" style="font-size: 10px;">常量池</a> <a href="/tags/并发编程/" style="font-size: 10px;">并发编程</a> <a href="/tags/建造者模式/" style="font-size: 10px;">建造者模式</a> <a href="/tags/引用/" style="font-size: 10px;">引用</a> <a href="/tags/机器学习/" style="font-size: 12.5px;">机器学习</a> <a href="/tags/构造函数/" style="font-size: 10px;">构造函数</a> <a href="/tags/深入理解java虚拟机/" style="font-size: 11.25px;">深入理解java虚拟机</a> <a href="/tags/生活/" style="font-size: 10px;">生活</a> <a href="/tags/直接内存/" style="font-size: 10px;">直接内存</a> <a href="/tags/神经网络/" style="font-size: 10px;">神经网络</a> <a href="/tags/算法与数据结构/" style="font-size: 16.25px;">算法与数据结构</a> <a href="/tags/算法和数据结构/" style="font-size: 18.75px;">算法和数据结构</a> <a href="/tags/索引优化/" style="font-size: 10px;">索引优化</a> <a href="/tags/线程安全/" style="font-size: 10px;">线程安全</a> <a href="/tags/观影记/" style="font-size: 10px;">观影记</a> <a href="/tags/设计模式/" style="font-size: 13.75px;">设计模式</a> <a href="/tags/设计模式之禅/" style="font-size: 13.75px;">设计模式之禅</a> <a href="/tags/读书书单/" style="font-size: 10px;">读书书单</a> <a href="/tags/负载均衡/" style="font-size: 10px;">负载均衡</a> <a href="/tags/锁优化/" style="font-size: 10px;">锁优化</a>
         </div>
     </div>
 </div>

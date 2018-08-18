@@ -3,24 +3,24 @@
 <head>
   <meta charset="utf-8">
   
-  <title>实战Java虚拟机-JVM故障诊断与性能优化 part2 | zolanunu</title>
+  <title>实战Java虚拟机-JVM故障诊断与性能优化 第二章 认识Java虚拟机的基本结构 | zolanunu</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   
     <meta name="keywords" content="zolanunu,zolanunu's blog" />
   
-  <meta name="description" content="第二章 认识Java虚拟机的基本结构这一部分内容主要介绍就是Java虚拟机的内存模型，堆，栈以及直接内存的一些基本概念和使用。因为在深入理解java虚拟机部分也有对这部分内容进行详细的了解，所以在这里就补充一些关于jdk8中Java虚拟机的改动以及一些我还在深入理解java虚拟机中还需要了解的盲点知识。 直接内存在深入理解java虚拟机中，对这部分的内容没有很详细的了解。 直接内存是存在于堆外的，">
-<meta name="keywords" content="实战Java虚拟机-JVM故障诊断与性能优化">
+  <meta name="description" content="认识Java虚拟机的基本结构这一部分内容主要介绍就是Java虚拟机的内存模型，堆，栈以及直接内存的一些基本概念和使用。因为在深入理解java虚拟机部分也有对这部分内容进行详细的了解，所以在这里就补充一些关于jdk8中Java虚拟机的改动以及一些我还在深入理解java虚拟机中还需要了解的盲点知识。 直接内存在深入理解java虚拟机中，对这部分的内容没有很详细的了解。 直接内存是存在于堆外的，并且垃圾">
+<meta name="keywords" content="内存模型,实战Java虚拟机-JVM故障诊断与性能优化,直接内存,常量池,元数据">
 <meta property="og:type" content="article">
-<meta property="og:title" content="实战Java虚拟机-JVM故障诊断与性能优化 part2">
+<meta property="og:title" content="实战Java虚拟机-JVM故障诊断与性能优化 第二章 认识Java虚拟机的基本结构">
 <meta property="og:url" content="http://zhangbuzola.cn/2018/08/11/实战Java虚拟机笔记二/index.html">
 <meta property="og:site_name" content="zolanunu">
-<meta property="og:description" content="第二章 认识Java虚拟机的基本结构这一部分内容主要介绍就是Java虚拟机的内存模型，堆，栈以及直接内存的一些基本概念和使用。因为在深入理解java虚拟机部分也有对这部分内容进行详细的了解，所以在这里就补充一些关于jdk8中Java虚拟机的改动以及一些我还在深入理解java虚拟机中还需要了解的盲点知识。 直接内存在深入理解java虚拟机中，对这部分的内容没有很详细的了解。 直接内存是存在于堆外的，">
+<meta property="og:description" content="认识Java虚拟机的基本结构这一部分内容主要介绍就是Java虚拟机的内存模型，堆，栈以及直接内存的一些基本概念和使用。因为在深入理解java虚拟机部分也有对这部分内容进行详细的了解，所以在这里就补充一些关于jdk8中Java虚拟机的改动以及一些我还在深入理解java虚拟机中还需要了解的盲点知识。 直接内存在深入理解java虚拟机中，对这部分的内容没有很详细的了解。 直接内存是存在于堆外的，并且垃圾">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="http://zhangbuzola.cn/assets/images/jvmPracticeConstPool.png">
-<meta property="og:updated_time" content="2018-08-17T08:43:45.703Z">
+<meta property="og:updated_time" content="2018-08-18T03:02:16.816Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="实战Java虚拟机-JVM故障诊断与性能优化 part2">
-<meta name="twitter:description" content="第二章 认识Java虚拟机的基本结构这一部分内容主要介绍就是Java虚拟机的内存模型，堆，栈以及直接内存的一些基本概念和使用。因为在深入理解java虚拟机部分也有对这部分内容进行详细的了解，所以在这里就补充一些关于jdk8中Java虚拟机的改动以及一些我还在深入理解java虚拟机中还需要了解的盲点知识。 直接内存在深入理解java虚拟机中，对这部分的内容没有很详细的了解。 直接内存是存在于堆外的，">
+<meta name="twitter:title" content="实战Java虚拟机-JVM故障诊断与性能优化 第二章 认识Java虚拟机的基本结构">
+<meta name="twitter:description" content="认识Java虚拟机的基本结构这一部分内容主要介绍就是Java虚拟机的内存模型，堆，栈以及直接内存的一些基本概念和使用。因为在深入理解java虚拟机部分也有对这部分内容进行详细的了解，所以在这里就补充一些关于jdk8中Java虚拟机的改动以及一些我还在深入理解java虚拟机中还需要了解的盲点知识。 直接内存在深入理解java虚拟机中，对这部分的内容没有很详细的了解。 直接内存是存在于堆外的，并且垃圾">
 <meta name="twitter:image" content="http://zhangbuzola.cn/assets/images/jvmPracticeConstPool.png">
   
   
@@ -126,7 +126,7 @@
         
   
     <h1 class="post-title" itemprop="name">
-      实战Java虚拟机-JVM故障诊断与性能优化 part2
+      实战Java虚拟机-JVM故障诊断与性能优化 第二章 认识Java虚拟机的基本结构
     </h1>
     <div class="post-title-bar">
       <ul>
@@ -155,7 +155,7 @@
     <div class="article-entry post-content" itemprop="articleBody">
       
             
-            <h1 id="第二章-认识Java虚拟机的基本结构"><a href="#第二章-认识Java虚拟机的基本结构" class="headerlink" title="第二章 认识Java虚拟机的基本结构"></a>第二章 认识Java虚拟机的基本结构</h1><p>这一部分内容主要介绍就是Java虚拟机的内存模型，堆，栈以及直接内存的一些基本概念和使用。因为在深入理解java虚拟机部分也有对这部分内容进行详细的了解，所以在这里就补充一些关于jdk8中Java虚拟机的改动以及一些我还在深入理解java虚拟机中还需要了解的盲点知识。</p>
+            <h1 id="认识Java虚拟机的基本结构"><a href="#认识Java虚拟机的基本结构" class="headerlink" title="认识Java虚拟机的基本结构"></a>认识Java虚拟机的基本结构</h1><p>这一部分内容主要介绍就是Java虚拟机的内存模型，堆，栈以及直接内存的一些基本概念和使用。因为在深入理解java虚拟机部分也有对这部分内容进行详细的了解，所以在这里就补充一些关于jdk8中Java虚拟机的改动以及一些我还在深入理解java虚拟机中还需要了解的盲点知识。</p>
 <h2 id="直接内存"><a href="#直接内存" class="headerlink" title="直接内存"></a>直接内存</h2><p>在深入理解java虚拟机中，对这部分的内容没有很详细的了解。</p>
 <p>直接内存是存在于堆外的，并且垃圾回收器也会对这部分内存进行回收。使用的话，java的NIO库允许java程序使用直接内存，但是具体是什么情况，实际google了一下。</p>
 <p>在JDK1.4中新加入了NIO(New Input/Output)类，引入了一种基于通道(Channel)与缓冲区（Buffer）的I/O 方式，它可以使用native 函数库直接分配堆外内存，然后通脱一个存储在Java堆中的DirectByteBuffer 对象作为这块内存的引用进行操作。这样能在一些场景中显著提高性能，因为避免了在Java堆和Native堆中来回复制数据。</p>
@@ -242,8 +242,8 @@
 
             <div class="post-copyright">
     <div class="content">
-        <p>最后更新： 2018年08月17日 16:43</p>
-        <p>原始链接： <a class="post-url" href="/2018/08/11/实战Java虚拟机笔记二/" title="实战Java虚拟机-JVM故障诊断与性能优化 part2">http://zhangbuzola.cn/2018/08/11/实战Java虚拟机笔记二/</a></p>
+        <p>最后更新： 2018年08月18日 11:02</p>
+        <p>原始链接： <a class="post-url" href="/2018/08/11/实战Java虚拟机笔记二/" title="实战Java虚拟机-JVM故障诊断与性能优化 第二章 认识Java虚拟机的基本结构">http://zhangbuzola.cn/2018/08/11/实战Java虚拟机笔记二/</a></p>
         <footer>
             <a href="http://zhangbuzola.cn">
                 <img src="/images/avatar.jpg" alt="zolanunu">
@@ -267,7 +267,15 @@
   <li class="article-footer-tags">
     <i class="fa fa-tags"></i>
       
+    <a href="/tags/内存模型/" class="color5">内存模型</a>
+      
     <a href="/tags/实战Java虚拟机-JVM故障诊断与性能优化/" class="color3">实战Java虚拟机-JVM故障诊断与性能优化</a>
+      
+    <a href="/tags/直接内存/" class="color5">直接内存</a>
+      
+    <a href="/tags/常量池/" class="color4">常量池</a>
+      
+    <a href="/tags/元数据/" class="color4">元数据</a>
       
   </li>
 
@@ -280,26 +288,16 @@
 
     <aside class="post-toc-pos post-toc-top" id="post-toc">
         <nav class="post-toc-wrap">
-            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#第二章-认识Java虚拟机的基本结构"><span class="post-toc-text">第二章 认识Java虚拟机的基本结构</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#直接内存"><span class="post-toc-text">直接内存</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#常量池"><span class="post-toc-text">常量池</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#运行时常量池"><span class="post-toc-text">运行时常量池</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#字符串常量池"><span class="post-toc-text">字符串常量池</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#元数据"><span class="post-toc-text">元数据</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#设置Java虚拟机参数"><span class="post-toc-text">设置Java虚拟机参数</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#堆的补充"><span class="post-toc-text">堆的补充</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#空间分配担保"><span class="post-toc-text">空间分配担保</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#几个问题"><span class="post-toc-text">几个问题</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#分配担保为嘛要求老年代的连续空间"><span class="post-toc-text">分配担保为嘛要求老年代的连续空间</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#为什么JVM中新生代有两个Survivor区？"><span class="post-toc-text">为什么JVM中新生代有两个Survivor区？</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#总结"><span class="post-toc-text">总结</span></a></li></ol>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#认识Java虚拟机的基本结构"><span class="post-toc-text">认识Java虚拟机的基本结构</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#直接内存"><span class="post-toc-text">直接内存</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#常量池"><span class="post-toc-text">常量池</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#运行时常量池"><span class="post-toc-text">运行时常量池</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#字符串常量池"><span class="post-toc-text">字符串常量池</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#元数据"><span class="post-toc-text">元数据</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#设置Java虚拟机参数"><span class="post-toc-text">设置Java虚拟机参数</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#堆的补充"><span class="post-toc-text">堆的补充</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#空间分配担保"><span class="post-toc-text">空间分配担保</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#几个问题"><span class="post-toc-text">几个问题</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#分配担保为嘛要求老年代的连续空间"><span class="post-toc-text">分配担保为嘛要求老年代的连续空间</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#为什么JVM中新生代有两个Survivor区？"><span class="post-toc-text">为什么JVM中新生代有两个Survivor区？</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#总结"><span class="post-toc-text">总结</span></a></li></ol>
         </nav>
     </aside>
     
 
 <nav id="article-nav">
   
-    <a href="/2018/08/11/实战Java虚拟机笔记三/" id="article-nav-newer" class="article-nav-link-wrap">
-
-      <span class="article-nav-title">
-        <i class="fa fa-hand-o-left" aria-hidden="true"></i>
-        
-          实战Java虚拟机-JVM故障诊断与性能优化 第四章 垃圾回收概念与算法
-        
-      </span>
-    </a>
   
-  
-    <a href="/2018/08/10/实战Java虚拟机笔记一/" id="article-nav-older" class="article-nav-link-wrap">
-      <span class="article-nav-title">实战Java虚拟机-JVM故障诊断与性能优化 part1</span>
+    <a href="/2018/08/11/实战Java虚拟机笔记三/" id="article-nav-older" class="article-nav-link-wrap">
+      <span class="article-nav-title">实战Java虚拟机-JVM故障诊断与性能优化 第四章 垃圾回收概念与算法</span>
       <i class="fa fa-hand-o-right" aria-hidden="true"></i>
     </a>
   
@@ -379,7 +377,7 @@
             <a class="category-link" href="/categories/Java/">Java</a><a class="category-link" href="/categories/Java后台/">Java后台</a><a class="category-link" href="/categories/Python/">Python</a><a class="category-link" href="/categories/工具/">工具</a><a class="category-link" href="/categories/技术书/">技术书</a><a class="category-link" href="/categories/数据库/">数据库</a><a class="category-link" href="/categories/数据结构/">数据结构</a><a class="category-link" href="/categories/生活轨迹/">生活轨迹</a><a class="category-link" href="/categories/算法/">算法</a><a class="category-link" href="/categories/编程技术/">编程技术</a><a class="category-link" href="/categories/计算机网络/">计算机网络</a>
         </div>
         <div id="sidebar-menu-box-tags">
-            <a href="/tags/2018/" style="font-size: 11.25px;">2018</a> <a href="/tags/Collections/" style="font-size: 15px;">Collections</a> <a href="/tags/HashMap/" style="font-size: 10px;">HashMap</a> <a href="/tags/LinkedHashMap/" style="font-size: 10px;">LinkedHashMap</a> <a href="/tags/MySQL/" style="font-size: 17.5px;">MySQL</a> <a href="/tags/Mybatis/" style="font-size: 12.5px;">Mybatis</a> <a href="/tags/Object/" style="font-size: 10px;">Object</a> <a href="/tags/SSM/" style="font-size: 13.75px;">SSM</a> <a href="/tags/TreeMap/" style="font-size: 11.25px;">TreeMap</a> <a href="/tags/cookie/" style="font-size: 10px;">cookie</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/java基础/" style="font-size: 20px;">java基础</a> <a href="/tags/java并发编程实战/" style="font-size: 11.25px;">java并发编程实战</a> <a href="/tags/leetcode/" style="font-size: 16.25px;">leetcode</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/session/" style="font-size: 10px;">session</a> <a href="/tags/剑指offer/" style="font-size: 10px;">剑指offer</a> <a href="/tags/单例模式/" style="font-size: 10px;">单例模式</a> <a href="/tags/原型模式/" style="font-size: 10px;">原型模式</a> <a href="/tags/多线程/" style="font-size: 11.25px;">多线程</a> <a href="/tags/实战Java虚拟机-JVM故障诊断与性能优化/" style="font-size: 12.5px;">实战Java虚拟机-JVM故障诊断与性能优化</a> <a href="/tags/工厂模式/" style="font-size: 10px;">工厂模式</a> <a href="/tags/并发编程/" style="font-size: 10px;">并发编程</a> <a href="/tags/建造者模式/" style="font-size: 10px;">建造者模式</a> <a href="/tags/机器学习/" style="font-size: 12.5px;">机器学习</a> <a href="/tags/构造函数/" style="font-size: 10px;">构造函数</a> <a href="/tags/深入理解java虚拟机/" style="font-size: 11.25px;">深入理解java虚拟机</a> <a href="/tags/生活/" style="font-size: 10px;">生活</a> <a href="/tags/神经网络/" style="font-size: 10px;">神经网络</a> <a href="/tags/算法与数据结构/" style="font-size: 16.25px;">算法与数据结构</a> <a href="/tags/算法和数据结构/" style="font-size: 18.75px;">算法和数据结构</a> <a href="/tags/索引优化/" style="font-size: 10px;">索引优化</a> <a href="/tags/线程安全/" style="font-size: 10px;">线程安全</a> <a href="/tags/观影记/" style="font-size: 10px;">观影记</a> <a href="/tags/设计模式/" style="font-size: 13.75px;">设计模式</a> <a href="/tags/设计模式之禅/" style="font-size: 13.75px;">设计模式之禅</a> <a href="/tags/读书书单/" style="font-size: 10px;">读书书单</a> <a href="/tags/负载均衡/" style="font-size: 10px;">负载均衡</a> <a href="/tags/锁优化/" style="font-size: 10px;">锁优化</a>
+            <a href="/tags/2018/" style="font-size: 11.25px;">2018</a> <a href="/tags/Collections/" style="font-size: 15px;">Collections</a> <a href="/tags/HashMap/" style="font-size: 10px;">HashMap</a> <a href="/tags/LinkedHashMap/" style="font-size: 10px;">LinkedHashMap</a> <a href="/tags/MySQL/" style="font-size: 17.5px;">MySQL</a> <a href="/tags/Mybatis/" style="font-size: 12.5px;">Mybatis</a> <a href="/tags/Object/" style="font-size: 10px;">Object</a> <a href="/tags/SSM/" style="font-size: 13.75px;">SSM</a> <a href="/tags/TreeMap/" style="font-size: 11.25px;">TreeMap</a> <a href="/tags/cookie/" style="font-size: 10px;">cookie</a> <a href="/tags/finalize/" style="font-size: 10px;">finalize</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/java基础/" style="font-size: 20px;">java基础</a> <a href="/tags/java并发编程实战/" style="font-size: 11.25px;">java并发编程实战</a> <a href="/tags/leetcode/" style="font-size: 16.25px;">leetcode</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/session/" style="font-size: 10px;">session</a> <a href="/tags/元数据/" style="font-size: 10px;">元数据</a> <a href="/tags/内存模型/" style="font-size: 11.25px;">内存模型</a> <a href="/tags/剑指offer/" style="font-size: 10px;">剑指offer</a> <a href="/tags/单例模式/" style="font-size: 10px;">单例模式</a> <a href="/tags/原型模式/" style="font-size: 10px;">原型模式</a> <a href="/tags/垃圾回收算法/" style="font-size: 10px;">垃圾回收算法</a> <a href="/tags/多线程/" style="font-size: 11.25px;">多线程</a> <a href="/tags/实战Java虚拟机-JVM故障诊断与性能优化/" style="font-size: 12.5px;">实战Java虚拟机-JVM故障诊断与性能优化</a> <a href="/tags/工厂模式/" style="font-size: 10px;">工厂模式</a> <a href="/tags/常量池/" style="font-size: 10px;">常量池</a> <a href="/tags/并发编程/" style="font-size: 10px;">并发编程</a> <a href="/tags/建造者模式/" style="font-size: 10px;">建造者模式</a> <a href="/tags/引用/" style="font-size: 10px;">引用</a> <a href="/tags/机器学习/" style="font-size: 12.5px;">机器学习</a> <a href="/tags/构造函数/" style="font-size: 10px;">构造函数</a> <a href="/tags/深入理解java虚拟机/" style="font-size: 11.25px;">深入理解java虚拟机</a> <a href="/tags/生活/" style="font-size: 10px;">生活</a> <a href="/tags/直接内存/" style="font-size: 10px;">直接内存</a> <a href="/tags/神经网络/" style="font-size: 10px;">神经网络</a> <a href="/tags/算法与数据结构/" style="font-size: 16.25px;">算法与数据结构</a> <a href="/tags/算法和数据结构/" style="font-size: 18.75px;">算法和数据结构</a> <a href="/tags/索引优化/" style="font-size: 10px;">索引优化</a> <a href="/tags/线程安全/" style="font-size: 10px;">线程安全</a> <a href="/tags/观影记/" style="font-size: 10px;">观影记</a> <a href="/tags/设计模式/" style="font-size: 13.75px;">设计模式</a> <a href="/tags/设计模式之禅/" style="font-size: 13.75px;">设计模式之禅</a> <a href="/tags/读书书单/" style="font-size: 10px;">读书书单</a> <a href="/tags/负载均衡/" style="font-size: 10px;">负载均衡</a> <a href="/tags/锁优化/" style="font-size: 10px;">锁优化</a>
         </div>
     </div>
     <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
@@ -412,7 +410,7 @@
     <div class="mobile-header-tag-container">
         <span class="title">Tags</span>
         <div id="mobile-header-container-tags">
-            <a href="/tags/2018/" style="font-size: 11.25px;">2018</a> <a href="/tags/Collections/" style="font-size: 15px;">Collections</a> <a href="/tags/HashMap/" style="font-size: 10px;">HashMap</a> <a href="/tags/LinkedHashMap/" style="font-size: 10px;">LinkedHashMap</a> <a href="/tags/MySQL/" style="font-size: 17.5px;">MySQL</a> <a href="/tags/Mybatis/" style="font-size: 12.5px;">Mybatis</a> <a href="/tags/Object/" style="font-size: 10px;">Object</a> <a href="/tags/SSM/" style="font-size: 13.75px;">SSM</a> <a href="/tags/TreeMap/" style="font-size: 11.25px;">TreeMap</a> <a href="/tags/cookie/" style="font-size: 10px;">cookie</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/java基础/" style="font-size: 20px;">java基础</a> <a href="/tags/java并发编程实战/" style="font-size: 11.25px;">java并发编程实战</a> <a href="/tags/leetcode/" style="font-size: 16.25px;">leetcode</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/session/" style="font-size: 10px;">session</a> <a href="/tags/剑指offer/" style="font-size: 10px;">剑指offer</a> <a href="/tags/单例模式/" style="font-size: 10px;">单例模式</a> <a href="/tags/原型模式/" style="font-size: 10px;">原型模式</a> <a href="/tags/多线程/" style="font-size: 11.25px;">多线程</a> <a href="/tags/实战Java虚拟机-JVM故障诊断与性能优化/" style="font-size: 12.5px;">实战Java虚拟机-JVM故障诊断与性能优化</a> <a href="/tags/工厂模式/" style="font-size: 10px;">工厂模式</a> <a href="/tags/并发编程/" style="font-size: 10px;">并发编程</a> <a href="/tags/建造者模式/" style="font-size: 10px;">建造者模式</a> <a href="/tags/机器学习/" style="font-size: 12.5px;">机器学习</a> <a href="/tags/构造函数/" style="font-size: 10px;">构造函数</a> <a href="/tags/深入理解java虚拟机/" style="font-size: 11.25px;">深入理解java虚拟机</a> <a href="/tags/生活/" style="font-size: 10px;">生活</a> <a href="/tags/神经网络/" style="font-size: 10px;">神经网络</a> <a href="/tags/算法与数据结构/" style="font-size: 16.25px;">算法与数据结构</a> <a href="/tags/算法和数据结构/" style="font-size: 18.75px;">算法和数据结构</a> <a href="/tags/索引优化/" style="font-size: 10px;">索引优化</a> <a href="/tags/线程安全/" style="font-size: 10px;">线程安全</a> <a href="/tags/观影记/" style="font-size: 10px;">观影记</a> <a href="/tags/设计模式/" style="font-size: 13.75px;">设计模式</a> <a href="/tags/设计模式之禅/" style="font-size: 13.75px;">设计模式之禅</a> <a href="/tags/读书书单/" style="font-size: 10px;">读书书单</a> <a href="/tags/负载均衡/" style="font-size: 10px;">负载均衡</a> <a href="/tags/锁优化/" style="font-size: 10px;">锁优化</a>
+            <a href="/tags/2018/" style="font-size: 11.25px;">2018</a> <a href="/tags/Collections/" style="font-size: 15px;">Collections</a> <a href="/tags/HashMap/" style="font-size: 10px;">HashMap</a> <a href="/tags/LinkedHashMap/" style="font-size: 10px;">LinkedHashMap</a> <a href="/tags/MySQL/" style="font-size: 17.5px;">MySQL</a> <a href="/tags/Mybatis/" style="font-size: 12.5px;">Mybatis</a> <a href="/tags/Object/" style="font-size: 10px;">Object</a> <a href="/tags/SSM/" style="font-size: 13.75px;">SSM</a> <a href="/tags/TreeMap/" style="font-size: 11.25px;">TreeMap</a> <a href="/tags/cookie/" style="font-size: 10px;">cookie</a> <a href="/tags/finalize/" style="font-size: 10px;">finalize</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/java基础/" style="font-size: 20px;">java基础</a> <a href="/tags/java并发编程实战/" style="font-size: 11.25px;">java并发编程实战</a> <a href="/tags/leetcode/" style="font-size: 16.25px;">leetcode</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/session/" style="font-size: 10px;">session</a> <a href="/tags/元数据/" style="font-size: 10px;">元数据</a> <a href="/tags/内存模型/" style="font-size: 11.25px;">内存模型</a> <a href="/tags/剑指offer/" style="font-size: 10px;">剑指offer</a> <a href="/tags/单例模式/" style="font-size: 10px;">单例模式</a> <a href="/tags/原型模式/" style="font-size: 10px;">原型模式</a> <a href="/tags/垃圾回收算法/" style="font-size: 10px;">垃圾回收算法</a> <a href="/tags/多线程/" style="font-size: 11.25px;">多线程</a> <a href="/tags/实战Java虚拟机-JVM故障诊断与性能优化/" style="font-size: 12.5px;">实战Java虚拟机-JVM故障诊断与性能优化</a> <a href="/tags/工厂模式/" style="font-size: 10px;">工厂模式</a> <a href="/tags/常量池/" style="font-size: 10px;">常量池</a> <a href="/tags/并发编程/" style="font-size: 10px;">并发编程</a> <a href="/tags/建造者模式/" style="font-size: 10px;">建造者模式</a> <a href="/tags/引用/" style="font-size: 10px;">引用</a> <a href="/tags/机器学习/" style="font-size: 12.5px;">机器学习</a> <a href="/tags/构造函数/" style="font-size: 10px;">构造函数</a> <a href="/tags/深入理解java虚拟机/" style="font-size: 11.25px;">深入理解java虚拟机</a> <a href="/tags/生活/" style="font-size: 10px;">生活</a> <a href="/tags/直接内存/" style="font-size: 10px;">直接内存</a> <a href="/tags/神经网络/" style="font-size: 10px;">神经网络</a> <a href="/tags/算法与数据结构/" style="font-size: 16.25px;">算法与数据结构</a> <a href="/tags/算法和数据结构/" style="font-size: 18.75px;">算法和数据结构</a> <a href="/tags/索引优化/" style="font-size: 10px;">索引优化</a> <a href="/tags/线程安全/" style="font-size: 10px;">线程安全</a> <a href="/tags/观影记/" style="font-size: 10px;">观影记</a> <a href="/tags/设计模式/" style="font-size: 13.75px;">设计模式</a> <a href="/tags/设计模式之禅/" style="font-size: 13.75px;">设计模式之禅</a> <a href="/tags/读书书单/" style="font-size: 10px;">读书书单</a> <a href="/tags/负载均衡/" style="font-size: 10px;">负载均衡</a> <a href="/tags/锁优化/" style="font-size: 10px;">锁优化</a>
         </div>
     </div>
 </div>
